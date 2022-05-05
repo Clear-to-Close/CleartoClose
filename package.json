@@ -1,0 +1,16 @@
+{
+  "name": "cleartoclose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "index": "tailwindcss build -i src/main/resources/static/css/src/input.css -o src/main/resources/static/css/output/outputcss.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^3.0.24"
+  }
+}
+
