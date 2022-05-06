@@ -1,8 +1,10 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,15 +19,27 @@ public class Listing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long buyerId;
+    @ManyToOne
+    @JsonIgnoreProperties({"listings", "password"})
+    private User buyerId;
 
-    private long buyerAgentId;
+    @ManyToOne
+    @NotNull
+    @JsonIgnoreProperties({"listings", "password"})
+    private User buyerAgentId;
 
-    private long sellerId;
+    @ManyToOne
+    @NotNull
+    @JsonIgnoreProperties({"listings", "password"})
+    private User sellerId;
 
-    private long sellerAgentId;
+    @ManyToOne
+    @JsonIgnoreProperties({"listings", "password"})
+    private User sellerAgentId;
 
-    private long offerId;
+    @OneToMany
+    @JsonIgnoreProperties({"offers"})
+    private List<Offer> offerId;
 
     @Column(nullable = false)
     private String description;
