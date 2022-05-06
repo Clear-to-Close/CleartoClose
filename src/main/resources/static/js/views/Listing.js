@@ -14,12 +14,12 @@ export default function ListingIndex(props){
         </header>
         <main>
         <div class="container-fluid" >
-                <div id = "allListingsDiv">
-                    ${props.home.map(post => `<h3 id = "title-${home.id}">${home.address}</h3>
-                     <p id = "address-${home.id}">${home.address}</p>
-                     <p id = "home-city-${home.id}">${home.city}</p
-                </div>`
-          ).join('')} 
+                // <div id = "allListingsDiv">
+                //     ${props.home.map(post => `<h3 id = "title-${home.id}">${home.address}</h3>
+                //      <p id = "address-${home.id}">${home.address}</p>
+                //      <p id = "home-city-${home.id}">${home.city}</p
+                // </div>`
+    ).join('')} 
         </div>
         </div>
         </main>
@@ -44,17 +44,21 @@ export function ListingEvent() {
         data.forEach(function (home) {
             var listings = `
 					<div class="card-body">
-						<div class="homeAddress col-12">${home.address}</div>
-						<div class="city col-12">${home.city}</div>
-						<div class="state col-12">${home.state}</div>
-						<div class="zipcode col-12">${home.zipcode}</div>
+						<div class="homeAddress col-8">${home.address}</div>
+						<div class="city col-4">${home.city}</div>
+						<div class="state col-4">${home.state}</div>
+						<div class="zipcode col-4">${home.zipcode}</div>
+						<div class="zipcode-2 col-4">${home.zipcode-2}</div>
+						<div class="bedrooms col-3">${home.bedrooms}</div>
+						<div class="halfBaths col-3">${home.halfBaths}</div>
+						<div class="sqfeet col-3">${home.sqFeet}</div>
+						<div class="lotSize col-3">${home.lotSize}</div>
+						<div class="yearBuilt col-3">${home.yearBuilt}</div>
 						<div class="footer d-flex justify-content-evenly">
 
 						</div>
 					</div>
 </div>
-
-
 `;
             $('#listings').append(listings);
         })
