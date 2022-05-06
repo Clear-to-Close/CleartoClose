@@ -18,11 +18,4 @@ public class UsersController {
     return null;
 }
 
-
-
-
-@PostMapping
-    public void submitNewOffer(@RequestBody Offer newOffer) {
-    System.out.printf("A new offer with the id of %d has been made!", newOffer.getId());
-}
 }
