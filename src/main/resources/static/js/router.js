@@ -4,6 +4,8 @@
  * @returns {*}
  */
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
+import Error404 from "./views/Error404.js";
+import Loading from "./views/Loading.js";
 
 
 export default function router(URI) {
@@ -27,7 +29,19 @@ export default function router(URI) {
             uri: '/listings',
             title: "Listings",
             viewEvent: ListingEvent
-        }
+        },
+        '/error': {
+        returnView: Error404,
+            state: {},
+        uri: location.pathname,
+            title: ' ERROR',
+    },
+    '/loading': {
+        returnView: Loading,
+            state: {},
+        uri: location.pathname,
+            title: 'Loading...',
+    }
     };
 
     return routes[URI];

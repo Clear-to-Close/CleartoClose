@@ -1,5 +1,5 @@
 import createView from "../createView.js";
-
+import {getHeaders} from "../auth.js";
 
 
 const LISTINGS_URL = "http://localhost:8080/api/listings";
@@ -15,7 +15,7 @@ export default function ListingIndex(props){
         <main>
         <div class="container-fluid" >
                 // <div id = "allListingsDiv">
-                //     ${props.home.map(post => `<h3 id = "title-${home.id}">${home.address}</h3>
+                //     ${props.homes.map(home => `<h3 id = "title-${home.id}">${home.address}</h3>
                 //      <p id = "address-${home.id}">${home.address}</p>
                 //      <p id = "home-city-${home.id}">${home.city}</p
                 // </div>`
@@ -32,8 +32,59 @@ export function ListingEvent() {
 
 }///CLOSE LISTINGEVENT FUNCTION
 
+function submitNewListing() {
+    $('#newListingSubmit').click(function () {
+        const NEW_LISTING_INFO = {
+
+            address: $('#newListingAddress').val(),
+            city: $('#newListingCity').val(),
+            state: $('#newListingState').val(),
+            zipcode: $('#newListingZipcode').val(),
+            zipcode2: $('#newListingZipcode2').val(),
+            bedrooms: $('#newListingBedrooms').val(),
+            bathrooms: $('#newListingBathrooms').val(),
+            halfBaths: $('#newListingHalfBaths').val(),
+            sqFeet: $('#newListingSqFeet').val(),
+            lotSize: $('#newListingLotSize').val(),
+            yearBuilt: $('#newListingYearBuilt').val(),
+            listAgent: $('#newListingListAgent').val()
+
+        }
+        const OPTIONS = {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(NEW_LISTING_INFO),
+        }
+        fetch(LISTINGS_URL, OPTIONS)
+            .then(function (res) {
+                console.log(res);
+                createView("/listings")
+            }).catch(function (reason) {
+            console.log(reason);
+            createView("/listings")
+        });
+
+    })
+}///CLOSE OF SUBMITNEWPOST
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function notSureWhat (){
     $.ajax("/data/homes.json")
         .done(onSuccess)
         .fail(onFail)
@@ -65,6 +116,9 @@ export function ListingEvent() {
 
 
     }
+
+}
+
 
 
 
