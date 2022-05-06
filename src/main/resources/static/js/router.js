@@ -1,25 +1,32 @@
-
-
-
 /**
  * Returns the route object for a specific route based on the given URI
  * @param URI
  * @returns {*}
  */
+import ListingIndex, {ListingEvent} from "./views/Listing.js";
+
+
 export default function router(URI) {
     const routes = {
-        '/': {
-            returnView: Home,
+        // '/': {
+        //     returnView: Home,
+        //     state: {},
+        //     uri: '/',
+        //     title: 'Home',
+        // },
+        // '/login': {
+        //     returnView: Login,
+        //     state: {},
+        //     uri: '/login',
+        //     title: "Login",
+        //     viewEvent: LoginEvent
+        // },
+        '/listings': {
+            returnView: ListingIndex,
             state: {},
-            uri: '/',
-            title: 'Home',
-        },
-        '/login': {
-            returnView: Login,
-            state: {},
-            uri: '/login',
-            title: "Login",
-            viewEvent: LoginEvent
+            uri: '/listings',
+            title: "Listings",
+            viewEvent: ListingEvent
         }
     };
 

@@ -33,3 +33,4 @@ build/
 .vscode/
 
 /csssrc
+src/main/resources/static/js/keys.js

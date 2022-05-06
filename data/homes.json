@@ -1,0 +1,21 @@
+[
+  {
+    "id": "1",
+    "address": "27030 Trinity Point",
+    "city": "San Antonio",
+    "state": "TX",
+    "zipcode": "78261",
+    "zipcode-2": "27030 Trinity Point",
+    "bedrooms": "4",
+    "bathrooms": "3",
+    "halfBaths": "0",
+    "sqFeet": "2800",
+    "lotSize": ".13",
+    "yearBuilt": "2009",
+    "listAgent": "Kristin Moran"
+
+  }
+
+]
+
+
