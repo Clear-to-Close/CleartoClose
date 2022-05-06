@@ -18,18 +18,6 @@ public class UsersController {
     return null;
 }
 
-    // This would be more for user profile purposes; US22/F2?
-@GetMapping
-    public List<Listing> getAllListings() {
-    return null;
-}
-
-    // Will return a single listing with all information; US19/F2 As an auth user, I can see all listing information
-    // TODO: Test by making listing object and return using this method
-@GetMapping("{listingId}")
-    public Listing getListingById(@PathVariable Long listingId) {
-    return null;
-}
 
 
 
