@@ -19,10 +19,12 @@ public class Offer {
     private long id;
 
     // Foreign key pointing to User id
-    private long offererId;
+    @ManyToOne
+    private User offeror;
 
     // Foreign key pointing to listing table
-    private long listingId;
+    @ManyToOne
+    private Listing listing;
 
     @Column(nullable = false)
     private long offerAmount;
