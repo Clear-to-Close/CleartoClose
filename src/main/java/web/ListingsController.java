@@ -24,10 +24,12 @@ public class ListingsController {
     }
 
     // Will return a single listing with all information; US19/F2 As an auth user, I can see all listing information
-    // TODO: Test by making listing object and return using this method
     @GetMapping("{listingId}")
     public Listing getListingById(@PathVariable Long listingId) {
         return listingRepository.getById(listingId);
     }
+
+    // TODO: to accept an offer a method has to be written here changing the active status from "yes" to "no"
+
 
 }
