@@ -26,10 +26,10 @@ public class OffersController {
     }
 
     // Offer can be accepted upon, submit of a selection form; post updates the historical data of the selected offer
-    @PutMapping("{id}")
-    public void offerAccepted(@PathVariable Long id) {
+    @PutMapping("{offerId}")
+    public void offerAccepted(@PathVariable Long offerId) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
-        Offer acceptedOffer = offersRepository.getById(id);
+        Offer acceptedOffer = offersRepository.getById(offerId);
         acceptedOffer.setAcceptanceDate(acceptedOffer.getAcceptanceDate());
         offersRepository.save(acceptedOffer);
         System.out.printf("The seller has accepted an offer with the id of %d!", acceptedOffer.getId());

@@ -30,6 +30,7 @@ public class ListingsController {
     }
 
     // TODO: to accept an offer a method has to be written here changing the active status from "yes" to "no"
+    @PutMapping("{listingId}")
 
 
 }
