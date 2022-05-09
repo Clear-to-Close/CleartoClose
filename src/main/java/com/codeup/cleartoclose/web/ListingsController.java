@@ -1,7 +1,7 @@
-package web;
+package com.codeup.cleartoclose.web;
 
-import data.Listing;
-import data.ListingsRepository;
+import com.codeup.cleartoclose.data.Listing;
+import com.codeup.cleartoclose.data.ListingsRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +33,8 @@ public class ListingsController {
     @PutMapping("{listingId}")
     public void acceptOffer(@PathVariable Long listingId) {
         Listing updateListing = listingRepository.getById(listingId);
-        updateListing.setBuyerId(updateListing.getBuyerId());
-        updateListing.setBuyerAgentId(updateListing.getBuyerAgentId());
+        updateListing.setBuyer(updateListing.getBuyer());
+        updateListing.setBuyerAgent(updateListing.getBuyerAgent());
         updateListing.setActive(updateListing.getActive());
         listingRepository.save(updateListing);
     }
