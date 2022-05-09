@@ -39,9 +39,6 @@ public class Listing {
     @JsonIgnoreProperties({"listings", "password"})
     private User sellerAgent;
 
-    @OneToMany
-    @JsonIgnoreProperties({"offers"})
-    private List<Offer> offer;
 
     @Column(nullable = false)
     private String description;
@@ -56,4 +53,8 @@ public class Listing {
     @JsonIgnoreProperties("listing")
     @Transient
     private Collection<Offer> listingOffers;
+
+    @OneToOne
+    @JoinColumn(name = "addresses_id", referencedColumnName = "id")
+    private Address listingAddress;
 }

@@ -33,8 +33,8 @@ public class ListingsController {
     @PutMapping("{listingId}")
     public void acceptOffer(@PathVariable Long listingId) {
         Listing updateListing = listingRepository.getById(listingId);
-        updateListing.setBuyerId(updateListing.getBuyerId());
-        updateListing.setBuyerAgentId(updateListing.getBuyerAgentId());
+        updateListing.setBuyer(updateListing.getBuyer());
+        updateListing.setBuyerAgent(updateListing.getBuyerAgent());
         updateListing.setActive(updateListing.getActive());
         listingRepository.save(updateListing);
     }

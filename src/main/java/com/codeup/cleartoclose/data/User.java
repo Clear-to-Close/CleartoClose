@@ -68,4 +68,8 @@ public class User {
     @JsonIgnoreProperties("offeror")
     @Transient
     private Collection<Offer> userOffers;
+
+    @OneToOne
+    @JoinColumn(name = "addresses_id", referencedColumnName = "id")
+    private Address userAddress;
 }
