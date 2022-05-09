@@ -1,7 +1,7 @@
 package web;
 
 import data.Listing;
-import data.ListingRepository;
+import data.ListingsRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping(value = "/api/listings", headers = "Accept=application/json")
 public class ListingsController {
 
-    private final ListingRepository listingRepository;
+    private final ListingsRepository listingRepository;
 
-    public ListingsController(ListingRepository listingRepository) {
+    public ListingsController(ListingsRepository listingRepository) {
         this.listingRepository = listingRepository;
     }
 

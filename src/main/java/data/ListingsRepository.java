@@ -2,5 +2,5 @@ package data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ListingRepository extends JpaRepository<Listing, Long> {
+public interface ListingsRepository extends JpaRepository<Listing, Long> {
 }
