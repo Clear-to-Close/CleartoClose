@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,7 +46,7 @@ public class Listing {
     private long askingPrice;
 
     @Column(nullable = false)
-    private String active;
+    private String status;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties("listing")

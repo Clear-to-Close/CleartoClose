@@ -31,9 +31,7 @@ public class UsersController {
 
     @PostMapping
     public void createUser(@RequestBody User newUser) {
-        System.out.println("User Created");
-        System.out.println(newUser.getFirstName());
-        System.out.println(newUser.toString());
+        usersRepository.save(newUser);
     }
 
 }
