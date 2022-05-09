@@ -1,4 +1,4 @@
-package data;
+package com.codeup.cleartoclose.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

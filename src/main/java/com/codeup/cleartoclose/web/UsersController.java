@@ -1,7 +1,7 @@
-package web;
+package com.codeup.cleartoclose.web;
 
-import data.User;
-import data.UsersRepository;
+import com.codeup.cleartoclose.data.User;
+import com.codeup.cleartoclose.data.UsersRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package web;
+package com.codeup.cleartoclose.web;
 
-import data.Offer;
-import data.OffersRepository;
+import com.codeup.cleartoclose.data.Offer;
+import com.codeup.cleartoclose.data.OffersRepository;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin

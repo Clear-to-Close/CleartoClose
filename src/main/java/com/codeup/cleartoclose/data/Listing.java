@@ -1,4 +1,4 @@
-package data;
+package com.codeup.cleartoclose.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
