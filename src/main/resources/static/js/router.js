@@ -23,6 +23,7 @@ export default function router(URI) {
             uri: '/login',
             title: "Login",
             // viewEvent:
+        },
         '/realtorListing': {
             returnView: ListingIndex,
             state: {},
@@ -32,7 +33,9 @@ export default function router(URI) {
         },
         '/listings': {
             returnView: ListingIndex,
-            state: {},
+            state: {
+                listings: "/api/listings"
+            },
             uri: '/listings',
             title: "Listings",
             viewEvent: ListingEvent

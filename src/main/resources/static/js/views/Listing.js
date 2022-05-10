@@ -4,63 +4,31 @@ import {getHeaders} from "../auth.js";
 const LISTINGS_URL = "http://localhost:8080/api/listings";
 
 export default function ListingIndex(props) {
-    console.log("listingindex()")
+    console.log(props);
+    // HTML
+    return `
+        <header>
+            <h1>Listings Page</h1>
+        </header>
+        <main>
+        <div class="container-fluid" >
+                <div id = "listingsDiv">
+                    ${props.listings.map(listing => `<h3>${listing.askingPrice}</h3>
+                        <div id = "listing#-${listing.id}">${listing.id}</div>
+                        <div>${listing.status}</div>
+                        <div>${listing.listingAddress.address}</div>
+                        <div>${listing.listingAddress.city}</div>
+                        <div>${listing.listingAddress.state}</div>
+                        <div>${listing.listingAddress.zipcode}</div>
+                        <p>${listing.description}</p>
+                        <div>${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
+                        <div>${listing.sellerAgent.email}</div>
+                </div>`
+        ).join('')} 
+            </div>`
 }
 
 
-$.ajax("/listingdata/homes.json")
-    .done(onSuccess)
-    .fail(onFail);
-
-function onFail(jqXhr, status, error) {
-    console.log(jqXhr);
-    console.log(error);
-}
-
-function onSuccess(data, status) {
-    console.log(status);
-    console.log(data);
-
-    data.forEach(function (home) {
-        var listings = `
-
-                    <div><a href="" class=""></a></div>
-					<div class="grid grid-cols-4 gap-4 bg-slate-400">
-										      
-                            <div class="w-2 pt-2 flex">
-                                <div class="homeAddress bg-slate-600">${home.address}</div>
-                            </div>
-                            
-                            <div class="w-2 flex-initial">
-                                <div class="city">${home.city}</div>
-                            </div>
-                            
-                            <div class="w-2">
-                                <div class="state">${home.state}</div>
-                            </div>	
-                            
-                            <div class="">
-                                <div class="zipcode">${home.zipcode}</div>
-                            </div>
-                            
-                                <div class="zipcode-2">${home.zipcode2}</div>
-                                <div class="bedrooms w-2">${home.bedrooms}</div>
-                                <div class="halfBaths">${home.halfBaths}</div>
-                                <div class="sqfeet">${home.sqFeet}</div>
-                                <div class="lotSize">${home.lotSize}</div>
-                                <div class="yearBuilt">${home.yearBuilt}</div>
-                                <div class="footer d-flex justify-content-evenly"></div>
-                                                          
-                    </div>
-                            
-                       
-                  
-`;
-        $('#listings').append(listings);
-    })
-
-
-}
 
 export function ListingEvent() {
     submitNewListing();
