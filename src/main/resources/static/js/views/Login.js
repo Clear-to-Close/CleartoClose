@@ -35,7 +35,6 @@ background: linear-gradient(to top left, #9ad5e7, #0592cd);
 
     export function LoginEvent(){
         $("#login-btn").click(function(){
-
             const email = $("#username").val()
             const password = $("#password").val()
 
@@ -51,8 +50,10 @@ background: linear-gradient(to top left, #9ad5e7, #0592cd);
                     response.json()
                         .then(user => {
                             if(user[0].password === password){
+                                localStorage.setItem('greenLight', 'go');
+                                localStorage.getItem('greenlight');
                                 createView("/listings")
-                            }else{
+                            } else  {
                                 console.log("The password is incorrect")
                             }
                         })
