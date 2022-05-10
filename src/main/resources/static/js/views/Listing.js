@@ -11,9 +11,9 @@ export default function ListingIndex(props) {
             <h1>Listings Page</h1>
         </header>
         <main>
-        <div class="container-fluid" >
-                <div id = "listingsDiv" class="card m-1 text-dark bg-blue-400">
-                    ${props.listings.map(listing => `<h3>${listing.askingPrice}</h3>
+        <div class="flex items-center text-center justify-between flex-wrap bg-blue-600">
+                <div id = "listingsDiv" class="font-sans ui-sans-serif">
+                    ${props.listings.map(listing => `<h3 class="text-bold">MLS # ${listing.askingPrice}</h3>
                         <div id = "listing#-${listing.id}">${listing.id}</div>
                         <div>${listing.status}</div>
                         <div>${listing.listingAddress.address}</div>
