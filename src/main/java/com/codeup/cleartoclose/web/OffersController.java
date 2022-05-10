@@ -4,6 +4,7 @@ import com.codeup.cleartoclose.data.Offer;
 import com.codeup.cleartoclose.data.OffersRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -18,13 +19,17 @@ public class OffersController {
     }
 
 
-    // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
+    @GetMapping
+    public List<Offer> getAllOffers() {
+        return offersRepository.findAll();
+    }
 
     @GetMapping("{offerId}")
     public Optional<Offer> getOfferById(@PathVariable Long offerId) {
         return offersRepository.findById(offerId);
     }
 
+    // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
     @PostMapping
     public void submitNewOffer(@RequestBody Offer newOffer) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
