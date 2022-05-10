@@ -4,6 +4,8 @@ import com.codeup.cleartoclose.data.Offer;
 import com.codeup.cleartoclose.data.OffersRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/offers", headers = "Accept=application/json")
@@ -17,6 +19,11 @@ public class OffersController {
 
 
     // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
+
+    @GetMapping("{offerId}")
+    public Optional<Offer> getOfferById(@PathVariable Long offerId) {
+        return offersRepository.findById(offerId);
+    }
 
     @PostMapping
     public void submitNewOffer(@RequestBody Offer newOffer) {
