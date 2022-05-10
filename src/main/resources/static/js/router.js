@@ -6,8 +6,8 @@
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
+import Login from "./views/Login.js";
 import RealtorListing from "./views/RealtorListing.js";
-
 
 export default function router(URI) {
     const routes = {
@@ -17,13 +17,12 @@ export default function router(URI) {
         //     uri: '/',
         //     title: 'Home',
         // },
-        // '/login': {
-        //     returnView: Login,
-        //     state: {},
-        //     uri: '/login',
-        //     title: "Login",
-        //     viewEvent: LoginEvent
-        // },
+        '/login': {
+            returnView: Login,
+            state: {},
+            uri: '/login',
+            title: "Login",
+            // viewEvent:
         '/realtorListing': {
             returnView: ListingIndex,
             state: {},
