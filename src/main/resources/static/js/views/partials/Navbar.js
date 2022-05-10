@@ -8,7 +8,8 @@ export default function Navbar(props) {
     let html = `
          <nav>
             <a href="/" data-link>Home</a>
-            <a href="/listings" data-link>Listings</a>`;
+            <a href="/listings" data-link>Listings</a>
+            <a href="/login" data-link>Login</a>`;
 
     if (loggedIn) {
 
