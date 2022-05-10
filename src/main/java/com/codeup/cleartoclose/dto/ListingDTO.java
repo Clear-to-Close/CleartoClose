@@ -15,8 +15,6 @@ public class ListingDTO {
 
     private long askingPrice;
 
-    private String status;
-
     private String address;
 
     private String apartmentNumber;

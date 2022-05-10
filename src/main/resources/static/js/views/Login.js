@@ -1,3 +1,5 @@
+import createView from "../createView.js";
+
 export default function Login(props) {
     return `<!DOCTYPE html>
 <html>
@@ -25,5 +27,38 @@ background: linear-gradient(to top left, #9ad5e7, #0592cd);
 </style>
 </body>
 </html>`;
-
 }
+    //TODO
+    // 1. Get user object using fetch()
+    // 2. Compare user object password to input field password
+    // 3 .if same createView("/listings")
+
+    export function LoginEvent(){
+        $("#login-btn").click(function(){
+            const email = $("#username").val()
+            const password = $("#password").val()
+
+
+            let request = {
+                method: "GET",
+                headers: {"Content-Type": "application/json"},
+            }
+
+            fetch(`http://localhost:8080/api/users?searchByEmail=${email}`, request)
+                .then(response => {
+                    console.log(response.status);
+                    response.json()
+                        .then(user => {
+                            if(user[0].password === password){
+                                localStorage.setItem('greenLight', 'go');
+                                localStorage.getItem('greenlight');
+                                createView("/listings")
+                            } else  {
+                                console.log("The password is incorrect")
+                            }
+                        })
+                }).catch(error=>{
+                console.log(error.status)
+            })
+        })
+    }

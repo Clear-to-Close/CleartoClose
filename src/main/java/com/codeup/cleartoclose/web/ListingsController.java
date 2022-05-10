@@ -47,7 +47,7 @@ public class ListingsController {
 
         newListing.setDescription(dto.getDescription());
         newListing.setAskingPrice(dto.getAskingPrice());
-        newListing.setStatus(dto.getStatus());
+        newListing.setStatus(ListingStatus.ACTIVE);
 
         Address newAddress = new Address();
         newAddress.setAddress(dto.getAddress());
