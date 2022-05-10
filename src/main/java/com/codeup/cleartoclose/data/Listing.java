@@ -45,7 +45,7 @@ public class Listing {
     private long askingPrice;
 
     @Column(nullable = false)
-    private String status;
+    private ListingStatus status;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties("listing")

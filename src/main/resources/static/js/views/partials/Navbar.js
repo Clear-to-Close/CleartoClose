@@ -1,25 +1,16 @@
 import {isLoggedIn} from "../../auth.js";
 
 
-
 export default function Navbar(props) {
     const loggedIn = isLoggedIn();
-
+    //language=HTML
     let html = `
-         <nav>
+        <nav>
             <a href="/" data-link>Home</a>
             <a href="/listings" data-link>Listings</a>
-            <a href="/login" data-link>Login</a>`;
+            <a href="/login" data-link>Login</a>
+            <a href="/realtorListing" data-link>Realtor Listing</a>`;
 
-    if (loggedIn) {
-
-        html = html + `<a href="/listings" data-link>Posts</a>\ `;
-
-    } else {
-        html = html + `<a href="/login" data-link>Login</a>
-                   <a href="/register" data-link>Register</a>`
-
-    }
     html = html + `</nav>`;
     return html;
 }
