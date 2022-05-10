@@ -467,43 +467,24 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
-.container {
-  width: 100%;
+
+.m-auto {
+  margin: auto;
 }
 
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px;
-  }
+.my-\[50px\] {
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-  }
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1024px;
-  }
+.mt-3 {
+  margin-top: 0.75rem;
 }
-
-@media (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .container {
-    max-width: 1536px;
-  }
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
 
 .flex {
   display: flex;
@@ -515,6 +496,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-full {
   width: 100%;
+}
+
+.w-3\/4 {
+  width: 75%;
+}
+
+.w-input-width {
+  width: 190px;
 }
 
 .flex-wrap {
@@ -546,11 +535,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .px-\[10px\] {
   padding-left: 10px;
   padding-right: 10px;
-}
-
-.px-\[647px\] {
-  padding-left: 647px;
-  padding-right: 647px;
 }
 
 .px-\[648px\] {
