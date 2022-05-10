@@ -25,7 +25,6 @@ public class Listing {
     private User buyer;
 
     @ManyToOne
-    @NotNull
     @JsonIgnoreProperties({"listings", "password"})
     private User buyerAgent;
 
@@ -50,7 +49,6 @@ public class Listing {
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties("listing")
-    @Transient
     private Collection<Offer> listingOffers;
 
     @OneToOne

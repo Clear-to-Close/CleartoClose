@@ -1,12 +1,11 @@
 package com.codeup.cleartoclose.web;
 
-import com.codeup.cleartoclose.data.Address;
-import com.codeup.cleartoclose.data.Listing;
-import com.codeup.cleartoclose.data.ListingsRepository;
-import com.codeup.cleartoclose.data.UsersRepository;
+import com.codeup.cleartoclose.data.*;
+import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -15,10 +14,12 @@ public class ListingsController {
 
     private final ListingsRepository listingRepository;
     private final UsersRepository usersRepository;
+    private final AddressRepository addressRepository;
 
-    public ListingsController(ListingsRepository listingRepository, UsersRepository usersRepository) {
+    public ListingsController(ListingsRepository listingRepository, UsersRepository usersRepository, AddressRepository addressRepository) {
         this.listingRepository = listingRepository;
         this.usersRepository = usersRepository;
+        this.addressRepository = addressRepository;
     }
 
     // This would be more for user profile purposes; US22/F2? or US21/F3
@@ -29,20 +30,36 @@ public class ListingsController {
 
     // Will return a single listing with all information; US19/F2 As an auth user, I can see all listing information
     @GetMapping("{listingId}")
-    public Listing getListingById(@PathVariable Long listingId) {
-        return listingRepository.getById(listingId);
+    public Optional<Listing> getListingById(@PathVariable Long listingId) {
+        return listingRepository.findById(listingId);
     }
 
     @PostMapping
-    public void createListing(@RequestBody Address newAdderess, @RequestParam String sellerEmail, @RequestParam String sellerAgentEmail,
+    public void createListing(@RequestBody ListingDTO dto, @RequestParam String sellerEmail, @RequestParam String sellerAgentEmail,
                               @RequestParam(required = false) String buyersEmail, @RequestParam(required = false) String buyersAgentEmail) {
 
         Listing newListing = new Listing();
+
         newListing.setSeller(usersRepository.findByEmail(sellerEmail));
         newListing.setSellerAgent(usersRepository.findByEmail(sellerAgentEmail));
         newListing.setBuyer(usersRepository.findByEmail(buyersEmail));
         newListing.setBuyerAgent(usersRepository.findByEmail(buyersAgentEmail));
-        newListing.setListingAddress(newAdderess);
+
+        newListing.setDescription(dto.getDescription());
+        newListing.setAskingPrice(dto.getAskingPrice());
+        newListing.setStatus(dto.getStatus());
+
+        Address newAddress = new Address();
+        newAddress.setAddress(dto.getAddress());
+        newAddress.setCity(dto.getCity());
+        newAddress.setState(dto.getState());
+        newAddress.setApartmentNumber(dto.getApartmentNumber());
+        newAddress.setZipCode(dto.getZipCode());
+
+        addressRepository.save(newAddress);
+
+        newListing.setListingAddress(addressRepository.findByAddressAndZipCode(dto.getAddress(), dto.getZipCode()));
+
         listingRepository.save(newListing);
     }
 
@@ -53,7 +70,7 @@ public class ListingsController {
         Listing updateListing = listingRepository.getById(listingId);
         updateListing.setBuyer(updateListing.getBuyer());
         updateListing.setBuyerAgent(updateListing.getBuyerAgent());
-        updateListing.setActive(updateListing.getActive());
+        updateListing.setStatus(updateListing.getStatus());
         listingRepository.save(updateListing);
     }
 
