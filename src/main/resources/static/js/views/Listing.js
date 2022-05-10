@@ -12,7 +12,7 @@ export default function ListingIndex(props) {
         </header>
         <main>
         <div class="container-fluid" >
-                <div id = "listingsDiv">
+                <div id = "listingsDiv" class="card m-1 text-dark bg-blue-400">
                     ${props.listings.map(listing => `<h3>${listing.askingPrice}</h3>
                         <div id = "listing#-${listing.id}">${listing.id}</div>
                         <div>${listing.status}</div>
