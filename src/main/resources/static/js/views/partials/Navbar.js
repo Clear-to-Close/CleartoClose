@@ -13,7 +13,7 @@ export default function Navbar(props) {
 
     if (loggedIn) {
 
-        html = html + `<a href="/listing" data-link>Posts</a>\ `;
+        html = html + `<a href="/listings" data-link>Posts</a>\ `;
 
     } else {
         html = html + `<a href="/login" data-link>Login</a>
