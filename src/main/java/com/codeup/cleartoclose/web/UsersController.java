@@ -18,6 +18,11 @@ public class UsersController {
         this.usersRepository = usersRepository;
     }
 
+    @GetMapping("searchByEmail")
+    public User findUserEmail(@RequestParam String email) {
+        return usersRepository.findByEmail(email);
+    }
+
     @GetMapping
     public List<User> getAllUsers() {
         return usersRepository.findAll();
