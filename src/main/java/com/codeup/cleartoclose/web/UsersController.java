@@ -22,10 +22,16 @@ public class UsersController {
     public List<User> getAllUsers() {
         return usersRepository.findAll();
     }
+
     // Where was I going with this? Seems like an admin function
-@GetMapping("{userId}")
+    @GetMapping("{userId}")
     public Optional<User> getById(@PathVariable Long userId) {
-    return usersRepository.findById(userId);
-}
+        return usersRepository.findById(userId);
+    }
+
+    @PostMapping
+    public void createUser(@RequestBody User newUser) {
+        usersRepository.save(newUser);
+    }
 
 }

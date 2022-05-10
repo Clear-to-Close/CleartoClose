@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +25,6 @@ public class Listing {
     private User buyer;
 
     @ManyToOne
-    @NotNull
     @JsonIgnoreProperties({"listings", "password"})
     private User buyerAgent;
 
@@ -47,11 +45,10 @@ public class Listing {
     private long askingPrice;
 
     @Column(nullable = false)
-    private String active;
+    private String status;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties("listing")
-    @Transient
     private Collection<Offer> listingOffers;
 
     @OneToOne
