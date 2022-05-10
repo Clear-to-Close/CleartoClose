@@ -11,15 +11,16 @@ export default function ListingIndex(props) {
             <h1>Listings Page</h1>
         </header>
         <main>
-        <div class="flex items-center text-center justify-between flex-wrap bg-blue-600">
-                <div id = "listingsDiv" class="font-sans ui-sans-serif">
-                    ${props.listings.map(listing => `<h3 class="text-bold">MLS # ${listing.askingPrice}</h3>
-                        <div id = "listing#-${listing.id}">${listing.id}</div>
-                        <div>${listing.status}</div>
+        <img src="/photostocks/ctcplaceholder.png" alt="listingImage">
+        <div class="flex text-center justify-center bg-blue-600 w-full border-4 rounded">
+                <div id = "listingsDiv" class="flex font-sans ui-sans-serif flex-wrap">
+                    ${props.listings.map(listing => `<h3 class=" w-24 h-6 m-1 border-2 rounded">$ ${listing.askingPrice}</h3>
+                        <div class="w-6 h-6" id = "listing#-${listing.id}">MLS# ${listing.id}</div>
+                        <div class="w-6 h-6">${listing.status}</div>
                         <div>${listing.listingAddress.address}</div>
                         <div>${listing.listingAddress.city}</div>
                         <div>${listing.listingAddress.state}</div>
-                        <div>${listing.listingAddress.zipcode}</div>
+                        <div>${listing.listingAddress.zipCode}</div>
                         <p>${listing.description}</p>
                         <div>${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
                         <div>${listing.sellerAgent.email}</div>
