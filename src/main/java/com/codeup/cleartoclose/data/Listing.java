@@ -1,11 +1,11 @@
-package data;
+package com.codeup.cleartoclose.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Collection;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,25 +22,21 @@ public class Listing {
 
     @ManyToOne
     @JsonIgnoreProperties({"listings", "password"})
-    private User buyerId;
+    private User buyer;
+
+    @ManyToOne
+    @JsonIgnoreProperties({"listings", "password"})
+    private User buyerAgent;
 
     @ManyToOne
     @NotNull
     @JsonIgnoreProperties({"listings", "password"})
-    private User buyerAgentId;
-
-    @ManyToOne
-    @NotNull
-    @JsonIgnoreProperties({"listings", "password"})
-    private User sellerId;
+    private User seller;
 
     @ManyToOne
     @JsonIgnoreProperties({"listings", "password"})
-    private User sellerAgentId;
+    private User sellerAgent;
 
-    @OneToMany
-    @JsonIgnoreProperties({"offers"})
-    private List<Offer> offerId;
 
     @Column(nullable = false)
     private String description;
@@ -49,5 +45,13 @@ public class Listing {
     private long askingPrice;
 
     @Column(nullable = false)
-    private String active;
+    private String status;
+
+    @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnoreProperties("listing")
+    private Collection<Offer> listingOffers;
+
+    @OneToOne
+    @JoinColumn(name = "addresses_id", referencedColumnName = "id")
+    private Address listingAddress;
 }

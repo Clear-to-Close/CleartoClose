@@ -1,7 +1,7 @@
-package web;
+package com.codeup.cleartoclose.web;
 
-import data.User;
-import data.UsersRepository;
+import com.codeup.cleartoclose.data.User;
+import com.codeup.cleartoclose.data.UsersRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,14 +18,25 @@ public class UsersController {
         this.usersRepository = usersRepository;
     }
 
+    @GetMapping("searchByEmail")
+    public User findUserEmail(@RequestParam String email) {
+        return usersRepository.findByEmail(email);
+    }
+
     @GetMapping
     public List<User> getAllUsers() {
         return usersRepository.findAll();
     }
+
     // Where was I going with this? Seems like an admin function
-@GetMapping("{userId}")
+    @GetMapping("{userId}")
     public Optional<User> getById(@PathVariable Long userId) {
-    return usersRepository.findById(userId);
-}
+        return usersRepository.findById(userId);
+    }
+
+    @PostMapping
+    public void createUser(@RequestBody User newUser) {
+        usersRepository.save(newUser);
+    }
 
 }
