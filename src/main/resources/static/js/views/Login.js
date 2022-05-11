@@ -18,6 +18,7 @@ export default function Login(props) {
     <input id="password" name="password" type="password"/>
     <input id="login-btn" class="flex-wrap justify-between px-[15px]" type="submit" value="Login"/>
 </form>
+<p id="bad-credentials" class="invisible" >Your username or password is incorrect.</p>
 <p class="register-link flex-wrap px-[648px] my-[50px]">Don't have an account? Register <a href="">here</a>.</p>
 </div>
 <style>
@@ -28,37 +29,39 @@ background: linear-gradient(to top left, #9ad5e7, #0592cd);
 </body>
 </html>`;
 }
-    //TODO
-    // 1. Get user object using fetch()
-    // 2. Compare user object password to input field password
-    // 3 .if same createView("/listings")
+//TODO
+// 1. Get user object using fetch()
+// 2. Compare user object password to input field password
+// 3 .if same createView("/listings")
 
-    export function LoginEvent(){
-        $("#login-btn").click(function(){
-            const email = $("#username").val()
-            const password = $("#password").val()
+export function LoginEvent() {
+    $("#login-btn").click(function () {
+        const email = $("#username").val()
+        const password = $("#password").val()
+        let badCredentials = $("#bad-credentials");
 
+        let request = {
+            method: "GET",
+            headers: {"Content-Type": "application/json"},
+        }
 
-            let request = {
-                method: "GET",
-                headers: {"Content-Type": "application/json"},
-            }
+        fetch(`http://localhost:8080/api/users?searchByEmail=${email}`, request)
+            .then(response => {
+                console.log(response.status);
+                response.json()
+                    .then(user => {
+                        if (user[0].password === password) {
+                            localStorage.setItem('greenLight', 'go');
+                            localStorage.getItem('greenLight');
+                            createView("/listings")
+                        } else {
+                            // TODO: figure out how to use a slider to show an element and then retract it after a few seconds
+                            console.log("The username or password is incorrect");
 
-            fetch(`http://localhost:8080/api/users?searchByEmail=${email}`, request)
-                .then(response => {
-                    console.log(response.status);
-                    response.json()
-                        .then(user => {
-                            if(user[0].password === password){
-                                localStorage.setItem('greenLight', 'go');
-                                localStorage.getItem('greenlight');
-                                createView("/listings")
-                            } else  {
-                                console.log("The password is incorrect")
-                            }
-                        })
-                }).catch(error=>{
-                console.log(error.status)
+                        }
+                    }).catch(error => {
+                    console.log(error.status);
+                })
             })
-        })
-    }
+    })
+}
