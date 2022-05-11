@@ -9,6 +9,7 @@ import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
 import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
 import Login, {LoginEvent} from "./views/Login.js";
+import {LogoutEvent} from "./views/Logout.js";
 
 export default function router(URI) {
     const routes = {
@@ -24,6 +25,13 @@ export default function router(URI) {
             uri: '/login',
             title: "Login",
             viewEvent: LoginEvent
+        },
+        '/logout': {
+            returnView: Login,
+            state: {},
+            uri: '/logout',
+            title: "Logout",
+            viewEvent: LogoutEvent
         },
         '/realtorListing': {
             returnView: RealtorListing,
