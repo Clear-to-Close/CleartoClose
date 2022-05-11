@@ -1,7 +1,8 @@
 import createView from "../createView.js";
 import {getHeaders} from "../auth.js";
-
+import {attomApiKey} from "../keys.js";
 const LISTINGS_URL = "http://localhost:8080/api/listings";
+
 
 export default function ListingIndex(props) {
     console.log(props);
@@ -37,6 +38,8 @@ export default function ListingIndex(props) {
 export function ListingEvent() {
     submitNewListing();
     // grabListingToEdit();
+    requestListingDetailView();
+    requestSchoolDetailView();
 
 }///CLOSE LISTINGEVENT FUNCTION
 
@@ -76,64 +79,51 @@ function submitNewListing() {
 }///CLOSE OF SUBMITNEWPOST
 
 
-// export function NotSureWhat (){
-//     $.ajax("/listingdata/homes.json")
-//         .done(onSuccess)
-//         .fail(onFail);
-//
-//     function onFail(jqXhr, status, error) {
-//         console.log(jqXhr);
-//         console.log(error);
-//     }
-//
-//     function onSuccess(data, status) {
-//         console.log(status);
-//         console.log(data);
-//
-//         data.forEach(function (home) {
-//             var listings = `
-// 					<div class="card-body">
-// 						<div class="homeAddress col-8">${home.address}</div>
-// 						<div class="city col-4">${home.city}</div>
-// 						<div class="state col-4">${home.state}</div>
-// 						<div class="zipcode col-4">${home.zipcode}</div>
-// 						<div class="zipcode-2 col-4">${home.zipcode-2}</div>
-// 						<div class="bedrooms col-3">${home.bedrooms}</div>
-// 						<div class="halfBaths col-3">${home.halfBaths}</div>
-// 						<div class="sqfeet col-3">${home.sqFeet}</div>
-// 						<div class="lotSize col-3">${home.lotSize}</div>
-// 						<div class="yearBuilt col-3">${home.yearBuilt}</div>
-// 						<div class="footer d-flex justify-content-evenly">
-//
-// 						</div>
-// 					</div>
-// </div>
-// `;
-//             $('#listings').append(listings);
-//         })
-//
-//
-//     }
-//
-// }
+//// grab strings for const below from search box, split on ""
+const streetNumber = "1559";
+const streetName = "kimberly dawn";
+const city= "new bruanfels";
+const state= "TX";
 
+////CODE BELOW RETURNS WITH RESULT BASED ON CONST ABOVE, DETAILED VIEW ////
+var url = `https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address=${streetNumber}%20${streetName}%20${city}%20${state}`;
 
-////CODE BELOW RETURNS 200 FOR API CALL ON ATTOM API
-// var url = "https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?attomid=164898522";
-//
-// function requestListing() {
-//     const xhr = new XMLHttpRequest();
-//     xhr.open("GET", url);
-//
-//     xhr.setRequestHeader("accept", "application/json");
-//     xhr.setRequestHeader("apikey", "2b1e86b638620bf2404521e6e9e1b19e");
-//     xhr.responseType = 'json';
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState === 4) {
-//             console.log(xhr.status);
-//             console.log(xhr.response);
-//         }};
-//
-//     xhr.send();
-// }
-// requestListing();
+function requestListingDetailView() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+
+    xhr.setRequestHeader("accept", "application/json");
+    xhr.setRequestHeader("apikey",`${attomApiKey()}`);
+    xhr.responseType = 'json';
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log(xhr.status);
+            console.log(xhr.response);
+        }};
+
+    xhr.send();
+}
+requestListingDetailView();
+
+/// Need to grab property ID from the JSON returned from property detail function
+const propertyID = "33497215"
+
+function requestSchoolDetailView(){
+    var url = `https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detailwithschools?attomid=${propertyID}`;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("apikey", `${attomApiKey()}`);
+    xhr.responseType = 'json';
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log(xhr.status);
+            console.log(xhr.response);
+        }};
+
+    xhr.send();
+}
+requestSchoolDetailView();
+
