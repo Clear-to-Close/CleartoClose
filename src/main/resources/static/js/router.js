@@ -3,6 +3,7 @@
  * @param URI
  * @returns {*}
  */
+import Home from "./views/Home.js";
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
@@ -11,12 +12,12 @@ import Login, {LoginEvent} from "./views/Login.js";
 
 export default function router(URI) {
     const routes = {
-        // '/': {
-        //     returnView: Home,
-        //     state: {},
-        //     uri: '/',
-        //     title: 'Home',
-        // },
+        '/': {
+            returnView: Home,
+            state: {},
+            uri: '/',
+            title: 'Home',
+        },
         '/login': {
             returnView: Login,
             state: {},
