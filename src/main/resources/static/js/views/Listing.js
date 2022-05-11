@@ -12,20 +12,23 @@ export default function ListingIndex(props) {
         </header>
         <main>
         <img src="/photostocks/ctcplaceholder.png" alt="listingImage">
-        <div class="flex text-center justify-center bg-blue-600 w-full border-4 rounded">
-                <div id = "listingsDiv" class="flex font-sans ui-sans-serif flex-wrap">
+        <div class="flex justify-center bg-blue-600 w-full border-4 rounded">
+                <div id = "listingsDiv" class="flex font-sans ui-sans-serif flex-wrap justify-content-around align-content-center">
                     ${props.listings.map(listing => `<h3 class=" w-24 h-6 m-1 border-2 rounded">$ ${listing.askingPrice}</h3>
-                        <div class="w-6 h-6" id = "listing#-${listing.id}">MLS# ${listing.id}</div>
-                        <div class="w-6 h-6">${listing.status}</div>
-                        <div>${listing.listingAddress.address}</div>
-                        <div>${listing.listingAddress.city}</div>
-                        <div>${listing.listingAddress.state}</div>
-                        <div>${listing.listingAddress.zipCode}</div>
-                        <p>${listing.description}</p>
-                        <div>${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
-                        <div>${listing.sellerAgent.email}</div>
+                        <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center place-items-center" id = "listing#-${listing.id}">MLS# ${listing.id}</div>
+                        <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center place-items-centerr">${listing.status}</div>
+                        <div class="w-36 h-6 m-1 pb-1 border-2 rounded text-center place-items-center">${listing.listingAddress.address}</div>
+                        <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center">${listing.listingAddress.city}</div>
+                        <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center">${listing.listingAddress.state}</div>
+                        <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center">${listing.listingAddress.zipCode}</div>
+                        <div class="w-36 h-6 m-1 pb-1 border-2 rounded text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
+                        <div class="w-48 h-6 m-1 pb-1 border-2 rounded text-center">${listing.sellerAgent.email}</div>
+                        <p class="w-5/6 h-24 border-2 rounded text-justify">${listing.description}</p>
+                        <div class="absolute-bottom-2 flex flex-row flex-wrap justify-between"><button id="submitOfferBtn" class="border-2 rounded h-6 w-36 my-2">Submit An Offer</button><button id="acceptOfferBtn" class="border-2 rounded h-6 w-36 my-2">Accept Offer</button></div>
+                        
                 </div>`
         ).join('')} 
+                    
             </div>`
 }
 
