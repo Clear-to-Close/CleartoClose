@@ -3,26 +3,35 @@
  * @param URI
  * @returns {*}
  */
+import Home from "./views/Home.js";
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
 import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
 import Login, {LoginEvent} from "./views/Login.js";
+import {LogoutEvent} from "./views/Logout.js";
 
 export default function router(URI) {
     const routes = {
-        // '/': {
-        //     returnView: Home,
-        //     state: {},
-        //     uri: '/',
-        //     title: 'Home',
-        // },
+        '/': {
+            returnView: Home,
+            state: {},
+            uri: '/',
+            title: 'Home',
+        },
         '/login': {
             returnView: Login,
             state: {},
             uri: '/login',
             title: "Login",
             viewEvent: LoginEvent
+        },
+        '/logout': {
+            returnView: Login,
+            state: {},
+            uri: '/logout',
+            title: "Logout",
+            viewEvent: LogoutEvent
         },
         '/realtorListing': {
             returnView: RealtorListing,
