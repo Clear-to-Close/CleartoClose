@@ -6,17 +6,12 @@ export default function Navbar(props) {
 
     //language=HTML
     let html = `
-        <nav>
+        <nav class="h-[25px]">
             <a href="/" data-link>Home</a>
             <a href="/login" data-link>Login</a>
             <a href="/listings" data-link>Listings</a>
             <a href="/realtorListing" data-link>Realtor Listing</a>`;
-
-    if (loggedIn) {
-        html += `<a href="/logout" data-link>Logout</a>`;
-    }
-
-    html += `</nav>`
+    html = html + `</nav>`;
     return html;
 
 }
