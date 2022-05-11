@@ -37,3 +37,4 @@ src/main/resources/static/js/keys.js
 package.json
 package-lock.json
 node_modules
+application.properties

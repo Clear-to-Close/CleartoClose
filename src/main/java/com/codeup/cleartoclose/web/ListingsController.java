@@ -63,7 +63,6 @@ public class ListingsController {
         listingRepository.save(newListing);
     }
 
-
     // TODO: to accept an offer a method has to be written here changing the active status from "yes" to "no"
     @PutMapping("{listingId}")
     public void acceptOffer(@PathVariable Long listingId) {
@@ -73,5 +72,4 @@ public class ListingsController {
         updateListing.setStatus(updateListing.getStatus());
         listingRepository.save(updateListing);
     }
-
 }
