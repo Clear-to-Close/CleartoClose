@@ -4,7 +4,6 @@ import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,15 +37,11 @@ public class ListingsController {
     @GetMapping("searchByAddress")
     public Listing getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
         Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
-        foundAddress.setId(foundAddress.getId());
-        String test = String.valueOf(foundAddress.getId());
+        listingRepository.findByListingAddress(foundAddress);
+        System.out.println(foundAddress.getId());
+        System.out.println(listingRepository.findByListingAddress(foundAddress));
         Listing addressListing = new Listing();
-
-        if (addressListing.getListingAddress().toString().equalsIgnoreCase(test)) {
-            System.out.println("it freaking works!");
-            addressListing.setId(foundAddress)
-        }
-
+        return addressListing;
     }
 
 
