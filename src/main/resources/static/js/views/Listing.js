@@ -35,9 +35,7 @@ const populateListingFromDB = (listings) => {
     <div class="w-36 h-6 m-1 pb-1 border-2 rounded text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
     <div class="w-48 h-6 m-1 pb-1 border-2 rounded text-center">${listing.sellerAgent.email}</div> 
     <p class="w-full h-48 border-2 rounded text-justify">${listing.description}</p> 
-    <div class="absolute-bottom-2 flex flex-row flex-wrap justify-between"><button id="viewOffersBtn" class="border-2 rounded h-6 w-36 my-2">View Offers</button></div>
-
-    </div>`
+    <div class="absolute-bottom-2 flex flex-row flex-wrap justify-between"><button id="viewOffersBtn" class="border-2 rounded h-6 w-36 my-2">View Offers</button></div>`
     ).join('')
 };
 
@@ -60,11 +58,10 @@ const populateDetailsFromApi = (apiObject) => {
 
 
 export function ListingEvent() {
-    $("#viewOffersBtn").click(function (event) {
-        event.preventDefault();
-            createView('/offers');
+    console.log("button clicked")
+    $('#viewOffersBtn').click(function() {
+            createView("/offers");
     });
-
 
 }///CLOSE LISTINGEVENT FUNCTION
 

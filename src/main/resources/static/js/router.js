@@ -65,7 +65,7 @@ export default function router(URI) {
         '/offers': {
             returnView: Offers,
             state: {
-                offers: "/api/offers",
+                offers: "/api/offers"
             },
             uri: '/offers',
             title: 'Offers',
