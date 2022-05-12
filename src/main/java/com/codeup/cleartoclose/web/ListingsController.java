@@ -4,7 +4,6 @@ import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,21 +35,15 @@ public class ListingsController {
     }
     // TODO: Refactor to just return a listing based on convo with Raymond & Collin; it will find a specific address, grab the id, and search the listing repository for the address_id match and return that listing
     @GetMapping("searchByAddress")
-    public Optional getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
-//        Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
-//
-//        Long test = foundAddress.getId();
-        Long addressListing = addressRepository.findByAddressAndZipCode(searchByAddress,zipcode).getId();
-        Optional listing = listingRepository.findById(addressListing);
-        System.out.println(listing);
-//        if (addressListing.toString().equalsIgnoreCase(test)) {
-//            System.out.println("it works!");
-//            addressListing.setId(addressListing.getId());
-//            listingRepository.save(addressListing);
-//
-//        }
 
-            return listing;
+    public Listing getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
+        Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
+        listingRepository.findByListingAddress(foundAddress);
+        System.out.println(foundAddress.getId());
+        System.out.println(listingRepository.findByListingAddress(foundAddress));
+        Listing addressListing = new Listing();
+        return addressListing;
+
     }
 
 
