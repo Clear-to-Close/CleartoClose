@@ -7,7 +7,7 @@ const LISTINGS_URL = "http://localhost:8080/api/listings";
 
 export default function ListingIndex(props) {
     console.log(props);
-    requestListingDetailView(props.listings.listingAddress);
+    requestListingDetailView(props.listings[1].listingAddress);
     // language=HTML
     return `
 		<div id="listingPageDiv" class="flex flex-col h-[calc(100vh-75px)]">
@@ -17,15 +17,15 @@ export default function ListingIndex(props) {
 			<div class="flex justify-start bg-blue-600 w-full border-4 rounded h-1/2">
 				<div id="listingsDiv"
 				     class="flex flex-row font-sans ui-sans-serif flex-wrap justify-content-around align-content-start">
-					${populateListingFromDB(props.listings)}
+					${populateListingFromDB(props.listings[1])}
 					<div id="ApiDetails"></div>
 
 				</div>
 			</div>`
 }
 
-const populateListingFromDB = (listings) => {
-    return listings.map(listing => `<h3 class=" w-24 h-6 m-1 border-2 rounded">$ ${listing.askingPrice}</h3>
+const populateListingFromDB = (listing) => {
+    return `<h3 class=" w-24 h-6 m-1 border-2 rounded">$ ${listing.askingPrice}</h3>
     <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center" id = "listing#-${listing.id}">MLS# ${listing.id}</div>
     <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center">${listing.status}</div>
     <div class="w-36 h-6 m-1 pb-1 border-2 rounded text-center">${listing.listingAddress.address}</div>
@@ -35,8 +35,9 @@ const populateListingFromDB = (listings) => {
     <div class="w-36 h-6 m-1 pb-1 border-2 rounded text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
     <div class="w-48 h-6 m-1 pb-1 border-2 rounded text-center">${listing.sellerAgent.email}</div> 
     <p class="w-full h-48 border-2 rounded text-justify">${listing.description}</p> 
-    <div class="absolute-bottom-2 flex flex-row flex-wrap justify-between"><button id="viewOffersBtn" class="border-2 rounded h-6 w-36 my-2">View Offers</button></div>`
-    ).join('')
+    <div class="absolute-bottom-2 flex flex-row flex-wrap justify-between"><button id="viewOffersBtn" class="border-2 rounded h-6 w-36 my-2">View Offers</button></div>
+
+    </div>`
 };
 
 const populateDetailsFromApi = (apiObject) => {
@@ -58,9 +59,9 @@ const populateDetailsFromApi = (apiObject) => {
 
 
 export function ListingEvent() {
-    console.log("button clicked")
-    $('#viewOffersBtn').click(function() {
-            createView("/offers");
+    $("#viewOffersBtn").click(function (event) {
+        event.preventDefault();
+            createView(`/offers?listingId=${id}`);
     });
 
 }///CLOSE LISTINGEVENT FUNCTION
@@ -103,6 +104,7 @@ function submitNewListing() {
 
 ////CODE BELOW RETURNS WITH RESULT BASED ON CONST ABOVE, DETAILED VIEW ////
 function requestListingDetailView(listingAddress) {
+    console.log(listingAddress)
     //// grab strings for const below from search box, split on ""
     const streetNumber = "1559";
     const streetName = "kimberly dawn";

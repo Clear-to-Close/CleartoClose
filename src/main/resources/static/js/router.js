@@ -11,6 +11,7 @@ import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
 import Login, {LoginEvent} from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
+import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 
 export default function router(URI) {
     const routes = {
@@ -65,12 +66,29 @@ export default function router(URI) {
         '/offers': {
             returnView: Offers,
             state: {
-                offers: "/api/offers"
+                offers: "/api/offers/findByListing",
             },
             uri: '/offers',
             title: 'Offers',
             viewEvent: OfferEvent
+        },
+        '/allListings': {
+            returnView: AllListings,
+            state: {},
+            uri: '/allListings',
+            title: 'All Listings',
+            viewEvent: AllListingsEvent
         }
     };
-    return routes[URI];
+    let [base, extra] =URI.split("?")
+    for (const key in routes) {
+        if (key.includes(URI)){
+            return routes[URI]
+        } else if(key.includes(base)) {
+            let stateBase = base.split("/")[1]
+            console.log(stateBase)
+            routes[base].state[stateBase] = `${routes[base].state[stateBase]}?${extra}`
+            return routes[base]
+        }
+    }
 }

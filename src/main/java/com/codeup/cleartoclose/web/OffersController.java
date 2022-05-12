@@ -1,9 +1,11 @@
 package com.codeup.cleartoclose.web;
 
+import com.codeup.cleartoclose.data.ListingsRepository;
 import com.codeup.cleartoclose.data.Offer;
 import com.codeup.cleartoclose.data.OffersRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class OffersController {
 
     private final OffersRepository offersRepository;
+    public final ListingsRepository listingsRepository;
 
-    public OffersController(OffersRepository offersRepository) {
+    public OffersController(OffersRepository offersRepository, ListingsRepository listingsRepository) {
         this.offersRepository = offersRepository;
+        this.listingsRepository = listingsRepository;
     }
 
 
@@ -27,6 +31,11 @@ public class OffersController {
     @GetMapping("{offerId}")
     public Optional<Offer> getOfferById(@PathVariable Long offerId) {
         return offersRepository.findById(offerId);
+    }
+
+    @GetMapping("findByListing")
+    public Collection<Offer> getAllOffersById(@RequestParam long listingId) {
+        return offersRepository.findByListing(listingsRepository.findById(listingId));
     }
 
     // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
