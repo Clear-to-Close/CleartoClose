@@ -4,7 +4,6 @@ import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,22 +33,16 @@ public class ListingsController {
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
         return listingRepository.findById(listingId);
     }
-
-
-//    // TODO: Refactor to just return a listing based on convo with Raymond & Collin; it will find a specific address, grab the id, and search the listing repository for the address_id match and return that listing
-//    @GetMapping("searchByAddress")
-//    public Listing getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
-//        Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
-//        foundAddress.setId(foundAddress.getId());
-//        String test = String.valueOf(foundAddress.getId());
-//        Listing addressListing = new Listing();
-//
-//        if (addressListing.getListingAddress().toString().equalsIgnoreCase(test)) {
-//            System.out.println("it freaking works!");
-//            addressListing.setId(foundAddress)
-//        }
-//
-//    }
+  
+    // TODO: Refactor to just return a listing based on convo with Raymond & Collin; it will find a specific address, grab the id, and search the listing repository for the address_id match and return that listing
+    @GetMapping("searchByAddress")
+    public Listing getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
+        Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
+        listingRepository.findByListingAddress(foundAddress);
+        System.out.println(foundAddress.getId());
+        System.out.println(listingRepository.findByListingAddress(foundAddress));
+        return listingRepository.findByListingAddress(foundAddress);
+    }
 
 
     @PostMapping
