@@ -1,4 +1,5 @@
 import createView from "../createView.js";
+import {getMessage} from "../messaging.js";
 
 export default function Login(props) {
     //language=HTML
@@ -38,10 +39,10 @@ export function LoginEvent() {
                                 localStorage.getItem('greenLight');
                                 createView("/listings")
                             } else if(email === "" || password === "") {
-                                document.getElementById('incorrect-login').innerHTML="*Please enter username or password*";
+                               getMessage("Please enter username or password", 'incorrect-login');
                                 return;
                             }else if(user[0].email !== email || user[0].password !== password){
-                                document.getElementById('incorrect-login').innerHTML="*Please enter correct username or password*";
+                                getMessage("Please enter correct username or password", 'incorrect-login');
                                 return;
                             }
 
