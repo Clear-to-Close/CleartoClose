@@ -40,8 +40,7 @@ public class ListingsController {
         listingRepository.findByListingAddress(foundAddress);
         System.out.println(foundAddress.getId());
         System.out.println(listingRepository.findByListingAddress(foundAddress));
-        Listing addressListing = new Listing();
-        return addressListing;
+        return listingRepository.findByListingAddress(foundAddress);
     }
 
 
