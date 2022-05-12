@@ -10,5 +10,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     Address findByAddressAndZipCode(String address, String zipcode);
 
     @Query("from Address a where a.address like %:term%")
-    List<Address> searchByTitleLike(@Param("term") String term);
+    Address searchByTitleLike(@Param("term") String term);
 }
