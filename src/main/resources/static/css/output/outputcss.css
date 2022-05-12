@@ -511,12 +511,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100%;
 }
 
+.h-1\/2 {
+  height: 50%;
+}
+
 .h-6 {
   height: 1.5rem;
 }
 
-.h-24 {
-  height: 6rem;
+.h-48 {
+  height: 12rem;
 }
 
 .h-\[50px\] {
@@ -551,8 +555,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 12rem;
 }
 
-.w-5\/6 {
-  width: 83.333333%;
+.w-60 {
+  width: 15rem;
 }
 
 .flex-row {
@@ -573,6 +577,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .items-center {
   align-items: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
 }
 
 .justify-center {
