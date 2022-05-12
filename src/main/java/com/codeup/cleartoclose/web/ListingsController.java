@@ -36,17 +36,21 @@ public class ListingsController {
     }
     // TODO: Refactor to just return a listing based on convo with Raymond & Collin; it will find a specific address, grab the id, and search the listing repository for the address_id match and return that listing
     @GetMapping("searchByAddress")
-    public Listing getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
-        Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
-        foundAddress.setId(foundAddress.getId());
-        String test = String.valueOf(foundAddress.getId());
-        Listing addressListing = new Listing();
+    public Optional getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
+//        Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
+//
+//        Long test = foundAddress.getId();
+        Long addressListing = addressRepository.findByAddressAndZipCode(searchByAddress,zipcode).getId();
+        Optional listing = listingRepository.findById(addressListing);
+        System.out.println(listing);
+//        if (addressListing.toString().equalsIgnoreCase(test)) {
+//            System.out.println("it works!");
+//            addressListing.setId(addressListing.getId());
+//            listingRepository.save(addressListing);
+//
+//        }
 
-        if (addressListing.getListingAddress().toString().equalsIgnoreCase(test)) {
-            System.out.println("it freaking works!");
-            addressListing.setId(foundAddress)
-        }
-
+            return listing;
     }
 
 
