@@ -64,7 +64,6 @@ export function ListingEvent() {
             createView(`/offers?listingId=${id}`);
     });
 
-
 }///CLOSE LISTINGEVENT FUNCTION
 
 function submitNewListing() {
