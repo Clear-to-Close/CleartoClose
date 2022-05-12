@@ -8,7 +8,7 @@ import Footer from "./views/partials/Footer.js";
  */
 export default function render(props, route) {
     const app = document.querySelector('#app');
-    const title = `REST Blog - ${route.title}`;
+    const title = `Clear To Close - ${route.title}`;
     document.title = title;
     app.innerHTML = `${Navbar(null)} ${route.returnView(props)} ${Footer(null)}`;
     if (route.viewEvent){

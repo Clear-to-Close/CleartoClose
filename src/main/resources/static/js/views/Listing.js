@@ -18,14 +18,14 @@ export default function ListingIndex(props) {
 				<div id="listingsDiv"
 				     class="flex flex-row font-sans ui-sans-serif flex-wrap justify-content-around align-content-start">
 					${populateListingFromDB(props.listings)}
-                    <div id="ApiDetails"></div>
+					<div id="ApiDetails"></div>
 
 				</div>
 			</div>`
 }
 
 const populateListingFromDB = (listings) => {
-  return  listings.map(listing =>`<h3 class=" w-24 h-6 m-1 border-2 rounded">$ ${listing.askingPrice}</h3>
+    return listings.map(listing => `<h3 class=" w-24 h-6 m-1 border-2 rounded">$ ${listing.askingPrice}</h3>
     <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center" id = "listing#-${listing.id}">MLS# ${listing.id}</div>
     <div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center">${listing.status}</div>
     <div class="w-36 h-6 m-1 pb-1 border-2 rounded text-center">${listing.listingAddress.address}</div>
@@ -38,11 +38,12 @@ const populateListingFromDB = (listings) => {
     <div class="absolute-bottom-2 flex flex-row flex-wrap justify-between"><button id="viewOffersBtn" class="border-2 rounded h-6 w-36 my-2">View Offers</button></div>
 
     </div>`
-    ).join('')};
+    ).join('')
+};
 
-const populateDetailsFromApi = (apiObject) =>{
+const populateDetailsFromApi = (apiObject) => {
     console.log(apiObject);
- const html =  `
+    const html = `
     <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center place-items-center" id = "apiSqFt">SqFt: ${apiObject.property[0].building.size.bldgsize}</div>
     <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center place-items-center" id = "apiBaths">Baths: ${apiObject.property[0].building.rooms.bathsfull}</div>
     <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center place-items-center" id = "apiBeds">Beds: ${apiObject.property[0].building.rooms.beds ?? 2}</div>
@@ -54,11 +55,15 @@ const populateDetailsFromApi = (apiObject) =>{
     <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center place-items-center" id = "apiLot">Lot SqFt: ${apiObject.property[0].lot.lotsize2}</div>
     
     </div>`
-   $("#ApiDetails").append(html);
+    $("#ApiDetails").append(html);
 }
 
 
 export function ListingEvent() {
+    $("#viewOffersBtn").click(function (event) {
+        event.preventDefault();
+            createView('/offers');
+    });
 
 
 }///CLOSE LISTINGEVENT FUNCTION
@@ -100,8 +105,6 @@ function submitNewListing() {
 
 
 ////CODE BELOW RETURNS WITH RESULT BASED ON CONST ABOVE, DETAILED VIEW ////
-
-
 function requestListingDetailView(listingAddress) {
     //// grab strings for const below from search box, split on ""
     const streetNumber = "1559";
@@ -118,7 +121,7 @@ function requestListingDetailView(listingAddress) {
     xhr.responseType = 'json';
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-             console.log(xhr.status);
+            console.log(xhr.status);
             // console.log(xhr.response);
             populateDetailsFromApi(xhr.response);
         }

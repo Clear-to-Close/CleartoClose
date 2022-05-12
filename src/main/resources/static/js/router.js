@@ -10,6 +10,7 @@ import Loading from "./views/Loading.js";
 import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
 import Login, {LoginEvent} from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
+import Offers, {OfferEvent} from "./views/Offers.js";
 
 export default function router(URI) {
     const routes = {
@@ -60,6 +61,15 @@ export default function router(URI) {
             state: {},
             uri: location.pathname,
             title: 'Loading...',
+        },
+        '/offers': {
+            returnView: Offers,
+            state: {
+                offers: "/api/offers",
+            },
+            uri: '/offers',
+            title: 'Offers',
+            viewEvent: OfferEvent
         }
     };
     return routes[URI];
