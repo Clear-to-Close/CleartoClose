@@ -9,9 +9,9 @@ export default function Offers(props) {
 }
 
 const retrieveOffersFromDb = (offers) => {
+    console.log(offers)
     return offers.map(offer =>
-        `<div>class="w-24 h-6 m-1 pb-1 border-2 rounded text-center" id = "offerId-${offer.id}">${offer.id}
-
+        `<div class="w-24 h-6 m-1 pb-1 border-2 rounded text-center" id = "offerId-${offer.id}">${offer.id}
 </div>`
     ).join("")
 };
