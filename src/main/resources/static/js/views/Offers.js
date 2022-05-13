@@ -7,37 +7,114 @@ export default function Offers(props) {
 			     alt="main listing photo">
                     ${retrieveOffersFromDb(props.offers)}
             </div>`
+
+
 }
 
 const retrieveOffersFromDb = (offers) => {
+
     // language=HTML
     return offers.map(offer =>
         `
 			<div id="offersDiv" class="flex flex-col flex-wrap items-center border-2 rounded text-center mt-2">
-			<div class="w-12 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerId">${offer.id}</div>
-			<div class="w-24 h-24 m-1 pb-1 border-2 rounded text-center text-3xl" id ="offerAmount">${offer.offerAmount}</div>
-			<div class="w-80 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerAcceptance">Receipt Date: ${offer.acceptanceDate}</div>
-			<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerId">Closing Costs: ${offer.closingCosts}</div>
-			<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerId">Closing Date: ${offer.closingDate}</div>
-			<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerId">Home Warranty: ${offer.homeWarranty}</div>
-			<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerId">Loan Type: ${offer.loanType}</div>
+				<div class="w-12 h-6 m-1 pb-1 border-2 rounded text-center" id="offerId" data-id="${offer.id}"">${offer.id}</div>
+				<div class="w-24 h-24 m-1 pb-1 border-2 rounded text-center text-3xl" id="offerAmount">
+					${offer.offerAmount}
+				</div>
+				<div class="w-80 h-6 m-1 pb-1 border-2 rounded text-center" id="offerAcceptance">Receipt Date:
+					${offer.acceptanceDate}
+				</div>
+				<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id="offerId">Closing Costs:
+					${offer.closingCosts}
+				</div>
+				<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id="offerId">Closing Date:
+					${offer.closingDate}
+				</div>
+				<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id="offerId">Home Warranty:
+					${offer.homeWarranty}
+				</div>
+				<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id="offerId">Loan Type: ${offer.loanType}
+				</div>
 				<div class="absolute-bottom-2 flex flex-row flex-wrap justify-between">
-                    <button id="acceptOfferButton" data-id="${offer.id}" class="border-2 rounded h-6 w-36 my-2">Accept Offer!</button>
-                </div>
-			
+					<button data-id="${offer.id}" class="acceptOffer border-2 rounded h-6 w-36 my-2">Accept
+						Offer!
+					</button>
+				</div>
+
 			</div>`
     ).join("")
 };
 
 
+const offerContainer = $('#app');
+offerContainer.addEventListener('click', function(e){
+    if(e.target.classList.contains('acceptOffer')){
+        alert("Accept Offer btn clicked")
+
+    }
+})
+
+
 export function OfferEvent() {
 
 }
+// var targetID;
+// let target = event.target
+//   targetID = target.attr(data-id);
+// console.log(targetID);
 
-function acceptOffer(){
-    $('#acceptOfferButton').click(function (event){
-        event.preventDefault();
 
 
-    })
-}
+function confirmOfferAcceptance() {
+
+
+
+
+        // $('.body').addClass(blur);
+
+        /// want offer to populate a modal
+        /// have a confirmation button
+        /// put request to update listing status
+        /// put request to update listing db with buyer id
+
+        // language=html
+        const acceptHTML =`<div id="offersDiv" class="flex flex-col flex-wrap items-center border-2 rounded text-center mt-2">
+            <div class="w-12 h-6 m-1 pb-1 border-2 rounded text-center" id="offerId">${offer.id}</div>
+            <div class="w-24 h-24 m-1 pb-1 border-2 rounded text-center text-3xl"
+                 id="offerAmount">${offer.offerAmount}</div>
+            <div class="w-80 h-6 m-1 pb-1 border-2 rounded text-center"
+                 id="offerAcceptance">Receipt Date: ${offer.acceptanceDate}</div>
+            <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center"
+                 id="offerId">Closing Costs: ${offer.closingCosts}</div>
+            <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center"
+                 id="offerId">Closing Date: ${offer.closingDate}</div>
+            <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center"
+                 id="offerId">Home Warranty: ${offer.homeWarranty}</div>
+            <div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id="offerId">Loan Type: ${offer.loanType}</div>
+            <div class="absolute-bottom-2 flex flex-row flex-wrap justify-between">
+                <button id="soldBtn" data-id="${offer.id}"
+                        class="border-2 rounded h-6 w-36 my-2">SOLD!</button>
+            </div>
+
+        </div>`
+        $('#offerModal').append(acceptHTML);
+
+}///END OF FUNCTION
+
+
+$('#soldBtn').click(function (){
+    $('.body').removeClass('blur');
+    $('#offerModal').addClass('hide');
+    updateListingObject();
+})
+
+
+
+// function updateListingObject(){
+//     const soldListing = {
+//        status: 'Sold',
+//         buyerId: ${},
+//         buyerAgentId: ${},
+//     }
+//
+// }

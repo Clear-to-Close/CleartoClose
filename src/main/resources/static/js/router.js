@@ -45,7 +45,7 @@ export default function router(URI) {
         '/listing': {
             returnView: ListingIndex,
             state: {
-                listings: "/api/listings"
+                listings: "/api/listings/7"
             },
             uri: '/listing',
             title: "Listing",
