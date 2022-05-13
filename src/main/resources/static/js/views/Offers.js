@@ -47,7 +47,7 @@ const retrieveOffersFromDb = (offers) => {
 
 
 const offerContainer = $('#app');
-offerContainer.addEventListener('click', function(e){
+offerContainer.click(function(e){
     if(e.target.classList.contains('acceptOffer')){
         alert("Accept Offer btn clicked")
 
