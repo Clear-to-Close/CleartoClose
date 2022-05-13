@@ -3,7 +3,7 @@
  * @param URI
  * @returns {*}
  */
-import Home from "./views/Home.js";
+import Home, {HomeEvents} from "./views/Home.js";
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
@@ -20,6 +20,7 @@ export default function router(URI) {
             state: {},
             uri: '/',
             title: 'Home',
+            viewEvent: HomeEvents
         },
         '/login': {
             returnView: Login,
