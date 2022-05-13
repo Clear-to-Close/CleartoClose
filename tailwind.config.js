@@ -8,7 +8,8 @@ module.exports = {
     theme: {
         extend: {
             width: {
-                'input-width': '190px'
+                'input-width-sm' : '140px',
+                'input-width-lg': '190px'
             },
             colors: {
                 'non-photo-blue' : '#9ad5e7',

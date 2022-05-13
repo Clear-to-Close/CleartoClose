@@ -43,13 +43,13 @@ export default function router(URI) {
             title: "Realtor Listing",
             viewEvent: RealtorListingEvent
         },
-        '/listings': {
+        '/listing': {
             returnView: ListingIndex,
             state: {
                 listings: "/api/listings"
             },
-            uri: '/listings',
-            title: "Listings",
+            uri: '/listing',
+            title: "Listing",
             viewEvent: ListingEvent
         },
         '/error': {

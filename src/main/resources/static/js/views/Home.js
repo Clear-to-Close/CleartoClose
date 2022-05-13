@@ -76,6 +76,7 @@ export default function Home() {
     `
 }
 
+
 export function HomeEvents() {
 submitForm();
 
@@ -104,5 +105,6 @@ const {address, city, state, zip} = listingData;
     })
 
 }
+
 
 
