@@ -22,7 +22,7 @@ const retrieveOffersFromDb = (offers) => {
 			<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerId">Home Warranty: ${offer.homeWarranty}</div>
 			<div class="w-60 h-6 m-1 pb-1 border-2 rounded text-center" id ="offerId">Loan Type: ${offer.loanType}</div>
 				<div class="absolute-bottom-2 flex flex-row flex-wrap justify-between">
-                    <button id="acceptOfferButton" class="border-2 rounded h-6 w-36 my-2">Accept Offer!</button>
+                    <button id="acceptOfferButton" data-id="${offer.id}" class="border-2 rounded h-6 w-36 my-2">Accept Offer!</button>
                 </div>
 			
 			</div>`
@@ -32,4 +32,12 @@ const retrieveOffersFromDb = (offers) => {
 
 export function OfferEvent() {
 
+}
+
+function acceptOffer(){
+    $('#acceptOfferButton').click(function (event){
+        event.preventDefault();
+
+
+    })
 }
