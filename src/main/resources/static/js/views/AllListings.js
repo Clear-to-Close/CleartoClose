@@ -13,6 +13,6 @@ export function AllListingsEvent() {
     $("#listings").click(e => {
         console.log(e.target)
         let id = e.target.getAttribute("data-id")
-        createView(`/offers?listingId=${id}`)
+        createView(`/listings?listingId=${id}`)
     })
 }
