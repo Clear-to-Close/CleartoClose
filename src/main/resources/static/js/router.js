@@ -45,7 +45,7 @@ export default function router(URI) {
         '/listing': {
             returnView: ListingIndex,
             state: {
-                listings: "/api/listings"
+                listings: "/api/listings/7"
             },
             uri: '/listing',
             title: "Listing",
@@ -66,7 +66,7 @@ export default function router(URI) {
         '/offers': {
             returnView: Offers,
             state: {
-                offers: "/api/offers/findByListing",
+                offers: "/api/offers",
             },
             uri: '/offers',
             title: 'Offers',
@@ -80,15 +80,20 @@ export default function router(URI) {
             viewEvent: AllListingsEvent
         }
     };
-    let [base, extra] =URI.split("?")
+    let split = URI.split("/");
     for (const key in routes) {
-        if (key.includes(URI)){
-            return routes[URI]
-        } else if(key.includes(base)) {
-            let stateBase = base.split("/")[1]
-            console.log(stateBase)
-            routes[base].state[stateBase] = `${routes[base].state[stateBase]}?${extra}`
-            return routes[base]
+        if (key.includes(URI)) {
+            return routes[URI];
+        } else if (key.includes(`/${split[1]}`)) {
+            let stateBase = split[1];
+            let pieceOfState = "";
+            for (let i = 0; i < split.length; i++) {
+                if (pieceOfState[i] > 1) {
+                    pieceOfState += `/${split[i]}`;
+                }
+            }
+            routes[`/${split[1]}`].state[stateBase] = `${routes[`/${split[1]}`].state[stateBase]}${pieceOfState}`
+            return routes[`/${split[1]}`]
         }
     }
 }

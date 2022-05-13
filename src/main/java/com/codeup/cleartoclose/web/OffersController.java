@@ -33,8 +33,8 @@ public class OffersController {
         return offersRepository.findById(offerId);
     }
 
-    @GetMapping("findByListing")
-    public Collection<Offer> getAllOffersById(@RequestParam long listingId) {
+    @GetMapping("/findOffers/{listingId}")
+    public Collection<Offer> getAllOffersById(@PathVariable long listingId) {
         return offersRepository.findByListing(listingsRepository.findById(listingId));
     }
 
