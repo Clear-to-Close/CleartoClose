@@ -588,6 +588,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   overflow: auto;
 }
 
+.rounded {
+  border-radius: 0.25rem;
+}
+
 .whitespace-pre-wrap {
   white-space: pre-wrap;
 }
@@ -604,6 +608,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-gray-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+.bg-orange-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 237 213 / var(--tw-bg-opacity));
 }
 
 .bg-orange-100 {
@@ -651,11 +660,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 10px;
 }
 
-.px-\[648px\] {
-  padding-left: 648px;
-  padding-right: 648px;
-}
-
 .pb-1 {
   padding-bottom: 0.25rem;
 }
@@ -684,4 +688,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+@media (min-width: 640px) {
+  .sm\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
 }
