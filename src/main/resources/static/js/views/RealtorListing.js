@@ -1,24 +1,24 @@
 export default function RealtorListing() {
     //language=HTML
     return `
-        <form class="flex flex-column m-auto w-3/4 mt-3">
+        <form class="flex flex-column m-auto w-3/4 mt-3 overflow-auto">
             <div class="flex flex-column">
                 <h1 class="text-center">Users Information</h1>
                 <div class="my-2 flex justify-content-between">
                     <label for="sellersEmail">Seller's Email</label>
-                    <input name="sellersEmail" id="sellersEmail" type="text" class="w-input-width">
+                    <input name="sellersEmail" id="sellersEmail" type="text" class="w-input-width-sm">
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="sellersAgentsEmail">Seller's Agent's Email</label>
-                    <input name="sellersAgentsEmail" id="sellersAgentsEmail" type="text" class="w-input-width">
+                    <input name="sellersAgentsEmail" id="sellersAgentsEmail" type="text" class="w-input-width-sm">
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="buyersEmail">Buyer's Email</label>
-                    <input name="buyersEmail" id="buyersEmail" type="text" class="w-input-width">
+                    <input name="buyersEmail" id="buyersEmail" type="text" class="w-input-width-sm">
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="buyersAgentsEmail">Buyer's Agent's Email</label>
-                    <input name="buyersAgentsEmail" id="buyersAgentsEmail" type="text" class="w-input-width">
+                    <input name="buyersAgentsEmail" id="buyersAgentsEmail" type="text" class="w-input-width-sm">
                 </div>
             </div>
 
@@ -26,11 +26,11 @@ export default function RealtorListing() {
                 <h1 class="text-center">Property Information</h1>
                 <div  class="my-2 flex justify-content-between">
                     <label for="propertyDescription">Property Description</label>
-                    <textarea name="propertyDescription" id="propertyDescription" class="w-input-width"></textarea>
+                    <textarea name="propertyDescription" id="propertyDescription" class="w-input-width-sm"></textarea>
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="propertyAskingPrice">Asking Price</label>
-                    <input name="propertyAskingPrice" id="propertyAskingPrice" type="text" class="w-input-width">
+                    <input name="propertyAskingPrice" id="propertyAskingPrice" type="text" class="w-input-width-sm">
                 </div>
             </div>
             
@@ -38,23 +38,23 @@ export default function RealtorListing() {
                 <h1 class="text-center">Property Address</h1>
                 <div class="my-2 flex justify-content-between">
                     <label for="propertyAddress">Address</label>
-                    <input name="propertyAddress" id="propertyAddress" type="text" class="w-input-width">
+                    <input name="propertyAddress" id="propertyAddress" type="text" class="w-input-width-sm">
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="propertyAptNum">Apartment Number</label>
-                    <input name="propertyAptNum" id="propertyAptNum" type="text" class="w-input-width">
+                    <input name="propertyAptNum" id="propertyAptNum" type="text" class="w-input-width-sm">
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="propertyCity">City</label>
-                    <input name="propertyCity" id="propertyCity" type="text" class="w-input-width">
+                    <input name="propertyCity" id="propertyCity" type="text" class="w-input-width-sm">
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="propertyState">State</label>
-                    <input name="propertyState" id="propertyState" type="text" class="w-input-width">
+                    <input name="propertyState" id="propertyState" type="text" class="w-input-width-sm">
                 </div>
                 <div class="my-2 flex justify-content-between">
                     <label for="propertyZip">Zip Code</label>
-                    <input name="propertyZip" id="propertyZip" type="text" class="w-input-width">
+                    <input name="propertyZip" id="propertyZip" type="text" class="w-input-width-sm">
                 </div>
             </div>
 
