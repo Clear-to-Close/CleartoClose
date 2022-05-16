@@ -3,6 +3,7 @@ module.exports = {
         "./src/main/resources/static/js/views/Login.js",
         "./src/main/resources/static/js/views/RealtorListing.js",
         "src/main/resources/static/js/views/Listing.js",
+        "src/main/resources/static/js/views/Offers.js",
         "./src/main/resources/static/js/views/Home.js",
         "./src/main/resources/static/js/views/partials/Footer.js"],
     theme: {
