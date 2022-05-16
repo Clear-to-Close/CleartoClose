@@ -3,7 +3,7 @@
  * @param URI
  * @returns {*}
  */
-import Home from "./views/Home.js";
+import Home, {HomeEvents} from "./views/Home.js";
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
@@ -20,6 +20,7 @@ export default function router(URI) {
             state: {},
             uri: '/',
             title: 'Home',
+            viewEvent: HomeEvents
         },
         '/login': {
             returnView: Login,
@@ -66,7 +67,7 @@ export default function router(URI) {
         '/offers': {
             returnView: Offers,
             state: {
-                offers: "/api/offers/findByListing",
+                offers: "/api/offers",
             },
             uri: '/offers',
             title: 'Offers',
@@ -80,15 +81,20 @@ export default function router(URI) {
             viewEvent: AllListingsEvent
         }
     };
-    let [base, extra] =URI.split("?")
+    let split = URI.split("/");
     for (const key in routes) {
-        if (key.includes(URI)){
-            return routes[URI]
-        } else if(key.includes(base)) {
-            let stateBase = base.split("/")[1]
-            console.log(stateBase)
-            routes[base].state[stateBase] = `${routes[base].state[stateBase]}?${extra}`
-            return routes[base]
+        if (key.includes(URI)) {
+            return routes[URI];
+        } else if (key.includes(`/${split[1]}`)) {
+            let stateBase = split[1];
+            let pieceOfState = "";
+            for (let i = 0; i < split.length; i++) {
+                if (pieceOfState[i] > 1) {
+                    pieceOfState += `/${split[i]}`;
+                }
+            }
+            routes[`/${split[1]}`].state[stateBase] = `${routes[`/${split[1]}`].state[stateBase]}${pieceOfState}`
+            return routes[`/${split[1]}`]
         }
     }
 }

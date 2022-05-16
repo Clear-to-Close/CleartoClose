@@ -57,7 +57,7 @@ export function ListingEvent() {
     $("#viewOffersBtn").click(function (event) {
         event.preventDefault();
        const id = $('#listingPageDiv').attr('data-id');
-        createView(`/offers?listingId=${id}`);
+        createView(`/offers/findOffers/${id}`);
     });
 
 }///CLOSE LISTINGEVENT FUNCTION
