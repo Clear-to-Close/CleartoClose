@@ -58,7 +58,7 @@ function revealOffersButton () {
     if (isLoggedIn()) {
         $('#viewOffersBtn').removeClass('hidden');
     }
-
+}
 export function ListingEvent() {
     revealOffersButton();
     $("#viewOffersBtn").click(function (event) {

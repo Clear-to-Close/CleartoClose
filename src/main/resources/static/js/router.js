@@ -11,6 +11,7 @@ import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
 import Login, {LoginEvent} from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
+import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
 import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 
 export default function router(URI) {
@@ -72,6 +73,13 @@ export default function router(URI) {
             uri: '/offers',
             title: 'Offers',
             viewEvent: OfferEvent
+        },
+        '/makeOffer': {
+            returnView: MakeOffer,
+            state: {},
+            uri: '/makeOffer',
+            title: "Make an Offer",
+            viewEvent: MakeAnOffer
         },
         '/allListings': {
             returnView: AllListings,
