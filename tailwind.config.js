@@ -1,4 +1,5 @@
 module.exports = {
+    important: true,
     content: ["./src/main/resources/static/index.html",
         "./src/main/resources/static/js/views/Login.js",
         "./src/main/resources/static/js/views/RealtorListing.js",
@@ -14,7 +15,8 @@ module.exports = {
             },
             colors: {
                 'non-photo-blue' : '#9ad5e7',
-                'blue-ncs' : '#0592cd'
+                'blue-ncs' : '#0592cd',
+                'partials-color' : '#AF5B5B !important'
             },
             backgroundImage: {
                 'homeImage': "url('/src/main/resources/images/homeImage.jpeg"
