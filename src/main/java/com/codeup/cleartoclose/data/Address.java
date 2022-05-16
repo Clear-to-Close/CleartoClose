@@ -1,5 +1,6 @@
 package com.codeup.cleartoclose.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,4 +38,11 @@ public class Address {
     @NotNull
     private String zipCode;
 
+    @OneToOne(mappedBy = "listingAddress")
+    @JsonIgnoreProperties("listingAddress")
+    private Listing listing;
+
+    @OneToOne(mappedBy = "userAddress")
+    @JsonIgnoreProperties("userAddress")
+    private User user;
 }

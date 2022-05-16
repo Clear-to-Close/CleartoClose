@@ -4,7 +4,7 @@ import {getMessage} from "../messaging.js";
 export default function Login(props) {
     //language=HTML
     return `
-        <div class=" items-center text-center justify-between flex-wrap h-[calc(100vh-75px)]">
+        <div class=" items-center text-center justify-between flex-wrap min-h-[calc(100vh-75px)]">
 
             <h1 class="font-sans ui-sans-serif text-5xl leading-snug w-full px-[30px] text-center text-black my-[50px] sm:text-5xl ">Login</h1>
             <form id="login-form" class="flex flex-col items-center text-center justify-center px-[15px] w-full">
@@ -41,7 +41,7 @@ export function LoginEvent() {
                             if (user[0].password === password) {
                                 localStorage.setItem('greenLight', 'go');
                                 localStorage.getItem('greenLight');
-                                createView("/listings")
+                                createView("/")
                             } else if(email === "" || password === "") {
                                getMessage("Please enter username or password", 'incorrect-login');
                                 return;
