@@ -16,7 +16,7 @@ export default function ListingIndex(props) {
                 ${populateListingFromDB(props.listings)}
                 <div id="ApiDetails" class="w-full"></div>
             </div>
-            <button id="viewOffersBtn" class="border-2 border-black h-6 w-36 my-1 mx-auto">View Offers</button>
+            <button id="viewOffersBtn" class="border-2 border-black h-6 w-36 my-1 mx-auto hide">View Offers</button>
         </div>`
 }
 
