@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
-    Address findByAddressAndZipCode(String address, String zipcode);
+    Address findByAddressAndZipCode(String address, String zipCode);
 
     @Query("from Address a where a.address like %:term%")
     Address searchByTitleLike(@Param("term") String term);

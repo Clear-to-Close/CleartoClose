@@ -1,4 +1,6 @@
-const HOME_URI = 'http://localhost:8080/';
+import createView from "../createView.js";
+
+const HOME_URI = 'http://localhost:8080/api/listings';
 
 export default function Home() {
 //language=HTML
@@ -84,24 +86,43 @@ submitForm();
 
 function submitForm() {
 
-    $('#search-btn').on('click', function (e) {
+
+    $('.search-form').on('keyup',  function (e) {
         let enterKey = e.key;
-        // if (enterKey === 'Enter') {
+        if (enterKey === 'Enter') {
+            e.preventDefault();
+            $('#search-btn').click(function () {
+                console.log('This button was clicked by pressing enter!');
+            });
+        }
+    });
 
-            const listingData = {
-                address: $('#search-address').val(),
-                city: $('#search-city').val(),
-                state: $('#select-state').val(),
-                zip: $('#search-zip').val()
-            }
+    $('#search-btn').on('click', function (e) {
+        e.preventDefault();
+        console.log('This button was clicked!');
+        const listingData = {
+            address: $('#search-address').val(),
+            city: $('#search-city').val(),
+            state: $('#select-state').val(),
+            zip: $('#search-zip').val()
+        }
+        const {address, city, state, zip} = listingData;
 
-            const {address, city, state, zip} = listingData;
-            console.log(address);
-            console.log(city);
-            console.log(state);
-            console.log(zip);
-        // }
-    })
+        let request = {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }
+
+        fetch(`${HOME_URI}/searchByAddressAndZipCode?address=${address}&zipCode=${zip}`, request)
+            .then(response => {
+                console.log(response.status);
+                response.json().then(address => createView(`/listing/${address.id}`))
+            }).catch(error => {
+            console.log(error.status);
+        });
+    });
 
 }
 

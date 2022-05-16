@@ -52,6 +52,7 @@ public class Listing {
     private Collection<Offer> listingOffers;
 
     @OneToOne
+    @JsonIgnoreProperties("listing")
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
     private Address listingAddress;
 }
