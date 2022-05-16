@@ -8,7 +8,7 @@ export default function ListingIndex(props) {
     requestListingDetailView(props.listings.listingAddress);
     // language=HTML
     return `
-        <div id="listingPageDiv" data-id="${props.listings.id}" class="flex flex-col h-full relative">
+        <div id="listingPageDiv" data-id="${props.listings.id}" class="flex flex-col min-h-[calc(100vh-75px)] relative">
             <img class="w-full"
                  src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                  alt="main listing photo">
@@ -52,6 +52,10 @@ const populateDetailsFromApi = (apiObject) => {
     $("#ApiDetails").append(html);
 }
 
+export function footerPos () {
+    console.log(document.getElementById("listingPageDiv").getBoundingClientRect().bottom)
+    return document.getElementById("listingPageDiv").getBoundingClientRect().bottom
+}
 
 export function ListingEvent() {
     $("#viewOffersBtn").click(function (event) {
@@ -59,7 +63,7 @@ export function ListingEvent() {
        const id = $('#listingPageDiv').attr('data-id');
         createView(`/offers/findOffers/${id}`);
     });
-
+    footerPos()
 }///CLOSE LISTINGEVENT FUNCTION
 
 ////CODE BELOW RETURNS WITH RESULT BASED ON CONST ABOVE, DETAILED VIEW ////
