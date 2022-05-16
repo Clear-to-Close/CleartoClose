@@ -70,7 +70,6 @@ public class User {
     private Collection<Offer> userOffers;
 
     @OneToOne
-    @JsonIgnoreProperties("user")
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
     @JsonIgnoreProperties("user")
     private Address userAddress;
