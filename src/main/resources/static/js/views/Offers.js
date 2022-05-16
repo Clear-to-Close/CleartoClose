@@ -1,13 +1,23 @@
+import createView from "../createView.js";
+
+
 const OFFERS_URL = "http://localhost:8080/api/offers";
 
 export default function Offers(props) {
     console.log(props);
-    return `<div><img class="w-full h-1/2"
+    return `<div class="min-h-[calc(100vh-90px)]"><img class="w-full h-1/2"
 			     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 			     alt="main listing photo">
-                    ${retrieveOffersFromDb(props.offers)}
+               
+                    <div id="offer">${retrieveOffersFromDb(props.offers)}</div>
+                     <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
+						<button id="btn-confirm" class="btn-accept border-2 border-black h-6 w-36 hover:bg-sky-700">Confirm
+							
+						</button>
+					</div>
             </div>`
 }
+
 
 const retrieveOffersFromDb = (offers) => {
     // language=HTML
@@ -33,12 +43,13 @@ const retrieveOffersFromDb = (offers) => {
 					L/T: ${offer.loanType}
 				</div>
 				<div class="text-center m-1 w-full">
-					<button data-id="${offer.id}" data-buyer="${offer.offeror.id}" data-offer="${offer.offerAmount}"
+					<button id="btn-accept" data-id="${offer.id}" data-buyer="${offer.offeror.id}" data-offer="${offer.offerAmount}"
 					        data-closing="${offer.closingDate}" data-warranty="${offer.homeWarranty}"
-					        class="btn-accept border-2 border-black h-6 w-36 hover:bg-sky-700">Accept
+					        class=" border-2 border-black h-6 w-36 hover:bg-sky-700">Accept
 						Offer!
 					</button>
 				</div>
+               
 
 			</div>`
     ).join("")
@@ -47,16 +58,22 @@ const retrieveOffersFromDb = (offers) => {
 
 export function OfferEvent() {
     confirmOfferAcceptance();
+    updateListingObject();
+
 }
+let acceptanceID = null;
+let buyerID = null;
+
 
 
 function confirmOfferAcceptance() {
-    $('.btn-accept').click(function () {
+    $('#btn-accept').click(function () {
         const id = $(this).data("id");
+        console.log(id);
 
         $.get(`${OFFERS_URL}/${id}`).then(function (res) {
+            console.log(res);
             populateAcceptedOfferDiv(res);
-            // updateListingObject(res);
         })
     })///END OF CONFIRM FUNCTION
 
@@ -71,7 +88,11 @@ function confirmOfferAcceptance() {
         const closingDate = res.closingDate;
         const homeWarranty = res.homeWarranty;
         const buyersAgent = res.offeror.buyerAgentID;
-
+        console.log(res.listing.id);
+        acceptanceID = res.listing.id;
+        console.log(acceptanceID)
+        buyerID = res.offeror.id;
+        console.log(buyerID)
         // //language=html
         const acceptHTML = `
 				<div id="acceptOfferDiv" class="flex flex-wrap justify-evenly border-2 rounded border-black m-1">
@@ -99,39 +120,42 @@ function confirmOfferAcceptance() {
 					<div class="text-center mx-1 my-2">
 						Buyer Pays for Survey: ${survey}
 					</div>
-					<div class="text-center m-1 w-full">
-						<button data-id="${id}" data-buyer="${offeror}" data-offer="${offerAmount}"
-						        data-closing="${closingDate}" data-warranty="${homeWarranty}"
-						        class="btn-accept border-2 border-black h-6 w-36 hover:bg-sky-700">Accept
-							Offer!
-						</button>
-					</div>
+					
 
 				</div>`
 
-        $("#offerModal").append(`${acceptHTML}`).removeClass("hide");
+        $("#offer").html("").append(`${acceptHTML}`);
+        $("#hiddenConfirmation").removeClass("hidden");
 
     }
 }
 
 
-function updateListingObject(buyer) {
+function updateListingObject() {
+    $("#btn-confirm").click(function (e){
+        console.log(e.target);
+        e.preventDefault();
 
-    const soldListing = {
-        status: 'AO',
-        buyerId: `${buyer.id}`,
-        buyerAgentId: `${buyer.buyerAgentId}`
-    }
+            console.log("update clicked")
+            const soldListing = {
+                status: 'PENDING',
+                buyerID: buyerID,
+                // buyerAgentId: `${buyer.buyerAgentId}`
+            }
 
-    const listingUpdate = {
-        method: "PUT",
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(soldListing)
-    }
-    fetch(`http://localhost:8080/api/listings`, listingUpdate)
-        .then(response => console.log("listing updated", response))
+            const listingUpdate = {
+                method: "PUT",
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify(soldListing)
+            }
+            fetch(`http://localhost:8080/api/listings/acceptOffer/${acceptanceID}`, listingUpdate)
+                .then(response => createView(`/listing/${acceptanceID}`))
+
+
+
+    })
 }
 
 
