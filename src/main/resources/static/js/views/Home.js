@@ -69,7 +69,7 @@ export default function Home() {
                     <input type="text" name="search-zip" id="search-zip"
                            class="search-form py-2 mx-1 my-2 rounded-sm p-1 flex  md:w-1/6"
                            placeholder="Zipcode">
-                    <button type="submit" class="p-2 mx-1 my-2 rounded-md border-2 border-gray-500 shadow-xl text-white bg-non-photo-blue">Go!</button>
+                    <button type="submit" id="search-btn" class="p-2 mx-1 my-2 rounded-md border-2 border-gray-500 shadow-xl text-white bg-non-photo-blue">Go!</button>
                 </form>
             </div>
         </div>
@@ -84,24 +84,23 @@ submitForm();
 
 function submitForm() {
 
-    const listingData = {
-        address: $('#search-address').val(),
-        city: $('#search-city').val(),
-        state: $('#select-state').val(),
-        zip: $('#search-zip').val()
-    }
-const {address, city, state, zip} = listingData;
-
-
-    $('.search-form').on('keyup', function (e) {
+    $('#search-btn').on('click', function (e) {
         let enterKey = e.key;
-        if (enterKey === 'Enter') {
-            console.log('Submit the form!');
+        // if (enterKey === 'Enter') {
+
+            const listingData = {
+                address: $('#search-address').val(),
+                city: $('#search-city').val(),
+                state: $('#select-state').val(),
+                zip: $('#search-zip').val()
+            }
+
+            const {address, city, state, zip} = listingData;
             console.log(address);
             console.log(city);
             console.log(state);
             console.log(zip);
-        }
+        // }
     })
 
 }
