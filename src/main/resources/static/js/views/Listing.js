@@ -8,12 +8,12 @@ export default function ListingIndex(props) {
     requestListingDetailView(props.listings.listingAddress);
     // language=HTML
     return `
-        <div id="listingPageDiv" data-id="${props.listing.id}" class="flex flex-col h-full relative">
+        <div id="listingPageDiv" data-id="${props.listings.id}" class="flex flex-col h-full relative">
             <img class="w-full"
                  src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                  alt="main listing photo">
             <div class="flex justify-start w-full ">
-                ${populateListingFromDB(props.listing)}
+                ${populateListingFromDB(props.listings)}
                 <div id="ApiDetails" class="w-full"></div>
             </div>
             <button id="viewOffersBtn" class="border-2 border-black h-6 w-36 my-1 mx-auto">View Offers</button>
@@ -57,7 +57,7 @@ export function ListingEvent() {
     $("#viewOffersBtn").click(function (event) {
         event.preventDefault();
        const id = $('#listingPageDiv').attr('data-id');
-        createView(`/offers?listingId=${id}`);
+        createView(`/offers/findOffers/${id}`);
     });
 
 }///CLOSE LISTINGEVENT FUNCTION
