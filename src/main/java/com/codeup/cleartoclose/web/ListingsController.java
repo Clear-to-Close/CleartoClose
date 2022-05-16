@@ -34,15 +34,10 @@ public class ListingsController {
         return listingRepository.findById(listingId);
     }
   
-    // TODO: Refactor to just return a listing based on convo with Raymond & Collin; it will find a specific address, grab the id, and search the listing repository for the address_id match and return that listing
-
-    @GetMapping("searchByAddress")
-    public Listing getListingByAddress(@RequestParam String searchByAddress, @RequestParam String zipcode) {
-        Address foundAddress = addressRepository.findByAddressAndZipCode(searchByAddress, zipcode);
-        listingRepository.findByListingAddress(foundAddress);
-        System.out.println(foundAddress.getId());
-        System.out.println(listingRepository.findByListingAddress(foundAddress));
-        return listingRepository.findByListingAddress(foundAddress);
+    @GetMapping("searchByAddressAndZipCode")
+    public Optional<Listing> getListingByAddress(@RequestParam String address, @RequestParam String zipcode) {
+        Address foundAddress = addressRepository.findByAddressAndZipCode(address, zipcode);
+        return Optional.of(listingRepository.findByListingAddress(foundAddress.getId()));
     }
 
 

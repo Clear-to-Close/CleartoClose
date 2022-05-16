@@ -3,9 +3,9 @@ const HOME_URI = 'http://localhost:8080/';
 export default function Home() {
 //language=HTML
     return `
-        <div class="bg-cover h-[calc(100vh-75px)] "
+        <div class="bg-cover min-h-[calc(100vh-90px)]"
              style="background-image: url('https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')">
-            <div class="h-full w-full flex items-center  bg-gray-500 bg-opacity-50">
+            <div class="min-h-[calc(100vh-90px)] w-full flex items-center bg-gray-500 bg-opacity-50">
                 <form class="mx-3 w-full flex flex-col md:flex-row">
                     <input type="text" name="search-address" id="search-address"
                            class="search-form py-2 mx-1 my-2 rounded-sm p-1 flex md:w-1/2"
