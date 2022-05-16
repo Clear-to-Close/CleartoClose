@@ -540,6 +540,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 50px !important;
 }
 
+
+.h-\[15px\] {
+  height: 15px;
+}
+
+.h-1\/2 {
+  height: 50%;
+
 .min-h-screen {
   min-height: 100vh !important;
 }
@@ -562,6 +570,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-36 {
   width: 9rem !important;
+}
+
+.w-\[15px\] {
+  width: 15px;
 }
 
 .flex-col {
