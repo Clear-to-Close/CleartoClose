@@ -1,6 +1,7 @@
-import createView from "../createView";
+import createView from "../createView.js";
 
-export default function MakeOffer() {
+export default function MakeOffer(props) {
+    console.log(props)
     //language=html
     return `
         <div class="min-h-[calc(100vh-90px)]">
@@ -9,15 +10,15 @@ export default function MakeOffer() {
                 <div class="flex flex-col my-3">
                     <div class="flex flex-col items-center text-left justify-center w-3/4">
                         <label for="offer-amount">Offer Amount</label>
-                        <input name="amount" id="offer-amount" type="text" class="offer-form m-1">
+                        <input name="amount" id="offer-amount" type="text" class="offer-form m-1" value="${props.makeOffer.askingPrice}">
                     </div>
                     <div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
                         <label for="loan-type">Loan Type</label>
                         <select name="loan" id="loan-type" class="m-1">
                             <option disabled selected>Loan Type</option>
                             <option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
-                            <option>Conventional</option>
-                            <option>Fixed-Rate Mortgage</option>
+                            <option value="CON">Conventional</option>
+                            <option value="FRM">Fixed-Rate Mortgage</option>
                             <option value="FHA">Federal Housing Administration (FHA)</option>
                             <option value="USDA">U.S. Department of Agriculture (USDA)</option>
                             <option value="VA">Veterans Affairs (VA)</option>
