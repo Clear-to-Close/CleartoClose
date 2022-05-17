@@ -11,6 +11,7 @@ import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
 import Login, {LoginEvent} from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
+import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
 import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 
 export default function router(URI) {
@@ -52,6 +53,31 @@ export default function router(URI) {
             title: "Listing",
             viewEvent: ListingEvent
         },
+        '/offers': {
+            returnView: Offers,
+            state: {
+                offers: "/api/offers",
+            },
+            uri: '/offers',
+            title: 'Offers',
+            viewEvent: OfferEvent
+        },
+        '/makeOffer': {
+            returnView: MakeOffer,
+            state: {
+                makeOffer: '/api'
+            },
+            uri: '/makeOffer',
+            title: "Make an Offer",
+            viewEvent: MakeAnOffer
+        },
+        '/allListings': {
+            returnView: AllListings,
+            state: {},
+            uri: '/allListings',
+            title: 'All Listings',
+            viewEvent: AllListingsEvent
+        },
         '/error': {
             returnView: Error404,
             state: {},
@@ -64,37 +90,23 @@ export default function router(URI) {
             uri: location.pathname,
             title: 'Loading...',
         },
-        '/offers': {
-            returnView: Offers,
-            state: {
-                offers: "/api/offers",
-            },
-            uri: '/offers',
-            title: 'Offers',
-            viewEvent: OfferEvent
-        },
-        '/allListings': {
-            returnView: AllListings,
-            state: {},
-            uri: '/allListings',
-            title: 'All Listings',
-            viewEvent: AllListingsEvent
-        }
     };
-    let split = URI.split("/");
+
+
+    let piecesOfURI = URI.split("/");
     for (const key in routes) {
-        if (key.includes(URI)) {
+        if (key === URI) {
             return routes[URI];
-        } else if (key.includes(`/${split[1]}`)) {
-            let stateBase = split[1];
+        } else if (key.includes(`/${piecesOfURI[1]}`)) {
+            let stateBase = piecesOfURI[1];
             let pieceOfState = "";
-            for (let i = 0; i < split.length; i++) {
-                if (pieceOfState[i] > 1) {
-                    pieceOfState += `/${split[i]}`;
+            for (let i = 0; i < piecesOfURI.length; i++) {
+                if (i > 1) {
+                    pieceOfState += `/${piecesOfURI[i]}`;
                 }
             }
-            routes[`/${split[1]}`].state[stateBase] = `${routes[`/${split[1]}`].state[stateBase]}${pieceOfState}`
-            return routes[`/${split[1]}`]
+            routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
+            return routes[`/${piecesOfURI[1]}`]
         }
     }
 }

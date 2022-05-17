@@ -5,21 +5,22 @@ import {isLoggedIn} from "../auth.js";
 const LISTINGS_URL = "http://localhost:8080/api/listings";
 
 export default function ListingIndex(props) {
-    console.log(props);
-    requestListingDetailView(props.listing[0].listingAddress);
+    console.log(props)
+    requestListingDetailView(props.listing.listingAddress);
     // language=HTML
     return `
-        <div id="listingPageDiv" data-id="${props.listing[0].id}" class="flex flex-col min-h-[calc(100vh-75px)] relative">
+		<div id="listingPageDiv" data-id="${props.listing.id}"
+		     class="flex flex-col min-h-[calc(100vh-75px)] relative">
 
-            <img class="w-full"
-                 src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                 alt="main listing photo">
-            <div class="flex justify-start w-full ">
-                ${populateListingFromDB(props.listing[0])}
-                <div id="ApiDetails" class="w-full"></div>
-            </div>
-            <button id="viewOffersBtn" class="hidden border-2 border-black h-6 w-36 my-1 mx-auto">View Offers</button>
-        </div>`
+			<img class="w-full"
+			     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+			     alt="main listing photo">
+			<div class="flex justify-start w-full ">
+				${populateListingFromDB(props.listing)}
+				<div id="ApiDetails" class="w-full"></div>
+			</div>
+			<button id="viewOffersBtn" class="hidden border-2 border-black h-6 w-36 my-1 mx-auto">View Offers</button>
+		</div>`
 }
 
 const populateListingFromDB = (listing) => {
@@ -54,19 +55,20 @@ const populateDetailsFromApi = (apiObject) => {
     $("#ApiDetails").append(html);
 }
 
-function revealOffersButton () {
+function revealOffersButton() {
     if (isLoggedIn()) {
         $('#viewOffersBtn').removeClass('hidden');
     }
 }
-    export function ListingEvent() {
-        revealOffersButton();
-        $("#viewOffersBtn").click(function (event) {
-            event.preventDefault();
-            const id = $('#listingPageDiv').attr('data-id');
-            createView(`/offers/findOffers/${id}`);
-        });
-    }///CLOSE LISTINGEVENT FUNCTION
+
+export function ListingEvent() {
+    revealOffersButton();
+    $("#viewOffersBtn").click(function (event) {
+        event.preventDefault();
+        const id = $('#listingPageDiv').attr('data-id');
+        createView(`/offers/findOffers/${id}`);
+    });
+}///CLOSE LISTINGEVENT FUNCTION
 
 ////CODE BELOW RETURNS WITH RESULT BASED ON CONST ABOVE, DETAILED VIEW ////
     function requestListingDetailView(listingAddress) {

@@ -1,8 +1,6 @@
 package com.codeup.cleartoclose.web;
 
-import com.codeup.cleartoclose.data.ListingsRepository;
-import com.codeup.cleartoclose.data.Offer;
-import com.codeup.cleartoclose.data.OffersRepository;
+import com.codeup.cleartoclose.data.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -16,10 +14,12 @@ public class OffersController {
 
     private final OffersRepository offersRepository;
     public final ListingsRepository listingsRepository;
+    private final UsersRepository usersRepository;
 
-    public OffersController(OffersRepository offersRepository, ListingsRepository listingsRepository) {
+    public OffersController(OffersRepository offersRepository, ListingsRepository listingsRepository, UsersRepository usersRepository) {
         this.offersRepository = offersRepository;
         this.listingsRepository = listingsRepository;
+        this.usersRepository = usersRepository;
     }
 
 
@@ -42,6 +42,7 @@ public class OffersController {
     @PostMapping
     public void submitNewOffer(@RequestBody Offer newOffer) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
+//        User offeror = usersRepository.getById(id);
         offersRepository.save(newOffer);
         System.out.printf("A new offer with the id of %d has been made!", newOffer.getId());
     }
