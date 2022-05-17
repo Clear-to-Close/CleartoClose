@@ -1,6 +1,7 @@
 export default function RealtorListing() {
     //language=HTML
     return `
+        
         <form class="min-h-[calc(100vh-90px)] flex flex-col justify-center px-3 my-auto">
             <div class="flex flex-col my-3">
                 <h1 class="text-center">Users Information</h1>

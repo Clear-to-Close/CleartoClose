@@ -72,6 +72,5 @@ public class User {
     @OneToOne
     @JsonIgnoreProperties("user")
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("user")
     private Address userAddress;
 }
