@@ -31,6 +31,10 @@ export default function Navbar(props) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/listing" data-link>Single Listing</a>
+            </li>
+            <!--TODO: Take out after testing-->
+            <li class="nav-item">
+                <a class="nav-link" href="/makeOffer" data-link>Make an Offer</a>
             </li>`
     } else {
         html += `
