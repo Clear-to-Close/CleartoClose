@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface ListingsRepository extends JpaRepository<Listing, Long> {
     Listing findByListingAddress(Address address);
 
-//    Optional<Listing> findListingsByZipCode(Address zipCode);
+
 }

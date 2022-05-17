@@ -5,6 +5,8 @@ import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,14 +45,19 @@ public class ListingsController {
         return listingRepository.findByListingAddress(foundAddress);
     }
 
+    // Searching by zipCode returns a list of addresses that can be used to pin on a map
+    // selection of one of these addresses in listing then appends the address and zip to the URL and GETS the listing using getListingByAddress
+    //***Note*** printing the list of addresses in this function returns StackTrace
     @GetMapping("searchByZipCode")
-    public List<Listing> getListingsByZipCode(@RequestParam String zipCode) {
-        List<Address> allAddressesByZipCode = addressRepository.findAddressesByZipCode(zipCode);
-        System.out.println(allAddressesByZipCode);
-//        System.out.println(listingRepository.findListingsByZipCode(allAddressesByZipCode));
+    public List<Listing> getAllListingsByZipCode(@RequestParam String zipCode) {
+        List<Address> allAddressesByZip = addressRepository.findAddressesByZipCode(zipCode);
 
-//        return listingRepository.findListingsByZipCode(allAddressesByZipCode);
-        return null;
+        List<Listing> listings = new ArrayList<>();
+        for (Address address : allAddressesByZip) {
+            listings.add(address.getListing());
+        }
+
+        return listings;
     }
 
 
