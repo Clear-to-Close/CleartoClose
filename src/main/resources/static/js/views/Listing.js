@@ -5,7 +5,6 @@ import {isLoggedIn} from "../auth.js";
 const LISTINGS_URL = "http://localhost:8080/api/listings";
 
 export default function ListingIndex(props) {
-    console.log(props);
     requestListingDetailView(props.listing[0].listingAddress);
     // language=HTML
     return `
