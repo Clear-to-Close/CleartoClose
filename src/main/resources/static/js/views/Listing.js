@@ -9,32 +9,35 @@ export default function ListingIndex(props) {
     requestListingDetailView(props.listing[0].listingAddress);
     // language=HTML
     return `
-        <div id="listingPageDiv" data-id="${props.listing[0].id}" class="flex flex-col min-h-[calc(100vh-75px)] relative">
+		<div id="listingPageDiv" data-id="${props.listing[0].id}"
+		     class="flex flex-col min-h-[calc(100vh-75px)] relative">
 
-            <img class="w-full"
-                 src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                 alt="main listing photo">
-            <div class="flex justify-start w-full ">
-                ${populateListingFromDB(props.listing[0])}
-                <div id="ApiDetails" class="w-full"></div>
-            </div>
-            <button id="viewOffersBtn" class="hidden border-2 border-black h-6 w-36 my-1 mx-auto">View Offers</button>
-        </div>`
+			<img class="w-full"
+			     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+			     alt="main listing photo">
+			<div class="flex justify-start w-full ">
+				${populateListingFromDB(props.listing[0])}
+				<div id="ApiDetails" class="w-full"></div>
+			</div>
+			<button id="viewOffersBtn" class="hidden border-2 border-black h-6 w-36 my-1 mx-auto">View Offers</button>
+		</div>`
 }
 
 const populateListingFromDB = (listing) => {
     //language=HTML
     return `
-        <div class="h-full w-full">
-            <div class="m-1 pb-1 text-center">${listing.askingPrice}</div>
-            <div class="m-1 pb-1 text-center" id="listing#-${listing.id}">MLS# ${listing.id}</div>
-            <div class="m-1 pb-1 text-center">${listing.status}</div>
-            <div class="m-1 pb-1 text-center">${listing.listingAddress.address}</div>
-            <div class="m-1 pb-1 text-center">${listing.listingAddress.city}, ${listing.listingAddress.state} ${listing.listingAddress.zipCode}</div>
-            <div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
-            <div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
-            <p class="w-full text-justify">${listing.description}</p>
-        </div>`
+		<div class="h-full w-full">
+			<div class="m-1 pb-1 text-center">${listing.askingPrice}</div>
+			<div class="m-1 pb-1 text-center" id="listing#-${listing.id}">MLS# ${listing.id}</div>
+			<div class="m-1 pb-1 text-center">${listing.status}</div>
+			<div class="m-1 pb-1 text-center">${listing.listingAddress.address}</div>
+			<div class="m-1 pb-1 text-center">${listing.listingAddress.city}, ${listing.listingAddress.state}
+				${listing.listingAddress.zipCode}
+			</div>
+			<div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
+			<div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
+			<p class="w-full text-justify">${listing.description}</p>
+		</div>`
 };
 
 const populateDetailsFromApi = (apiObject) => {
@@ -54,16 +57,17 @@ const populateDetailsFromApi = (apiObject) => {
     $("#ApiDetails").append(html);
 }
 
-function revealOffersButton () {
+function revealOffersButton() {
     if (isLoggedIn()) {
         $('#viewOffersBtn').removeClass('hidden');
     }
 }
+
 export function ListingEvent() {
     revealOffersButton();
     $("#viewOffersBtn").click(function (event) {
         event.preventDefault();
-       const id = $('#listingPageDiv').attr('data-id');
+        const id = $('#listingPageDiv').attr('data-id');
         createView(`/offers/findOffers/${id}`);
     });
 }///CLOSE LISTINGEVENT FUNCTION

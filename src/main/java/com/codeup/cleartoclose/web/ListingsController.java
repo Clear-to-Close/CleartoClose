@@ -1,6 +1,7 @@
 package com.codeup.cleartoclose.web;
 
 import com.codeup.cleartoclose.data.*;
+import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,12 +78,12 @@ public class ListingsController {
     }
 
     // TODO: to accept an offer a method has to be written here changing the active status from "yes" to "no"
-    @PutMapping("{listingId}")
-    public void acceptOffer(@PathVariable Long listingId) {
-        Listing updateListing = listingRepository.getById(listingId);
-        updateListing.setBuyer(updateListing.getBuyer());
-        updateListing.setBuyerAgent(updateListing.getBuyerAgent());
-        updateListing.setStatus(updateListing.getStatus());
-        listingRepository.save(updateListing);
+    @PutMapping("/acceptOffer/{listingId}")
+    public void acceptOffer(@PathVariable Long listingId, @RequestBody AcceptOfferDTO offer) {
+        Listing listingToUpdate = listingRepository.getById(listingId);
+        listingToUpdate.setBuyer(usersRepository.getById(offer.getBuyerID()));
+//        listingToUpdate.setBuyerAgent(updatedListing.getBuyerAgent());
+        listingToUpdate.setStatus(offer.getStatus());
+        listingRepository.save(listingToUpdate);
     }
 }
