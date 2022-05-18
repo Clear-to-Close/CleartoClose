@@ -618,16 +618,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   justify-content: space-between !important;
 }
 
+.justify-around {
+  justify-content: space-around !important;
+}
+
 .justify-evenly {
   justify-content: space-evenly !important;
 }
 
 .overflow-auto {
   overflow: auto !important;
-}
-
-.whitespace-pre-wrap {
-  white-space: pre-wrap !important;
 }
 
 .rounded {
@@ -718,10 +718,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .text-center {
   text-align: center !important;
-}
-
-.text-justify {
-  text-align: justify !important;
 }
 
 .font-sans {

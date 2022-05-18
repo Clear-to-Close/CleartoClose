@@ -5,6 +5,8 @@ import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,17 +36,28 @@ public class ListingsController {
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
         return listingRepository.findById(listingId);
     }
-  
-    // TODO: Refactor to just return a listing based on convo with Raymond & Collin; it will find a specific address, grab the id, and search the listing repository for the address_id match and return that listing
 
     @GetMapping("searchByAddressAndZipCode")
     public Listing getListingByAddress(@RequestParam String address, @RequestParam String zipCode) {
         System.out.println(address);
         System.out.println(zipCode);
         Address foundAddress = addressRepository.findByAddressAndZipCode(address, zipCode);
-
-
         return listingRepository.findByListingAddress(foundAddress);
+    }
+
+    // Searching by zipCode returns a list of addresses that can be used to pin on a map
+    // selection of one of these addresses in listing then appends the address and zip to the URL and GETS the listing using getListingByAddress
+    //***Note*** printing the list of addresses in this function returns StackTrace
+    @GetMapping("searchByZipCode")
+    public List<Listing> getAllListingsByZipCode(@RequestParam String zipCode) {
+        List<Address> allAddressesByZip = addressRepository.findAddressesByZipCode(zipCode);
+
+        List<Listing> listings = new ArrayList<>();
+        for (Address address : allAddressesByZip) {
+            listings.add(address.getListing());
+        }
+
+        return listings;
     }
 
 
