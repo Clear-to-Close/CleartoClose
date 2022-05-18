@@ -21,20 +21,20 @@ public class Listing {
     private long id;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress"})
     private User buyer;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress"})
     private User buyerAgent;
 
     @ManyToOne
     @NotNull
-    @JsonIgnoreProperties({"listings", "password"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress"})
     private User seller;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress"})
     private User sellerAgent;
 
 
@@ -53,5 +53,6 @@ public class Listing {
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("listing")
     private Address listingAddress;
 }
