@@ -7,10 +7,22 @@ export default function Register(props) {
         <div class=" items-center text-center justify-between flex-wrap min-h-[calc(100vh-75px)]">
 
             <h1 class="font-sans ui-sans-serif text-5xl leading-snug w-full px-[30px] text-center text-black my-[50px] sm:text-5xl ">
-                Login</h1>
+                Register</h1>
             <form id="login-form" class="flex flex-col items-center text-center justify-center px-[15px] w-full">
                 <div id="incorrect-login" class="text-red-600"></div>
+                <label for="username" class="px-[10px] my-auto">Enter your first name</label>
+
+                <input id="username" class="rounded  mx-1 my-1" name="firstname" type="text"/>
+                
+                <label for="username" class="px-[10px] my-auto">Enter your last name</label>
+
+                <input id="username" class="rounded  mx-1 my-1" name="lastname" type="text"/>
+                
                 <label for="username" class="px-[10px] my-auto">Enter your Email Address</label>
+
+                <input id="username" class="rounded  mx-1 my-1" name="username" type="text"/>
+                
+                <label for="username" class="px-[10px] my-auto">Enter a Username</label>
 
                 <input id="username" class="rounded  mx-1 my-1" name="username" type="text"/>
 

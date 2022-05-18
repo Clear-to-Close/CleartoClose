@@ -13,7 +13,9 @@ import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
 import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
 import AllListings, {AllListingsEvent} from "./views/AllListings.js";
+import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
+
 
 export default function router(URI) {
     const routes = {
@@ -93,6 +95,13 @@ export default function router(URI) {
             uri: location.pathname,
             title: 'Loading...',
         },
+        '/register': {
+            returnView: Register,
+            state: {},
+            uri: '/register',
+            title: 'Register',
+            viewEvent: RegisterEvent
+        },
         '/profile': {
             returnView: ProfilePage,
             state: {
@@ -101,7 +110,7 @@ export default function router(URI) {
             uri: '/profile',
             title: 'Your profile page',
             viewEvent: ProfileEvents
-        },
+        }
     };
 
 
