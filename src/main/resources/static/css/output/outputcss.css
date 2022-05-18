@@ -642,6 +642,15 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-radius: 0.125rem !important;
 }
 
+.border-2 {
+  border-width: 2px !important;
+}
+
+.border-black {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
+}
+
 .bg-secondary {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(154 177 194 / var(--tw-bg-opacity)) !important;
@@ -718,6 +727,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .text-center {
   text-align: center !important;
+}
+
+.text-justify {
+  text-align: justify !important;
 }
 
 .font-sans {

@@ -41,6 +41,10 @@ export default function MakeOffer(props) {
                         <input name="appraisal" id="appraisal-waiver" type="text" class="m-1 w-3/4">
                     </div>
                     <div class="offer-form flex flex-col items-center text-left justify-center">
+                        <label for="closing-date">Closing Date</label>
+                        <input name="closing" id="closing-date" type="text" class="m-1 w-3/4">
+                    </div>
+                    <div class="offer-form flex flex-col items-center text-left justify-center">
                         <label for="closing-costs">Closing Costs</label>
                         <input name="closing" id="closing-costs" type="text" class="m-1 w-3/4">
                     </div>
@@ -70,14 +74,14 @@ function submitOffer() {
         e.preventDefault();
         console.log('This button was clicked!');
         const offerData = {
-            amount: $('#offer-amount').val(),
-            loan: $('#loan-type').val(),
-            option: $('#option-length').val(),
+            offerAmount: $('#offer-amount').val(),
+            loanType: $('#loan-type').val(),
+            optionLength: $('#option-length').val(),
             survey: $('#survey-requested').val(),
-            warranty: $('#warranty-requested').val(),
-            appraisal: $('#appraisal-waiver').val(),
+            homeWarranty: $('#warranty-requested').val(),
+            appraisalWaiver: $('#appraisal-waiver').val(),
+            closingDate: $('#closing-date').val(),
             closingCosts: $('#closing-costs').val()
-
         }
 
 
@@ -89,10 +93,14 @@ function submitOffer() {
             body: JSON.stringify(offerData)
         }
 
-        fetch(`${HOME_URI}/makeOffer`, request)
+        fetch(`http://localhost:8080/api/offers`, request)
             .then(response => {
                 console.log(response.status);
-                response.json().then(address => createView(`/makeOffer`))
+                console.log(response.json());
+                response.json()
+                    .then(offer =>
+
+                        createView(`/makeOffer`))
             }).catch(error => {
             console.log(error.status);
         });
