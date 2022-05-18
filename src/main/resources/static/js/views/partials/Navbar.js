@@ -32,6 +32,7 @@ export default function Navbar(props) {
             <li class="nav-item">
 	            <a class="nav-link" href="/profile" data-link>Profile</a>
             </li>`
+
     } else {
         html += `
             <li class="nav-item">
