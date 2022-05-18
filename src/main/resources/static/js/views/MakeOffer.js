@@ -1,4 +1,5 @@
 import createView from "../createView.js";
+import {getMessage} from "../messaging.js";
 
 export default function MakeOffer(props) {
     console.log(props)
@@ -52,6 +53,7 @@ export default function MakeOffer(props) {
                 <button id="make-offer-btn" class="border-2 my-3">Post Offer</button>
             </form>
         </div>
+        <div id="confirmation-message" class="text-green-600"></div>
     `
 }
 
@@ -96,11 +98,8 @@ function submitOffer() {
         fetch(`http://localhost:8080/api/offers`, request)
             .then(response => {
                 console.log(response.status);
-                console.log(response.json());
-                response.json()
-                    .then(offer =>
-
-                        createView(`/makeOffer`))
+                getMessage("Your offer has been posted!", 'confirmation-message');
+                createView("/offers");
             }).catch(error => {
             console.log(error.status);
         });
