@@ -24,14 +24,6 @@ export default function Offers(props) {
         </div>`
 }
 
-
-export function OfferEvent() {
-    confirmOfferAcceptance();
-    updateListingObject();
-    createMakeOfferView();
-    initCounterOffer();
-}
-
 const retrieveOffersFromDb = (offers) => {
     // language=HTML
     return offers.map(offer =>
@@ -232,11 +224,11 @@ const createMakeOfferView = () => {
     })
 }
 
-
 export function OfferEvent() {
     confirmOfferAcceptance();
     updateListingObject();
     createMakeOfferView();
+    initCounterOffer();
 }
 
 //    // return       /// want offer to populate a modal
