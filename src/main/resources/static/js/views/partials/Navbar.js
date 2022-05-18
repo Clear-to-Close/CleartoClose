@@ -6,7 +6,7 @@ export default function Navbar(props) {
 
     let html =
         `
-            <nav class="navbar navbar-expand-lg navbar-light bg-partials-color">
+            <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">

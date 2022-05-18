@@ -71,7 +71,7 @@ export default function Home() {
                     <input type="text" name="search-zip" id="search-zip"
                            class="search-form py-2 mx-1 my-2 rounded-sm p-1 flex  md:w-1/6"
                            placeholder="Zipcode">
-                    <button type="submit" id="search-btn" class="p-2 mx-1 my-2 rounded-md border-2 border-gray-500 shadow-xl text-white bg-non-photo-blue">Go!</button>
+                    <button type="submit" id="search-btn" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Go!</button>
                 </form>
             </div>
         </div>
@@ -99,7 +99,6 @@ function submitForm() {
 
     $('#search-btn').on('click', function (e) {
         e.preventDefault();
-        console.log('This button was clicked!');
         const listingData = {
             address: $('#search-address').val(),
             city: $('#search-city').val(),
@@ -117,7 +116,6 @@ function submitForm() {
 
         fetch(`${HOME_URI}/searchByAddressAndZipCode?address=${address}&zipCode=${zip}`, request)
             .then(response => {
-                console.log(response.status);
                 response.json().then(address => createView(`/listing/${address.id}`))
             }).catch(error => {
             console.log(error.status);

@@ -540,10 +540,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none !important;
 }
 
-.h-6 {
-  height: 1.5rem !important;
-}
-
 .h-full {
   height: 100% !important;
 }
@@ -552,8 +548,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 15px !important;
 }
 
-.h-\[350px\] {
-  height: 350px !important;
+.h-\[144px\] {
+  height: 144px !important;
 }
 
 .h-\[50px\] {
@@ -577,23 +573,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .w-input-width-sm {
-  width: 140px !important;
-}
-
-.w-36 {
-  width: 9rem !important;
+  width: 200px !important;
 }
 
 .w-\[15px\] {
   width: 15px !important;
-}
-
-.w-3\/4 {
-  width: 75% !important;
-}
-
-.w-1\/2 {
-  width: 50% !important;
 }
 
 .translate-y-1\/2 {
@@ -658,18 +642,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-radius: 0.125rem !important;
 }
 
-.border-2 {
-  border-width: 2px !important;
+.bg-secondary {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(154 177 194 / var(--tw-bg-opacity)) !important;
 }
 
-.border-gray-500 {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(107 114 128 / var(--tw-border-opacity)) !important;
+.bg-primary {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(177 190 205 / var(--tw-bg-opacity)) !important;
 }
 
-.border-black {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
+.bg-callToAction {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(128 128 216 / var(--tw-bg-opacity)) !important;
 }
 
 .bg-gray-500 {
@@ -677,27 +662,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(107 114 128 / var(--tw-bg-opacity)) !important;
 }
 
-.bg-non-photo-blue {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(154 213 231 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-white {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-orange-100 {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(255 237 213 / var(--tw-bg-opacity)) !important;
-}
-
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5 !important;
-}
-
-.bg-gradient-to-tl {
-  background-image: linear-gradient(to top left, var(--tw-gradient-stops)) !important;
 }
 
 .from-non-photo-blue {
@@ -713,16 +679,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-size: cover !important;
 }
 
-.bg-no-repeat {
-  background-repeat: no-repeat !important;
+.p-2 {
+  padding: 0.5rem !important;
 }
 
 .p-1 {
   padding: 0.25rem !important;
-}
-
-.p-2 {
-  padding: 0.5rem !important;
 }
 
 .px-\[30px\] {
@@ -767,6 +729,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1 !important;
 }
 
+.text-sm {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
 .leading-snug {
   line-height: 1.375 !important;
 }
@@ -797,11 +764,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow) !important;
 }
 
-.hover\:bg-sky-700:hover {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(3 105 161 / var(--tw-bg-opacity)) !important;
-}
-
 @media (min-width: 640px) {
   .sm\:text-5xl {
     font-size: 3rem !important;
@@ -810,6 +772,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @media (min-width: 768px) {
+  .md\:h-\[350px\] {
+    height: 350px !important;
+  }
+
+  .md\:w-3\/4 {
+    width: 75% !important;
+  }
+
+  .md\:w-input-width-lg {
+    width: 300px !important;
+  }
+
   .md\:w-1\/2 {
     width: 50% !important;
   }
@@ -820,5 +794,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:flex-row {
     flex-direction: row !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:w-1\/2 {
+    width: 50% !important;
   }
 }

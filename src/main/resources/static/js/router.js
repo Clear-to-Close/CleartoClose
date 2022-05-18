@@ -39,7 +39,9 @@ export default function router(URI) {
         },
         '/realtorListing': {
             returnView: RealtorListing,
-            state: {},
+            state: {
+                realtorListing: '/api'
+            },
             uri: '/realtorListing',
             title: "Realtor Listing",
             viewEvent: RealtorListingEvent
