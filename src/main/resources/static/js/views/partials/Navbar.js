@@ -28,7 +28,11 @@ export default function Navbar(props) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout" data-link>Logout</a>
+            </li>
+            <li class="nav-item">
+	            <a class="nav-link" href="/profile" data-link>Profile</a>
             </li>`
+
     } else {
         html += `
             <li class="nav-item">

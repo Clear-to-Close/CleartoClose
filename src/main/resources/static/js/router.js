@@ -14,6 +14,8 @@ import Offers, {OfferEvent} from "./views/Offers.js";
 import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
 import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 import Register, {RegisterEvent} from "./views/Register.js";
+import ProfilePage, {ProfileEvents} from "./views/Profile.js";
+
 
 export default function router(URI) {
     const routes = {
@@ -100,6 +102,15 @@ export default function router(URI) {
             title: 'Register',
             viewEvent: RegisterEvent
         },
+        '/profile': {
+            returnView: ProfilePage,
+            state: {
+                loggedInUser: "/api/user/loggedUser"
+            },
+            uri: '/profile',
+            title: 'Your profile page',
+            viewEvent: ProfileEvents
+        }
     };
 
 
