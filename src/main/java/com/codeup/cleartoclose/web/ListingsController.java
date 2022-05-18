@@ -54,14 +54,14 @@ public class ListingsController {
 
         Listing newListing = new Listing();
 
-        newListing.setSeller(usersRepository.findByEmail(sellerEmail));
-        newListing.setSellerAgent(usersRepository.findByEmail(sellerAgentEmail));
-        newListing.setBuyer(usersRepository.findByEmail(buyersEmail));
-        newListing.setBuyerAgent(usersRepository.findByEmail(buyersAgentEmail));
+        newListing.setSeller(usersRepository.getById(dto.getSellerId()));
+        newListing.setSellerAgent(usersRepository.getById(dto.getSellerAgentId()));
+        newListing.setBuyer(usersRepository.getById(dto.getBuyerId()));
+        newListing.setBuyerAgent(usersRepository.getById(dto.getBuyerAgentId()));
 
         newListing.setDescription(dto.getDescription());
         newListing.setAskingPrice(dto.getAskingPrice());
-        newListing.setStatus(ListingStatus.ACTIVE);
+        newListing.setListingStatus(dto.getListingStatus());
 
         Address newAddress = new Address();
         newAddress.setAddress(dto.getAddress());
@@ -83,7 +83,7 @@ public class ListingsController {
         Listing listingToUpdate = listingRepository.getById(listingId);
         listingToUpdate.setBuyer(usersRepository.getById(offer.getBuyerID()));
 //        listingToUpdate.setBuyerAgent(updatedListing.getBuyerAgent());
-        listingToUpdate.setStatus(offer.getStatus());
+        listingToUpdate.setListingStatus(offer.getStatus());
         listingRepository.save(listingToUpdate);
     }
 }

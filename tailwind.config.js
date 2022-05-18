@@ -10,13 +10,15 @@ module.exports = {
     theme: {
         extend: {
             width: {
-                'input-width-sm' : '140px',
-                'input-width-lg': '190px'
+                'input-width-sm' : '200px',
+                'input-width-lg': '300px'
             },
             colors: {
                 'non-photo-blue' : '#9ad5e7',
                 'blue-ncs' : '#0592cd',
-                'partials-color' : '#AF5B5B !important'
+                'primary' : '#b1becd',
+                'secondary' : '#9ab1c2',
+                'callToAction' : '#8080d8'
             },
             backgroundImage: {
                 'homeImage': "url('/src/main/resources/images/homeImage.jpeg"

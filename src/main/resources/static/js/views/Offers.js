@@ -8,17 +8,17 @@ export default function Offers(props) {
     listingID = props.offers[0].listing.id
     //language=HTML
     return `
-        <div class="min-h-[calc(100vh-90px)]">
+        <div class="min-h-[calc(100vh-90px)] bg-primary">
             <div class="w-full relative">
-                <img class="w-3/4 h-[350px] mx-auto"
+                <img class="md:w-3/4 md:h-[350px] mx-auto"
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
-                <button id="makeOfferBtn" class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 border-2 border-black bg-white h-6 w-1/2 hover:bg-sky-700">Make An Offer On This Home!
+                <button id="makeOfferBtn" class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Make An Offer On This Home!
                 </button>
             </div>
             <div id="offer">${retrieveOffersFromDb(props.offers)}</div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
-                <button id="btn-confirm" class="btn-accept border-2 border-black h-6 w-36 hover:bg-sky-700">Confirm
+                <button id="btn-confirm" class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
                 </button>
             </div>
         </div>`
@@ -29,7 +29,7 @@ const retrieveOffersFromDb = (offers) => {
     // language=HTML
     return offers.map(offer =>
         `
-            <div id="offersDiv" class="flex flex-wrap justify-evenly border-2 rounded border-black m-1">
+            <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
                     ${offer.id}
                 </div>
@@ -51,12 +51,10 @@ const retrieveOffersFromDb = (offers) => {
                 <div class="text-center m-1 w-full">
                     <button id="btn-accept" data-id="${offer.id}" data-buyer="${offer.offeror.id}" data-offer="${offer.offerAmount}"
                             data-closing="${offer.closingDate}" data-warranty="${offer.homeWarranty}"
-                            class=" border-2 border-black h-6 w-36 hover:bg-sky-700">Accept
+                            class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
                 </div>
-
-
             </div>`
     ).join("")
 };
@@ -71,7 +69,6 @@ let buyerID = null;
 function confirmOfferAcceptance() {
     $('#btn-accept').click(function () {
         const id = $(this).data("id");
-        console.log(id);
 
         $.get(`${OFFERS_URL}/${id}`).then(function (res) {
             console.log(res);
@@ -91,13 +88,13 @@ function confirmOfferAcceptance() {
         const homeWarranty = res.homeWarranty;
         const buyersAgent = res.offeror.buyerAgentID;
         console.log(res.listing.id);
+
         acceptanceID = res.listing.id;
-        console.log(acceptanceID)
         buyerID = res.offeror.id;
-        console.log(buyerID)
+
         // //language=html
         const acceptHTML = `
-				<div id="acceptOfferDiv" class="flex flex-wrap justify-evenly border-2 rounded border-black m-1">
+				<div id="acceptOfferDiv" class="flex flex-wrap justify-evenly rounded m-1 bg-secondary">
 					<div class="text-center mx-1 my-2" id="offerId" data-id="${id}">
 						${id}
 					</div>
@@ -122,8 +119,6 @@ function confirmOfferAcceptance() {
 					<div class="text-center mx-1 my-2">
 						Buyer Pays for Survey: ${survey}
 					</div>
-					
-
 				</div>`
 
         $("#offer").html("").append(`${acceptHTML}`);
@@ -134,10 +129,8 @@ function confirmOfferAcceptance() {
 
 function updateListingObject() {
     $("#btn-confirm").click(function (e) {
-        console.log(e.target);
         e.preventDefault();
 
-        console.log("update clicked")
         const soldListing = {
             status: 'PENDING',
             buyerID: buyerID,
@@ -168,7 +161,6 @@ export function OfferEvent() {
     confirmOfferAcceptance();
     updateListingObject();
     createMakeOfferView();
-
 }
 
 //    // return       /// want offer to populate a modal

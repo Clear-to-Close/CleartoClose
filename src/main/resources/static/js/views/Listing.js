@@ -9,35 +9,37 @@ export default function ListingIndex(props) {
     requestListingDetailView(props.listing.listingAddress);
     // language=HTML
     return `
-		<div id="listingPageDiv" data-id="${props.listing.id}"
-		     class="flex flex-col min-h-[calc(100vh-75px)] relative">
-
-			<img class="w-full"
-			     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-			     alt="main listing photo">
-			<div class="flex justify-start w-full ">
-				${populateListingFromDB(props.listing)}
-				<div id="ApiDetails" class="w-full"></div>
-			</div>
-			<button id="viewOffersBtn" class="hidden border-2 border-black h-6 w-36 my-1 mx-auto">View Offers</button>
-		</div>`
+        <div id="listingPageDiv" data-id="${props.listing.id}"
+             class="flex flex-col min-h-[calc(100vh-75px)] relative bg-primary">
+            <img class="w-full"
+                 src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                 alt="main listing photo">
+            <div class="flex justify-start w-full ">
+                ${populateListingFromDB(props.listing)}
+                <div id="ApiDetails" class="w-full"></div>
+            </div>
+            <div class="flex mx-auto">
+                <button id="viewOffersBtn" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers</button>
+                <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Offers</button>
+            </div>
+        </div>`
 }
 
 const populateListingFromDB = (listing) => {
     //language=HTML
     return `
-		<div class="h-full w-full">
-			<div class="m-1 pb-1 text-center">${listing.askingPrice}</div>
-			<div class="m-1 pb-1 text-center" id="listing#-${listing.id}">MLS# ${listing.id}</div>
-			<div class="m-1 pb-1 text-center">${listing.status}</div>
-			<div class="m-1 pb-1 text-center">${listing.listingAddress.address}</div>
-			<div class="m-1 pb-1 text-center">${listing.listingAddress.city}, ${listing.listingAddress.state}
-				${listing.listingAddress.zipCode}
-			</div>
-			<div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
-			<div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
-			<p class="w-full text-justify">${listing.description}</p>
-		</div>`
+        <div class="h-full w-full">
+            <div class="m-1 pb-1 text-center">${listing.askingPrice}</div>
+            <div class="m-1 pb-1 text-center" id="listing#-${listing.id}">MLS# ${listing.id}</div>
+            <div class="m-1 pb-1 text-center">${listing.status}</div>
+            <div class="m-1 pb-1 text-center">${listing.listingAddress.address}</div>
+            <div class="m-1 pb-1 text-center">${listing.listingAddress.city}, ${listing.listingAddress.state}
+                ${listing.listingAddress.zipCode}
+            </div>
+            <div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
+            <div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
+            <p class="w-full text-justify">${listing.description}</p>
+        </div>`
 };
 
 const populateDetailsFromApi = (apiObject) => {
@@ -63,14 +65,20 @@ function revealOffersButton() {
     }
 }
 
-export function ListingEvent() {
-    revealOffersButton();
+const viewOffers = _ => {
     $("#viewOffersBtn").click(function (event) {
         event.preventDefault();
-        const id = $('#listingPageDiv').attr('data-id');
-        createView(`/offers/findOffers/${id}`);
+        let listingId = $('#listingPageDiv').attr('data-id');
+        createView(`/offers/findOffers/${listingId}`);
     });
-}///CLOSE LISTINGEVENT FUNCTION
+}
+
+const editListing = _ => {
+    $('#editListing').click(_ => {
+        let listingId = $('#listingPageDiv').attr('data-id');
+        createView(`/realtorListing/listings/${listingId}`)
+    });
+}
 
 ////CODE BELOW RETURNS WITH RESULT BASED ON CONST ABOVE, DETAILED VIEW ////
 function requestListingDetailView(listingAddress) {
@@ -94,7 +102,6 @@ function requestListingDetailView(listingAddress) {
 
     xhr.send();
 }
-
 
 /// Need to grab property ID from the JSON returned from property detail function
 // const propertyID = "33497215"
@@ -120,3 +127,8 @@ function requestListingDetailView(listingAddress) {
 //
 // requestSchoolDetailView();
 
+export function ListingEvent() {
+    revealOffersButton();
+    viewOffers();
+    editListing();
+}///CLOSE LISTINGEVENT FUNCTION
