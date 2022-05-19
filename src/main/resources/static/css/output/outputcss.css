@@ -540,6 +540,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none !important;
 }
 
+.h-1\/4 {
+  height: 25% !important;
+}
+
 .h-full {
   height: 100% !important;
 }
@@ -574,6 +578,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-input-width-sm {
   width: 200px !important;
+}
+
+.w-1\/3 {
+  width: 33.333333% !important;
 }
 
 .w-\[15px\] {
@@ -640,6 +648,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .rounded-sm {
   border-radius: 0.125rem !important;
+}
+
+.border-2 {
+  border-width: 2px !important;
+}
+
+.border-black {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
 }
 
 .bg-secondary {
@@ -718,6 +735,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .text-center {
   text-align: center !important;
+}
+
+.text-justify {
+  text-align: justify !important;
 }
 
 .font-sans {
