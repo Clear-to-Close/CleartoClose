@@ -3,7 +3,6 @@ package com.codeup.cleartoclose.web;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @CrossOrigin
 @RestController
@@ -23,11 +23,15 @@ public class RealtorApiController {
 
     @GetMapping
     private ResponseEntity<String> getAll(@RequestParam String address) {
-        String encode = String.valueOf(new URIBuilder().setParameter("i", address));
-        System.out.println(encode);
+        String encode = null;
+        try {
+           encode = java.net.URLEncoder.encode(address, "UTF-8").replace("+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String result = "";
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet request = new HttpGet("https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address="+address);
+        HttpGet request = new HttpGet("https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address="+encode);
         request.addHeader("apikey", realtorAPIkey);
         try {
             HttpResponse response = httpclient.execute(request);
@@ -35,8 +39,14 @@ public class RealtorApiController {
             result = EntityUtils.toString(entity);
         } catch (IOException e) {
             e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 }
