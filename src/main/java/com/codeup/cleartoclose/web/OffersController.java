@@ -43,6 +43,16 @@ public class OffersController {
     public void submitNewOffer(@RequestBody Offer newOffer) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
 //        User offeror = usersRepository.getById(id);
+        newOffer.setOfferAmount(newOffer.getOfferAmount());
+        newOffer.setLoanType(newOffer.getLoanType());
+        newOffer.setOptionLength(newOffer.getOptionLength());
+        newOffer.setSurvey(newOffer.getSurvey());
+        newOffer.setHomeWarranty(newOffer.getHomeWarranty());
+        newOffer.setAppraisalWaiver(newOffer.getAppraisalWaiver());
+        newOffer.setClosingCosts(newOffer.getClosingCosts());
+        newOffer.setOfferor(newOffer.getOfferor());
+        newOffer.setListing(newOffer.getListing());
+        newOffer.setAcceptanceDate(newOffer.getAcceptanceDate());
         offersRepository.save(newOffer);
         System.out.printf("A new offer with the id of %d has been made!", newOffer.getId());
     }
