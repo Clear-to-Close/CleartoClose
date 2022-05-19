@@ -71,5 +71,11 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("user")
     private Address userAddress;
+
+    @OneToMany(mappedBy = "realtor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnoreProperties("realtor")
+    @Transient
+    private Collection<AgentInfo> realtorInfo;
 }

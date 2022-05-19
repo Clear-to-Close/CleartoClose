@@ -2,7 +2,7 @@ import createView from "../createView.js";
 import {attomApiKey} from "../keys.js";
 import {isLoggedIn} from "../auth.js";
 
-const LISTINGS_URL = "http://localhost:8080/api/listings";
+const BASE_URL = "http://localhost:8080";
 
 export default function ListingIndex(props) {
     console.log(props)
@@ -84,23 +84,29 @@ const editListing = _ => {
     function requestListingDetailView(listingAddress) {
         //// grab strings for const below from search box, split on ""
         const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
+        console.log(address)
 
-        let url = `https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address=${address}`;
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url);
+        // let url = `https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address=${address}`;
+        fetch(`${BASE_URL}/api/houseInfo?address=${address}`, {
+            method: "GET",
+        }).then(response => response.json())
+            .then(apiobject => console.log(apiobject))
 
-        xhr.setRequestHeader("accept", "application/json");
-        xhr.setRequestHeader("apikey", `${attomApiKey()}`);
-        xhr.responseType = 'json';
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                console.log(xhr.status);
-                // console.log(xhr.response);
-                populateDetailsFromApi(xhr.response);
-            }
-        };
-
-        xhr.send();
+        // const xhr = new XMLHttpRequest();
+        // xhr.open("GET", url);
+        //
+        // xhr.setRequestHeader("accept", "application/json");
+        // xhr.setRequestHeader("apikey", `${attomApiKey()}`);
+        // xhr.responseType = 'json';
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState === 4) {
+        //         console.log(xhr.status);
+        //         // console.log(xhr.response);
+        //         populateDetailsFromApi(xhr.response);
+        //     }
+        // };
+        //
+        // xhr.send();
     }
 
 
