@@ -1,5 +1,7 @@
 import createView from "../createView.js";
 
+const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
+
 export default function MakeOffer(props) {
     console.log(props)
     //language=html
@@ -89,7 +91,7 @@ function submitOffer() {
             body: JSON.stringify(offerData)
         }
 
-        fetch(`${HOME_URI}/makeOffer`, request)
+        fetch(`${BASE_URL}/makeOffer`, request)
             .then(response => {
                 console.log(response.status);
                 response.json().then(address => createView(`/makeOffer`))
