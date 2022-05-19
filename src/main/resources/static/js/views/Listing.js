@@ -1,7 +1,7 @@
 import createView from "../createView.js";
 import {isLoggedIn} from "../auth.js";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
 
 export default function ListingIndex(props) {
     console.log(props)
