@@ -33,19 +33,20 @@ export function LoginEvent() {
             headers: {"Content-Type": "application/json"},
         }
 
-        fetch(`http://${BACKEND_HOST}:${PORT}/api/users?searchByEmail=${email}`, request)
+        fetch(`http://${BACKEND_HOST}:${PORT}/api/users/searchByEmail?email=${email}`, request)
             .then(response => {
                 console.log(response.status);
                 response.json()
                     .then(user => {
-                            if (user[0].password === password) {
+                        console.log(user);
+                            if (user.password === password) {
                                 localStorage.setItem('greenLight', 'go');
                                 localStorage.getItem('greenLight');
                                 createView("/")
                             } else if(email === "" || password === "") {
                                getMessage("Please enter username or password", 'incorrect-login');
                                 return;
-                            }else if(user[0].email !== email || user[0].password !== password){
+                            }else if(user.email !== email || user.password !== password){
                                 getMessage("Please enter correct username or password", 'incorrect-login');
                                 return;
                             }
