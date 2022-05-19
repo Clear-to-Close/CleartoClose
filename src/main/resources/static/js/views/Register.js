@@ -47,7 +47,7 @@ export function RegisterEvent() {
             headers: {"Content-Type": "application/json"},
         }
 
-        fetch(`http://localhost:8080/api/users?createUser`, request)
+        fetch(`http://${BACKEND_HOST}:${PORT}/api/users?createUser`, request)
             .then(response => {
                 console.log(response.status);
                 createView("/");

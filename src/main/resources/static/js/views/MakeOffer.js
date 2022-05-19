@@ -1,6 +1,8 @@
 import createView from "../createView.js";
 import {getMessage} from "../messaging.js";
 
+const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
+
 export default function MakeOffer(props) {
     console.log(props)
     //language=html
@@ -95,7 +97,8 @@ function submitOffer() {
             body: JSON.stringify(offerData)
         }
 
-        fetch(`http://localhost:8080/api/offers`, request)
+
+        fetch(`${BASE_URL}/makeOffer`, request)
             .then(response => {
                 console.log(response.status);
                 getMessage("Your offer has been posted!", 'confirmation-message');

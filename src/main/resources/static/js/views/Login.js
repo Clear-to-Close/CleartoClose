@@ -33,7 +33,7 @@ export function LoginEvent() {
             headers: {"Content-Type": "application/json"},
         }
 
-        fetch(`http://localhost:8080/api/users?searchByEmail=${email}`, request)
+        fetch(`http://${BACKEND_HOST}:${PORT}/api/users?searchByEmail=${email}`, request)
             .then(response => {
                 console.log(response.status);
                 response.json()
