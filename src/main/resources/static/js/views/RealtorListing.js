@@ -125,7 +125,7 @@ const createListing = () => {
         body: JSON.stringify(newListing)
     }
 
-    fetch(`http://localhost:8080/api/listings?sellerEmail=${sellerEmail}&sellerAgentEmail=${sellerAgentEmail}&buyerEmail=${buyersEmail}&buyersAgentEmail=${buyersAgentEmailB}`, createListingRequest)
+    fetch(`http://${BACKEND_HOST}:${PORT}/api/listings?sellerEmail=${sellerEmail}&sellerAgentEmail=${sellerAgentEmail}&buyerEmail=${buyersEmail}&buyersAgentEmail=${buyersAgentEmailB}`, createListingRequest)
         .then(response => console.log("Created Listing", response))
 }
 

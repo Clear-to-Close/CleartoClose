@@ -210,7 +210,7 @@ function updateListingObject() {
             },
             body: JSON.stringify(soldListing)
         }
-        fetch(`http://localhost:8080/api/listings/acceptOffer/${acceptanceID}`, listingUpdate)
+        fetch(`http://${BACKEND_HOST}:${PORT}/api/listings/acceptOffer/${acceptanceID}`, listingUpdate)
             .then(response => createView(`/listing/${acceptanceID}`))
 
 
