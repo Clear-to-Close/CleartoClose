@@ -96,9 +96,9 @@ export default function router(URI) {
         '/profile': {
             returnView: ProfilePage,
             state: {
-                loggedInUser: "/api/user/loggedUser"
+                loggedInUser: "/api/users/1"
             },
-            uri: '/profile',
+            uri: '/users',
             title: 'Your profile page',
             viewEvent: ProfileEvents
         },
