@@ -29,7 +29,7 @@ export default function ProfilePage(props) {
 
 
 export function ProfileEvents() {
-    grabBuyerOffers();
+// grabBuyerOffers();
 }///END OF PROFILE EVENTS
 
 function grabBuyerOffers() {
@@ -84,4 +84,5 @@ function populateProfileOffers(offers) {
 		</div>`
     $("#profileOffers").append(myOffersHTML);
 }
+
 

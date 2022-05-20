@@ -14,6 +14,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -41,38 +42,45 @@ public class User {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @Column(nullable = true)
+    @Column
     private String preApproved;
 
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties("buyer")
+    @JsonIgnoreProperties({"buyer", "buyerAgent"})
     @Transient
+    @ToString.Exclude
     private Collection<Listing> buyerListings;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties("seller")
-    @Transient
+    @JsonIgnoreProperties({"seller", "sellerAgent", "listingOffers", "listingAddress"})
+    @ToString.Exclude
     private Collection<Listing> sellerListings;
 
     @OneToMany(mappedBy = "buyerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties("buyerAgent")
-    @Transient
+    @JsonIgnoreProperties({"buyerAgent", "listingAddress"})
+    @ToString.Exclude
     private Collection<Listing> buyerAgentListings;
 
     @OneToMany(mappedBy = "sellerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"sellerAgent", "listingAddress", "seller"})
+
+    @JsonIgnoreProperties({"sellerAgent", "listingAddress"})
+    @ToString.Exclude
+
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties({"offeror", "listing"})
+    @ToString.Exclude
     private Collection<Offer> userOffers;
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"user", "userAddress"})
+    @JsonIgnoreProperties({"user"})
+    @ToString.Exclude
     private Address userAddress;
 
     @OneToMany(mappedBy = "realtor", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties("realtor")
+    @ToString.Exclude
     private Collection<AgentInfo> realtorInfo;
 }
