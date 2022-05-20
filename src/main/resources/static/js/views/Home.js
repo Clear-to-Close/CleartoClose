@@ -1,6 +1,6 @@
 import createView from "../createView.js";
 
-const HOME_URI = 'http://localhost:8080/api/listings';
+const HOME_URI = `http://${BACKEND_HOST}:${PORT}/api/listings`;
 
 export default function Home() {
 //language=HTML
@@ -81,7 +81,6 @@ export default function Home() {
 
 export function HomeEvents() {
 submitForm();
-
 }
 
 function submitForm() {
@@ -112,7 +111,7 @@ function submitForm() {
             headers: {
                 'Content-Type': 'application/json'
             },
-        }
+        };
 
         fetch(`${HOME_URI}/searchByAddressAndZipCode?address=${address}&zipCode=${zip}`, request)
             .then(response => {
