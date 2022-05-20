@@ -42,7 +42,7 @@ public class User {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @Column(nullable = true)
+    @Column
     private String preApproved;
 
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -57,7 +57,7 @@ public class User {
     private Collection<Listing> sellerListings;
 
     @OneToMany(mappedBy = "buyerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"buyerAgent"})
+    @JsonIgnoreProperties({"buyerAgent", "listingAddress"})
     @ToString.Exclude
     private Collection<Listing> buyerAgentListings;
 
