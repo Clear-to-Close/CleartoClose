@@ -43,9 +43,8 @@ export default function RealtorListing(props) {
                                class="text-sm w-input-width-sm md:w-input-width-lg">
                     </div>
                     <div class="my-2 flex justify-between">
-                        <label for="status">Status</label>
-                        <input value="${props.realtorListing?.listingStatus ?? ""}" name="status" id="status"
-                               type="text"
+                        <label for="listingStatus">Listing Status</label>
+                        <input value="${props.realtorListing?.listingStatus ?? ""}" name="listingStatus" id="listingStatus" type="text"
                                class="text-sm w-input-width-sm md:w-input-width-lg">
                     </div>
                 </div>
@@ -104,6 +103,7 @@ const getFields = _ => {
         buyerAgentEmail: $("#buyersAgentsEmail").val(),
         description: $("#propertyDescription").val(),
         askingPrice: $("#propertyAskingPrice").val(),
+        listingStatus: $("#listingStatus").val().toUpperCase(),
         address: $("#propertyAddress").val(),
         apartmentNumber: $("#propertyAptNum").val(),
         city: $("#propertyCity").val(),
@@ -135,7 +135,7 @@ const editListing = _ => {
     const editListingRequest = {
         method: 'PUT',
         headers: {
-            "Content-Type":'application/json'
+            "Content-Type": 'application/json'
         },
         body: JSON.stringify(editListing)
     }

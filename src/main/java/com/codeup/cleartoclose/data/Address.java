@@ -43,6 +43,6 @@ public class Address {
     private Listing listing;
 
     @OneToOne(mappedBy = "userAddress")
-    @JsonIgnoreProperties("userAddress")
+    @JsonIgnoreProperties({"userAddress", "listingAddress"})
     private User user;
 }

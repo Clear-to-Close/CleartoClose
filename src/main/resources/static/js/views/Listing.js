@@ -9,7 +9,7 @@ export default function ListingIndex(props) {
     // language=HTML
     return `
         <div id="listingPageDiv" data-id="${props.listing.id}"
-             class="flex flex-col min-h-[calc(100vh-75px)] relative bg-primary">
+             class="flex flex-col min-h-[calc(100vh-90px)] relative bg-primary">
             <img class="w-full"
                  src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                  alt="main listing photo">
