@@ -568,10 +568,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   min-height: calc(100vh - 90px) !important;
 }
 
-.min-h-\[calc\(100vh-75px\)\] {
-  min-height: calc(100vh - 75px) !important;
-}
-
 .w-3\/4 {
   width: 75% !important;
 }
