@@ -60,13 +60,11 @@ public class User {
     private Collection<Listing> buyerAgentListings;
 
     @OneToMany(mappedBy = "sellerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties("sellerAgent")
-    @Transient
+    @JsonIgnoreProperties({"sellerAgent", "listingAddress"})
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties("offeror")
-    @Transient
+    @JsonIgnoreProperties({"offeror", "listing"})
     private Collection<Offer> userOffers;
 
     @OneToOne
@@ -76,6 +74,5 @@ public class User {
 
     @OneToMany(mappedBy = "realtor", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties("realtor")
-    @Transient
     private Collection<AgentInfo> realtorInfo;
 }

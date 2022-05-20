@@ -19,7 +19,7 @@ export default function ListingIndex(props) {
             </div>
             <div class="flex mx-auto">
                 <button id="viewOffersBtn" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers</button>
-                <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Offers</button>
+                <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Listing</button>
             </div>
         </div>`
 }
