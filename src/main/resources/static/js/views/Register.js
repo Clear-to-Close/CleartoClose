@@ -31,7 +31,7 @@ export default function Register(props) {
                 <input id="password" class="rounded mx-1 my-1" name="password" type="password"/>
 
                 <input id="register-btn"
-                       class="flex flex-wrap justify-between px-[15px] rounded-md mx-1 my-1 bg-dark-blue" type="submit"
+                       class="flex flex-wrap justify-between px-[15px] rounded-md mx-1 my-1 shadow-xl text-white bg-callToAction" type="submit"
                        value="Register"/>
             </form>
         </div>`;
