@@ -52,7 +52,7 @@ export default function router(URI) {
         '/listing': {
             returnView: ListingIndex,
             state: {
-                listing: "/api/listings"
+                listing: "/api/listing"
             },
             uri: '/listing',
             title: "Listing",
@@ -105,7 +105,7 @@ export default function router(URI) {
         '/profile': {
             returnView: ProfilePage,
             state: {
-                loggedInUser: "/api/users/1"
+                loggedInUser: "/api/users/searchByEmail"
             },
             uri: '/users',
             title: 'Your profile page',

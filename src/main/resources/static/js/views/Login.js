@@ -26,8 +26,8 @@ export default function Login(props) {
 
 export function LoginEvent() {
     $("#login-btn").click(function () {
-        const email = $("#username").val()
-        const password = $("#password").val()
+        const email = $("#username").val();
+        const password = $("#password").val();
 
         let request = {
             method: "GET",
@@ -42,6 +42,7 @@ export function LoginEvent() {
                         console.log(user)
                             if (user.password === password) {
                                 localStorage.setItem('accessToken', `${user.id}`);
+
                                 createView("/")
                             } else if(email === "" || password === "") {
                                getMessage("Please enter username or password", 'incorrect-login');
