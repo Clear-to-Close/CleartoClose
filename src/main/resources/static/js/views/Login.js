@@ -19,7 +19,7 @@ export default function Login(props) {
 
                     <button id="login-btn" class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Login</button>
                 </form>
-                <p class="register-link flex-wrap my-[50px]">Don't have an account? <button class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Register Here</button></p>
+                <p class="register-link flex-wrap my-[50px]">Don't have an account? <button class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction" id="goToRegister">Register Here</button></p>
             </div>
         </div>`;
 }
@@ -54,4 +54,8 @@ export function LoginEvent() {
                     )
             })
     })
+    $("#goToRegister").click(function (){
+        createView("/register")
+    })
+
 }
