@@ -16,7 +16,9 @@ import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 
+
 const userLoggedIn = parseInt(localStorage.getItem("accessToken"))
+
 
 export default function router(URI) {
     const routes = {
@@ -106,6 +108,7 @@ export default function router(URI) {
         '/profile': {
             returnView: ProfilePage,
             state: {
+
                 loggedInUser: `/api/users/${userLoggedIn}`
             },
             uri: '/users',
