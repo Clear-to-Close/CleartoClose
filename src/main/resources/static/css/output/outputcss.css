@@ -666,6 +666,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-width: 2px !important;
 }
 
+.border-secondary {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(154 177 194 / var(--tw-border-opacity)) !important;
+}
+
 .border-black {
   --tw-border-opacity: 1 !important;
   border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;

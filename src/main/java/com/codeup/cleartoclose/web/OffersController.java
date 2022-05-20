@@ -38,6 +38,11 @@ OffersController {
         return offersRepository.findByListing(listingsRepository.findById(listingId));
     }
 
+    @GetMapping("/findOffersByUser/{userId}")
+    public Collection<Offer> getAllOffersByUser(@PathVariable long userId) {
+        return offersRepository.findByOfferor(usersRepository.findById(userId));
+    }
+
     // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
     @PostMapping
     public void submitNewOffer(@RequestBody Offer newOffer) {
