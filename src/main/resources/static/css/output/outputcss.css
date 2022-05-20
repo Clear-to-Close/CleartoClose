@@ -532,6 +532,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.75rem !important;
 }
 
+.mx-2 {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+}
+
 .flex {
   display: flex !important;
 }
@@ -590,6 +595,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-1\/3 {
   width: 33.333333% !important;
+}
+
+.w-2\/3 {
+  width: 66.666667% !important;
 }
 
 .w-\[15px\] {
