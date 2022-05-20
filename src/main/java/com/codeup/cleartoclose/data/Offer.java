@@ -21,7 +21,7 @@ public class Offer {
 
     // Foreign key pointing to User id
     @ManyToOne
-    @JsonIgnoreProperties("userAdress")
+    @JsonIgnoreProperties("userAddress")
     private User offeror;
 
     // Foreign key pointing to listing table
