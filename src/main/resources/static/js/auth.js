@@ -46,7 +46,7 @@ export default function addLoginEvent() {
  */
 
 export function isLoggedIn() {
-    return localStorage.getItem("greenLight");
+    return localStorage.getItem("accessToken");
 }
 
 export function getToken() {

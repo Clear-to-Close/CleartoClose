@@ -25,27 +25,26 @@ export default function Login(props) {
 
 export function LoginEvent() {
     $("#login-btn").click(function () {
-        const email = $("#username").val()
-        const password = $("#password").val()
+        const email = $("#username").val();
+        const password = $("#password").val();
 
         let request = {
             method: "GET",
             headers: {"Content-Type": "application/json"},
         }
 
-        fetch(`http://${BACKEND_HOST}:${PORT}/api/users?searchByEmail=${email}`, request)
+        fetch(`http://${BACKEND_HOST}:${PORT}/api/users/searchByEmail?email=${email}`, request)
             .then(response => {
                 console.log(response.status);
                 response.json()
                     .then(user => {
-                            if (user[0].password === password) {
-                                localStorage.setItem('greenLight', 'go');
-                                localStorage.getItem('greenLight');
+                            if (user.password === password) {
+                                localStorage.setItem("accessToken", user.id);
                                 createView("/")
                             } else if(email === "" || password === "") {
                                getMessage("Please enter username or password", 'incorrect-login');
                                 return;
-                            }else if(user[0].email !== email || user[0].password !== password){
+                            }else if(user.email !== email || user.password !== password){
                                 getMessage("Please enter correct username or password", 'incorrect-login');
                                 return;
                             }
