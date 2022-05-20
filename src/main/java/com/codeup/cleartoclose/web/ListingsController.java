@@ -6,7 +6,6 @@ import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +38,6 @@ public class ListingsController {
 
     @GetMapping("searchByAddressAndZipCode")
     public Listing getListingByAddress(@RequestParam String address, @RequestParam String zipCode) {
-        System.out.println(address);
-        System.out.println(zipCode);
         Address foundAddress = addressRepository.findByAddressAndZipCode(address, zipCode);
         return listingRepository.findByListingAddress(foundAddress);
     }
@@ -62,32 +59,59 @@ public class ListingsController {
 
 
     @PostMapping
-    public void createListing(@RequestBody ListingDTO dto, @RequestParam String sellerEmail, @RequestParam String sellerAgentEmail,
-                              @RequestParam(required = false) String buyersEmail, @RequestParam(required = false) String buyersAgentEmail) {
+    public void createListing(@RequestBody ListingDTO createDTO) {
 
         Listing newListing = new Listing();
 
-        newListing.setSeller(usersRepository.getById(dto.getSellerId()));
-        newListing.setSellerAgent(usersRepository.getById(dto.getSellerAgentId()));
-        newListing.setBuyer(usersRepository.getById(dto.getBuyerId()));
-        newListing.setBuyerAgent(usersRepository.getById(dto.getBuyerAgentId()));
+        newListing.setSeller(usersRepository.findByEmail(createDTO.getSellerEmail()));
+        newListing.setSellerAgent(usersRepository.findByEmail(createDTO.getSellerAgentEmail()));
+        newListing.setBuyer(usersRepository.findByEmail(createDTO.getBuyerEmail()));
+        newListing.setBuyerAgent(usersRepository.findByEmail(createDTO.getBuyerAgentEmail()));
 
-        newListing.setDescription(dto.getDescription());
-        newListing.setAskingPrice(dto.getAskingPrice());
-        newListing.setListingStatus(dto.getListingStatus());
+        newListing.setDescription(createDTO.getDescription());
+        newListing.setAskingPrice(createDTO.getAskingPrice());
+        newListing.setListingStatus(ListingStatus.ACTIVE);
 
         Address newAddress = new Address();
-        newAddress.setAddress(dto.getAddress());
-        newAddress.setCity(dto.getCity());
-        newAddress.setState(dto.getState());
-        newAddress.setApartmentNumber(dto.getApartmentNumber());
-        newAddress.setZipCode(dto.getZipCode());
+        newAddress.setAddress(createDTO.getAddress());
+        newAddress.setCity(createDTO.getCity());
+        newAddress.setState(createDTO.getState());
+        newAddress.setApartmentNumber(createDTO.getApartmentNumber());
+        newAddress.setZipCode(createDTO.getZipCode());
 
         addressRepository.save(newAddress);
 
-        newListing.setListingAddress(addressRepository.findByAddressAndZipCode(dto.getAddress(), dto.getZipCode()));
+        newListing.setListingAddress(addressRepository.findByAddressAndZipCode(createDTO.getAddress(), createDTO.getZipCode()));
 
         listingRepository.save(newListing);
+    }
+
+    @PutMapping("{listingId}")
+    public void editListing(@RequestBody ListingDTO editDTO, @PathVariable long listingId){
+//        Listing listingToEdit = listingRepository.getById(listingId);
+        System.out.println("Get Listing " + listingRepository.findById(listingId));
+//        System.out.println("Listing: " + listingToEdit);
+//
+//        listingToEdit.setSeller(usersRepository.findByEmail(editDTO.getSellerEmail()));
+//        listingToEdit.setSellerAgent(usersRepository.findByEmail(editDTO.getSellerEmail()));
+//        listingToEdit.setBuyer(usersRepository.findByEmail(editDTO.getBuyerEmail()));
+//        listingToEdit.setBuyerAgent(usersRepository.findByEmail(editDTO.getBuyerAgentEmail()));
+//
+//        listingToEdit.setDescription(editDTO.getDescription());
+//        listingToEdit.setAskingPrice(editDTO.getAskingPrice());
+//        listingToEdit.setListingStatus(editDTO.getListingStatus());
+
+//        Address newAddress = addressRepository.findByAddress(listingToEdit.getListingAddress());
+//        System.out.println(newAddress);
+//
+//        newAddress.setAddress(editDTO.getAddress());
+
+//        newAddress.setCity(editDTO.getCity());
+//        newAddress.setState(editDTO.getState());
+//        newAddress.setApartmentNumber(editDTO.getApartmentNumber());
+//        newAddress.setZipCode(editDTO.getZipCode());
+
+//        listingRepository.save(listingToEdit);
     }
 
     // TODO: to accept an offer a method has to be written here changing the active status from "yes" to "no"

@@ -44,7 +44,7 @@ export default function RealtorListing(props) {
                     </div>
                     <div class="my-2 flex justify-between">
                         <label for="status">Status</label>
-                        <input value="${props.realtorListing.status === '404' ? "" : props.realtorListing?.status ?? ""}" name="status" id="status"
+                        <input value="${props.realtorListing?.listingStatus ?? ""}" name="status" id="status"
                                type="text"
                                class="text-sm w-input-width-sm md:w-input-width-lg">
                     </div>
@@ -97,12 +97,11 @@ const submitListing = _ => {
 
 const getFields = _ => {
 
-    const sellerEmail = $("#sellersEmail").val()
-    const sellerAgentEmail = $("#sellersAgentsEmail").val()
-    const buyersEmail = $("#buyersEmail").val()
-    const buyersAgentEmailB = $("#buyersAgentsEmail").val()
-
-    const newListing = {
+    return {
+        sellerEmail: $("#sellersEmail").val(),
+        sellerAgentEmail: $("#sellersAgentsEmail").val(),
+        buyerEmail: $("#buyersEmail").val(),
+        buyerAgentEmail: $("#buyersAgentsEmail").val(),
         description: $("#propertyDescription").val(),
         askingPrice: $("#propertyAskingPrice").val(),
         address: $("#propertyAddress").val(),
@@ -125,11 +124,24 @@ const createListing = () => {
         body: JSON.stringify(newListing)
     }
 
-    fetch(`http://${BACKEND_HOST}:${PORT}/api/listings?sellerEmail=${sellerEmail}&sellerAgentEmail=${sellerAgentEmail}&buyerEmail=${buyersEmail}&buyersAgentEmail=${buyersAgentEmailB}`, createListingRequest)
+    fetch(`http://${BACKEND_HOST}:${PORT}/api/listings`, createListingRequest)
         .then(response => console.log("Created Listing", response))
 }
 
 const editListing = _ => {
+
+    const editListing = getFields();
+
+    const editListingRequest = {
+        method: 'PUT',
+        headers: {
+            "Content-Type":'application/json'
+        },
+        body: JSON.stringify(editListing)
+    }
+
+    fetch(`http://${BACKEND_HOST}:${PORT}/api/listings/${listingId}`, editListingRequest)
+        .then(response => console.log("Created Listing", response))
 
 }
 
