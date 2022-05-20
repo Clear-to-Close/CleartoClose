@@ -13,13 +13,13 @@ import lombok.Setter;
 
 public class ListingDTO {
 
-    private long sellerId;
+    private String sellerEmail;
 
-    private long sellerAgentId;
+    private String sellerAgentEmail;
 
-    private long buyerId;
+    private String buyerEmail;
 
-    private long buyerAgentId;
+    private String buyerAgentEmail;
 
     private String description;
 
