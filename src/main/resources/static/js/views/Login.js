@@ -42,7 +42,6 @@ export function LoginEvent() {
                         console.log(user)
                             if (user.password === password) {
                                 localStorage.setItem('accessToken', `${user.id}`);
-
                                 createView("/")
                             } else if(email === "" || password === "") {
                                getMessage("Please enter username or password", 'incorrect-login');

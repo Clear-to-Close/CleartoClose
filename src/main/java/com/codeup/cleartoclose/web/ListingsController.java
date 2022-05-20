@@ -88,30 +88,27 @@ public class ListingsController {
 
     @PutMapping("{listingId}")
     public void editListing(@RequestBody ListingDTO editDTO, @PathVariable long listingId){
-//        Listing listingToEdit = listingRepository.getById(listingId);
-        System.out.println("Get Listing " + listingRepository.findById(listingId));
-//        System.out.println("Listing: " + listingToEdit);
-//
-//        listingToEdit.setSeller(usersRepository.findByEmail(editDTO.getSellerEmail()));
-//        listingToEdit.setSellerAgent(usersRepository.findByEmail(editDTO.getSellerEmail()));
-//        listingToEdit.setBuyer(usersRepository.findByEmail(editDTO.getBuyerEmail()));
-//        listingToEdit.setBuyerAgent(usersRepository.findByEmail(editDTO.getBuyerAgentEmail()));
-//
-//        listingToEdit.setDescription(editDTO.getDescription());
-//        listingToEdit.setAskingPrice(editDTO.getAskingPrice());
-//        listingToEdit.setListingStatus(editDTO.getListingStatus());
+        Listing listingToEdit = listingRepository.getById(listingId);
 
-//        Address newAddress = addressRepository.findByAddress(listingToEdit.getListingAddress());
-//        System.out.println(newAddress);
-//
-//        newAddress.setAddress(editDTO.getAddress());
+        listingToEdit.setSeller(usersRepository.findByEmail(editDTO.getSellerEmail()));
+        listingToEdit.setSellerAgent(usersRepository.findByEmail(editDTO.getSellerEmail()));
+        listingToEdit.setBuyer(usersRepository.findByEmail(editDTO.getBuyerEmail()));
+        listingToEdit.setBuyerAgent(usersRepository.findByEmail(editDTO.getBuyerAgentEmail()));
 
-//        newAddress.setCity(editDTO.getCity());
-//        newAddress.setState(editDTO.getState());
-//        newAddress.setApartmentNumber(editDTO.getApartmentNumber());
-//        newAddress.setZipCode(editDTO.getZipCode());
+        listingToEdit.setDescription(editDTO.getDescription());
+        listingToEdit.setAskingPrice(editDTO.getAskingPrice());
+        listingToEdit.setListingStatus(editDTO.getListingStatus());
 
-//        listingRepository.save(listingToEdit);
+        Address addressToEdit = addressRepository.getById(listingToEdit.getListingAddress().getId());
+
+        addressToEdit.setAddress(editDTO.getAddress());
+
+        addressToEdit.setCity(editDTO.getCity());
+        addressToEdit.setState(editDTO.getState());
+        addressToEdit.setApartmentNumber(editDTO.getApartmentNumber());
+        addressToEdit.setZipCode(editDTO.getZipCode());
+
+        listingRepository.save(listingToEdit);
     }
 
     // TODO: to accept an offer a method has to be written here changing the active status from "yes" to "no"
