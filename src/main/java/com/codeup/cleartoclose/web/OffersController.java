@@ -10,7 +10,8 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/offers", headers = "Accept=application/json")
-public class OffersController {
+public class
+OffersController {
 
     private final OffersRepository offersRepository;
     public final ListingsRepository listingsRepository;
@@ -21,7 +22,6 @@ public class OffersController {
         this.listingsRepository = listingsRepository;
         this.usersRepository = usersRepository;
     }
-
 
     @GetMapping
     public List<Offer> getAllOffers() {

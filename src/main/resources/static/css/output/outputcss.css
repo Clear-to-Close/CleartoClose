@@ -512,6 +512,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 0.25rem !important;
 }
 
+.my-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
 .mx-auto {
   margin-left: auto !important;
   margin-right: auto !important;
@@ -520,11 +525,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .my-3 {
   margin-top: 0.75rem !important;
   margin-bottom: 0.75rem !important;
-}
-
-.my-2 {
-  margin-top: 0.5rem !important;
-  margin-bottom: 0.5rem !important;
 }
 
 .mx-3 {
@@ -564,16 +564,28 @@ Ensure the default browser behavior of the `hidden` attribute.
   min-height: 100vh !important;
 }
 
-.min-h-\[calc\(100vh-75px\)\] {
-  min-height: calc(100vh - 75px) !important;
-}
-
 .min-h-\[calc\(100vh-90px\)\] {
   min-height: calc(100vh - 90px) !important;
 }
 
+.min-h-\[calc\(100vh-75px\)\] {
+  min-height: calc(100vh - 75px) !important;
+}
+
+.w-3\/4 {
+  width: 75% !important;
+}
+
 .w-full {
   width: 100% !important;
+}
+
+.w-11\/12 {
+  width: 91.666667% !important;
+}
+
+.w-1\/2 {
+  width: 50% !important;
 }
 
 .w-input-width-sm {
@@ -701,12 +713,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-size: cover !important;
 }
 
-.p-2 {
-  padding: 0.5rem !important;
-}
-
 .p-1 {
   padding: 0.25rem !important;
+}
+
+.p-2 {
+  padding: 0.5rem !important;
 }
 
 .px-\[30px\] {
