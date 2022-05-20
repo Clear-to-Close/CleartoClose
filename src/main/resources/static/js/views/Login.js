@@ -17,7 +17,7 @@ export default function Login(props) {
                 
                 <input id="password" class="rounded mx-1 my-1" name="password" type="password"/>
                 
-                <input id="login-btn" class="flex flex-wrap justify-between px-[15px] rounded-md mx-1 my-1 bg-dark-blue" type="submit" value="Login"/>
+                <input id="login-btn" class="flex flex-wrap justify-between px-[15px] rounded-md mx-1 my-1 bg-callToAction" type="submit" value="Login"/>
             </form>
             <p class="register-link flex-wrap my-[50px] mx-auto">Don't have an account? Register <a href="/register" data-link>here</a>.</p>
         </div>`;
@@ -38,7 +38,6 @@ export function LoginEvent() {
                 console.log(response.status);
                 response.json()
                     .then(user => {
-                        console.log(user);
                             if (user.password === password) {
                                 localStorage.setItem('greenLight', 'go');
                                 localStorage.getItem('greenLight');
