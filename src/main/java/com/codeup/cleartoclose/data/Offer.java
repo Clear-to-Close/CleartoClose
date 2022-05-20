@@ -1,5 +1,6 @@
 package com.codeup.cleartoclose.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Offer {
 
     // Foreign key pointing to User id
     @ManyToOne
+    @JsonIgnoreProperties("userAddress")
     private User offeror;
 
     // Foreign key pointing to listing table
