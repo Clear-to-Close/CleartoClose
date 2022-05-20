@@ -1,4 +1,4 @@
-import createView from "../createView";
+import createView from "../createView.js";
 
 const LISTINGS_URL = "http://localhost:8080/api/users";
 
@@ -25,7 +25,7 @@ export default function ProfilePage(props) {
 
 
 export function ProfileEvents() {
-grabBuyerOffers();
+// grabBuyerOffers();
 }///END OF PROFILE EVENTS
 
 function grabBuyerOffers (){
