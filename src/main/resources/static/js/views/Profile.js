@@ -37,6 +37,7 @@ export default function ProfilePage(props) {
 export function ProfileEvents() {
     grabBuyerOffers();
     updateUserProfile();
+
 }///END OF PROFILE EVENTS
 
 function grabBuyerOffers() {
@@ -136,4 +137,5 @@ function saveProfileUpdate() {
         }
     })
 }
+
 
