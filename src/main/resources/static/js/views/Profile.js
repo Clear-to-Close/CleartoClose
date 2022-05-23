@@ -133,7 +133,9 @@ function saveProfileUpdate() {
             firstName: $("#firstname").val(),
             lastName: $("#lastname").val(),
             email: $("#email").val(),
+            phoneNumber: $("#phone-number").val()
         }
     })
+
 }
 
