@@ -13,12 +13,15 @@ export default function Offers(props) {
                 <img class="md:w-3/4 md:h-[350px] mx-auto"
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
-                <button id="makeOfferBtn" class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Make An Offer On This Home!
+                <button id="makeOfferBtn"
+                        class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                    Make An Offer On This Home!
                 </button>
             </div>
             <div id="offer">${retrieveOffersFromDb(props.offers)}</div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
-                <button id="btn-confirm" class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+                <button id="btn-confirm"
+                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
                 </button>
             </div>
         </div>`
@@ -26,6 +29,7 @@ export default function Offers(props) {
 
 const retrieveOffersFromDb = (offers) => {
     // language=HTML
+    console.log(offers);
     return offers.map(offer =>
         `
             <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
@@ -48,7 +52,8 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button id="btn-accept" data-id="${offer.id}" data-buyer="${offer.offeror.id}" data-offer="${offer.offerAmount}"
+                    <button id="btn-accept" data-id="${offer.id}" data-buyer="${offer.offeror.id}"
+                            data-offer="${offer.offerAmount}"
                             data-closing="${offer.closingDate}" data-warranty="${offer.homeWarranty}"
                             class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
@@ -150,42 +155,42 @@ function populateCounterOfferForm(res) {
     const buyersAgent = res.offeror.buyerAgentID;
     //language=html
     const acceptHTML = `
-		<div id="acceptOfferDiv" class="flex flex-wrap justify-evenly border-2 rounded border-black m-1">
-			<div class="text-center mx-1 my-2" id="offerId" data-id="${id}">
-				<label for="offerId">Offer ID</label>
-				<input type="text" readonly class="form-control" id="offerId" placeholder="${id}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerLoanType">Loan Type:</label>
-				<input type="text" readonly class="form-control" id="offerLoanType" placeholder="${loanType}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerAppWaiver">Waive Appraisal</label>
-				<input type="text" readonly class="form-control" id="offerAppWaiver" placeholder="${appraisalWaiver}">
-			</div>
-			<div class="text-center mx-1 my-2" id="offerAmount-${id}">
-				<label for="offerAmount">Offer Amt</label>
-				<input type="text" class="form-control" id="offerAmount" placeholder="${offerAmount}">
-			</div>
-			<div id="closingCosts" class="text-center mx-1 my-2">
-				<label for="offerClosingCosts">Closing Costs</label>
-				<input type="text" class="form-control" id="offerClosingCosts" placeholder="${closingCosts}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerClosingDate">Closing Date</label>
-				<input type="text" class="form-control" id="offerClosingDate" placeholder="${closingDate}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerHomeWarranty">Home Warranty</label>
-				<input type="text" class="form-control" id="offerHomeWarranty" placeholder="${homeWarranty}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerSurvey">Survey</label>
-				<input type="text" class="form-control" id="offerSurvey" placeholder="${survey}">
-			</div>
+        <div id="acceptOfferDiv" class="flex flex-wrap justify-evenly border-2 rounded border-black m-1">
+            <div class="text-center mx-1 my-2" id="offerId" data-id="${id}">
+                <label for="offerId">Offer ID</label>
+                <input type="text" readonly class="form-control" id="offerId" placeholder="${id}">
+            </div>
+            <div class="text-center mx-1 my-2">
+                <label for="offerLoanType">Loan Type:</label>
+                <input type="text" readonly class="form-control" id="offerLoanType" placeholder="${loanType}">
+            </div>
+            <div class="text-center mx-1 my-2">
+                <label for="offerAppWaiver">Waive Appraisal</label>
+                <input type="text" readonly class="form-control" id="offerAppWaiver" placeholder="${appraisalWaiver}">
+            </div>
+            <div class="text-center mx-1 my-2" id="offerAmount-${id}">
+                <label for="offerAmount">Offer Amt</label>
+                <input type="text" class="form-control" id="offerAmount" placeholder="${offerAmount}">
+            </div>
+            <div id="closingCosts" class="text-center mx-1 my-2">
+                <label for="offerClosingCosts">Closing Costs</label>
+                <input type="text" class="form-control" id="offerClosingCosts" placeholder="${closingCosts}">
+            </div>
+            <div class="text-center mx-1 my-2">
+                <label for="offerClosingDate">Closing Date</label>
+                <input type="text" class="form-control" id="offerClosingDate" placeholder="${closingDate}">
+            </div>
+            <div class="text-center mx-1 my-2">
+                <label for="offerHomeWarranty">Home Warranty</label>
+                <input type="text" class="form-control" id="offerHomeWarranty" placeholder="${homeWarranty}">
+            </div>
+            <div class="text-center mx-1 my-2">
+                <label for="offerSurvey">Survey</label>
+                <input type="text" class="form-control" id="offerSurvey" placeholder="${survey}">
+            </div>
 
 
-		</div>`
+        </div>`
 
     $("#offer").html("").append(`${acceptHTML}`);
     $("#hiddenConfirmation").removeClass("hidden");

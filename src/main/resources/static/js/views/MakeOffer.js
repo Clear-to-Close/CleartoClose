@@ -1,11 +1,11 @@
 import createView from "../createView.js";
 import {getMessage} from "../messaging.js";
 
-const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
+const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 export default function MakeOffer(props) {
-    console.log(props)
     //language=html
+    console.log(props.makeOffer);
     return `
         <div class="min-h-[calc(100vh-90px)]">
             <h1 class="text-center my-3">Offer Details</h1>
@@ -52,11 +52,11 @@ export default function MakeOffer(props) {
                         <input name="closing" id="closing-costs" type="text" class="m-1 w-3/4">
                     </div>
                 </div>
-                <button id="make-offer-btn" class="border-2 my-3">Post Offer</button>
+                <button id="make-offer-btn" class="border-2 my-3" data-id="${props.makeOffer.id}">Post Offer</button>
             </form>
         </div>
         <div id="confirmation-message" class="text-green-600"></div>
-    `
+    `;
 }
 
 export function MakeAnOffer() {
@@ -77,6 +77,10 @@ function submitOffer() {
     $('#make-offer-btn').on('click', function (e) {
         e.preventDefault();
         console.log('This button was clicked!');
+
+        const listingId = $(this).data("id");
+        // const offerorId = parseInt(localStorage.getItem('accessToken'));
+
         const offerData = {
             offerAmount: $('#offer-amount').val(),
             loanType: $('#loan-type').val(),
@@ -85,9 +89,12 @@ function submitOffer() {
             homeWarranty: $('#warranty-requested').val(),
             appraisalWaiver: $('#appraisal-waiver').val(),
             closingDate: $('#closing-date').val(),
-            closingCosts: $('#closing-costs').val()
+            closingCosts: $('#closing-costs').val(),
+            offerorId: parseInt(localStorage.getItem("accessToken")),
+            listingId: listingId
         }
 
+        console.log(offerData);
 
         let request = {
             method: "POST",
@@ -98,11 +105,12 @@ function submitOffer() {
         }
 
 
-        fetch(`${BASE_URL}/makeOffer`, request)
+
+        fetch(`${BASE_URL}`, request)
             .then(response => {
                 console.log(response.status);
-                getMessage("Your offer has been posted!", 'confirmation-message');
-                createView("/offers");
+                // getMessage("Your offer has been posted!", 'confirmation-message');
+                createView(`/offers/findOffers/${listingId}`);
             }).catch(error => {
             console.log(error.status);
         });

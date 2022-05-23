@@ -63,9 +63,8 @@ public class User {
 
     @OneToMany(mappedBy = "sellerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
 
-    @JsonIgnoreProperties({"sellerAgent", "listingAddress"})
+    @JsonIgnoreProperties({"sellerAgent", "listingAddress", "offeror"})
     @ToString.Exclude
-
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
