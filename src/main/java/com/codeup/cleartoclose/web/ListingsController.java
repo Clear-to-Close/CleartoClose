@@ -5,7 +5,7 @@ import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,25 +36,20 @@ public class ListingsController {
         return listingRepository.findById(listingId);
     }
 
-    @GetMapping("searchByAddressAndZipCode")
-    public Listing getListingByAddress(@RequestParam String address, @RequestParam String zipCode) {
-        Address foundAddress = addressRepository.findByAddressAndZipCode(address, zipCode);
-        return listingRepository.findByListingAddress(foundAddress);
+    @GetMapping("searchByAddress")
+    public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state,
+                                       @RequestParam String zip) {
+
+        return listingRepository.findByListingAddress(addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state, zip));
     }
 
     // Searching by zipCode returns a list of addresses that can be used to pin on a map
     // selection of one of these addresses in listing then appends the address and zip to the URL and GETS the listing using getListingByAddress
     //***Note*** printing the list of addresses in this function returns StackTrace
-    @GetMapping("searchByZipCode")
-    public List<Listing> getAllListingsByZipCode(@RequestParam String zipCode) {
-        List<Address> allAddressesByZip = addressRepository.findAddressesByZipCode(zipCode);
-
-        List<Listing> listings = new ArrayList<>();
-        for (Address address : allAddressesByZip) {
-            listings.add(address.getListing());
-        }
-
-        return listings;
+    @GetMapping("search")
+    public Collection<Listing> getListingByMultiple(@RequestParam(required = false) String city, @RequestParam(required = false) String state,
+                                                    @RequestParam(required = false) String zip) {
+        return listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state), Optional.ofNullable(zip));
     }
 
 
