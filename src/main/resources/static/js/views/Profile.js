@@ -138,6 +138,8 @@ function saveProfileUpdate() {
             firstName: $("#firstname").val(),
             lastName: $("#lastname").val(),
             email: $("#email").val(),
+            phoneNumber: $("#phone-number").val(),
+
             userAddress:{
                 address: $("#newStreet").val(),
                 apartmentNumber: $("#suite").val(),
@@ -164,6 +166,7 @@ function saveProfileUpdate() {
         console.log("cancel button clicked");
 
     })
+
 }
 
 
