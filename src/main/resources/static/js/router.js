@@ -53,7 +53,7 @@ export default function router(URI) {
         '/listing': {
             returnView: ListingIndex,
             state: {
-                listing: "/api/listings"
+                listing: "/api"
             },
             uri: '/listing',
             title: "Listing",
@@ -79,7 +79,9 @@ export default function router(URI) {
         },
         '/allListings': {
             returnView: AllListings,
-            state: {},
+            state: {
+                allListings: "/api"
+            },
             uri: '/allListings',
             title: 'All Listings',
             viewEvent: AllListingsEvent
@@ -128,6 +130,7 @@ export default function router(URI) {
                 }
             }
             routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
+            console.log(routes[`/${piecesOfURI[1]}`])
             return routes[`/${piecesOfURI[1]}`]
         }
     }
