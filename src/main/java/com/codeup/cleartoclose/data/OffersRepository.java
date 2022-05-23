@@ -7,7 +7,5 @@ import java.util.Optional;
 
 public interface OffersRepository extends JpaRepository<Offer, Long> {
     Collection<Offer> findByListing(Optional<Listing> listing);
-    Collection<Offer> findByOfferor(Optional<User> byId);
-
-
+    Collection<Offer> findByOfferor(Optional<User> user);
 }
