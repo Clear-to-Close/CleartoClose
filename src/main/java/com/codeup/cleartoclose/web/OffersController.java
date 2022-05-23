@@ -46,24 +46,28 @@ OffersController {
 
     // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
     @PostMapping
-    public void submitNewOffer(@RequestBody MakeOfferDTO newOffer) {
+    public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
+
 //        User offeror = usersRepository.getById(id);
-        newOffer.setOfferAmount(newOffer.getOfferAmount());
-        newOffer.setLoanType(newOffer.getLoanType());
-        newOffer.setOptionLength(newOffer.getOptionLength());
-        newOffer.setSurvey(newOffer.getSurvey());
-        newOffer.setHomeWarranty(newOffer.getHomeWarranty());
-        newOffer.setAppraisalWaiver(newOffer.getAppraisalWaiver());
-        newOffer.setClosingCosts(newOffer.getClosingCosts());
+        Offer newOffer = new Offer();
 
-        User newOfferor = new User();
-        newOfferor.setId(newOfferor.getId());
+        newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
+        newOffer.setLoanType(newOfferDTO.getLoanType());
+        newOffer.setOptionLength(newOfferDTO.getOptionLength());
+        newOffer.setSurvey(newOfferDTO.getSurvey());
+        newOffer.setHomeWarranty(newOfferDTO.getHomeWarranty());
+        newOffer.setAppraisalWaiver(newOfferDTO.getAppraisalWaiver());
+        newOffer.setClosingCosts(newOfferDTO.getClosingCosts());
+        newOffer.setClosingDate(newOfferDTO.getClosingDate());
 
-        Listing listing = new Listing();
-        listing.setId(listing.getId());
+        User newOfferor = usersRepository.getById(newOfferDTO.getOfferorId());
+        newOffer.setOfferor(newOfferor);
+
+        Listing currentListing = listingsRepository.getById(newOfferDTO.getListingId());
+        newOffer.setListing(currentListing);
+
         offersRepository.save(newOffer);
-        System.out.printf("A new offer with the id of %d has been made!", newOffer.getId());
     }
 
     // Offer can be accepted upon, submit of a selection form; post updates the historical data of the selected offer

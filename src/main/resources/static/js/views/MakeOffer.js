@@ -90,7 +90,8 @@ function submitOffer() {
             appraisalWaiver: $('#appraisal-waiver').val(),
             closingDate: $('#closing-date').val(),
             closingCosts: $('#closing-costs').val(),
-            listing: listingId
+            offerorId: parseInt(localStorage.getItem("accessToken")),
+            listingId: listingId
         }
 
         console.log(offerData);
@@ -108,8 +109,8 @@ function submitOffer() {
         fetch(`${BASE_URL}`, request)
             .then(response => {
                 console.log(response.status);
-                getMessage("Your offer has been posted!", 'confirmation-message');
-                createView("/offers");
+                // getMessage("Your offer has been posted!", 'confirmation-message');
+                createView(`/offers/findOffers/${listingId}`);
             }).catch(error => {
             console.log(error.status);
         });

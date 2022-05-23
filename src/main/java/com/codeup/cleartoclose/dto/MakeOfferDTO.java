@@ -1,9 +1,9 @@
 package com.codeup.cleartoclose.dto;
 
-import com.codeup.cleartoclose.data.Listing;
-import com.codeup.cleartoclose.data.ListingStatus;
-import com.codeup.cleartoclose.data.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -17,6 +17,7 @@ public class MakeOfferDTO {
     private String homeWarranty;
     private String appraisalWaiver;
     private Long closingCosts;
+    private String closingDate;
     private Long offerorId;
     private Long listingId;
 }
