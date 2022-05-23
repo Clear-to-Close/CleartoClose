@@ -8,7 +8,7 @@ export default function ProfilePage(props) {
     //language=html
     console.log(props);
     return `
-
+        
 		<div class="h-1/4 w-1/3 bg-primary border-2 rounded-md border-secondary mx-2">
 			<div class="m-1 pb-1 text-center">${props.loggedInUser.username}</div>
 			<div class="m-1 pb-1 text-center">${props.loggedInUser.phoneNumber}</div>
@@ -30,6 +30,7 @@ export default function ProfilePage(props) {
 
 export function ProfileEvents() {
  grabBuyerOffers();
+
 }///END OF PROFILE EVENTS
 
 function grabBuyerOffers() {
@@ -84,5 +85,6 @@ function populateProfileOffers(offers) {
 		</div>`
     $("#profileOffers").append(myOffersHTML);
 }
+
 
 
