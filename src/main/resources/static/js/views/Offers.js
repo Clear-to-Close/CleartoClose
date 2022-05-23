@@ -3,6 +3,7 @@ import createView from "../createView.js";
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingID = null;
+const user = parseInt(localStorage.getItem('accessToken'));
 
 export default function Offers(props) {
     listingID = props.offers[0].listing.id
@@ -29,6 +30,22 @@ export default function Offers(props) {
 
 const retrieveOffersFromDb = (offers) => {
     // language=HTML
+    let id = $(this).data("buyer");
+    // console.log(id)
+    // if (id === user) {
+    //     $('.edit-offer').removeClass('hidden');
+    // }
+    offers.forEach(offer => {
+        if (id === user) {
+            $('#edit-offer-container'.html(`<button id="edit-offer" data-id="${offer.id}"
+                                                   data-buyer="${offer.offeror.id}"
+                                                   data-offer="${offer.offerAmount}"
+                                                   data-closing="${offer.closingDate}"
+                                                   data-warranty="${offer.homeWarranty}"
+                                                   class="edit-offer hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Offer
+                                            </button>`));
+        }
+    })
     console.log(offers);
     return offers.map(offer =>
         `
@@ -58,6 +75,7 @@ const retrieveOffersFromDb = (offers) => {
                             class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
+                    <div id="edit-btn-container"></div>
                 </div>
             </div>`
     ).join("")
@@ -73,7 +91,7 @@ function confirmOfferAcceptance() {
         const id = $(this).data("id");
 
         $.get(`${OFFERS_URL}/${id}`).then(function (res) {
-            console.log(res);
+            // console.log(res);
             populateAcceptedOfferDiv(res);
         })
     })///END OF CONFIRM FUNCTION
@@ -129,6 +147,19 @@ function confirmOfferAcceptance() {
     }
 }/// END OF POPULATED ACCEPTED OFFER
 
+// START OF EDIT OFFER FUNCTIONALITY
+function editOffer() {
+    $('.edit-offer').on('click', function () {
+        let id = $(this).data("buyer");
+        console.log(id);
+
+        if (id === user) {
+            console.log('only the user who own the offer can get here!')
+            createView(`/makeOffer/listings/${listingID}`)
+        }
+    })
+
+}
 
 function initCounterOffer() {
     $('#btn-cnt-offer').click(function () {
@@ -234,6 +265,7 @@ export function OfferEvent() {
     updateListingObject();
     createMakeOfferView();
     initCounterOffer();
+    editOffer();
 }
 
 //    // return       /// want offer to populate a modal
