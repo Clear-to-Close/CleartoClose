@@ -1,6 +1,6 @@
 import createView from "../createView.js";
 
-const OFFERS_URL = "http://localhost:8080/api/offers";
+const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingID = null;
 

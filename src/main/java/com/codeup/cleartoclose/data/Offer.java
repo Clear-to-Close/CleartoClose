@@ -11,6 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+
 @Entity
 @Table(name = "offers")
 public class Offer {

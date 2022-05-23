@@ -5,7 +5,7 @@ import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,25 +36,20 @@ public class ListingsController {
         return listingRepository.findById(listingId);
     }
 
-    @GetMapping("searchByAddressAndZipCode")
-    public Listing getListingByAddress(@RequestParam String address, @RequestParam String zipCode) {
-        Address foundAddress = addressRepository.findByAddressAndZipCode(address, zipCode);
-        return listingRepository.findByListingAddress(foundAddress);
+    @GetMapping("searchByAddress")
+    public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state,
+                                       @RequestParam String zip) {
+
+        return listingRepository.findByListingAddress(addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state, zip));
     }
 
     // Searching by zipCode returns a list of addresses that can be used to pin on a map
     // selection of one of these addresses in listing then appends the address and zip to the URL and GETS the listing using getListingByAddress
     //***Note*** printing the list of addresses in this function returns StackTrace
-    @GetMapping("searchByZipCode")
-    public List<Listing> getAllListingsByZipCode(@RequestParam String zipCode) {
-        List<Address> allAddressesByZip = addressRepository.findAddressesByZipCode(zipCode);
-
-        List<Listing> listings = new ArrayList<>();
-        for (Address address : allAddressesByZip) {
-            listings.add(address.getListing());
-        }
-
-        return listings;
+    @GetMapping("search")
+    public Collection<Listing> getListingByMultiple(@RequestParam(required = false) String city, @RequestParam(required = false) String state,
+                                                    @RequestParam(required = false) String zip) {
+        return listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state), Optional.ofNullable(zip));
     }
 
 
@@ -88,30 +83,27 @@ public class ListingsController {
 
     @PutMapping("{listingId}")
     public void editListing(@RequestBody ListingDTO editDTO, @PathVariable long listingId){
-//        Listing listingToEdit = listingRepository.getById(listingId);
-        System.out.println("Get Listing " + listingRepository.findById(listingId));
-//        System.out.println("Listing: " + listingToEdit);
-//
-//        listingToEdit.setSeller(usersRepository.findByEmail(editDTO.getSellerEmail()));
-//        listingToEdit.setSellerAgent(usersRepository.findByEmail(editDTO.getSellerEmail()));
-//        listingToEdit.setBuyer(usersRepository.findByEmail(editDTO.getBuyerEmail()));
-//        listingToEdit.setBuyerAgent(usersRepository.findByEmail(editDTO.getBuyerAgentEmail()));
-//
-//        listingToEdit.setDescription(editDTO.getDescription());
-//        listingToEdit.setAskingPrice(editDTO.getAskingPrice());
-//        listingToEdit.setListingStatus(editDTO.getListingStatus());
+        Listing listingToEdit = listingRepository.getById(listingId);
 
-//        Address newAddress = addressRepository.findByAddress(listingToEdit.getListingAddress());
-//        System.out.println(newAddress);
-//
-//        newAddress.setAddress(editDTO.getAddress());
+        listingToEdit.setSeller(usersRepository.findByEmail(editDTO.getSellerEmail()));
+        listingToEdit.setSellerAgent(usersRepository.findByEmail(editDTO.getSellerEmail()));
+        listingToEdit.setBuyer(usersRepository.findByEmail(editDTO.getBuyerEmail()));
+        listingToEdit.setBuyerAgent(usersRepository.findByEmail(editDTO.getBuyerAgentEmail()));
 
-//        newAddress.setCity(editDTO.getCity());
-//        newAddress.setState(editDTO.getState());
-//        newAddress.setApartmentNumber(editDTO.getApartmentNumber());
-//        newAddress.setZipCode(editDTO.getZipCode());
+        listingToEdit.setDescription(editDTO.getDescription());
+        listingToEdit.setAskingPrice(editDTO.getAskingPrice());
+        listingToEdit.setListingStatus(editDTO.getListingStatus());
 
-//        listingRepository.save(listingToEdit);
+        Address addressToEdit = addressRepository.getById(listingToEdit.getListingAddress().getId());
+
+        addressToEdit.setAddress(editDTO.getAddress());
+
+        addressToEdit.setCity(editDTO.getCity());
+        addressToEdit.setState(editDTO.getState());
+        addressToEdit.setApartmentNumber(editDTO.getApartmentNumber());
+        addressToEdit.setZipCode(editDTO.getZipCode());
+
+        listingRepository.save(listingToEdit);
     }
 
     // TODO: to accept an offer a method has to be written here changing the active status from "yes" to "no"
