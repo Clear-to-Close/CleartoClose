@@ -29,25 +29,12 @@ export default function Offers(props) {
 }
 
 const retrieveOffersFromDb = (offers) => {
-    // language=HTML
-    let id = $(this).data("buyer");
-    // console.log(id)
-    // if (id === user) {
-    //     $('.edit-offer').removeClass('hidden');
-    // }
-    offers.forEach(offer => {
-        if (id === user) {
-            $('#edit-offer-container'.html(`<button id="edit-offer" data-id="${offer.id}"
-                                                   data-buyer="${offer.offeror.id}"
-                                                   data-offer="${offer.offerAmount}"
-                                                   data-closing="${offer.closingDate}"
-                                                   data-warranty="${offer.homeWarranty}"
-                                                   class="edit-offer hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Offer
-                                            </button>`));
-        }
-    })
+
+
     console.log(offers);
-    return offers.map(offer =>
+
+    let populateOffers = offers.map(offer =>
+        // language=HTML
         `
             <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
@@ -75,10 +62,26 @@ const retrieveOffersFromDb = (offers) => {
                             class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
-                    <div id="edit-btn-container"></div>
                 </div>
             </div>`
-    ).join("")
+    ).join("");
+
+    let id = $(this).data("buyer");
+    console.log(id)
+    // if (id === user) {
+    //     populateOffers += `<button id="edit-offer" data-id="${offer.id}"
+    //                                                data-buyer="${offer.offeror.id}"
+    //                                                data-offer="${offer.offerAmount}"
+    //                                                data-closing="${offer.closingDate}"
+    //                                                data-warranty="${offer.homeWarranty}"
+    //                                                class="edit-offer hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Offer
+    //                                         </button>
+    //                               `;
+    // } else {
+    //     populateOffers += ` </div>
+    //         </div>`;
+    // }
+    return populateOffers;
 };
 
 
