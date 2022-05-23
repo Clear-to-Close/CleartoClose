@@ -17,7 +17,7 @@ import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 
 
-const userLoggedIn = parseInt(localStorage.getItem("accessToken"))
+const userLoggedIn = localStorage.getItem("accessToken")
 
 
 export default function router(URI) {
@@ -109,7 +109,7 @@ export default function router(URI) {
             returnView: ProfilePage,
             state: {
 
-                loggedInUser: `/api/users/${userLoggedIn}`
+                loggedInUser: `/api/users/${parseInt(userLoggedIn)}`
             },
             uri: '/users',
             title: 'Your profile page',

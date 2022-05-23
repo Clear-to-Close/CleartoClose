@@ -34,8 +34,14 @@ public class UsersController {
         return usersRepository.findById(userId);
     }
 
-    @PostMapping
+    @PostMapping("create")
     public void createUser(@RequestBody User newUser) {
+        System.out.println(newUser);
+        newUser.setPassword(newUser.getPassword());
+        newUser.setUsername(newUser.getUsername());
+        newUser.setFirstName(newUser.getFirstName());
+        newUser.setLastName(newUser.getLastName());
+        newUser.setEmail(newUser.getEmail());
         usersRepository.save(newUser);
     }
 
