@@ -18,9 +18,6 @@ import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 
 const userLoggedIn = localStorage.getItem('accessToken');
 
-const userLoggedIn = localStorage.getItem("accessToken")
-
-
 export default function router(URI) {
     const routes = {
         '/': {
