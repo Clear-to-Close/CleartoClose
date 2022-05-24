@@ -3,13 +3,15 @@ import createView from "../createView.js";
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingID = null;
-let offerID = null;
-let listingSeller = null;
+let isBuyer = false;
+let isSeller = false;
+let isRealtor = false;
 const user = parseInt(localStorage.getItem('accessToken'));
 
 
 export default function Offers(props) {
     listingID = props.offers[0].listing.id
+    renderMakeOfferBtn(props.offers);
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -17,25 +19,17 @@ export default function Offers(props) {
                 <img class="md:w-3/4 md:h-[350px] mx-auto"
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
-                <div id="make-an-offer">${renderMakeOfferBtn(props.offers)}</div>
+                <div id="make-an-offer" class="hidden">
+                    <button id="makeOfferBtn"
+                            class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                        Make An Offer!
+                    </button>
+                </div>
             </div>
-            <div id="offer">${retrieveOffersFromDb(props.offers)}</div>
-            <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
-                <button id="btn-confirm"
-                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
-                </button>
-            </div>
-        </div>`
-}
-
-const retrieveOffersFromDb = (offers) => {
-
-
-    // console.log(offers);
-
-    let populateOffers = offers.map(offer =>
-        // language=HTML
-        `
+            <div id="offer">
+                ${props.offers.map(offer => {
+                    // language=HTML
+                   return `
             <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
                     ${offer.id}
@@ -64,14 +58,19 @@ const retrieveOffersFromDb = (offers) => {
                     <div id="edit-offer-btn-container" data-id="${offer.id}" data-buyer="${offer.offeror.id}"
                          data-offer="${offer.offerAmount}"
                          data-closing="${offer.closingDate}"
-                         data-warranty="${offer.homeWarranty}>${renderEditBtn(offer)}
+                         data-warranty="${offer.homeWarranty}>
+                         ${renderEditBtn(offer)}
                     </div>
                 </div>
-            </div>`
-    ).join("");
-
-    return populateOffers;
-};
+            </div>`}).join("")}
+            </div>
+            <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
+                <button id="btn-confirm"
+                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+                </button>
+            </div>
+        </div>`
+}
 
 
 let acceptanceID = null;
@@ -144,48 +143,54 @@ function confirmOfferAcceptance() {
 
 
 const renderEditBtn = (offer) => {
-    offerID = offer.id;
-    let usersOffer = offer.offeror.id;
-
-    if (user === usersOffer) {
-        return `<button class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit</button>`
-    }
+    // isBuyer = offer.id;
+    // let usersOffer = offer.offeror.id;
+    //
+    // if (user === usersOffer) {
+    //     $('#edit-offer-btn-container').removeClass('hidden');
+    //     return `<button class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit</button>`
+    // }
+    return null;
 }
 
 const renderMakeOfferBtn = (offers) => {
     console.log(offers);
-    let listingSeller = null;
     for (let i = 0; i < offers.length; i++) {
+        console.log(offers[i].offeror.id);
         if (offers[i].offeror.id === user) {
-            offerID = user;
+            isBuyer = true;
             console.log("This person won't be able to see the make offer button anymore!");
         }
-        if (offers[i].listing.seller.id === user) {
-            listingSeller = user;
-        }
+        // if (offers[i].listing.seller.id === user) {
+        //     isSeller = true;
+        // }
+        // if (offers[i].offeror.realtorInfo.id) {
+        //     isRealtor = true;
+        //     console.log("This person won't be able to see the make offer button anymore!");
+        // }
     }
 
-    if (offerID === null && listingSeller === null) {
-        //language=html
-        return `
-            <button id="makeOfferBtn"
-                    class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
-                Make An Offer!
-            </button>`
-    }
+    $(document).ready(function (){
+        if (!isBuyer) {
+            $('#make-an-offer').removeClass('hidden');
+        }
+    });
 
 }
 
 const renderAcceptOfferBtn = (offer) => {
-    if (offer.listing.seller.id === user) {
-        listingSeller = user;
-        //language=html
-        return `
-            <button id="btn-accept"
-                    class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
-                Offer!
-            </button>`
-    }
+    // console.log(offer.listing.seller.id);
+    // if (offer.listing.seller.id === user) {
+    //     listingSeller = user;
+    //     $('#accept-offer-btn-container').removeClass('hidden');
+    //     //language=html
+    //     return `
+    //         <button id="btn-accept"
+    //                 class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
+    //             Offer!
+    //         </button>`
+    // }
+    return null;
 }
 
 function editOffer() {
@@ -304,6 +309,7 @@ const createMakeOfferView = () => {
 }
 
 export function OfferEvent() {
+    // renderMakeOfferBtn();
     confirmOfferAcceptance();
     updateListingObject();
     createMakeOfferView();
