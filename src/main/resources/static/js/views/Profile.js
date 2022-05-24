@@ -1,6 +1,6 @@
 import createView from "../createView.js";
 
-const LISTINGS_URL = "http://localhost:8080/api/users";
+const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
 
 //Grab user id from login??
 
@@ -25,6 +25,17 @@ export default function ProfilePage(props) {
         <button id="saveProfile-btn"
                 class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Save
         </button>
+        
+        <div id="profileOffers" class="h-1/4 w-2/3 bg-primary border-2 rounded-md border-secondary mx-2"></div>
+        <div align="center">
+            <div><h2>Spring Boot File Upload to S3</h2></div>
+            <div>
+                <form >
+                    <input type="file" id="uploadUserDocs">
+                    <button id="uploadBtn">Upload Documents</button>
+                </form>
+            </div>
+
         <button id="cancel-btn"
                 class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Cancel
         </button>
@@ -72,13 +83,83 @@ export default function ProfilePage(props) {
         </div>`
 }///END OF PROFILE FUNCTION
 
-
 export function ProfileEvents() {
 
     updateUserProfile();
+    uploadDocuments();
 
 }///END OF PROFILE EVENTS
 
+const uploadDocuments = _ => {
+    $("#uploadBtn").click(e => {
+        e.preventDefault();
+        let file = document.getElementById("uploadUserDocs");
+        let formData = new FormData();
+
+        formData.append('file', file.files[0])
+
+        const uploadRequest = {
+            method: 'POST',
+            body: formData
+        }
+
+        console.log("Hey")
+        fetch(`${BASE_URI}/api/s3/upload/${parseInt(localStorage.getItem("accessToken"))}`, uploadRequest)
+            .then(results => console.log(results))
+    })
+}
+
+function grabBuyerOffers() {
+    const userId = localStorage.getItem("accessToken");
+    $.get(`http://${BACKEND_HOST}:${PORT}/api/offers/findOffersByUser/${userId}`).then(function (res) {
+        console.log(res);
+        populateProfileOffers(res);
+    })
+}
+
+
+function populateProfileOffers(offers) {
+    //language=html
+    const myOffersHTML = `
+        <div id="myOffersDiv" class="flex flex-wrap justify-evenly rounded m-1 bg-secondary">
+            ${offers.map(offer => `
+                    <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
+                                ${offer.id}
+                    </div>  
+                   
+					<div class="text-center mx-1 my-2">
+							\$${offer.offerAmount}
+					</div>
+					
+					<div id="closingCosts" class="text-center mx-1 my-2">
+						C/C: \$${offer.closingCosts}
+					</div>
+					
+					<div class="text-center mx-1 my-2">
+						Close Date: ${offer.closingDate}
+					</div>
+					
+					<div class="text-center mx-1 my-2">
+						H/W: ${offer.homeWarranty}
+					</div>
+					
+					<div class="text-center mx-1 my-2">
+						L/T: ${offer.loanType}
+					</div>
+					
+					<div class="text-center mx-1 my-2">
+						Waive Appraisal: ${offer.appraisalWaiver}
+					</div>
+					
+					<div class="text-center mx-1 my-2">
+						Buyer Pays for Survey: ${offer.survey}
+					</div>
+
+`).join('')}
+
+        </div>`
+    $("#profileOffers").append(myOffersHTML);
+}
 
 function updateUserProfile() {
     $("#btnUpdateProfile").click(function () {
@@ -138,6 +219,8 @@ function saveProfileUpdate() {
             firstName: $("#firstname").val(),
             lastName: $("#lastname").val(),
             email: $("#email").val(),
+            phoneNumber: $("#phone-number").val(),
+
             userAddress:{
                 address: $("#newStreet").val(),
                 apartmentNumber: $("#suite").val(),
@@ -164,6 +247,7 @@ function saveProfileUpdate() {
         console.log("cancel button clicked");
 
     })
+
 }
 
 

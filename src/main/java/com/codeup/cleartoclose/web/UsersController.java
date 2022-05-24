@@ -2,6 +2,7 @@ package com.codeup.cleartoclose.web;
 
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
+import com.codeup.cleartoclose.services.S3Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class UsersController {
 
     private final UsersRepository usersRepository;
 
-    public UsersController(UsersRepository usersRepository) {
+    public UsersController(UsersRepository usersRepository, S3Service s3Service) {
         this.usersRepository = usersRepository;
     }
 
@@ -44,5 +45,4 @@ public class UsersController {
         newUser.setEmail(newUser.getEmail());
         usersRepository.save(newUser);
     }
-
 }

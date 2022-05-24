@@ -78,7 +78,10 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
+
+
         <dependency>
+            <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk</artifactId>
             <version>1.12.218</version>
