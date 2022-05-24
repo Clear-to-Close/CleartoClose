@@ -36,9 +36,10 @@ public class ListingsController {
         return listingRepository.findById(listingId);
     }
 
-    @GetMapping("searchByAddress")
+    @GetMapping("searchByFullAddress")
     public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state,
                                        @RequestParam String zip) {
+        System.out.println(address);
 
         return listingRepository.findByListingAddress(addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state, zip));
     }

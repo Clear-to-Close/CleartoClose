@@ -1,6 +1,7 @@
 import createView from "../createView.js";
 
-export default function AllListings(){
+export default function AllListings(props){
+    console.log(props)
     //language=HTML
     return `
         <div id="listings">
