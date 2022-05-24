@@ -8,6 +8,7 @@ const user = parseInt(localStorage.getItem('accessToken'));
 export default function Offers(props) {
     listingID = props.offers[0].listing.id
     //language=HTML
+
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
             <div class="w-full relative">
