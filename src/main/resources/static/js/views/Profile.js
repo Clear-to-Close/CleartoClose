@@ -1,6 +1,6 @@
 import createView from "../createView.js";
 
-const LISTINGS_URL = "http://localhost:8080/api/users";
+const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
 
 //Grab user id from login??
 
@@ -28,17 +28,43 @@ export default function ProfilePage(props) {
         <button id="saveProfile-btn"
                 class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Save
         </button>
-        <div id="profileOffers" class="h-1/4 w-2/3 bg-primary border-2 rounded-md border-secondary mx-2"></div>`
-
-
+        <div id="profileOffers" class="h-1/4 w-2/3 bg-primary border-2 rounded-md border-secondary mx-2"></div>
+        <div align="center">
+            <div><h2>Spring Boot File Upload to S3</h2></div>
+            <div>
+                <form >
+                    <input type="file" id="uploadUserDocs">
+                    <button id="uploadBtn">Upload Documents</button>
+                </form>
+            </div>
+        </div>`
 }///END OF PROFILE FUNCTION
-
 
 export function ProfileEvents() {
     grabBuyerOffers();
     updateUserProfile();
+    uploadDocuments();
 
 }///END OF PROFILE EVENTS
+
+const uploadDocuments = _ => {
+    $("#uploadBtn").click(e => {
+        e.preventDefault();
+        let file = document.getElementById("uploadUserDocs");
+        let formData = new FormData();
+
+        formData.append('file', file.files[0])
+
+        const uploadRequest = {
+            method: 'POST',
+            body: formData
+        }
+
+        console.log("Hey")
+        fetch(`${BASE_URI}/api/s3/upload/${parseInt(localStorage.getItem("accessToken"))}`, uploadRequest)
+            .then(results => console.log(results))
+    })
+}
 
 function grabBuyerOffers() {
     const userId = localStorage.getItem("accessToken");
@@ -46,7 +72,6 @@ function grabBuyerOffers() {
         console.log(res);
         populateProfileOffers(res);
     })
-
 }
 
 
