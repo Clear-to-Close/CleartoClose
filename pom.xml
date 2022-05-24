@@ -79,6 +79,7 @@
             <artifactId>httpclient</artifactId>
         </dependency>
 
+
         <dependency>
             <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
             <groupId>com.amazonaws</groupId>
