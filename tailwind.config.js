@@ -7,6 +7,7 @@ module.exports = {
         "./src/main/resources/static/js/views/Offers.js",
         "./src/main/resources/static/js/views/Home.js",
         "./src/main/resources/static/js/views/Profile.js",
+        "./src/main/resources/static/js/views/AllListings.js",
         "./src/main/resources/static/js/views/partials/Footer.js"],
     theme: {
         extend: {
