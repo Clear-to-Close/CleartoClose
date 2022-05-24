@@ -476,16 +476,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   position: relative !important;
 }
 
-.top-\[25vh\] {
-  top: 25vh !important;
-}
-
 .top-\[50\%\] {
   top: 50% !important;
 }
 
 .right-\[50\%\] {
   right: 50% !important;
+}
+
+.top-\[25vh\] {
+  top: 25vh !important;
 }
 
 .bottom-0 {
@@ -566,10 +566,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none !important;
 }
 
-.h-1\/4 {
-  height: 25% !important;
-}
-
 .h-full {
   height: 100% !important;
 }
@@ -580,6 +576,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-\[144px\] {
   height: 144px !important;
+}
+
+.h-1\/4 {
+  height: 25% !important;
 }
 
 .h-\[50px\] {
@@ -616,6 +616,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[15px\] {
   width: 15px !important;
+}
+
+.w-2\/3 {
+  width: 66.666667% !important;
 }
 
 .translate-y-1\/2 {
@@ -684,6 +688,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-width: 2px !important;
 }
 
+.border-black {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
+}
+
 .border-secondary {
   --tw-border-opacity: 1 !important;
   border-color: rgb(154 177 194 / var(--tw-border-opacity)) !important;
@@ -692,11 +701,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-callToAction {
   --tw-border-opacity: 1 !important;
   border-color: rgb(128 128 216 / var(--tw-border-opacity)) !important;
-}
-
-.border-black {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
 }
 
 .bg-secondary {
