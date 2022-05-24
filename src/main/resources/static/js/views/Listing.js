@@ -72,7 +72,8 @@ const viewOffers = _ => {
 }
 
 const editListing = _ => {
-    $('#editListing').click(_ => {
+    $('#editListing').click(function (e) {
+        e.preventDefault();
         let listingId = $('#listingPageDiv').attr('data-id');
         createView(`/realtorListing/listings/${listingId}`)
     });

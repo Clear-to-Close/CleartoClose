@@ -20,6 +20,7 @@ export default function AllListings(props){
 
 export function AllListingsEvent() {
     $("#listings").click(e => {
+        e.preventDefault();
         console.log(e.target)
         let id = e.target.getAttribute("data-id")
         createView(`/listing/listings/${id}`)

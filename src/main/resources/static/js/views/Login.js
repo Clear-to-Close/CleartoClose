@@ -25,7 +25,8 @@ export default function Login(props) {
 }
 
 export function LoginEvent() {
-    $("#login-btn").click(function () {
+    $("#login-btn").click(function (e) {
+        e.preventDefault();
         const email = $("#username").val();
         const password = $("#password").val();
 
@@ -54,7 +55,8 @@ export function LoginEvent() {
                     )
             })
     })
-    $("#goToRegister").click(function (){
+    $("#goToRegister").click(function (e){
+        e.preventDefault();
         createView("/register")
     })
 

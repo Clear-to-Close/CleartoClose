@@ -13,9 +13,9 @@ export default function ProfilePage(props) {
                 <div class="m-1 pb-1 text-center" data-username="${props.loggedInUser.username}">
                     ${props.loggedInUser.username}
                 </div>
-	            <div class="m-1 pb-1 text-center">${props.loggedInUser.email}</div>
+                <div class="m-1 pb-1 text-center">${props.loggedInUser.email}</div>
                 <div class="m-1 pb-1 text-center">${props.loggedInUser.phoneNumber}</div>
-                
+
                 <button id="btnUpdateProfile" type="submit"
                         class="m-auto my-2 rounded-sm shadow-xl text-white bg-callToAction">Update Profile
                 </button>
@@ -25,22 +25,22 @@ export default function ProfilePage(props) {
         <button id="saveProfile-btn"
                 class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Save
         </button>
-        
+
         <div id="profileOffers" class="h-1/4 w-2/3 bg-primary border-2 rounded-md border-secondary mx-2"></div>
         <div align="center">
             <div><h2>Spring Boot File Upload to S3</h2></div>
             <div>
-                <form >
+                <form>
                     <input type="file" id="uploadUserDocs">
                     <button id="uploadBtn">Upload Documents</button>
                 </form>
             </div>
 
-        <button id="cancel-btn"
-                class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Cancel
-        </button>
-        <div id="profileOffers" class="h-1/4 w-full bg-primary border-2 rounded-md border-secondary mx-2">
-	        ${props.loggedInUser.userOffers.map(offer => `
+            <button id="cancel-btn"
+                    class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Cancel
+            </button>
+            <div id="profileOffers" class="h-1/4 w-full bg-primary border-2 rounded-md border-secondary mx-2">
+                ${props.loggedInUser.userOffers.map(offer => `
                     <div class="border-2 bg-primary border-callToAction flex flex-wrap justify-between m-2">
                         <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
                                     ${offer.id}
@@ -80,7 +80,7 @@ export default function ProfilePage(props) {
 					
 
 `).join('')}
-        </div>`
+            </div>`
 }///END OF PROFILE FUNCTION
 
 export function ProfileEvents() {
@@ -162,8 +162,9 @@ function populateProfileOffers(offers) {
 }
 
 function updateUserProfile() {
-    $("#btnUpdateProfile").click(function () {
-        //langauge=HTML
+    $("#btnUpdateProfile").click(function (e) {
+        e.preventDefault();
+        //language=HTML
         $("#saveProfile-btn").removeClass("hidden")
         $("#cancel-btn").removeClass("hidden")
         const userId = localStorage.getItem("accessToken");
@@ -213,7 +214,8 @@ function updateUserProfile() {
 }
 
 function saveProfileUpdate() {
-    $("#saveProfile-btn").click(function () {
+    $("#saveProfile-btn").click(function (e) {
+        e.preventDefault();
         console.log("Profile updated")
         const updatedUser = {
             firstName: $("#firstname").val(),
@@ -221,7 +223,7 @@ function saveProfileUpdate() {
             email: $("#email").val(),
             phoneNumber: $("#phone-number").val(),
 
-            userAddress:{
+            userAddress: {
                 address: $("#newStreet").val(),
                 apartmentNumber: $("#suite").val(),
                 city: $("#newCity").val(),
@@ -241,7 +243,8 @@ function saveProfileUpdate() {
 
             })
     })
-    $("#cancel-btn").click(function (){
+    $("#cancel-btn").click(function (e) {
+        e.preventDefault();
         $("#saveProfile-btn").addClass("hidden");
         $("#cancel-btn").addClass("hidden");
         console.log("cancel button clicked");

@@ -63,25 +63,16 @@ const retrieveOffersFromDb = (offers) => {
                             class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
+                    <button id="edit-offer" data-id="${offer.id}" data-buyer="${offer.offeror.id}"
+                            data-offer="${offer.offerAmount}"
+                            data-closing="${offer.closingDate}" data-warranty="${offer.homeWarranty}"
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
+                        Offer!
+                    </button>
                 </div>
             </div>`
     ).join("");
 
-    let id = $(this).data("buyer");
-    console.log(id)
-    // if (id === user) {
-    //     populateOffers += `<button id="edit-offer" data-id="${offer.id}"
-    //                                                data-buyer="${offer.offeror.id}"
-    //                                                data-offer="${offer.offerAmount}"
-    //                                                data-closing="${offer.closingDate}"
-    //                                                data-warranty="${offer.homeWarranty}"
-    //                                                class="edit-offer hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Offer
-    //                                         </button>
-    //                               `;
-    // } else {
-    //     populateOffers += ` </div>
-    //         </div>`;
-    // }
     return populateOffers;
 };
 
@@ -91,7 +82,8 @@ let buyerID = null;
 
 
 function confirmOfferAcceptance() {
-    $('#btn-accept').click(function () {
+    $('#btn-accept').click(function (e) {
+        e.preventDefault();
         const id = $(this).data("id");
 
         $.get(`${OFFERS_URL}/${id}`).then(function (res) {
@@ -153,7 +145,8 @@ function confirmOfferAcceptance() {
 
 // START OF EDIT OFFER FUNCTIONALITY
 function editOffer() {
-    $('.edit-offer').on('click', function () {
+    $('.edit-offer').on('click', function (e) {
+        e.preventDefault();
         let id = $(this).data("buyer");
         console.log(id);
 
@@ -166,7 +159,8 @@ function editOffer() {
 }
 
 function initCounterOffer() {
-    $('#btn-cnt-offer').click(function () {
+    $('#btn-cnt-offer').click(function (e) {
+        e.preventDefault();
         const id = $(this).data("id");
         console.log(id);
 
@@ -259,7 +253,8 @@ function updateListingObject() {
 
 
 const createMakeOfferView = () => {
-    $('#makeOfferBtn').click(_ => {
+    $('#makeOfferBtn').click( function (e) {
+        e.preventDefault();
         createView(`/makeOffer/listings/${listingID}`)
     })
 }
