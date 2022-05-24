@@ -20,6 +20,10 @@ function loadViewOnPageRequest() {
  */
 function addListenerToNavLinks() {
     document.addEventListener('click', e => {
+        if (e.target.type || e.target.type === "file") {
+            return;
+        }
+
         e.preventDefault();
         if (e.target.dataset['link'] !== undefined) {
             const URI = e.target.href.substring(location.origin.length);
