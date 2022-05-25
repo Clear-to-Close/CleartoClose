@@ -71,6 +71,7 @@ const populateDetailsFromApi = (propertyInfo, imageUrls) => {
     console.log(propertyInfo);
     //language=HTML
     const html = `
+
         <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiSqFt">
             <img src="${imageUrls[0]}" alt="Square Foot Icon" class="w-[15px] h-[15px] mx-3">
             <span class="w-[135px]">SqFt: ${propertyInfo.building.size.bldgsize}</span>

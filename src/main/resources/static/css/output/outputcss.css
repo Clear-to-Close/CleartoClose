@@ -484,6 +484,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 50% !important;
 }
 
+.top-\[25vh\] {
+  top: 25vh !important;
+}
+
 .bottom-0 {
   bottom: 0px !important;
 }
