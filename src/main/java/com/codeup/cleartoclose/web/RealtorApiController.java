@@ -29,17 +29,31 @@ public class RealtorApiController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String result = "";
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+
         HttpGet request = new HttpGet("https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address="+encode);
+        String result = getRequestResponse(request);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+//    https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detailwithschools?attomid=${propertyID}`;
+    @GetMapping("/schoolInfo")
+    public ResponseEntity<String> getSchoolInfo(@RequestParam long propertyId) {
+        HttpGet request = new HttpGet("https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detailwithschools?attomid="+propertyId);
+        String result = getRequestResponse(request);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    private String getRequestResponse(HttpGet request) {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
         request.addHeader("apikey", realtorAPIkey);
+        String result = "";
         try {
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
             result = EntityUtils.toString(entity);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } finally {
             try {
                 httpclient.close();
@@ -47,6 +61,7 @@ public class RealtorApiController {
                 e.printStackTrace();
             }
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return result;
     }
 }
+

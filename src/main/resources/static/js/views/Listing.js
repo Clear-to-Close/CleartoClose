@@ -10,22 +10,29 @@ export default function ListingIndex(props) {
     // language=HTML
     return `
         <div id="listingPageDiv" data-id="${props.listing.id}"
-             class="flex flex-col content-height relative bg-primary">
-            <div class="w-full">
-                <img class="w-full"
-                     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                     alt="main listing photo">
+             class="flex flex-col content-height relative bg-primary md:flex-row">
+            <div class="md:flex md:flex-col">
+                <div class="w-full">
+                    <img class="w-full"
+                         src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                         alt="main listing photo">
+                </div>
+                <div class="p-2 text-center my-2">
+                    ${props.listing.description}
+                </div>
             </div>
-            <div class="p-2 text-center my-2">
-                ${props.listing.description}
-            </div>
-            <div class="flex justify-start w-full">
-                ${populateListingFromDB(props.listing)}
-                <div id="ApiDetails" class="w-full"></div>
-            </div>
-            <div class="flex mx-auto">
-                <button id="viewOffersBtn" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers</button>
-                <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Listing</button>
+            <div>
+                <div class="flex justify-start w-full">
+                    ${populateListingFromDB(props.listing)}
+                    <div class="w-full">
+                        <div id="ApiDetails" class="w-full"></div>
+                        <div class="hidden md:flex">School info</div>
+                    </div>
+                </div>
+                <div class="flex mx-auto justify-center">
+                    <button id="viewOffersBtn" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers</button>
+                    <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Listing</button>
+                </div>
             </div>
         </div>`
 }
@@ -64,37 +71,37 @@ const populateDetailsFromApi = (propertyInfo, imageUrls) => {
     console.log(propertyInfo);
     //language=HTML
     const html = `
-        <div class="m-1 pb-1 text-center items-center" id="apiSqFt">
-            <img src="" alt="Square Foot Icon" class="w-[15px] h-[15px]">
-            SqFt: ${propertyInfo.building.size.bldgsize}
+        <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiSqFt">
+            <img src="${imageUrls[0]}" alt="Square Foot Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">SqFt: ${propertyInfo.building.size.bldgsize}</span>
         </div>
-        <div class="flex m-1 pb-1 text-center justify-between items-center" id="apiBaths">
-            <img src="${imageUrls[0]}" alt="Bath Icon" class="w-[15px] h-[15px]">
-            Baths: ${propertyInfo.building.rooms.bathsfull}
+        <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiBaths">
+            <img src="${imageUrls[0]}" alt="Bath Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">Baths: ${propertyInfo.building.rooms.bathsfull}</span>
         </div>
-        <div class="flex m-1 pb-1 text-center justify-between items-center" id="apiBeds">
-            <img src="${imageUrls[1]}" alt="Bed Icon" class="w-[15px] h-[15px]"> 
-            Beds: ${propertyInfo.building.rooms.beds ?? 2}
+        <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiBeds">
+            <img src="${imageUrls[1]}" alt="Bed Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">Beds: ${propertyInfo.building.rooms.beds ?? 2}</span>
         </div>
-        <div class="m-1 pb-1 text-center justify-between items-center" id="apiParkingType">
-            <img src="${imageUrls[3]}" alt="Parking Icon" class="w-[15px] h-[15px]">
-            Parking: ${propertyInfo.building.parking.garagetype}
+        <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiParkingType">
+            <img src="${imageUrls[3]}" alt="Parking Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">Parking: ${propertyInfo.building.parking.garagetype ?? "Not Listed"}</span>
         </div>
-        <div class="flex m-1 pb-1 text-center justify-between items-center" id="apiAC">
-            <img src="${imageUrls[4]}" alt="AC Icon" class="w-[15px] h-[15px]">
-            A/C: ${propertyInfo.utilities.coolingtype}
-         </div>
-        <div class="flex m-1 pb-1 text-center justify-between items-center" id="apiHeat">
-            <img src="${imageUrls[5]}" alt="Heat Icon" class="w-[15px] h-[15px]">
-            Heat: ${propertyInfo.utilities.heatingtype}
+        <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiAC">
+            <img src="${imageUrls[4]}" alt="AC Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">A/C: ${propertyInfo.utilities.coolingtype}</span>
         </div>
-        <div class="flex m-1 pb-1 text-center justify-between items-center" id="apiRoof">
-            <img src="${imageUrls[2]}" alt="Roof Icon" class="w-[15px] h-[15px]">
-            Roof: ${propertyInfo.building.construction.roofcover}
+        <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiHeat">
+            <img src="${imageUrls[5]}" alt="Heat Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">Heat: ${propertyInfo.utilities.heatingtype}</span>
         </div>
-        <div class="m-1 pb-1 text-center justify-between items-center " id="apiLot">
-            <img src="" alt="Lot Icon" class="w-[15px] h-[15px]">
-            Lot SqFt: ${propertyInfo.lot.lotsize2}
+        <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiRoof">
+            <img src="${imageUrls[2]}" alt="Roof Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">Roof: ${propertyInfo.building.construction.roofcover ?? "Not Listed"}</span>
+        </div>
+        <div class="flex m-1 pb-1 text-center justify-end items-center " id="apiLot">
+            <img src="${imageUrls[0]}" alt="Lot Icon" class="w-[15px] h-[15px] mx-3">
+            <span class="w-[135px]">Lot SqFt: ${propertyInfo.lot.lotsize2}</span>
         </div>
     `
     $("#ApiDetails").append(html);
@@ -137,26 +144,27 @@ function requestListingDetailView(listingAddress, imageUrls) {
 /// Need to grab property ID from the JSON returned from property detail function
 // const propertyID = "33497215"
 
-// function requestSchoolDetailView() {
-//     var url = `https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detailwithschools?attomid=${propertyID}`;
-//
-//     var xhr = new XMLHttpRequest();
-//     xhr.open("GET", url);
-//
-//     xhr.setRequestHeader("Accept", "application/json");
-//     xhr.setRequestHeader("apikey", `${attomApiKey()}`);
-//     xhr.responseType = 'json';
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState === 4) {
-//             console.log(xhr.status);
-//             console.log(xhr.response);
-//         }
-//     };
-//
-//     xhr.send();
-// }
-//
-// requestSchoolDetailView();
+function requestSchoolDetailView() {
+
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("apikey", `${attomApiKey()}`);
+    xhr.responseType = 'json';
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log(xhr.status);
+            console.log(xhr.response);
+        }
+    };
+
+    xhr.send();
+}
+
+
 
 export function ListingEvent() {
     revealOffersButton();
