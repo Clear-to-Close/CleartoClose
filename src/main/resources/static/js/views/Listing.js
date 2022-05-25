@@ -131,6 +131,7 @@ const editListing = _ => {
 }
 
 ////CODE BELOW RETURNS WITH RESULT BASED ON CONST ABOVE, DETAILED VIEW ////
+
 function requestListingDetailView(listingAddress, imageUrls) {
     //// grab strings for const below from search box, split on ""
     const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
