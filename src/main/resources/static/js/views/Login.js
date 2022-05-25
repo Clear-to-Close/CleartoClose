@@ -26,8 +26,10 @@ export default function Login(props) {
         </div>`;
 }
 
+
 const login = _ => {
     $("#login-btn").click(e => {
+
         e.preventDefault();
         const email = $("#username").val();
         const password = $("#password").val();
