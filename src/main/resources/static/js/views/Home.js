@@ -1,43 +1,45 @@
 import createView from "../createView.js";
 
-const HOME_URI = `http://${BACKEND_HOST}:${PORT}/api/listings`;
-
 export default function Home() {
 //language=HTML
     return `
-        <div class="bg-cover min-h-[calc(100vh-90px)] relative"
+        <div class="bg-cover content-height flex flex-col justify-center"
              style="background-image: url('https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')">
-            <ul class="nav nav-pills mb-3 absolute top-[25vh] w-full mx-4 md:top-[35vh]" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-searchByAddress-tab" data-bs-toggle="pill" data-bs-target="#searchFullAddress"
-                            type="button" role="tab" aria-controls="pills-searchByAddress-tab" aria-selected="true">
-                        Address
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-searchByCity-tab" data-bs-toggle="pill" data-bs-target="#searchByCity" type="button" role="tab"
-                            aria-controls="pills-searchByCity-tab" aria-selected="false">
-                        City
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-searchByState-tab" data-bs-toggle="pill" data-bs-target="#searchByState" type="button"
-                            role="tab" aria-controls="pills-searchByState-tab" aria-selected="false">
-                        State
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-searchByZip-tab" data-bs-toggle="pill" data-bs-target="#searchByZip" type="button" role="tab"
-                            aria-controls="pills-searchByZip-tab" aria-selected="false">
-                        Zip
-                    </button>
-                </li>
-            </ul>
+            <div class="w-full flex items-center justify-center">
+                <ul class="nav nav-pills mb-3 w-full mx-4 xl:w-3/4" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-searchByAddress-tab" data-bs-toggle="pill" data-bs-target="#searchFullAddress"
+                                type="button" role="tab" aria-controls="pills-searchByAddress-tab" aria-selected="true">
+                            Address
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-searchByCity-tab" data-bs-toggle="pill" data-bs-target="#searchByCity" type="button"
+                                role="tab"
+                                aria-controls="pills-searchByCity-tab" aria-selected="false">
+                            City
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-searchByState-tab" data-bs-toggle="pill" data-bs-target="#searchByState" type="button"
+                                role="tab" aria-controls="pills-searchByState-tab" aria-selected="false">
+                            State
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-searchByZip-tab" data-bs-toggle="pill" data-bs-target="#searchByZip" type="button"
+                                role="tab"
+                                aria-controls="pills-searchByZip-tab" aria-selected="false">
+                            Zip
+                        </button>
+                    </li>
+                </ul>
+            </div>
 
-            <div class="tab-content min-h-[calc(100vh-90px)] w-full" id="pills-tabContent">
-                <div id="searchFullAddress" role="tabpanel" class="tab-pane fade show active min-h-[calc(100vh-90px)]">
-                    <div class="w-full min-h-[calc(100vh-90px)] flex items-center justify-center">
-                        <form class="mx-3 w-full flex flex-col md:flex-row">
+            <div class="tab-content w-full" id="pills-tabContent">
+                <div id="searchFullAddress" role="tabpanel" class="tab-pane fade show active">
+                    <div class="w-full flex items-center justify-center">
+                        <form class="mx-3 w-full flex flex-col md:flex-row xl:w-3/4">
                             <input type="text" name="search-address" id="search-address"
                                    class="search-form py-2 mx-1 my-2 rounded-sm p-1 flex md:w-1/2"
                                    placeholder="Search an address">
@@ -106,9 +108,9 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div id="searchByCity" role="tabpanel" class="tab-pane fade min-h-[calc(100vh-90px)] w-full">
-                    <div class="w-full min-h-[calc(100vh-90px)] flex items-center justify-center">
-                        <form class="mx-3 w-full flex flex-col md:flex-row md:justify-center">
+                <div id="searchByCity" role="tabpanel" class="tab-pane fade w-full">
+                    <div class="w-full flex items-center justify-center">
+                        <form class="mx-3 w-full flex flex-col md:flex-row xl:w-3/4">
                             <input type="text" name="search-by-city" id="search-by-city"
                                    class="search-form py-2 mx-1 my-2 md:flex-row rounded-sm p-1 flex md:w-1/2 md:grow"
                                    placeholder="Search By City">
@@ -119,9 +121,9 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div id="searchByState" role="tabpanel" class="tab-pane fade min-h-[calc(100vh-90px)] w-full">
-                    <div class="w-full min-h-[calc(100vh-90px)] flex items-center justify-center">
-                        <form class="mx-3 w-full flex flex-col md:flex-row md:justify-center">
+                <div id="searchByState" role="tabpanel" class="tab-pane fade w-full">
+                    <div class="w-full flex items-center justify-center">
+                        <form class="mx-3 w-full flex flex-col md:flex-row xl:w-3/4">
                             <input type="text" name="search-by-state" id="search-by-state"
                                    class="search-form py-2 mx-1 my-2 md:flex-row rounded-sm p-1 flex md:w-1/2 md:grow"
                                    placeholder="Search By State">
@@ -132,9 +134,9 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div id="searchByZip" role="tabpanel" class="tab-pane fade min-h-[calc(100vh-90px)] w-full">
-                    <div class="w-full min-h-[calc(100vh-90px)] flex items-center justify-center">
-                        <form class="mx-3 w-full flex flex-col md:flex-row md:justify-center">
+                <div id="searchByZip" role="tabpanel" class="tab-pane fade w-full">
+                    <div class="w-full flex items-center justify-center">
+                        <form class="mx-3 w-full flex flex-col md:flex-row xl:w-3/4">
                             <input type="text" name="search-by-zip" id="search-by-zip"
                                    class="search-form py-2 mx-1 my-2 md:flex-row rounded-sm p-1 flex md:w-1/2 md:grow"
                                    placeholder="Search By Zip Code">
