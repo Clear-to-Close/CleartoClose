@@ -123,7 +123,6 @@ export default function router(URI) {
 
     for (const key in routes) {
         if (key === URI) {
-
             if (newURI !== null) {
                 routes[URI].state[piecesOfURI[1]] = newURI
                 sessionStorage.setItem("URI", JSON.stringify(newURI))
