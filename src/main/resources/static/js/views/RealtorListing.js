@@ -89,7 +89,9 @@ export default function RealtorListing(props) {
 }
 
 const submitListing = _ => {
+  
     $("#submit").click(e => {
+
         e.preventDefault();
         console.log(listingId)
         if (listingId === null) {
