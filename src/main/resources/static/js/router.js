@@ -3,6 +3,7 @@
  * @param URI
  * @returns {*}
  */
+
 import Home, {HomeEvents} from "./views/Home.js";
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
@@ -16,9 +17,13 @@ import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 
+
 const userLoggedIn = localStorage.getItem('accessToken');
 
 export default function router(URI) {
+    const piecesOfURI = URI.split("/");
+    const newURI = JSON.parse(sessionStorage.getItem("URI"));
+
     const routes = {
         '/': {
             returnView: Home,
@@ -53,7 +58,7 @@ export default function router(URI) {
         '/listing': {
             returnView: ListingIndex,
             state: {
-                listing: "/api"
+                listing: "/api",
             },
             uri: '/listing',
             title: "Listing",
@@ -110,16 +115,19 @@ export default function router(URI) {
             state: {
                 loggedInUser: `/api/users/${parseInt(userLoggedIn)}`
             },
-            uri: '/users',
+            uri: '/profile',
             title: 'Your profile page',
             viewEvent: ProfileEvents
         }
     };
 
-
-    let piecesOfURI = URI.split("/");
     for (const key in routes) {
         if (key === URI) {
+
+            if (newURI !== null) {
+                routes[URI].state[piecesOfURI[1]] = newURI
+                sessionStorage.setItem("URI", JSON.stringify(newURI))
+            }
             return routes[URI];
         } else if (key.includes(`/${piecesOfURI[1]}`)) {
             let stateBase = piecesOfURI[1];
@@ -129,8 +137,9 @@ export default function router(URI) {
                     pieceOfState += `/${piecesOfURI[i]}`;
                 }
             }
+
             routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
-            console.log(routes[`/${piecesOfURI[1]}`])
+            sessionStorage.setItem("URI", JSON.stringify(`${routes[`/${piecesOfURI[1]}`].state[stateBase]}`))
             return routes[`/${piecesOfURI[1]}`]
         }
     }

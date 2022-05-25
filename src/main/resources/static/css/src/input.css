@@ -13,3 +13,7 @@
 #dropdownTabNav .nav-link {
     color: white;
 }
+
+.content-height {
+    min-height: calc(100vh - 90px)
+}

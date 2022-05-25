@@ -1,43 +1,41 @@
 import createView from "../createView.js";
-import {getMessage} from "../messaging.js";
 
 export default function Register(props) {
     //language=HTML
     return `
-        <div class=" items-center text-center justify-between flex-wrap min-h-[calc(100vh-75px)]">
+        <div class="bg-primary flex justify-center items-center content-height">
+            <div class="bg-secondary w-3/4 lg:w-1/2">
+                <h1 class="font-sans ui-sans-serif text-5xl leading-snug w-full px-[30px] text-center text-black my-[50px] sm:text-5xl ">
+                    Register</h1>
+                <form id="login-form" class="flex flex-col items-center text-center justify-center px-[15px] w-full">
+                    <div id="emptyInfo" class="text-red-600"></div>
+                    <label for="firstname" class="px-[10px] my-auto">First Name</label>
 
-            <h1 class="font-sans ui-sans-serif text-5xl leading-snug w-full px-[30px] text-center text-black my-[50px] sm:text-5xl ">
-                Register</h1>
-            <form id="login-form" class="flex flex-col items-center text-center justify-center px-[15px] w-full">
-                <div id="emptyInfo" class="text-red-600"></div>
-                <label for="firstname" class="px-[10px] my-auto">Enter your first name</label>
+                    <input id="firstname" class="w-11/12 rounded mx-1 my-1 p-1" name="firstname" type="text"/>
 
-                <input id="firstname" class="rounded  mx-1 my-1" name="firstname" type="text"/>
-                
-                <label for="lastname" class="px-[10px] my-auto">Enter your last name</label>
+                    <label for="lastname" class="px-[10px] my-auto">Last Name</label>
 
-                <input id="lastname" class="rounded  mx-1 my-1" name="lastname" type="text"/>
-                
-                <label for="email" class="px-[10px] my-auto">Enter your Email Address</label>
+                    <input id="lastname" class="w-11/12 rounded mx-1 my-1 p-1" name="lastname" type="text"/>
 
-                <input id="email" class="rounded  mx-1 my-1" name="email" type="text"/>
+                    <label for="email" class="px-[10px] my-auto">Email Address</label>
 
-                <label for="phone-number" class="px-[10px] my-auto">Enter your Phone Number</label>
+                    <input id="email" class="w-11/12 rounded mx-1 my-1 p-1" name="email" type="text"/>
 
-                <input id="phone-number" class="rounded  mx-1 my-1" name="phone-number" type="text"/>
-                
-                <label for="username" class="px-[10px] my-auto">Enter a Username</label>
+                    <label for="phone-number" class="px-[10px] my-auto">Phone Number</label>
 
-                <input id="username" class="rounded  mx-1 my-1" name="username" type="text"/>
+                    <input id="phone-number" class="w-11/12 rounded mx-1 my-1 p-1" name="phone-number" type="text"/>
 
-                <label for="password" class="px-[10px] my-auto">Enter a Password</label>
+                    <label for="username" class="px-[10px] my-auto">Username</label>
 
-                <input id="password" class="rounded mx-1 my-1" name="password" type="password"/>
+                    <input id="username" class="w-11/12 rounded mx-1 my-1 p-1" name="username" type="text"/>
 
-                <input id="register-btn"
-                       class="flex flex-wrap justify-between px-[15px] rounded-md mx-1 my-1 shadow-xl text-white bg-callToAction" type="submit"
-                       value="Register"/>
-            </form>
+                    <label for="password" class="px-[10px] my-auto">Password</label>
+
+                    <input id="password" class="w-11/12 rounded mx-1 my-1 p-1" name="password" type="password"/>
+
+                    <button id="register-btn" class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Register</button>
+                </form>
+            </div>
         </div>`;
 }
 
