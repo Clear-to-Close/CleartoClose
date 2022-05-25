@@ -4,10 +4,9 @@ import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
 import org.springframework.web.bind.annotation.*;
+import com.codeup.cleartoclose.services.S3Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -17,11 +16,13 @@ public class ListingsController {
     private final ListingsRepository listingRepository;
     private final UsersRepository usersRepository;
     private final AddressRepository addressRepository;
+    private final S3Service s3Service;
 
-    public ListingsController(ListingsRepository listingRepository, UsersRepository usersRepository, AddressRepository addressRepository) {
+    public ListingsController(ListingsRepository listingRepository, UsersRepository usersRepository, AddressRepository addressRepository, S3Service s3Service) {
         this.listingRepository = listingRepository;
         this.usersRepository = usersRepository;
         this.addressRepository = addressRepository;
+        this.s3Service = s3Service;
     }
 
     // This would be more for user profile purposes; US22/F2? or US21/F3
@@ -33,15 +34,29 @@ public class ListingsController {
     // Will return a single listing with all information; US19/F2 As an auth user, I can see all listing information
     @GetMapping("{listingId}")
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
+        Listing listing = listingRepository.findById(listingId).get();
+        List<String> unsignedUrls = listing.getImage_list();
+        List<String> signedUrls = new ArrayList<>();
+        for (String urls : unsignedUrls) {
+            signedUrls.add(s3Service.getSignedURL(urls));
+        }
+        listing.setImage_list(signedUrls);
         return listingRepository.findById(listingId);
     }
 
     @GetMapping("searchByFullAddress")
-    public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state,
+    public Listing getListingByAddress(@RequestParam String address,
+                                       @RequestParam String city,
+                                       @RequestParam String state,
                                        @RequestParam String zip) {
-        System.out.println(address);
-
-        return listingRepository.findByListingAddress(addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state, zip));
+        Listing listing = listingRepository.findByListingAddress(addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state, zip));
+        List<String> unsignedUrls = listing.getImage_list();
+        List<String> signedUrls = new ArrayList<>();
+        for (String urls : unsignedUrls) {
+            signedUrls.add(s3Service.getSignedURL(urls));
+        }
+        listing.setImage_list(signedUrls);
+        return listing;
     }
 
     // Searching by zipCode returns a list of addresses that can be used to pin on a map
@@ -57,6 +72,9 @@ public class ListingsController {
     @PostMapping
     public void createListing(@RequestBody ListingDTO createDTO) {
 
+        List<String> image_icons = new ArrayList<>(Arrays.asList("bath-solid.svg", "bed-solid.svg", "people-roof-solid.svg", "square-parking-solid" +
+                ".svg", "temperature-arrow-down-solid.svg", "temperature-arrow-up-solid.svg"));
+
         Listing newListing = new Listing();
 
         newListing.setSeller(usersRepository.findByEmail(createDTO.getSellerEmail()));
@@ -67,6 +85,7 @@ public class ListingsController {
         newListing.setDescription(createDTO.getDescription());
         newListing.setAskingPrice(createDTO.getAskingPrice());
         newListing.setListingStatus(ListingStatus.ACTIVE);
+        newListing.setImage_list(image_icons);
 
         Address newAddress = new Address();
         newAddress.setAddress(createDTO.getAddress());
