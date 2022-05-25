@@ -69,7 +69,8 @@ let buyerID = null;
 
 
 function confirmOfferAcceptance() {
-    $('#btn-accept').click(function () {
+    $('#btn-accept').click(function (e) {
+        e.preventDefault();
         const id = $(this).data("id");
 
         $.get(`${OFFERS_URL}/${id}`).then(function (res) {
@@ -131,7 +132,8 @@ function confirmOfferAcceptance() {
 
 
 function initCounterOffer() {
-    $('#btn-cnt-offer').click(function () {
+    $('#btn-cnt-offer').click(function (e) {
+        e.preventDefault();
         const id = $(this).data("id");
         console.log(id);
 

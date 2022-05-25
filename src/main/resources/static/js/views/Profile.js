@@ -162,7 +162,8 @@ function populateProfileOffers(offers) {
 }
 
 function updateUserProfile() {
-    $("#btnUpdateProfile").click(function () {
+    $("#btnUpdateProfile").click(function (e) {
+        e.preventDefault();
         //langauge=HTML
         $("#saveProfile-btn").removeClass("hidden")
         $("#cancel-btn").removeClass("hidden")
@@ -213,7 +214,8 @@ function updateUserProfile() {
 }
 
 function saveProfileUpdate() {
-    $("#saveProfile-btn").click(function () {
+    $("#saveProfile-btn").click(function (e) {
+        e.preventDefault();
         console.log("Profile updated")
         const updatedUser = {
             firstName: $("#firstname").val(),

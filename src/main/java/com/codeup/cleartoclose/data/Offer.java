@@ -57,4 +57,5 @@ public class Offer {
     @Column
     private Date acceptanceDate;
 
+
 }
