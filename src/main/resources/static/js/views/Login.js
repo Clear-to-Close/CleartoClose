@@ -19,13 +19,16 @@ export default function Login(props) {
 
                     <button id="login-btn" class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Login</button>
                 </form>
-                <p class="register-link flex-wrap my-[50px]">Don't have an account? <button class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction" id="goToRegister">Register Here</button></p>
+                <p class="register-link flex-wrap my-[50px]">Don't have an account?
+                    <button class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction" id="goToRegister">Register Here</button>
+                </p>
             </div>
         </div>`;
 }
 
-export function LoginEvent() {
-    $("#login-btn").click(function () {
+const login = _ => {
+    $("#login-btn").click(e => {
+        e.preventDefault();
         const email = $("#username").val();
         const password = $("#password").val();
 
@@ -39,14 +42,14 @@ export function LoginEvent() {
                 console.log(response.status);
                 response.json()
                     .then(user => {
-                        console.log(user)
+                            console.log(user)
                             if (user.password === password) {
                                 localStorage.setItem('accessToken', `${user.id}`);
                                 createView("/")
-                            } else if(email === "" || password === "") {
-                               getMessage("Please enter username or password", 'incorrect-login');
+                            } else if (email === "" || password === "") {
+                                getMessage("Please enter username or password", 'incorrect-login');
                                 return;
-                            }else if(user.email !== email || user.password !== password){
+                            } else if (user.email !== email || user.password !== password) {
                                 getMessage("Please enter correct username or password", 'incorrect-login');
                                 return;
                             }
@@ -54,8 +57,16 @@ export function LoginEvent() {
                     )
             })
     })
-    $("#goToRegister").click(function (){
+}
+
+const registrationPage = _ => {
+    $("#goToRegister").click(e => {
+        e.preventDefault();
         createView("/register")
     })
+}
 
+export function LoginEvent() {
+    login();
+    registrationPage();
 }

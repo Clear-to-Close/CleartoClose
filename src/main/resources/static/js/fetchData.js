@@ -11,7 +11,6 @@ export default function fetchData(state, request) {
 
     const baseUri = `http://${BACKEND_HOST}:${PORT}`;
 
-
     // console.log("got to fetch data");
     for (let pieceOfState of Object.keys(state)) {
         // console.log(baseUri + state[pieceOfState]);
@@ -28,4 +27,8 @@ export default function fetchData(state, request) {
         });
         return props;
     });
+}
+
+export function getPathname() {
+    return location.pathname
 }
