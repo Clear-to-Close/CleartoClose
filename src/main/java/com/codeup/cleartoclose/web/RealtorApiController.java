@@ -32,12 +32,12 @@ public class RealtorApiController {
 
         HttpGet request = new HttpGet("https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address="+encode);
         String result = getRequestResponse(request);
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 //    https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detailwithschools?attomid=${propertyID}`;
     @GetMapping("/schoolInfo")
     public ResponseEntity<String> getSchoolInfo(@RequestParam long propertyId) {
+        System.out.println(propertyId);
         HttpGet request = new HttpGet("https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detailwithschools?attomid="+propertyId);
         String result = getRequestResponse(request);
 
@@ -47,6 +47,7 @@ public class RealtorApiController {
     private String getRequestResponse(HttpGet request) {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         request.addHeader("apikey", realtorAPIkey);
+        request.addHeader("Accept", "application/json");
         String result = "";
         try {
             HttpResponse response = httpclient.execute(request);

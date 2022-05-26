@@ -484,10 +484,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 50% !important;
 }
 
-.top-\[25vh\] {
-  top: 25vh !important;
-}
-
 .bottom-0 {
   bottom: 0px !important;
 }
@@ -624,6 +620,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-2\/3 {
   width: 66.666667% !important;
+}
+
+.grow {
+  flex-grow: 1 !important;
 }
 
 .translate-y-1\/2 {
@@ -772,6 +772,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   text-align: center !important;
 }
 
+.text-right {
+  text-align: right !important;
+}
+
 .text-justify {
   text-align: justify !important;
 }
@@ -836,6 +840,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   min-height: calc(100vh - 90px)
 }
 
+input #file-upload-button {
+  background-color: #8080d8;
+}
+
 @media (min-width: 640px) {
   .sm\:text-5xl {
     font-size: 3rem !important;
@@ -844,8 +852,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @media (min-width: 768px) {
+  .md\:mx-1 {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+
   .md\:flex {
     display: flex !important;
+  }
+
+  .md\:hidden {
+    display: none !important;
   }
 
   .md\:h-\[350px\] {
@@ -878,6 +895,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:flex-col {
     flex-direction: column !important;
+  }
+
+  .md\:items-center {
+    align-items: center !important;
+  }
+
+  .md\:p-2 {
+    padding: 0.5rem !important;
   }
 }
 
