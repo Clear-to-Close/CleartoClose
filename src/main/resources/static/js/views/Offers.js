@@ -6,6 +6,7 @@ let listingId = null;
 
 export default function Offers(props) {
 
+
     let URI = sessionStorage.getItem("URI").split("/")
     listingId = parseInt(URI[URI.length - 1])
 
@@ -21,7 +22,7 @@ export default function Offers(props) {
                     Make An Offer On This Home!
                 </button>
             </div>
-            <div id="offer">${retrieveOffersFromDb(props.offers)}</div>
+            <div id="offer">${props.offers.length === 0 ? retrieveOffersFromDb(props.offers) : `<h1>Currently No Offers Submitted</h1>`}</div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
                         class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
