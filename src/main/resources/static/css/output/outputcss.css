@@ -484,10 +484,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 50% !important;
 }
 
-.top-\[25vh\] {
-  top: 25vh !important;
-}
-
 .bottom-0 {
   bottom: 0px !important;
 }
@@ -582,6 +578,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 25% !important;
 }
 
+.h-\[200px\] {
+  height: 200px !important;
+}
+
 .h-\[50px\] {
   height: 50px !important;
 }
@@ -618,19 +618,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 15px !important;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/main
 .w-\[135px\] {
   width: 135px !important;
 }
 
-<<<<<<< HEAD
->>>>>>> origin/main
-=======
->>>>>>> origin/main
 .w-2\/3 {
   width: 66.666667% !important;
 }
