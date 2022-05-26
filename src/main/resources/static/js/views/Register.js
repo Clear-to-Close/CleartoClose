@@ -40,7 +40,8 @@ export default function Register(props) {
 }
 
 export function RegisterEvent() {
-    $("#register-btn").click(function () {
+    $("#register-btn").click(function (e) {
+        e.preventDefault();
         console.log("#register-btn");
 
         const email = $("#email").val()
