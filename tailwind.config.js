@@ -12,7 +12,7 @@ module.exports = {
         extend: {
             width: {
                 'input-width-sm' : '200px',
-                'input-width-lg': '300px'
+                'input-width-lg' : '300px'
             },
             colors: {
                 'non-photo-blue' : '#9ad5e7',

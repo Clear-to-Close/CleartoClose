@@ -28,6 +28,11 @@ function addListenerToNavLinks() {
         if (e.target.dataset['link'] !== undefined) {
             const URI = e.target.href.substring(location.origin.length);
             createView(URI);
+            clearStoredURI();
         }
     });
+}
+
+export function clearStoredURI() {
+    return sessionStorage.clear()
 }

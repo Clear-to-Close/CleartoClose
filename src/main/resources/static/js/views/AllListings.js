@@ -22,7 +22,8 @@ export function AllListingsEvent() {
     $("#listings").click(e => {
         e.preventDefault();
         console.log(e.target)
-        let id = e.target.getAttribute("data-id")
+       let id = e.target.getAttribute("data-id");
+        console.log(id);
         createView(`/listing/listings/${id}`)
     })
 }
