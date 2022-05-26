@@ -1,7 +1,7 @@
 import createView from "../createView.js";
 import {isLoggedIn} from "../auth.js";
 
-const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
+const BASE_URL = "http://localhost:8080";
 
 export default function ListingIndex(props) {
     console.log(props)
@@ -9,7 +9,7 @@ export default function ListingIndex(props) {
     // language=HTML
     return `
         <div id="listingPageDiv" data-id="${props.listing.id}"
-             class="flex flex-col min-h-[calc(100vh-90px)] relative bg-primary">
+             class="flex flex-col min-h-[calc(100vh-75px)] relative bg-primary">
             <img class="w-full"
                  src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                  alt="main listing photo">
@@ -19,7 +19,7 @@ export default function ListingIndex(props) {
             </div>
             <div class="flex mx-auto">
                 <button id="viewOffersBtn" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers</button>
-                <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Listing</button>
+                <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Offers</button>
             </div>
         </div>`
 }
@@ -72,8 +72,7 @@ const viewOffers = _ => {
 }
 
 const editListing = _ => {
-    $('#editListing').click(function (e) {
-        e.preventDefault();
+    $('#editListing').click(_ => {
         let listingId = $('#listingPageDiv').attr('data-id');
         createView(`/realtorListing/listings/${listingId}`)
     });

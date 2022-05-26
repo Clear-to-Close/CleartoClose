@@ -14,7 +14,6 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -42,46 +41,41 @@ public class User {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @Column(name = "preApproval_filename")
-    @ToString.Exclude
-    private String preApprovalileName;
+    @Column(nullable = true)
+    private String preApproved;
 
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"buyer", "buyerAgent"})
+    @JsonIgnoreProperties("buyer")
     @Transient
-    @ToString.Exclude
     private Collection<Listing> buyerListings;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"seller", "sellerAgent", "listingOffers", "listingAddress"})
-    @ToString.Exclude
+    @JsonIgnoreProperties("seller")
+    @Transient
     private Collection<Listing> sellerListings;
 
     @OneToMany(mappedBy = "buyerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"buyerAgent", "listingAddress"})
-    @ToString.Exclude
+    @JsonIgnoreProperties("buyerAgent")
+    @Transient
     private Collection<Listing> buyerAgentListings;
 
     @OneToMany(mappedBy = "sellerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-
-    @JsonIgnoreProperties({"sellerAgent", "listingAddress", "offeror"})
-    @ToString.Exclude
+    @JsonIgnoreProperties("sellerAgent")
+    @Transient
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"offeror", "listing"})
-    @ToString.Exclude
+    @JsonIgnoreProperties("offeror")
+    @Transient
     private Collection<Offer> userOffers;
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"user"})
-    @ToString.Exclude
+    @JsonIgnoreProperties("user")
     private Address userAddress;
 
     @OneToMany(mappedBy = "realtor", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties("realtor")
-    @ToString.Exclude
+    @Transient
     private Collection<AgentInfo> realtorInfo;
-
 }

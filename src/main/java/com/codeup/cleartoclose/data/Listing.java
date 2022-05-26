@@ -11,9 +11,8 @@ import java.util.Collection;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-
 @Entity
+@ToString
 @Table(name = "listings")
 public class Listing {
 
@@ -31,12 +30,13 @@ public class Listing {
 
     @ManyToOne
     @NotNull
-    @JsonIgnoreProperties({"listings", "password", "userAddress", "sellerAgentListings"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress"})
     private User seller;
 
     @ManyToOne
     @JsonIgnoreProperties({"listings", "password", "userAddress"})
     private User sellerAgent;
+
 
     @Column(nullable = false)
     private String description;
@@ -48,13 +48,11 @@ public class Listing {
     private ListingStatus listingStatus;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"listing", "offeror"})
-    @ToString.Exclude
+    @JsonIgnoreProperties("listing")
     private Collection<Offer> listingOffers;
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
     @JsonIgnoreProperties("listing")
-    @ToString.Exclude
     private Address listingAddress;
 }

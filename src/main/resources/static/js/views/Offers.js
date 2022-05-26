@@ -2,16 +2,19 @@ import createView from "../createView.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
-let listingID = null;
-let isBuyer = false;
-let isSeller = false;
-let isRealtor = false;
+// let listingID = null;
+// let isBuyer = false;
+// let isSeller = false;
+// let isRealtor = false;
 const user = parseInt(localStorage.getItem('accessToken'));
 
 
+
 export default function Offers(props) {
-    listingID = props.offers[0].listing.id
-    renderMakeOfferBtn(props.offers);
+    // listingID = props.offers[0].listing.id
+    console.log(props.offers);
+    functionAuthenticator(props.offers);
+
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -19,17 +22,16 @@ export default function Offers(props) {
                 <img class="md:w-3/4 md:h-[350px] mx-auto"
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
-                <div id="make-an-offer" class="hidden">
+                
                     <button id="makeOfferBtn"
-                            class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                            class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
                         Make An Offer!
                     </button>
-                </div>
             </div>
             <div id="offer">
                 ${props.offers.map(offer => {
-                    // language=HTML
-                   return `
+                    // language=html
+                    return `
             <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
                     ${offer.id}
@@ -50,34 +52,78 @@ export default function Offers(props) {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <div id="accept-offer-btn-container" data-id="${offer.id}" data-buyer="${offer.offeror.id}"
+                         <button id="btn-accept" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction" 
+                         data-id="${offer.id}" data-buyer="${offer.offeror.id}"
                          data-offer="${offer.offerAmount}"
-                         data-closing="${offer.closingDate}" data-warranty="${offer.homeWarranty}">
-                        ${renderAcceptOfferBtn(offer)}
-                    </div>
-                    <div id="edit-offer-btn-container" data-id="${offer.id}" data-buyer="${offer.offeror.id}"
+                         data-closing="${offer.closingDate}" data-warranty="${offer.homeWarranty}">Accept Offer!
+                         </button>
+                         <button class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction" 
+                         data-id="${offer.id}" data-buyer="${offer.offeror.id}"
                          data-offer="${offer.offerAmount}"
                          data-closing="${offer.closingDate}"
-                         data-warranty="${offer.homeWarranty}>
-                         ${renderEditBtn(offer)}
-                    </div>
+                         data-warranty="${offer.homeWarranty}">Edit Offer
+                         </button>
                 </div>
-            </div>`}).join("")}
+            </div>`
+                }).join("")}
             </div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
                         class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
                 </button>
             </div>
-        </div>`
+        </div>`;
 }
 
 
 let acceptanceID = null;
 let buyerID = null;
 
+function functionAuthenticator(offers) {
+    // let authenticationObject = {
+    //     // cannot make, edit, or delete and offer but can only accept one
+    //     isTheSeller: false,
+    //     // does not have any permissions except for viewing the offers
+    //     isARealtor: false,
+    //     // an offer can only edit or delete their own offer and cannot make another offer
+    //     isAnOfferor: false,
+    //     // a potential offeror can only view and make an offer until they have submitted their offer
+    //     isAPotentialOfferor: false,
+    //     // an admin can only view, edit, or delete existing offers but cannot make any offers
+    //     isAnAdmin: false
+    // }
+    // console.log(authenticationObject);
+    let removeClass = ``;
+offers.forEach((offer) => {
+    console.log(offer)
+    if (user !== offer.offeror.id) {
+        removeClass = $('#makeOfferBtn').removeClass('hidden');
+        // authenticationObj.isAPotentialOfferor = true;
+        // makeAnOffer(authenticationObj);
+    }
+    // if (user === offer.offeror.id) {
+    //     // authenticationObj.isAnOfferor = true
+    //     // return authenticationObj;
+    // }
+    // if (user === offer.listing.seller.id) {
+    //     // authenticationObj.isTheSeller = true;
+    //     // return authenticationObj;
+    // }
+    // if (user === offer.listing.sellerAgent.id || user === offer.offeror.realtorInfo[0].id) {
+    //     // authenticationObj.isARealtor = true;
+    //     // return authenticationObj;
+    // }
+});
+    return removeClass;
+}
+
+
+function makeAnOffer() {
+
+}
 
 function confirmOfferAcceptance() {
+
     $('#btn-accept').click(function (e) {
         e.preventDefault();
         const id = $(this).data("id");
@@ -158,7 +204,7 @@ const renderMakeOfferBtn = (offers) => {
     for (let i = 0; i < offers.length; i++) {
         console.log(offers[i].offeror.id);
         if (offers[i].offeror.id === user) {
-            isBuyer = true;
+            // isBuyer = true;
             console.log("This person won't be able to see the make offer button anymore!");
         }
         // if (offers[i].listing.seller.id === user) {
@@ -170,11 +216,6 @@ const renderMakeOfferBtn = (offers) => {
         // }
     }
 
-    $(document).ready(function (){
-        if (!isBuyer) {
-            $('#make-an-offer').removeClass('hidden');
-        }
-    });
 
 }
 
@@ -184,11 +225,8 @@ const renderAcceptOfferBtn = (offer) => {
     //     listingSeller = user;
     //     $('#accept-offer-btn-container').removeClass('hidden');
     //     //language=html
-    //     return `
-    //         <button id="btn-accept"
-    //                 class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
-    //             Offer!
-    //         </button>`
+    return `
+            `
     // }
     return null;
 }
@@ -208,6 +246,7 @@ function editOffer() {
 
 
 function initCounterOffer() {
+    console.log('This is the counter offer form!');
     $('#btn-cnt-offer').click(function (e) {
         e.preventDefault();
         const id = $(this).data("id");
@@ -309,7 +348,7 @@ const createMakeOfferView = () => {
 }
 
 export function OfferEvent() {
-    // renderMakeOfferBtn();
+
     confirmOfferAcceptance();
     updateListingObject();
     createMakeOfferView();

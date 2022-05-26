@@ -13,10 +13,7 @@ import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
 import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
 import AllListings, {AllListingsEvent} from "./views/AllListings.js";
-import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
-
-const userLoggedIn = localStorage.getItem('accessToken');
 
 export default function router(URI) {
     const routes = {
@@ -53,7 +50,7 @@ export default function router(URI) {
         '/listing': {
             returnView: ListingIndex,
             state: {
-                listing: "/api"
+                listing: "/api/listings"
             },
             uri: '/listing',
             title: "Listing",
@@ -79,9 +76,7 @@ export default function router(URI) {
         },
         '/allListings': {
             returnView: AllListings,
-            state: {
-                allListings: "/api"
-            },
+            state: {},
             uri: '/allListings',
             title: 'All Listings',
             viewEvent: AllListingsEvent
@@ -98,22 +93,15 @@ export default function router(URI) {
             uri: location.pathname,
             title: 'Loading...',
         },
-        '/register': {
-            returnView: Register,
-            state: {},
-            uri: '/register',
-            title: 'Register',
-            viewEvent: RegisterEvent
-        },
         '/profile': {
             returnView: ProfilePage,
             state: {
-                loggedInUser: `/api/users/${parseInt(userLoggedIn)}`
+                loggedInUser: "/api/users/1"
             },
             uri: '/users',
             title: 'Your profile page',
             viewEvent: ProfileEvents
-        }
+        },
     };
 
 
@@ -130,7 +118,6 @@ export default function router(URI) {
                 }
             }
             routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
-            console.log(routes[`/${piecesOfURI[1]}`])
             return routes[`/${piecesOfURI[1]}`]
         }
     }
