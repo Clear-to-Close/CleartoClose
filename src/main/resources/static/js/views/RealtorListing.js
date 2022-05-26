@@ -1,3 +1,4 @@
+const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
 let listingId = null;
 export default function RealtorListing(props) {
     console.log(props)
@@ -89,9 +90,8 @@ export default function RealtorListing(props) {
 }
 
 const submitListing = _ => {
-  
-    $("#submit").click(e => {
 
+    $("#submit").click(e => {
         e.preventDefault();
         console.log(listingId)
         if (listingId === null) {

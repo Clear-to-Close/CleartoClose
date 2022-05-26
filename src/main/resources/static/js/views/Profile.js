@@ -1,4 +1,5 @@
 import createView from "../createView.js";
+import {uploadDocuments} from "../utility.js";
 
 const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
 
@@ -31,7 +32,7 @@ export default function ProfilePage(props) {
             <div><h2>Spring Boot File Upload to S3</h2></div>
             <div>
                 <form >
-                    <input type="file" id="uploadUserDocs">
+                    <input type="file" id="uploadDocs">
                     <button id="uploadBtn">Upload Documents</button>
                 </form>
             </div>
@@ -83,31 +84,21 @@ export default function ProfilePage(props) {
         </div>`
 }///END OF PROFILE FUNCTION
 
-export function ProfileEvents() {
-
-    updateUserProfile();
-    uploadDocuments();
-
-}///END OF PROFILE EVENTS
-
-const uploadDocuments = _ => {
+function submitDocument() {
     $("#uploadBtn").click(e => {
         e.preventDefault();
-        let file = document.getElementById("uploadUserDocs");
-        let formData = new FormData();
-
-        formData.append('file', file.files[0])
-
-        const uploadRequest = {
-            method: 'POST',
-            body: formData
-        }
-
-        console.log("Hey")
-        fetch(`${BASE_URI}/api/s3/upload/${parseInt(localStorage.getItem("accessToken"))}`, uploadRequest)
-            .then(results => console.log(results))
+        const id = parseInt(localStorage.getItem("accessToken"))
+        const file = document.getElementById("uploadDocs")
+        uploadDocuments('uploadPreApproval', id, file)
     })
 }
+
+export function ProfileEvents() {
+    updateUserProfile();
+    submitDocument();
+}///END OF PROFILE EVENTS
+
+
 
 function grabBuyerOffers() {
     const userId = localStorage.getItem("accessToken");
@@ -116,7 +107,6 @@ function grabBuyerOffers() {
         populateProfileOffers(res);
     })
 }
-
 
 function populateProfileOffers(offers) {
     //language=html
@@ -240,14 +230,13 @@ function saveProfileUpdate() {
             .then(response => {
                 console.log(response.status);
                 createView("/");
-
             })
     })
+
     $("#cancel-btn").click(function (){
         $("#saveProfile-btn").addClass("hidden");
         $("#cancel-btn").addClass("hidden");
         console.log("cancel button clicked");
-
     })
 
 }
