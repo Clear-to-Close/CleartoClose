@@ -117,6 +117,7 @@ const populateDetailsFromApi = (propertyInfo, imageUrls) => {
             <span class="w-[135px]">Lot SqFt: ${propertyInfo.lot.lotsize2}</span>
         </div>
     `
+
     $("#ApiDetails").append(html);
 }
 
