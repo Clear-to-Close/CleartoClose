@@ -2,11 +2,18 @@ import createView from "../createView.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
+
 let listingID = null;
+
+const user = parseInt(localStorage.getItem('accessToken'));
 
 export default function Offers(props) {
     console.log(props);
-    listingID = props.offers[0].listing.id
+    let listingURI = sessionStorage.getItem('URI').split('/');
+    console.log(listingURI);
+    listingID = parseInt(listingURI[listingURI.length - 1]);
+
+    // areThereAnyOffers(props.offers);
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -14,12 +21,12 @@ export default function Offers(props) {
                 <img class="md:w-3/4 md:h-[350px] mx-auto"
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
-                <button id="makeOfferBtn" 
+                <button id="makeOfferBtn"
                         class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
                     Make An Offer On This Home!
                 </button>
             </div>
-            <div id="offer">${retrieveOffersFromDb(props.offers)}</div>
+            <div id="offer">${props.offers.length === 0 ? retrieveOffersFromDb(props.offers) : `<h1>There are currently no offers on this listing!!</h1>`}</div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
                         class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
@@ -64,6 +71,23 @@ const retrieveOffersFromDb = (offers) => {
     ).join("")
 };
 
+// const renderEmptyOffersDiv = _ => {
+//     //language=html
+//     $('#offer').html(`
+//         <div id="no-offers" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]x">
+//             <h1>There are currently no offers on this listing!!</h1>
+//         </div>`);
+// }
+//
+//
+// function areThereAnyOffers(offers) {
+//     console.log(offers);
+//     if (offers.length === undefined || offers.length === 0) {
+//         return renderEmptyOffersDiv();
+//     }
+//     listingID = props.offers[0].listing.id;
+//     return $('#offers').text(`${retrieveOffersFromDb(props.offers)}`);
+// }
 
 let acceptanceID = null;
 let buyerID = null;
@@ -225,6 +249,23 @@ function updateListingObject() {
     })
 }////END OF UPDATE LISTING OBJECT
 
+// RENDERING BUTTONS BASED ON USER IDENTITY && ACTIVITY
+// const renderMakeOfferBtn = (offers) => {
+//     console.log(offers);
+//     for (let i = 0; i < offers.length; i++) {
+//         console.log(typeof offers[i].offeror.id);
+//         if (offers[i].offeror.id === user) {
+//             console.log("This person won't be able to see the make offer button anymore!");
+//         }
+//         // if (offers[i].listing.seller.id === user) {
+//         //     isSeller = true;
+//         // }
+//         // if (offers[i].offeror.realtorInfo.id) {
+//         //     isRealtor = true;
+//         //     console.log("This person won't be able to see the make offer button anymore!");
+//         // }
+//     }
+// }
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
@@ -233,6 +274,8 @@ const createMakeOfferView = () => {
 }
 
 export function OfferEvent() {
+    // areThereAnyListings();
+    // renderMakeOfferBtn();
     confirmOfferAcceptance();
     updateListingObject();
     createMakeOfferView();
