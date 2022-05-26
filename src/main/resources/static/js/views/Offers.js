@@ -2,18 +2,15 @@ import createView from "../createView.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
-
-let listingID = null;
+let listingId = null;
 
 const user = parseInt(localStorage.getItem('accessToken'));
 
 export default function Offers(props) {
-    console.log(props);
-    let listingURI = sessionStorage.getItem('URI').split('/');
-    console.log(listingURI);
-    listingID = parseInt(listingURI[listingURI.length - 1]);
 
-    // areThereAnyOffers(props.offers);
+    let URI = sessionStorage.getItem("URI").split("/")
+    listingId = parseInt(URI[URI.length - 1])
+
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -26,7 +23,8 @@ export default function Offers(props) {
                     Make An Offer On This Home!
                 </button>
             </div>
-            <div id="offer">${props.offers.length === 0 ? retrieveOffersFromDb(props.offers) : `<h1>There are currently no offers on this listing!!</h1>`}</div>
+
+            <div id="offer">${props.offers.length === 0 ? retrieveOffersFromDb(props.offers) : `<h1>Currently No Offers Submitted</h1>`}</div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
                         class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
@@ -215,8 +213,6 @@ function populateCounterOfferForm(res) {
                 <label for="offerSurvey">Survey</label>
                 <input type="text" class="form-control" id="offerSurvey" placeholder="${survey}">
             </div>
-
-
         </div>`
 
     $("#offer").html("").append(`${acceptHTML}`);
@@ -269,7 +265,9 @@ function updateListingObject() {
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-        createView(`/makeOffer/listings/${listingID}`);
+
+        createView(`/makeOffer/listings/${listingId}`)
+
     })
 }
 
@@ -297,4 +295,3 @@ export function OfferEvent() {
 
 
 // $('.body').addClass(blur);
-

@@ -14,7 +14,9 @@ export default function Navbar(props) {
                     </button>
                     <div class="collapse navbar-collapse" id="navbarToggler">
                         <a class="navbar-brand" href="/" data-link>Clear To Close</a>
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-end">
+
+                        <ul class="navbar-nav me-auto mb-lg-0">
+
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/" data-link>Home</a>
                             </li>

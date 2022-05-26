@@ -25,8 +25,13 @@ public class Listing {
 
     @ElementCollection
     @CollectionTable(name = "listing_icons", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "image_list")
-    private List<String> image_list;
+    @Column(name = "listing_icons")
+    private List<String> image_icons;
+
+    @ElementCollection
+    @CollectionTable(name = "house_images", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "house_images")
+    private List<String> house_images;
 
     @ManyToOne
     @JsonIgnoreProperties({"listings", "password", "userAddress"})
