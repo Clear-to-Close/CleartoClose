@@ -56,12 +56,13 @@ public class Listing {
     private ListingStatus listingStatus;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties("listing")
+    @JsonIgnoreProperties({"listing", "offeror"})
     private Collection<Offer> listingOffers;
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
     @JsonIgnoreProperties("listing")
+    @ToString.Exclude
     private Address listingAddress;
 
 }

@@ -5,7 +5,7 @@ const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 export default function MakeOffer(props) {
     //language=html
-    console.log(props.makeOffer);
+    console.log(props);
     return `
         <div class="min-h-[calc(100vh-90px)]">
             <h1 class="text-center my-3">Offer Details</h1>
@@ -79,6 +79,7 @@ function submitOffer() {
         console.log('This button was clicked!');
 
         const listingId = $(this).data("id");
+        console.log(typeof listingId);
         // const offerorId = parseInt(localStorage.getItem('accessToken'));
 
         const offerData = {

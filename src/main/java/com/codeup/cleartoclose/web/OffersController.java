@@ -65,6 +65,7 @@ OffersController {
         newOffer.setOfferor(newOfferor);
 
         Listing currentListing = listingsRepository.getById(newOfferDTO.getListingId());
+        System.out.println(currentListing);
         newOffer.setListing(currentListing);
 
         offersRepository.save(newOffer);
