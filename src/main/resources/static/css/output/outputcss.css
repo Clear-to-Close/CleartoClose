@@ -535,14 +535,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: auto !important;
 }
 
-.mx-3 {
-  margin-left: 0.75rem !important;
-  margin-right: 0.75rem !important;
-}
-
 .mx-4 {
   margin-left: 1rem !important;
   margin-right: 1rem !important;
+}
+
+.mx-3 {
+  margin-left: 0.75rem !important;
+  margin-right: 0.75rem !important;
 }
 
 .mx-2 {
@@ -560,6 +560,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hidden {
   display: none !important;
+}
+
+.h-1\/4 {
+  height: 25% !important;
 }
 
 .h-full {
@@ -614,6 +618,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 200px !important;
 }
 
+.w-2\/3 {
+  width: 66.666667% !important;
+}
+
 .w-\[15px\] {
   width: 15px !important;
 }
@@ -626,6 +634,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 66.666667% !important;
 }
 
+.grow {
+  flex-grow: 1 !important;
+}
 .translate-y-1\/2 {
   --tw-translate-y: 50% !important;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
@@ -688,11 +699,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-width: 2px !important;
 }
 
-.border-black {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
-}
-
 .border-secondary {
   --tw-border-opacity: 1 !important;
   border-color: rgb(154 177 194 / var(--tw-border-opacity)) !important;
@@ -701,6 +707,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-callToAction {
   --tw-border-opacity: 1 !important;
   border-color: rgb(128 128 216 / var(--tw-border-opacity)) !important;
+}
+
+.border-black {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
 }
 
 .bg-secondary {
@@ -772,6 +783,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   text-align: center !important;
 }
 
+.text-right {
+  text-align: right !important;
+}
+
 .text-justify {
   text-align: justify !important;
 }
@@ -836,6 +851,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   min-height: calc(100vh - 90px)
 }
 
+input #file-upload-button {
+  background-color: #8080d8;
+}
+
 @media (min-width: 640px) {
   .sm\:text-5xl {
     font-size: 3rem !important;
@@ -844,8 +863,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @media (min-width: 768px) {
+  .md\:mx-1 {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+
   .md\:flex {
     display: flex !important;
+  }
+
+  .md\:hidden {
+    display: none !important;
   }
 
   .md\:h-\[350px\] {
@@ -878,6 +906,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:flex-col {
     flex-direction: column !important;
+  }
+
+  .md\:items-center {
+    align-items: center !important;
+  }
+
+  .md\:p-2 {
+    padding: 0.5rem !important;
   }
 }
 

@@ -35,27 +35,26 @@ public class ListingsController {
     @GetMapping("{listingId}")
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
         Listing listing = listingRepository.findById(listingId).get();
-        List<String> unsignedUrls = listing.getImage_list();
+        List<String> unsignedUrls = listing.getImage_icons();
         List<String> signedUrls = new ArrayList<>();
         for (String urls : unsignedUrls) {
             signedUrls.add(s3Service.getSignedURL(urls));
         }
-        listing.setImage_list(signedUrls);
+        listing.setImage_icons(signedUrls);
         return listingRepository.findById(listingId);
     }
 
     @GetMapping("searchByFullAddress")
-    public Listing getListingByAddress(@RequestParam String address,
-                                       @RequestParam String city,
-                                       @RequestParam String state,
-                                       @RequestParam String zip) {
-        Listing listing = listingRepository.findByListingAddress(addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state, zip));
-        List<String> unsignedUrls = listing.getImage_list();
+    public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state, @RequestParam String zip) {
+        Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
+                zip);
+        Listing listing = listingRepository.findByListingAddress(addressToFind);
+        List<String> unsignedUrls = listing.getImage_icons();
         List<String> signedUrls = new ArrayList<>();
         for (String urls : unsignedUrls) {
             signedUrls.add(s3Service.getSignedURL(urls));
         }
-        listing.setImage_list(signedUrls);
+        listing.setImage_icons(signedUrls);
         return listing;
     }
 
@@ -85,7 +84,7 @@ public class ListingsController {
         newListing.setDescription(createDTO.getDescription());
         newListing.setAskingPrice(createDTO.getAskingPrice());
         newListing.setListingStatus(ListingStatus.ACTIVE);
-        newListing.setImage_list(image_icons);
+        newListing.setImage_icons(image_icons);
 
         Address newAddress = new Address();
         newAddress.setAddress(createDTO.getAddress());
@@ -102,7 +101,7 @@ public class ListingsController {
     }
 
     @PutMapping("{listingId}")
-    public void editListing(@RequestBody ListingDTO editDTO, @PathVariable long listingId){
+    public void editListing(@RequestBody ListingDTO editDTO, @PathVariable long listingId) {
         Listing listingToEdit = listingRepository.getById(listingId);
 
         listingToEdit.setSeller(usersRepository.findByEmail(editDTO.getSellerEmail()));

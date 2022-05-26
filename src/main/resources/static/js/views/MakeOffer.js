@@ -5,7 +5,7 @@ const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 export default function MakeOffer(props) {
     //language=html
-    console.log(props.makeOffer);
+    console.log(props);
     return `
         <div class="min-h-[calc(100vh-90px)]">
             <h1 class="text-center my-3">Offer Details</h1>
@@ -52,7 +52,7 @@ export default function MakeOffer(props) {
                         <input name="closing" id="closing-costs" type="text" class="m-1 w-3/4">
                     </div>
                 </div>
-                <button id="make-offer-btn" class="border-2 my-3" data-id="${props.makeOffer.id}">Post Offer</button>
+                <button id="make-offer-btn" class="border-2 my-3" data-id="${props.id}">Post Offer</button>
             </form>
         </div>
         <div id="confirmation-message" class="text-green-600"></div>
@@ -79,6 +79,7 @@ function submitOffer() {
         console.log('This button was clicked!');
 
         const listingId = $(this).data("id");
+        console.log(typeof listingId);
         // const offerorId = parseInt(localStorage.getItem('accessToken'));
 
         const offerData = {

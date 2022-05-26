@@ -27,6 +27,7 @@ public class Offer {
 
     // Foreign key pointing to listing table
     @ManyToOne
+    @ToString.Exclude
     private Listing listing;
 
     @Column(nullable = false)
