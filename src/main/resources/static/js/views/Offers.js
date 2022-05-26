@@ -2,10 +2,13 @@ import createView from "../createView.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
-let listingID = null;
+let listingId = null;
 
 export default function Offers(props) {
-    listingID = props.offers[0].listing.id
+
+    let URI = sessionStorage.getItem("URI").split("/")
+    listingId = parseInt(URI[URI.length - 1])
+
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -190,8 +193,6 @@ function populateCounterOfferForm(res) {
                 <label for="offerSurvey">Survey</label>
                 <input type="text" class="form-control" id="offerSurvey" placeholder="${survey}">
             </div>
-
-
         </div>`
 
     $("#offer").html("").append(`${acceptHTML}`);
@@ -227,7 +228,7 @@ function updateListingObject() {
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-        createView(`/makeOffer/listings/${listingID}`)
+        createView(`/makeOffer/listings/${listingId}`)
     })
 }
 
@@ -253,4 +254,3 @@ export function OfferEvent() {
 
 
 // $('.body').addClass(blur);
-
