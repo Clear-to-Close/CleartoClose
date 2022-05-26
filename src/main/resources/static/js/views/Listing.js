@@ -197,6 +197,7 @@ const viewOffers = _ => {
         event.preventDefault();
         clearStoredURI();
         let listingId = $('#listingPageDiv').attr('data-id');
+
         createView(`/offers/findOffers/${listingId}`);
     });
 }
@@ -230,3 +231,4 @@ export function ListingEvent() {
     editListing();
     submitImages();
 }
+

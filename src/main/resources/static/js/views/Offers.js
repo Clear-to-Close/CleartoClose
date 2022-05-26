@@ -5,12 +5,11 @@ const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 let listingId = null;
 
 export default function Offers(props) {
-    console.log(props)
+
+
     let URI = sessionStorage.getItem("URI").split("/")
     listingId = parseInt(URI[URI.length - 1])
 
-    console.log(listingId)
-    // listingID = props.offers[0].listing.id
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -195,8 +194,6 @@ function populateCounterOfferForm(res) {
                 <label for="offerSurvey">Survey</label>
                 <input type="text" class="form-control" id="offerSurvey" placeholder="${survey}">
             </div>
-
-
         </div>`
 
     $("#offer").html("").append(`${acceptHTML}`);
@@ -258,4 +255,3 @@ export function OfferEvent() {
 
 
 // $('.body').addClass(blur);
-
