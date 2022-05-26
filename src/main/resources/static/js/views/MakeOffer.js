@@ -79,6 +79,7 @@ function submitOffer() {
         console.log('This button was clicked!');
 
         const listingId = $(this).data("id");
+        console.log(typeof listingId);
         // const offerorId = parseInt(localStorage.getItem('accessToken'));
 
         const offerData = {
