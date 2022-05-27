@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 
@@ -18,6 +19,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "users")
 public class User {
+    public enum Role{USER, ADMIN}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +43,10 @@ public class User {
 
     @Column(nullable = false)
     private String phoneNumber;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "preApproval_filename")
     @ToString.Exclude

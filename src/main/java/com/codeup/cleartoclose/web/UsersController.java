@@ -3,6 +3,7 @@ package com.codeup.cleartoclose.web;
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
 import com.codeup.cleartoclose.services.S3Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class UsersController {
 
     private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsersController(UsersRepository usersRepository, S3Service s3Service) {
+    public UsersController(UsersRepository usersRepository, S3Service s3Service, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("searchByEmail")
@@ -37,12 +40,9 @@ public class UsersController {
 
     @PostMapping("create")
     public void createUser(@RequestBody User newUser) {
-        System.out.println(newUser);
-        newUser.setPassword(newUser.getPassword());
-        newUser.setUsername(newUser.getUsername());
-        newUser.setFirstName(newUser.getFirstName());
-        newUser.setLastName(newUser.getLastName());
-        newUser.setEmail(newUser.getEmail());
+        newUser.setRole(User.Role.USER);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+
         usersRepository.save(newUser);
     }
 }

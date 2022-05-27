@@ -6,6 +6,7 @@
  * @returns {Promise<{}>}
  */
 export default function fetchData(state, request) {
+    localStorage.setItem("fetchStateFromLogin", JSON.stringify(state))
     const promises = [];
     //TODO: this needs to be moved to a prop file or env variable
 
@@ -13,7 +14,8 @@ export default function fetchData(state, request) {
 
     // console.log("got to fetch data");
     for (let pieceOfState of Object.keys(state)) {
-        // console.log(baseUri + state[pieceOfState]);
+        localStorage.setItem("baseUri", JSON.stringify(baseUri))
+        localStorage.setItem("pieceOfState", state[pieceOfState])
         promises.push(
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
@@ -27,8 +29,4 @@ export default function fetchData(state, request) {
         });
         return props;
     });
-}
-
-export function getPathname() {
-    return location.pathname
 }

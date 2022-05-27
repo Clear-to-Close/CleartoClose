@@ -46,7 +46,7 @@ export default function addLoginEvent() {
  */
 
 export function isLoggedIn() {
-    return localStorage.getItem("accessToken");
+    return localStorage.getItem("access_token")
 }
 
 export function getToken() {
