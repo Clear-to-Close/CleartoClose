@@ -27,7 +27,6 @@ export default function Offers(props) {
                     Make An Offer On This Home!
                 </button>
             </div>
-
             <div id="offer">${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>`: retrieveOffersFromDb(props.offers) }</div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
