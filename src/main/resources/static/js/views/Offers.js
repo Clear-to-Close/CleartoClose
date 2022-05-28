@@ -7,9 +7,11 @@ let listingId = null;
 const user = parseInt(localStorage.getItem('accessToken'));
 
 export default function Offers(props) {
-
+    console.log(props)
     let URI = sessionStorage.getItem("URI").split("/")
+    console.log(URI)
     listingId = parseInt(URI[URI.length - 1])
+    console.log(listingId)
 
     //language=HTML
     return `
@@ -24,7 +26,7 @@ export default function Offers(props) {
                 </button>
             </div>
 
-            <div id="offer">${props.offers.length === 0 ? retrieveOffersFromDb(props.offers) : `<h1>Currently No Offers Submitted</h1>`}</div>
+            <div id="offer">${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>`: retrieveOffersFromDb(props.offers) }</div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
                         class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
@@ -265,6 +267,10 @@ function updateListingObject() {
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
+        let URI = sessionStorage.getItem("URI").split("/")
+        console.log(URI)
+        listingId = parseInt(URI[URI.length - 1])
+        console.log(listingId)
 
         createView(`/makeOffer/listings/${listingId}`)
 

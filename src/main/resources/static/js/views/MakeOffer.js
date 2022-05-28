@@ -76,10 +76,13 @@ function submitOffer() {
 
     $('#make-offer-btn').on('click', function (e) {
         e.preventDefault();
-        console.log('This button was clicked!');
-
-        const listingId = $(this).data("id");
-        console.log(typeof listingId);
+        let URI = sessionStorage.getItem("URI").split("/")
+        console.log(URI)
+       const listingId = parseInt(URI[URI.length - 1])
+        console.log(listingId)
+        // const listingId = $(this).data("id");
+        // console.log(listingId);
+        // console.log(typeof listingId);
         // const offerorId = parseInt(localStorage.getItem('accessToken'));
 
         const offerData = {
@@ -104,8 +107,6 @@ function submitOffer() {
             },
             body: JSON.stringify(offerData)
         }
-
-
 
         fetch(`${BASE_URL}`, request)
             .then(response => {
