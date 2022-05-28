@@ -17,13 +17,14 @@ import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
 import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
+import {getLoggedInUser} from "./utility.js";
 
 
 const userLoggedIn = localStorage.getItem('accessToken');
 
 export default function router(URI) {
-    // const piecesOfURI = URI.split("/");
-    // const newURI = JSON.parse(sessionStorage.getItem("URI"));
+    const piecesOfURI = URI.split("/");
+    const newURI = JSON.parse(sessionStorage.getItem("URI"));
 
     const routes = {
         '/': {
@@ -114,7 +115,7 @@ export default function router(URI) {
         '/profile': {
             returnView: ProfilePage,
             state: {
-                loggedInUser: `/api/users/${parseInt(userLoggedIn)}`
+                loggedInUser: `/api/users/searchByEmail?email=${getLoggedInUser()}`
             },
             uri: '/profile',
             title: 'Your profile page',
@@ -122,26 +123,25 @@ export default function router(URI) {
         }
     };
 
-    // for (const key in routes) {
-    //     if (key === URI) {
-    //         if (newURI !== null) {
-    //             routes[URI].state[piecesOfURI[1]] = newURI
-    //             sessionStorage.setItem("URI", JSON.stringify(newURI))
-    //         }
-    //         return routes[URI];
-    //     } else if (key.includes(`/${piecesOfURI[1]}`)) {
-    //         let stateBase = piecesOfURI[1];
-    //         let pieceOfState = "";
-    //         for (let i = 0; i < piecesOfURI.length; i++) {
-    //             if (i > 1) {
-    //                 pieceOfState += `/${piecesOfURI[i]}`;
-    //             }
-    //         }
-    //
-    //         routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
-    //         sessionStorage.setItem("URI", JSON.stringify(`${routes[`/${piecesOfURI[1]}`].state[stateBase]}`))
-    //         return routes[`/${piecesOfURI[1]}`]
-    //     }
-    // }
-    return routes[URI];
+    for (const key in routes) {
+        if (key === URI) {
+            if (newURI !== null) {
+                routes[URI].state[piecesOfURI[1]] = newURI
+                sessionStorage.setItem("URI", JSON.stringify(newURI))
+            }
+            return routes[URI];
+        } else if (key.includes(`/${piecesOfURI[1]}`)) {
+            let stateBase = piecesOfURI[1];
+            let pieceOfState = "";
+            for (let i = 0; i < piecesOfURI.length; i++) {
+                if (i > 1) {
+                    pieceOfState += `/${piecesOfURI[i]}`;
+                }
+            }
+
+            routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
+            sessionStorage.setItem("URI", JSON.stringify(`${routes[`/${piecesOfURI[1]}`].state[stateBase]}`))
+            return routes[`/${piecesOfURI[1]}`]
+        }
+    }
 }

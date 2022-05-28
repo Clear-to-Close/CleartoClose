@@ -1,7 +1,11 @@
 import createView from "../createView.js";
+import {createGoogleMap} from "../googleMaps.js";
+
+let map;
 
 export default function AllListings(props){
     console.log(props)
+    map = createGoogleMap();
     //language=HTML
     return props.allListings.map(listing => `
         <div id="map" class="h-[200px] w-full"></div>
@@ -16,6 +20,7 @@ export default function AllListings(props){
             <p class="w-full text-justify">${listing.description}</p>
         </div>
     `).join("")
+
 }
 
 export function AllListingsEvent() {
@@ -26,38 +31,4 @@ export function AllListingsEvent() {
         console.log(id);
         createView(`/listing/listings/${id}`)
     })
-    initMap();
-    codeAddress(document.getElementById('address').value);
-}
-    function initMap() {
-        const options = {
-            //map options
-            zoom: 8,
-            center: {lat: 32.7767, lng: -96.7970}
-        }
-        //New map
-        const map = new
-        google.maps.Map(document.getElementById('map'), options);
-
-        addMarker({coords: {lat: 32.7767 , lng: -96.7970}});
-        function addMarker(props) {
-            const marker = new google.maps.Marker({
-                position: props.coords,
-                map: map
-            });
-        }
-}
-
-function codeAddress(address) {
-    geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status === 'OK') {
-            map.setCenter(results[0].geometry.location);
-            const marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-        } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-    });
 }

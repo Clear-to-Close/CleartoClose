@@ -1,13 +1,16 @@
 import createView from "../createView.js";
 import {isLoggedIn} from "../auth.js";
 import {clearStoredURI} from "../init.js";
-import {uploadDocuments} from "../utility.js";
+import {uploadDocuments, getLoggedInUser} from "../utility.js";
 
 let listingId = null;
+let sellerAgent = "";
 
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
 export default function ListingIndex(props)  {
+    console.log(props)
     requestListingDetailView(props.listing.listingAddress, props.listing.image_list);
+    sellerAgent = props.listing.sellerAgent.email;
     listingId = props.listing.id
     // language=HTML
     return `
@@ -20,7 +23,7 @@ export default function ListingIndex(props)  {
                          alt="main listing photo">
                 </div>
                 <div>
-                    <form >
+                    <form id="listingImgUpload">
                         <input type="file" id="uploadDocs" accept="image/*">
                         <button id="uploadBtn">Upload Documents</button>
                     </form>
@@ -42,7 +45,7 @@ export default function ListingIndex(props)  {
                 </div>
                 <div class="flex mx-auto justify-center">
                     <button id="viewOffersBtn" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers</button>
-                    <button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Listing</button>
+                    <button id="editListing" class=" hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Listing</button>
                 </div>
             </div>
         </div>`
@@ -187,12 +190,6 @@ function submitImages() {
     })
 }
 
-const revealOffersButton = _ => {
-    if (isLoggedIn()) {
-        $('#viewOffersBtn').removeClass('hidden');
-    }
-}
-
 const viewOffers = _ => {
     $("#viewOffersBtn").click(function (event) {
         event.preventDefault();
@@ -226,8 +223,18 @@ const requestSchoolDetailView = propertyId => {
         .then(schoolDetails => populateSchoolInfoDetails(schoolDetails))
 }
 
+const toggleButtonDisplay = _ => {
+    if (sellerAgent === getLoggedInUser()) {
+        $('#editListing').removeClass('hidden');
+        // $('#listingImgUpload').removeClass('hidden');
+    }
+    if (isLoggedIn()) {
+        $('#viewOffersBtn').removeClass('hidden');
+    }
+}
+
 export function ListingEvent() {
-    revealOffersButton();
+    toggleButtonDisplay();
     viewOffers();
     editListing();
     submitImages();

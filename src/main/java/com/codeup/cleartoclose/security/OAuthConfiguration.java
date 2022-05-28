@@ -68,8 +68,7 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Bean
     JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        return converter;
+        return new JwtAccessTokenConverter();
     }
 
 }
