@@ -8,6 +8,8 @@ let listingId = null;
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
 export default function ListingIndex(props) {
     requestListingDetailView(props.listing.listingAddress, props.listing.image_list);
+    // checkListingStatus(props);
+
     listingId = props.listing.id
     // language=HTML
     return `
@@ -232,9 +234,28 @@ const requestSchoolDetailView = propertyId => {
 }
 
 export function ListingEvent() {
-    revealOffersButton();
-    viewOffers();
-    editListing();
-    submitImages();
+    // revealOffersButton();
+    // viewOffers();
+    // editListing();
+    // submitImages();
+    checkListingStatus(props);
+
 }
+
+function checkListingStatus(){
+    console.log(props.listing.listingStatus);
+    let listStat = props.listing.listingStatus;
+    switch (listStat){
+        case "CLOSED":
+        case "CANCELLED":
+            break;
+        default:
+            revealOffersButton();
+            viewOffers();
+            editListing();
+            submitImages();
+    }
+}
+
+
 

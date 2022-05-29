@@ -7,6 +7,8 @@ let listingId = null;
 const user = parseInt(localStorage.getItem('accessToken'));
 let isRealtor;
 let isSeller;
+let isOfferor;
+let isPotBuyer;
 
 export default function Offers(props) {
     console.log(props)
@@ -14,6 +16,7 @@ export default function Offers(props) {
     console.log(URI)
     listingId = parseInt(URI[URI.length - 1])
     console.log(listingId)
+    whoIsLoggedIn(user);
 
     //language=HTML
     return `
@@ -43,7 +46,7 @@ const retrieveOffersFromDb = (offers) => {
         `
             <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
-                    ${offer.id}
+                    ${offer.offerStatus}
                 </div>
                 <div class="text-center mx-1 my-2" id="offerAmount-${offer.id}">
                         \$${offer.offerAmount}
@@ -105,7 +108,7 @@ function confirmOfferAcceptance() {
         const closingDate = res.closingDate;
         const homeWarranty = res.homeWarranty;
         const buyersAgent = res.offeror.buyerAgentID;
-        console.log(res.listing.id);
+        // console.log(res.listing.id);
 
         acceptanceID = res.listing.id;
         buyerID = res.offeror.id;
@@ -277,3 +280,7 @@ export function OfferEvent() {
     initCounterOffer();
 }
 
+
+function whoIsLoggedIn(id){
+    console.log(id)
+}

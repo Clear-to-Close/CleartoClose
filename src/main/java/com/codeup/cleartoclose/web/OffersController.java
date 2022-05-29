@@ -60,6 +60,7 @@ OffersController {
         newOffer.setAppraisalWaiver(newOfferDTO.getAppraisalWaiver());
         newOffer.setClosingCosts(newOfferDTO.getClosingCosts());
         newOffer.setClosingDate(newOfferDTO.getClosingDate());
+        newOffer.setOfferStatus(OfferStatus.ACTIVE);
 
         User newOfferor = usersRepository.getById(newOfferDTO.getOfferorId());
         newOffer.setOfferor(newOfferor);

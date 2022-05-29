@@ -58,5 +58,8 @@ public class Offer {
     @Column
     private Date acceptanceDate;
 
+    @Column(nullable = false)
+    private OfferStatus offerStatus;
+
 
 }
