@@ -141,7 +141,6 @@ function confirmOfferAcceptance() {
 
         $("#offer").html("").append(`${acceptHTML}`);
         $("#hiddenConfirmation").removeClass("hidden");
-
     }
 }/// END OF POPULATED ACCEPTED OFFER
 
@@ -276,4 +275,3 @@ export function OfferEvent() {
     createMakeOfferView();
     initCounterOffer();
 }
-
