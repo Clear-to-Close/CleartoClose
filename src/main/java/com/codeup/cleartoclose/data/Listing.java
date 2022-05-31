@@ -34,11 +34,11 @@ public class Listing {
     private List<String> house_images;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password", "userAddress"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress", "sellerListings"})
     private User buyer;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password", "userAddress"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress", "buyerAgentListings"})
     private User buyerAgent;
 
     @ManyToOne

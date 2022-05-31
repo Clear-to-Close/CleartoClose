@@ -1,36 +1,50 @@
 import createView from "../createView.js";
+import Login from "./Login.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
 
 const user = parseInt(localStorage.getItem('accessToken'));
+let isRealtor;
+let isSeller;
 
 export default function Offers(props) {
-
+    // console.log(props)
     let URI = sessionStorage.getItem("URI").split("/")
+    // console.log(URI)
     listingId = parseInt(URI[URI.length - 1])
-
+    let userId = parseInt(localStorage.getItem("accessToken"));
+    // console.log(props.offers[0].offeror.id)
+    const makeOfferBtn = buttonAuth(props.offers, userId);
+    //  console.log(makeOfferBtn);
     //language=HTML
+    disableMakeOfferBtn(makeOfferBtn);
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
             <div class="w-full relative">
                 <img class="md:w-3/4 md:h-[350px] mx-auto"
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
-                <button id="makeOfferBtn"
-                        class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
-                    Make An Offer On This Home!
-                </button>
-            </div>
 
-            <div id="offer">${props.offers.length !== 0 ? retrieveOffersFromDb(props.offers) : `<h1>Currently No Offers Submitted</h1>`}</div>
+                <button id="makeOfferBtn"
+                        class=" absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                    Make an offer!
+                </button>
+
+
+            </div>
+            <div id="offer">
+                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
+            </div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
                         class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
                 </button>
             </div>
         </div>`
+
+
 }
 
 const retrieveOffersFromDb = (offers) => {
@@ -58,10 +72,14 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button id="btn-accept" data-id="${offer.id}" data-buyer="${offer.offeror.id}"
-                            data-offer="${offer.offerAmount}"
-                            data-closing="${offer.closingDate}" data-warranty="${offer.homeWarranty}"
-                            class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
+                    <button
+                            data-id="${offer.id}"
+                            class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                        Offer!
+                    </button>
+                    <button
+                            data-id="${offer.id}"
+                            class="btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
                         Offer!
                     </button>
                 </div>
@@ -69,31 +87,15 @@ const retrieveOffersFromDb = (offers) => {
     ).join("")
 };
 
-// const renderEmptyOffersDiv = _ => {
-//     //language=html
-//     $('#offer').html(`
-//         <div id="no-offers" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]x">
-//             <h1>There are currently no offers on this listing!!</h1>
-//         </div>`);
-// }
-//
-//
-// function areThereAnyOffers(offers) {
-//     console.log(offers);
-//     if (offers.length === undefined || offers.length === 0) {
-//         return renderEmptyOffersDiv();
-//     }
-//     listingID = props.offers[0].listing.id;
-//     return $('#offers').text(`${retrieveOffersFromDb(props.offers)}`);
-// }
 
 let acceptanceID = null;
 let buyerID = null;
 
 
 function confirmOfferAcceptance() {
-    $('#btn-accept').click(function (e) {
+    $('.btn-accept').on('click', function (e) {
         e.preventDefault();
+        console.log("accept button clicked")
         const id = $(this).data("id");
 
         $.get(`${OFFERS_URL}/${id}`).then(function (res) {
@@ -155,8 +157,8 @@ function confirmOfferAcceptance() {
 
 
 function initCounterOffer() {
-    $('#btn-cnt-offer').click(function (e) {
-        e.preventDefault();
+    $('.btn-counter').on('click', function () {
+        console.log("counter offer clicked")
         const id = $(this).data("id");
         console.log(id);
 
@@ -245,53 +247,45 @@ function updateListingObject() {
     })
 }////END OF UPDATE LISTING OBJECT
 
-// RENDERING BUTTONS BASED ON USER IDENTITY && ACTIVITY
-// const renderMakeOfferBtn = (offers) => {
-//     console.log(offers);
-//     for (let i = 0; i < offers.length; i++) {
-//         console.log(typeof offers[i].offeror.id);
-//         if (offers[i].offeror.id === user) {
-//             console.log("This person won't be able to see the make offer button anymore!");
-//         }
-//         // if (offers[i].listing.seller.id === user) {
-//         //     isSeller = true;
-//         // }
-//         // if (offers[i].offeror.realtorInfo.id) {
-//         //     isRealtor = true;
-//         //     console.log("This person won't be able to see the make offer button anymore!");
-//         // }
-//     }
-// }
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
+        let URI = sessionStorage.getItem("URI").split("/")
+        console.log(URI)
+        listingId = parseInt(URI[URI.length - 1])
+        console.log(listingId)
 
         createView(`/makeOffer/listings/${listingId}`)
 
     })
 }
 
+
+function buttonAuth(offers, credentials) {
+    let authentication = null;
+    offers.forEach(function (offer) {
+        let alreadyOffered = parseInt(offer.offeror.id);
+        if (alreadyOffered === credentials) {
+            authentication = true;
+        } else {
+            authentication = false;
+        }
+    });
+    return authentication;
+}
+
+function disableMakeOfferBtn(auth) {
+    if (auth) {
+        $(document).ready(function () {
+            $('#makeOfferBtn').hide();
+        });
+    }
+}
+
 export function OfferEvent() {
-    // areThereAnyListings();
-    // renderMakeOfferBtn();
     confirmOfferAcceptance();
     updateListingObject();
     createMakeOfferView();
     initCounterOffer();
 }
 
-//    // return       /// want offer to populate a modal
-// /// have a confirmation button
-// /// put request to update listing status
-// /// put request to update listing db with buyer id
-//
-
-
-// $('#soldBtn').click(function () {
-//     $('.body').removeClass('blur');
-//     $('#offerModal').addClass('hide');
-//     updateListingObject();
-// })}
-
-
-// $('.body').addClass(blur);
