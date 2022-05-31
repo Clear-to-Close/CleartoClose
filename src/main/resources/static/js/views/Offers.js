@@ -1,21 +1,24 @@
 import createView from "../createView.js";
+import Login from "./Login.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
 
 const user = parseInt(localStorage.getItem('accessToken'));
-let isRealtor;
-let isSeller;
+
 
 export default function Offers(props) {
-    console.log(props)
+    console.log(props.offers);
     let URI = sessionStorage.getItem("URI").split("/")
-    console.log(URI)
     listingId = parseInt(URI[URI.length - 1])
-    console.log(listingId)
 
+    let userId = parseInt(localStorage.getItem("accessToken"));
+
+    // const makeOfferBtn = buttonAuth(props.offers, userId);
+    buttonAuthorization(props.offers, userId, listingId);
     //language=HTML
+    // disableMakeOfferBtn(makeOfferBtn);
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
             <div class="w-full relative">
@@ -23,17 +26,21 @@ export default function Offers(props) {
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
                 <button id="makeOfferBtn"
-                        class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
-                    Make An Offer On This Home!
+                        class=" absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                    Make an offer!
                 </button>
             </div>
-            <div id="offer">${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>`: retrieveOffersFromDb(props.offers) }</div>
+            <div id="offer">
+                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
+            </div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full hidden">
                 <button id="btn-confirm"
                         class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
                 </button>
             </div>
         </div>`
+
+
 }
 
 const retrieveOffersFromDb = (offers) => {
@@ -62,11 +69,11 @@ const retrieveOffersFromDb = (offers) => {
                 </div>
                 <div class="text-center m-1 w-full">
                     <button
-		                    data-id="${offer.id}"
+                            data-id="${offer.id}"
                             class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
                         Offer!
                     </button>
-                    <button 
+                    <button
                             data-id="${offer.id}"
                             class="btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
                         Offer!
@@ -75,7 +82,6 @@ const retrieveOffersFromDb = (offers) => {
             </div>`
     ).join("")
 };
-
 
 
 let acceptanceID = null;
@@ -146,7 +152,7 @@ function confirmOfferAcceptance() {
 
 
 function initCounterOffer() {
-    $('.btn-counter').on('click',function () {
+    $('.btn-counter').on('click', function () {
         console.log("counter offer clicked")
         const id = $(this).data("id");
         console.log(id);
@@ -236,23 +242,6 @@ function updateListingObject() {
     })
 }////END OF UPDATE LISTING OBJECT
 
-// // RENDERING BUTTONS BASED ON USER IDENTITY && ACTIVITY
-// const renderMakeOfferBtn = (offers) => {
-//     console.log(offers)
-//     for (let i = 0; i < offers.length; i++) {
-//
-//         if (offers[i].offeror.id === user) {
-//             console.log("This person won't be able to see the make offer button anymore!");
-//         }
-//         if (offers[i].listing.seller.id === user) {
-//             isSeller = true;
-//         }
-//         if (offers[i].offeror.realtorInfo.id) {
-//             isRealtor = true;
-//             console.log("This person won't be able to see the make offer button anymore!");
-//         }
-//     }
-// }
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
@@ -260,16 +249,57 @@ const createMakeOfferView = () => {
         console.log(URI)
         listingId = parseInt(URI[URI.length - 1])
         console.log(listingId)
-
         createView(`/makeOffer/listings/${listingId}`)
-
     })
 }
 
 
+function buttonAuth(offers, credentials) {
+    let authentication = null;
+    offers.forEach(function (offer) {
+        let alreadyOffered = parseInt(offer.offeror.id);
+        if (alreadyOffered === credentials) {
+            authentication = true;
+        } else {
+            authentication = false;
+        }
+    });
+    return authentication;
+}
+
+function disableMakeOfferBtn(auth) {
+    if (auth) {
+        $(document).ready(function () {
+            $('#makeOfferBtn').hide();
+        });
+    }
+}
+
+function buttonAuthorization(offers, userId, listingId) {
+    let sellerId = parseInt(offers[0].listing.seller.id);
+    let currentOfferorId = null;
+
+    offers.forEach(function (offer) {
+        let searchOfferors = parseInt(offer.offeror.id)
+        if (searchOfferors === userId) {
+            currentOfferorId = userId;
+        }
+    })
+
+        $(document).ready(function () {
+            if (sellerId === userId) {
+                $('#makeOfferBtn').hide();
+            }
+
+            if (currentOfferorId !== null) {
+                $('#makeOfferBtn').hide();
+                $('.btn-accept').hide();
+                $('.btn-counter').hide();
+                $('#editOfferBtn').show();
+            }
+        })
+}
 export function OfferEvent() {
-    // areThereAnyListings();
-    // renderMakeOfferBtn(props);
     confirmOfferAcceptance();
     updateListingObject();
     createMakeOfferView();
