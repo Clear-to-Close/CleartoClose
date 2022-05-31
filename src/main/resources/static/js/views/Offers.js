@@ -1,5 +1,5 @@
 import createView from "../createView.js";
-import {initCounterOffer} from "./counterOffer.js";
+import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
 
 
@@ -34,7 +34,10 @@ export default function Offers(props) {
 			</div>
 			<div id="hiddenConfirmation" class="text-center m-1 w-full">
 				<button id="btn-confirm"
-				        class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+				        class="hidden  p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+				</button>
+				<button id="btn-confirm-counterOffer"
+				        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
 				</button>
 			</div>
 		</div>`
@@ -132,5 +135,6 @@ export function OfferEvent() {
     updateListingObject();
     createMakeOfferView();
     initCounterOffer();
+    submitCounterOffer();
 
 }

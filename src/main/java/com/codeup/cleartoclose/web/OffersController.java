@@ -88,4 +88,12 @@ OffersController {
         acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
         offersRepository.save(acceptedOffer);
     }
+    @PutMapping("/countered/{offerId}")
+    public void offerCountered(@PathVariable Long offerId, RequestBody counter) {
+        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
+        Offer counteredOffer = offersRepository.findById(offerId).get();
+//        counteredOffer.setCounterOfferId(counter.);
+        counteredOffer.setOfferStatus(OfferStatus.COUNTERED);
+        offersRepository.save(counteredOffer);
+    }
 }
