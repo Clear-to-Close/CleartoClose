@@ -4,6 +4,7 @@
  * @param state
  * @param request
  * @returns {Promise<{}>}
+ * hi casey
  */
 export default function fetchData(state, request) {
     const promises = [];
@@ -13,11 +14,10 @@ export default function fetchData(state, request) {
 
     // console.log("got to fetch data");
     for (let pieceOfState of Object.keys(state)) {
-        // console.log(baseUri + state[pieceOfState]);
         promises.push(
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
-                    return res.json();
+                    return res.json()
                 }));
     }
     return Promise.all(promises).then(propsData => {
@@ -27,8 +27,4 @@ export default function fetchData(state, request) {
         });
         return props;
     });
-}
-
-export function getPathname() {
-    return location.pathname
 }

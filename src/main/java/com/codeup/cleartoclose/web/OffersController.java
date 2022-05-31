@@ -75,7 +75,7 @@ OffersController {
     @PutMapping("{offerId}")
     public void offerAccepted(@PathVariable Long offerId, @RequestBody Offer updateOffer) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
-        Offer acceptedOffer = offersRepository.getById(offerId);
+        Offer acceptedOffer = offersRepository.findById(offerId).get();
         acceptedOffer.setOfferor(updateOffer.getOfferor());
         acceptedOffer.setListing(updateOffer.getListing());
         acceptedOffer.setOfferAmount(updateOffer.getOfferAmount());

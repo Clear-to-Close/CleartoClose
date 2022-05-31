@@ -13,3 +13,12 @@ export function uploadDocuments(path, id, file){
         fetch(`${BASE_URI}/api/s3/${path}/${id}`, uploadRequest)
             .then(results => console.log(results))
 }
+
+export function getLoggedInUser(){
+    const token = localStorage.getItem(("access_token"))
+    if (token) {
+        return JSON.parse(atob(token.split(".")[1])).user_name
+    } else {
+        return null;
+    }
+}

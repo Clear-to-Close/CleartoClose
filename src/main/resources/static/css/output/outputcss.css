@@ -496,10 +496,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: auto !important;
 }
 
-.m-2 {
-  margin: 0.5rem !important;
-}
-
 .my-\[50px\] {
   margin-top: 50px !important;
   margin-bottom: 50px !important;
@@ -578,14 +574,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 144px !important;
 }
 
-.h-1\/4 {
-  height: 25% !important;
-}
-
-.h-\[200px\] {
-  height: 200px !important;
-}
-
 .h-\[50px\] {
   height: 50px !important;
 }
@@ -618,10 +606,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 200px !important;
 }
 
-.w-2\/3 {
-  width: 66.666667% !important;
-}
-
 .w-\[15px\] {
   width: 15px !important;
 }
@@ -630,13 +614,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 135px !important;
 }
 
-.w-2\/3 {
-  width: 66.666667% !important;
-}
-
 .grow {
   flex-grow: 1 !important;
 }
+
 .translate-y-1\/2 {
   --tw-translate-y: 50% !important;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
@@ -702,11 +683,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-secondary {
   --tw-border-opacity: 1 !important;
   border-color: rgb(154 177 194 / var(--tw-border-opacity)) !important;
-}
-
-.border-callToAction {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(128 128 216 / var(--tw-border-opacity)) !important;
 }
 
 .border-black {
@@ -787,10 +763,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   text-align: right !important;
 }
 
-.text-justify {
-  text-align: justify !important;
-}
-
 .font-sans {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
@@ -803,6 +775,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-sm {
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
+}
+
+.font-bold {
+  font-weight: 700 !important;
 }
 
 .leading-snug {
@@ -848,11 +824,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .content-height {
-  min-height: calc(100vh - 90px)
-}
-
-input #file-upload-button {
-  background-color: #8080d8;
+  min-height: calc(100vh - 90px);
+  max-height:-webkit-max-content;
+  max-height:-moz-max-content;
+  max-height:max-content;
 }
 
 @media (min-width: 640px) {
