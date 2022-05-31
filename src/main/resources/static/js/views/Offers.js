@@ -229,13 +229,13 @@ function updateOfferStatus() {
             },
         }
         for (let i = 0; i < idArray.length; i++) {
-            console.log(idArray[i]);
+            let indexToDecline = idArray[i];
             if (idArray[i] === offerId) {
                 fetch(`${OFFERS_URL}/${offerId}`, offerUpdate).then(function (res) {
                     console.log(res)
                 })
             } else {
-                fetch(`${OFFERS_URL}/decline/${offerId}`, offerUpdate).then(function (res) {
+                fetch(`${OFFERS_URL}/decline/${indexToDecline}`, offerUpdate).then(function (res) {
                     console.log(res)
                 })
             }
