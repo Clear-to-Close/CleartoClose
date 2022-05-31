@@ -25,7 +25,7 @@ export default function ListingIndex(props)  {
                 <div>
                     <form id="listingImgUpload">
                         <input type="file" id="uploadDocs" accept="image/*">
-                        <button id="uploadBtn">Upload Documents</button>
+                        <button type="button" id="uploadBtn">Upload Documents</button>
                     </form>
                 </div>
                 <div class="p-2 text-center my-2">
@@ -184,9 +184,12 @@ const normalizeSentence = sentence => {
 
 function submitImages() {
     $("#uploadBtn").click(e => {
-        e.preventDefault();
+        $("#uploadDocs").click()
+    })
+    $("#uploadDocs").on("change", function (e) {
         const file = document.getElementById("uploadDocs")
         uploadDocuments('uploadListingImg', listingId, file)
+        $("#uploadDocs").val("")
     })
 }
 

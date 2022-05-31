@@ -149,7 +149,6 @@ function confirmOfferAcceptance() {
 
         $("#offer").html("").append(`${acceptHTML}`);
         $("#hiddenConfirmation").removeClass("hidden");
-
     }
 }/// END OF POPULATED ACCEPTED OFFER
 

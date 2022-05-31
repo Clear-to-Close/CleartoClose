@@ -496,10 +496,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: auto !important;
 }
 
-.m-2 {
-  margin: 0.5rem !important;
-}
-
 .my-\[50px\] {
   margin-top: 50px !important;
   margin-bottom: 50px !important;
@@ -610,10 +606,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 200px !important;
 }
 
-.w-2\/3 {
-  width: 66.666667% !important;
-}
-
 .w-\[15px\] {
   width: 15px !important;
 }
@@ -691,11 +683,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-secondary {
   --tw-border-opacity: 1 !important;
   border-color: rgb(154 177 194 / var(--tw-border-opacity)) !important;
-}
-
-.border-callToAction {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(128 128 216 / var(--tw-border-opacity)) !important;
 }
 
 .border-black {
