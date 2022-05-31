@@ -3,6 +3,7 @@ import { initMap } from "../googleMaps.js";
 
 let listingsAddresses = [];
 
+
 export default function AllListings(props) {
     console.log(props)
     getAddresses(props.allListings)
