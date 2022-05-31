@@ -18,9 +18,9 @@ export function confirmOfferAcceptance() {
             console.log(res);
             populateAcceptedOfferDiv(res);
         })
-        $("#btn-confirm").attr("data-id", offerId);
+        $("#btn-confirm").attr("data-id", offerId)
+        $("#hiddenConfirmation").removeClass("hidden");
     })///END OF CONFIRM FUNCTION
-
 }
 
 export function populateAcceptedOfferDiv(res) {
@@ -69,7 +69,6 @@ export function populateAcceptedOfferDiv(res) {
 				</div>`
 
     $("#offer").html("").append(`${acceptHTML}`);
-    $("#btn-confirm").removeClass("hidden");
     
 }/// END OF POPULATED ACCEPTED OFFER
 

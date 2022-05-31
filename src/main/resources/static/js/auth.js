@@ -43,7 +43,6 @@ export default function addLoginEvent() {
                 route: `/oauth/token`
             },
             request).then((data) => {
-            console.log(data.route)
             if (data.route.error === 'invalid_grant') {
                 $loginErrorMessage.html("Invalid Credentials. Please Try Again")
                 return

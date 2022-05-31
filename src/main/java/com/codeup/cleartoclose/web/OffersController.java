@@ -62,10 +62,11 @@ OffersController {
         newOffer.setClosingDate(newOfferDTO.getClosingDate());
         newOffer.setOfferStatus(OfferStatus.ACTIVE);
 
-        User newOfferor = usersRepository.getById(newOfferDTO.getOfferorId());
+        User newOfferor = usersRepository.findByEmail(newOfferDTO.getOfferorEmail());
+        System.out.println(newOfferor);
         newOffer.setOfferor(newOfferor);
 
-        Listing currentListing = listingsRepository.getById(newOfferDTO.getListingId());
+        Listing currentListing = listingsRepository.findById(newOfferDTO.getListingId()).get();
         System.out.println(currentListing);
         newOffer.setListing(currentListing);
 
