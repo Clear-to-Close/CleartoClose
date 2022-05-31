@@ -1,15 +1,29 @@
 import fetchData from "./fetchData.js";
 import createView from "./createView.js";
+import {registrationPage} from "./views/Login.js";
 
 /**
  * Adds a login event to allow the user to initially obtain a new OAuth2.0 token
  * On a successful response, sets the tokens into storage and redirects to the root
  */
 export default function addLoginEvent() {
-    document.querySelector("#login-btn").addEventListener("click", function () {
+    document.querySelector("#login-btn").addEventListener("click", function (e) {
+        e.preventDefault();
+        const email = document.querySelector("#email").value;
+        const password = document.querySelector("#password").value
+        const $loginErrorMessage = $("#log-error-message")
+
+        if (email === "") {
+            $loginErrorMessage.html("Please enter a valid email address");
+            return;
+        } if (password === "") {
+            $loginErrorMessage.html("Please enter a valid password");
+            return;
+        }
+
         let obj = {
-            username: document.querySelector("#username").value,
-            password: document.querySelector("#password").value,
+            username: email,
+            password,
             grant_type: 'password'
         }
         // TODO: these are the only request params /oauth/token accepts in Spring Security
@@ -29,14 +43,16 @@ export default function addLoginEvent() {
                 route: `/oauth/token`
             },
             request).then((data) => {
+            console.log(data.route)
             if (data.route.error === 'invalid_grant') {
-                $("#log-error-message").html("Invalid Credentials. Please Try Again")
+                $loginErrorMessage.html("Invalid Credentials. Please Try Again")
                 return
             }
             setTokens(data);
             createView("/");
         });
     });
+    registrationPage();
 }
 
 /**
@@ -46,7 +62,7 @@ export default function addLoginEvent() {
  */
 
 export function isLoggedIn() {
-    return localStorage.getItem("accessToken");
+    return localStorage.getItem("access_token")
 }
 
 export function getToken() {
