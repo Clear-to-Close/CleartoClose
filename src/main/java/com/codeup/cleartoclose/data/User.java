@@ -53,18 +53,20 @@ public class User {
     private Collection<Listing> buyerListings;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"seller", "sellerAgent", "listingOffers", "listingAddress"})
+    @JsonIgnoreProperties({"seller", "sellerAgent", "listingOffers", "listingAddress", "buyerAgent"})
     @ToString.Exclude
     private Collection<Listing> sellerListings;
 
     @OneToMany(mappedBy = "buyerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties({"buyerAgent", "listingAddress"})
     @ToString.Exclude
+    @Transient
     private Collection<Listing> buyerAgentListings;
 
     @OneToMany(mappedBy = "sellerAgent", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties({"seller", "sellerAgent", "listingAddress", "offeror"})
     @ToString.Exclude
+    @Transient
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)

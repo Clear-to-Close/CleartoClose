@@ -131,7 +131,7 @@ public class ListingsController {
         Listing listingToUpdate = listingRepository.getById(listingId);
         listingToUpdate.setBuyer(usersRepository.getById(offer.getBuyerID()));
 //        listingToUpdate.setBuyerAgent(updatedListing.getBuyerAgent());
-        listingToUpdate.setListingStatus(offer.getStatus());
+        listingToUpdate.setListingStatus(ListingStatus.PENDING);
         listingRepository.save(listingToUpdate);
     }
 }

@@ -4,12 +4,15 @@ import {clearStoredURI} from "../init.js";
 import {uploadDocuments} from "../utility.js";
 
 let listingId = null;
-
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
-export default function ListingIndex(props) {
-    requestListingDetailView(props.listing.listingAddress, props.listing.image_list);
-    // checkListingStatus(props);
+let user;
 
+export default function ListingIndex(props) {
+    user = parseInt(localStorage.getItem('accessToken'));
+    console.log(props)
+    requestListingDetailView(props.listing.listingAddress, props.listing.image_list);
+    console.log(isListingActive(props));
+    console.log(isListingAgentLoggedIn(props));
     listingId = props.listing.id
     // language=HTML
     return `
@@ -21,7 +24,7 @@ export default function ListingIndex(props) {
 					     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 					     alt="main listing photo">
 				</div>
-				<div>
+				<div id="upload-div" class="hidden">
 					<form>
 						<input type="file" id="uploadDocs" accept="image/*">
 						<button id="uploadBtn">Upload Documents</button>
@@ -46,7 +49,7 @@ export default function ListingIndex(props) {
 					<button id="viewOffersBtn"
 					        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers
 					</button>
-					<button id="editListing" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
+					<button id="editListing" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
 						Listing
 					</button>
 				</div>
@@ -196,8 +199,14 @@ function submitImages() {
 }
 
 const revealOffersButton = _ => {
-    if (isLoggedIn()) {
+    if (isLoggedIn() && isListingActive) {
         $('#viewOffersBtn').removeClass('hidden');
+    }
+}
+
+const revealEditButton = _ => {
+    if(isListingAgentLoggedIn) {
+        $("#editListing").removeClass("hidden");
     }
 }
 
@@ -211,11 +220,13 @@ const viewOffers = _ => {
 }
 
 const editListing = _ => {
-    $('#editListing').click(_ => {
-        let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/realtorListing/listings/${listingId}`)
-    });
-}
+        $('#editListing').click(_ => {
+            let listingId = $('#listingPageDiv').attr('data-id');
+            createView(`/realtorListing/listings/${listingId}`)
+        });
+    }
+
+
 
 const requestListingDetailView = (listingAddress, imageUrls) => {
     const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
@@ -233,29 +244,32 @@ const requestSchoolDetailView = propertyId => {
         .then(schoolDetails => populateSchoolInfoDetails(schoolDetails))
 }
 
+
+const  isListingActive = listing =>{
+    let listStat = listing.listing.listingStatus;
+   return listStat === "ACTIVE" || listStat === "PENDING";
+}
+
+const isListingAgentLoggedIn = listing => {
+    let listingAgent = parseInt(listing.listing.sellerAgent.id);
+    console.log(listingAgent);
+    console.log(typeof listingAgent);
+    console.log(user);
+    console.log(typeof user);
+    return user === listingAgent;
+}
+
 export function ListingEvent() {
-    // revealOffersButton();
-    // viewOffers();
-    // editListing();
-    // submitImages();
-    checkListingStatus(props);
+    revealOffersButton();
+    viewOffers();
+    editListing();
+    submitImages();
+    revealEditButton();
+
 
 }
 
-function checkListingStatus(){
-    console.log(props.listing.listingStatus);
-    let listStat = props.listing.listingStatus;
-    switch (listStat){
-        case "CLOSED":
-        case "CANCELLED":
-            break;
-        default:
-            revealOffersButton();
-            viewOffers();
-            editListing();
-            submitImages();
-    }
-}
+
 
 
 
