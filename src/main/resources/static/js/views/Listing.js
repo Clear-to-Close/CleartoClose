@@ -9,7 +9,7 @@ let sellerAgent = "";
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
 
 export default function ListingIndex(props) {
-
+    console.log(props)
     requestListingDetailView(props.listing.listingAddress, props.listing.image_list);
     sellerAgent = props.listing.sellerAgent.email;
     listingId = props.listing.id
@@ -250,9 +250,6 @@ export function ListingEvent() {
     viewOffers();
     editListing();
     submitImages();
-    revealEditButton();
-
-
 }
 
 

@@ -19,10 +19,6 @@ import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 import {getLoggedInUser} from "./utility.js";
 
-
-const userLoggedIn = localStorage.getItem('accessToken');
-console.log(userLoggedIn);
-
 export default function router(URI) {
     const piecesOfURI = URI.split("/");
     const newURI = JSON.parse(sessionStorage.getItem("URI"));

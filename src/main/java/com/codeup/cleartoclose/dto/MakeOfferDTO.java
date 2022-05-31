@@ -10,14 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MakeOfferDTO {
-    private Long offerAmount;
+    private long offerAmount;
     private String loanType;
-    private Long optionLength;
+    private long optionLength;
     private String survey;
     private String homeWarranty;
     private String appraisalWaiver;
-    private Long closingCosts;
+    private long closingCosts;
     private String closingDate;
-    private Long offerorId;
-    private Long listingId;
+    private String offerorEmail;
+    private long listingId;
 }

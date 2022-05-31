@@ -1,5 +1,6 @@
 import createView from "../createView.js";
 import {getMessage} from "../messaging.js";
+import {getLoggedInUser} from "../utility.js";
 
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
@@ -78,9 +79,7 @@ function submitOffer() {
     $('#make-offer-btn').on('click', function (e) {
         e.preventDefault();
         let URI = sessionStorage.getItem("URI").split("/")
-        console.log(URI)
         const listingId = parseInt(URI[URI.length - 1])
-        console.log(listingId)
 
         const offerData = {
             offerAmount: $('#offer-amount').val(),
@@ -91,11 +90,9 @@ function submitOffer() {
             appraisalWaiver: $('#appraisal-waiver').val(),
             closingDate: $('#closing-date').val(),
             closingCosts: $('#closing-costs').val(),
-            offerorId: parseInt(localStorage.getItem("accessToken")),
+            offerorEmail: getLoggedInUser(),
             listingId: listingId
         }
-
-        console.log(offerData);
 
         let request = {
             method: "POST",
