@@ -21,6 +21,7 @@ import {getLoggedInUser} from "./utility.js";
 
 
 const userLoggedIn = localStorage.getItem('accessToken');
+console.log(userLoggedIn);
 
 export default function router(URI) {
     const piecesOfURI = URI.split("/");

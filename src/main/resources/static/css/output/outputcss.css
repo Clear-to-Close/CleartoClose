@@ -685,9 +685,15 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(154 177 194 / var(--tw-border-opacity)) !important;
 }
 
+
+.border-callToAction {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(128 128 216 / var(--tw-border-opacity)) !important;
+
 .border-black {
   --tw-border-opacity: 1 !important;
   border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
+
 }
 
 .bg-secondary {
@@ -806,11 +812,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
 }
 
-.blur {
-  --tw-blur: blur(8px) !important;
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow) !important;
-}
-
 .nav-pills .nav-link.active {
   background-color: #8080d8;
 }
@@ -824,7 +825,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .content-height {
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 90px)
   max-height:-webkit-max-content;
   max-height:-moz-max-content;
   max-height:max-content;

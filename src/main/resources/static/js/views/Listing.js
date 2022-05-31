@@ -206,11 +206,13 @@ const viewOffers = _ => {
 }
 
 const editListing = _ => {
-    $('#editListing').click(_ => {
-        let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/realtorListing/listings/${listingId}`)
-    });
-}
+        $('#editListing').click(_ => {
+            let listingId = $('#listingPageDiv').attr('data-id');
+            createView(`/realtorListing/listings/${listingId}`)
+        });
+    }
+
+
 
 const requestListingDetailView = (listingAddress, imageUrls) => {
     const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
@@ -228,6 +230,11 @@ const requestSchoolDetailView = propertyId => {
         .then(schoolDetails => populateSchoolInfoDetails(schoolDetails))
 }
 
+const  isListingActive = listing =>{
+    let listStat = listing.listing.listingStatus;
+   return listStat === "ACTIVE" || listStat === "PENDING";
+}
+
 const toggleButtonDisplay = _ => {
     if (sellerAgent === getLoggedInUser()) {
         $('#editListing').removeClass('hidden');
@@ -243,5 +250,12 @@ export function ListingEvent() {
     viewOffers();
     editListing();
     submitImages();
+    revealEditButton();
+
+
 }
+
+
+
+
 
