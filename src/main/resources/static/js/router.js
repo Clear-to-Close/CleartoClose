@@ -8,17 +8,20 @@ import Home, {HomeEvents} from "./views/Home.js";
 import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
+import LoginEvent from "./auth.js";
 import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
-import Login, {LoginEvent} from "./views/Login.js";
+import Login from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
 import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
 import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
+import {getLoggedInUser} from "./utility.js";
 
 
 const userLoggedIn = localStorage.getItem('accessToken');
+console.log(userLoggedIn);
 
 export default function router(URI) {
     const piecesOfURI = URI.split("/");
@@ -113,7 +116,7 @@ export default function router(URI) {
         '/profile': {
             returnView: ProfilePage,
             state: {
-                loggedInUser: `/api/users/${parseInt(userLoggedIn)}`
+                loggedInUser: `/api/users/searchByEmail?email=${getLoggedInUser()}`
             },
             uri: '/profile',
             title: 'Your profile page',
