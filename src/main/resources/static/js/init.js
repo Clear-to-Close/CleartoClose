@@ -21,6 +21,7 @@ function loadViewOnPageRequest() {
 function addListenerToNavLinks() {
     document.addEventListener('click', e => {
         if (e.target.type || e.target.type === "file") {
+            console.log(e.target.type)
             return;
         }
 

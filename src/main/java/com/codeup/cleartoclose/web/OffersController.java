@@ -81,6 +81,7 @@ OffersController {
         offersRepository.save(acceptedOffer);
         System.out.printf("The seller has accepted an offer with the id of %d!", acceptedOffer.getId());
     }
+  
     @PutMapping("/decline/{offerId}")
     public void offerDeclined(@PathVariable Long offerId) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method

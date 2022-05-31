@@ -1,22 +1,21 @@
 import createView from "../createView.js";
 import {initCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
-
+import Login from "./Login.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
-let user;
 let idArray;
 
 
-export default function Offers(props) {
 
-    user = parseInt(localStorage.getItem('accessToken'));
+export default function Offers(props) {
     let URI = sessionStorage.getItem("URI").split("/")
     listingId = parseInt(URI[URI.length - 1])
-    whoIsLoggedIn(user);
+    console.log(props.offers);
 
+    buttonAuthorization(props.offers, userId, listingId);
     //language=HTML
     return `
 		<div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -87,27 +86,6 @@ const retrieveOffersFromDb = (offers) => {
 };
 
 
-
-
-
-// // RENDERING BUTTONS BASED ON USER IDENTITY && ACTIVITY
-// const renderMakeOfferBtn = (offers) => {
-//     console.log(offers)
-//     for (let i = 0; i < offers.length; i++) {
-//
-//         if (offers[i].offeror.id === user) {
-//             console.log("This person won't be able to see the make offer button anymore!");
-//         }
-//         if (offers[i].listing.seller.id === user) {
-//             isSeller = true;
-//         }
-//         if (offers[i].offeror.realtorInfo.id) {
-//             isRealtor = true;
-//             console.log("This person won't be able to see the make offer button anymore!");
-//         }
-//     }
-// }
-
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
         let URI = sessionStorage.getItem("URI").split("/")
@@ -115,22 +93,45 @@ const createMakeOfferView = () => {
         listingId = parseInt(URI[URI.length - 1])
         console.log(listingId)
         createView(`/makeOffer/listings/${listingId}`)
-
     })
 }
+
 
 
 function whoIsLoggedIn(id) {
     console.log(id)
 }
 
+function buttonAuthorization(offers, userId, listingId) {
+    let sellerId = parseInt(offers[0].listing.seller.id);
+    let currentOfferorId = null;
+
+    offers.forEach(function (offer) {
+        let searchOfferors = parseInt(offer.offeror.id)
+        if (searchOfferors === userId) {
+            currentOfferorId = userId;
+        }
+    })
+
+        $(document).ready(function () {
+            if (sellerId === userId) {
+                $('#makeOfferBtn').hide();
+            }
+
+            if (currentOfferorId !== null) {
+                $('#makeOfferBtn').hide();
+                $('.btn-accept').hide();
+                $('.btn-counter').hide();
+                $('#editOfferBtn').show();
+            }
+        })
+}
+
 export function OfferEvent() {
-    // areThereAnyListings();
-    // renderMakeOfferBtn(props);
     confirmOfferAcceptance();
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
     initCounterOffer();
-
 }
+

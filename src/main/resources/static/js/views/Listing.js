@@ -1,60 +1,55 @@
 import createView from "../createView.js";
 import {isLoggedIn} from "../auth.js";
 import {clearStoredURI} from "../init.js";
-import {uploadDocuments} from "../utility.js";
+import {uploadDocuments, getLoggedInUser} from "../utility.js";
 
 let listingId = null;
+let sellerAgent = "";
+
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
-let user;
 
 export default function ListingIndex(props) {
-    user = parseInt(localStorage.getItem('accessToken'));
-    console.log(props)
+
     requestListingDetailView(props.listing.listingAddress, props.listing.image_list);
-    console.log(isListingActive(props));
-    console.log(isListingAgentLoggedIn(props));
+    sellerAgent = props.listing.sellerAgent.email;
     listingId = props.listing.id
     // language=HTML
     return `
-		<div id="listingPageDiv" data-id="${props.listing.id}"
-		     class="flex flex-col content-height relative bg-primary md:flex-row">
-			<div class="md:flex md:flex-col md:w-1/2">
-				<div class="w-full">
-					<img class="w-full"
-					     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-					     alt="main listing photo">
-				</div>
-				<div id="upload-div" class="hidden">
-					<form>
-						<input type="file" id="uploadDocs" accept="image/*">
-						<button id="uploadBtn">Upload Documents</button>
-					</form>
-				</div>
-				<div class="p-2 text-center my-2">
-					${props.listing.description}
-				</div>
-				<div class="hidden md:flex md:p-2">
-					${populateListingFromDB(props.listing)}
-				</div>
-			</div>
-			<div class="md:w-1/2">
-				<div class="flex justify-start w-full">
-					<div class="md:hidden">${populateListingFromDB(props.listing)}</div>
-					<div class="w-full">
-						<div id="ApiDetails" class="w-full md:flex md:flex-col md:items-center"></div>
-						<div id="apiSchoolInfo" class="hidden md:flex md:flex-col md:p-2"></div>
-					</div>
-				</div>
-				<div class="flex mx-auto justify-center">
-					<button id="viewOffersBtn"
-					        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers
-					</button>
-					<button id="editListing" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
-						Listing
-					</button>
-				</div>
-			</div>
-		</div>`
+        <div id="listingPageDiv" data-id="${props.listing.id}"
+             class="flex flex-col content-height relative bg-primary md:flex-row">
+            <div class="md:flex md:flex-col md:w-1/2">
+                <div class="w-full">
+                    <img class="w-full"
+                         src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                         alt="main listing photo">
+                </div>
+                <div>
+                    <form id="listingImgUpload">
+                        <input type="file" id="uploadDocs" accept="image/*">
+                        <button type="button" id="uploadBtn">Upload Documents</button>
+                    </form>
+                </div>
+                <div class="p-2 text-center my-2">
+                    ${props.listing.description}
+                </div>
+                <div class="hidden md:flex md:p-2">
+                    ${populateListingFromDB(props.listing)}
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <div class="flex justify-start w-full">
+                    <div class="md:hidden">${populateListingFromDB(props.listing)}</div>
+                    <div class="w-full">
+                        <div id="ApiDetails" class="w-full md:flex md:flex-col md:items-center"></div>
+                        <div id="apiSchoolInfo" class="hidden md:flex md:flex-col md:p-2"></div>
+                    </div>
+                </div>
+                <div class="flex mx-auto justify-center">
+                    <button id="viewOffersBtn" class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">View Offers</button>
+                    <button id="editListing" class=" hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit Listing</button>
+                </div>
+            </div>
+        </div>`
 }
 
 const populateListingFromDB = listing => {
@@ -192,22 +187,13 @@ const normalizeSentence = sentence => {
 
 function submitImages() {
     $("#uploadBtn").click(e => {
-        e.preventDefault();
+        $("#uploadDocs").click()
+    })
+    $("#uploadDocs").on("change", function (e) {
         const file = document.getElementById("uploadDocs")
         uploadDocuments('uploadListingImg', listingId, file)
+        $("#uploadDocs").val("")
     })
-}
-
-const revealOffersButton = _ => {
-    if (isLoggedIn() && isListingActive) {
-        $('#viewOffersBtn').removeClass('hidden');
-    }
-}
-
-const revealEditButton = _ => {
-    if(isListingAgentLoggedIn) {
-        $("#editListing").removeClass("hidden");
-    }
 }
 
 const viewOffers = _ => {
@@ -244,23 +230,23 @@ const requestSchoolDetailView = propertyId => {
         .then(schoolDetails => populateSchoolInfoDetails(schoolDetails))
 }
 
-
 const  isListingActive = listing =>{
     let listStat = listing.listing.listingStatus;
    return listStat === "ACTIVE" || listStat === "PENDING";
 }
 
-const isListingAgentLoggedIn = listing => {
-    let listingAgent = parseInt(listing.listing.sellerAgent.id);
-    console.log(listingAgent);
-    console.log(typeof listingAgent);
-    console.log(user);
-    console.log(typeof user);
-    return user === listingAgent;
+const toggleButtonDisplay = _ => {
+    if (sellerAgent === getLoggedInUser()) {
+        $('#editListing').removeClass('hidden');
+        // $('#listingImgUpload').removeClass('hidden');
+    }
+    if (isLoggedIn()) {
+        $('#viewOffersBtn').removeClass('hidden');
+    }
 }
 
 export function ListingEvent() {
-    revealOffersButton();
+    toggleButtonDisplay();
     viewOffers();
     editListing();
     submitImages();

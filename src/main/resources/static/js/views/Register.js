@@ -75,7 +75,6 @@ export function RegisterEvent() {
                 .then(response => {
                     console.log(response.status);
                     createView("/");
-
                 })
         }
     })
