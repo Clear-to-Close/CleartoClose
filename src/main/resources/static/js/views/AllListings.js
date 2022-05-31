@@ -1,10 +1,7 @@
 import createView from "../createView.js";
+import { initMap } from "../googleMaps.js";
 
-let map;
-let geocoder;
 let listingsAddresses = [];
-let latitude = 0;
-let longitude = 0;
 
 export default function AllListings(props) {
     console.log(props)
@@ -23,11 +20,9 @@ export default function AllListings(props) {
 }
 
 const populateListings = listings => {
-    let listingDivs = "";
     //language=HTML
-    listings.forEach(listing => {
-        console.log(listing.id)
-        listingDivs += `
+    return listings.map(listing =>
+         `
             <div class="w-11/12 flex flex-wrap justify-evenly border-2 border-callToAction bg-secondary m-2" data-id="${listing.id}" id="listing">
                 <div class="m-1 pb-1 text-center">${listing.askingPrice}</div>
                 <div class="m-1 pb-1 text-center" id="listing#-${listing.id}">MLS# ${listing.id}</div>
@@ -38,31 +33,17 @@ const populateListings = listings => {
                 <div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
                 <div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
                 <p class="w-full text-justify">${listing.description}</p>
-                <button type="button" id="viewListingButton">View Listing</button>
-            </div>
+                <button data-id="${listing.id}" type="button" id="viewListingButton">View Listing</button>
             </div>
         `
-    })
-    return listingDivs;
+    ).join("")
 }
 
 const createListingView = _ => {
     $("#viewListingButton").click(e => {
         e.preventDefault();
-        createView(`/listing/listings/${$("#listing").attr("data-id")}`)
+        createView(`/listing/listings/${$("#viewListingButton").attr("data-id")}`)
     })
-}
-
-function initMap() {
-    // The location of Uluru
-    map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
-        center: {lat: 0, lng: 0},
-    });
-    geocoder = new google.maps.Geocoder();
-    const center = geocodeAddress(JSON.parse(sessionStorage.getItem("URI")).split("=")[1])
-    console.log(center)
-
 }
 
 const getAddresses = allListings => {
@@ -71,19 +52,7 @@ const getAddresses = allListings => {
     })
 }
 
-const geocodeAddress = address => {
-    return geocoder.geocode({address: address}, function (results, status) {
-        if (status === 'OK') {
-            return results.json();
-        } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-    })
-}
-
 export function AllListingsEvent() {
     createListingView();
     initMap();
 }
-
-

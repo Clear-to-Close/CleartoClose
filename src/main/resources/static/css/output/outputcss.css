@@ -824,7 +824,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .content-height {
-  min-height: calc(100vh - 90px)
+  min-height: calc(100vh - 90px);
+  max-height:-webkit-max-content;
+  max-height:-moz-max-content;
+  max-height:max-content;
 }
 
 @media (min-width: 640px) {
