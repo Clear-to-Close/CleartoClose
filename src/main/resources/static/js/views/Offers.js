@@ -72,14 +72,14 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button
+                    <button id="btn-accept-${offer.id}"
                             data-id="${offer.id}" type="button"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
                         Offer!
                     </button>
-                    <button
+                    <button  id="btn-counter-${offer.id}"
                             data-id="${offer.id}" type="button"
-                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
                         Offer!
                     </button>
                 </div>
@@ -103,13 +103,24 @@ function buttonAuthorization() {
     let user = getLoggedInUser()
     let currentOfferor = null;
     let offerStatus;
+    let offerID;
 
     offers.forEach(function (offer) {
         console.log(offer);
+        offerID = offer.id;
         offerStatus = offer.offerStatus;
         let searchOfferor = offer.offeror.email;
         if (searchOfferor === user) {
             currentOfferor = user;
+        }
+        if (seller === user && offerStatus === 'ACTIVE') {
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
+            // $("#editOfferBtn").show();
+        }
+        if(user !== seller && offerStatus === 'COUNTER'){
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
         }
     })
     console.log(seller === user)
@@ -117,16 +128,6 @@ function buttonAuthorization() {
     if (seller !== user && currentOfferor !== user) {
         console.log("unhide make offer btn")
         $("#makeOfferBtn").removeClass("hidden");
-    }
-
-    if (seller === user && offerStatus === 'ACTIVE') {
-        $(".btn-accept").removeClass("hidden");
-        $(".btn-counter").removeClass("hidden");
-        // $("#editOfferBtn").show();
-    }
-    if(user !== seller && offerStatus === 'COUNTER'){
-        $(".btn-accept").removeClass("hidden");
-        $(".btn-counter").removeClass("hidden");
     }
 }
 
