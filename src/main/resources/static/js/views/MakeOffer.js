@@ -1,5 +1,4 @@
 import createView from "../createView.js";
-import {getMessage} from "../messaging.js";
 import {getLoggedInUser} from "../utility.js";
 
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
