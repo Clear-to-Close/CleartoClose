@@ -62,7 +62,6 @@ public class Offer {
     private OfferStatus offerStatus;
 
     @Column
-    private long counterOfferId;
-
+    private Long counterId;
 
 }

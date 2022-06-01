@@ -49,7 +49,6 @@ OffersController {
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
 
-//        User offeror = usersRepository.getById(id);
         Offer newOffer = new Offer();
 
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
@@ -69,7 +68,7 @@ OffersController {
         Listing currentListing = listingsRepository.findById(newOfferDTO.getListingId()).get();
         System.out.println(currentListing);
         newOffer.setListing(currentListing);
-
+        System.out.println(newOffer);
         offersRepository.save(newOffer);
     }
 
@@ -85,17 +84,17 @@ OffersController {
   
     @PutMapping("/decline/{offerId}")
     public void offerDeclined(@PathVariable Long offerId) {
-        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
         Offer acceptedOffer = offersRepository.findById(offerId).get();
         acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
         offersRepository.save(acceptedOffer);
     }
+
     @PutMapping("/countered/{offerId}")
-    public void offerCountered(@PathVariable Long offerId, RequestBody counter) {
-        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
+    public void offerCountered(@PathVariable Long offerId) {
         Offer counteredOffer = offersRepository.findById(offerId).get();
-//        counteredOffer.setCounterOfferId(counter.);
         counteredOffer.setOfferStatus(OfferStatus.COUNTERED);
+//        counteredOffer.setCounterId(counteredOffer.getCounterId());
         offersRepository.save(counteredOffer);
+
     }
 }

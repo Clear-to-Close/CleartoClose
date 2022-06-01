@@ -2,6 +2,7 @@ import {updateUserProfile} from "../updateProfile.js";
 import {uploadDocuments} from "../utility.js";
 
 export default function ProfilePage(props) {
+    console.log(props);
     //language=html
     return `
         <div class="content-height bg-primary flex justify-center items-center">

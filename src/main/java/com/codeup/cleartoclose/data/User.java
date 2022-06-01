@@ -77,7 +77,7 @@ public class User {
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"offeror", "listing"})
+    @JsonIgnoreProperties({"offeror", "listing","counterId"})
     @ToString.Exclude
     private Collection<Offer> userOffers;
 

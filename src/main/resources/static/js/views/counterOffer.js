@@ -1,25 +1,27 @@
-import createView from "../createView";
+import createView from "../createView.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 
 export function initCounterOffer() {
-    $('.btn-counter').on('click', function () {
+    $('.btn-counter').on('click', function (e) {
+        e.preventDefault();
         const offerId = $(this).data("id");
-        $("#btn-confirm-counterOffer").attr("data-id", offerId);
-        console.log(id);
+        $("#btn-confirm-counter").attr("data-id", offerId);
 
-        $.get(`${OFFERS_URL}/${id}`).then(function (res) {
+
+        $.get(`${OFFERS_URL}/${offerId}`).then(function (res) {
             console.log(res);
             populateCounterOfferForm(res);
         })
     })
 
 }///END OF COUNTER OFFER FUNCTION
-
+let offeror;
+let originalOfferId;
 function populateCounterOfferForm(res) {
     const id = res.id;
-    const offeror = res.offeror.id;
+    offeror = res.offeror.id;
     const offerAmount = res.offerAmount;
     const loanType = res.loanType;
     const appraisalWaiver = res.appraisalWaiver;
@@ -67,17 +69,17 @@ function populateCounterOfferForm(res) {
 		</div>`
 
     $("#offer").html("").append(`${acceptHTML}`);
-    $("#btn-confirm-counterOffer").removeClass("hidden");
+    $("#btn-confirm-counter").removeClass('hidden');
+
 
 } /// END OF POPULATE CO FORM
 
 export function submitCounterOffer(){
-    $("#btn-confirm-counterOffer").on('click', function (e) {
+    $("#btn-confirm-counter").on('click', function (e) {
             e.preventDefault();
             let URI = sessionStorage.getItem("URI").split("/")
-            console.log(URI)
             const listingId = parseInt(URI[URI.length - 1])
-            console.log(listingId)
+            originalOfferId = $('#btn-confirm-counter').data("id");
 
             const offerData = {
                 offerAmount: $('#offer-amount').val(),
@@ -88,12 +90,10 @@ export function submitCounterOffer(){
                 appraisalWaiver: $('#appraisal-waiver').val(),
                 closingDate: $('#closing-date').val(),
                 closingCosts: $('#closing-costs').val(),
-                offerorId: parseInt(localStorage.getItem("accessToken")),
-                listingId: listingId
+                offerorId: offeror,
+                listingId: listingId,
             }
-
-            console.log(offerData);
-
+        console.log(offerData);
             let request = {
                 method: "POST",
                 headers: {
@@ -105,24 +105,28 @@ export function submitCounterOffer(){
             fetch(`${OFFERS_URL}`, request)
                 .then(response => {
                     console.log(response.status);
-                    // getMessage("Your offer has been posted!", 'confirmation-message');
                     createView(`/offers/findOffers/${listingId}`);
                 }).catch(error => {
                 console.log(error.status);
             });
+        updateOfferToCountered();
         });
-    updateOfferToCountered();
+
 }
 
 function updateOfferToCountered (){
-    let offerId = $("#btn-confirm-counterOffer").data("id");
+
+    const offerBody = {
+        counterId: 222
+    }
     const offerUpdate = {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
+        body: JSON.stringify(offerBody)
     }
-    fetch(`${OFFERS_URL}/countered/${offerId}`, offerUpdate).then(function (res) {
+    fetch(`${OFFERS_URL}/${originalOfferId}`, offerUpdate).then(function (res) {
         console.log(res)
     })
 }

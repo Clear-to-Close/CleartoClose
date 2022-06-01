@@ -1,5 +1,5 @@
 import createView from "../createView.js";
-import {initCounterOffer} from "./counterOffer.js";
+import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
 
@@ -30,10 +30,13 @@ export default function Offers(props) {
             <div id="offer">
                 ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
             </div>
-            <div id="hiddenConfirmation" class="hidden text-center m-1 w-full">
+            <div id="hiddenConfirmation" class="text-center m-1 w-full">
                 <button id="btn-confirm"
-                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
                 </button>
+	            <button id="btn-confirm-counter"
+	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+	            </button>
             </div>
         </div>`
 }
@@ -126,5 +129,6 @@ export function OfferEvent() {
     updateListingObject();
     createMakeOfferView();
     initCounterOffer();
+    submitCounterOffer()
 }
 
