@@ -19,7 +19,9 @@ export function initCounterOffer() {
 }///END OF COUNTER OFFER FUNCTION
 let offeror;
 let originalOfferId;
+
 function populateCounterOfferForm(res) {
+    console.log(res);
     const id = res.id;
     offeror = res.offeror.id;
     const offerAmount = res.offerAmount;
@@ -29,6 +31,7 @@ function populateCounterOfferForm(res) {
     const closingCosts = res.closingCosts;
     const closingDate = res.closingDate;
     const homeWarranty = res.homeWarranty;
+
     const buyersAgent = res.offeror.buyerAgentID;
 
     //language=html
@@ -36,11 +39,15 @@ function populateCounterOfferForm(res) {
 		<div id="acceptOfferDiv" class="flex flex-wrap justify-evenly border-2 rounded border-black m-1">
 			<div class="text-center mx-1 my-2" id="offerId" data-id="${id}">
 				<label for="offerId">Offer ID</label>
-				<input type="text" readonly class="form-control" id="offerId" placeholder="${id}">
+				<input type="text" readonly class="form-control" id="offerId" value="${id}">
 			</div>
 			<div class="text-center mx-1 my-2">
 				<label for="offerLoanType">Loan Type:</label>
-				<input type="text" readonly class="form-control" id="offerLoanType" placeholder="${loanType}">
+				<input type="text" readonly class="form-control" id="offerLoanType" value="${loanType}">
+			</div>
+			<div class="text-center mx-1 my-2">
+				<label for="offerorId">Loan Type:</label>
+				<input type="text" readonly class="form-control" id="offerorId" value="${offeror}">
 			</div>
 			<div class="text-center mx-1 my-2">
 				<label for="offerAppWaiver">Waive Appraisal</label>
@@ -66,6 +73,10 @@ function populateCounterOfferForm(res) {
 				<label for="offerSurvey">Survey</label>
 				<input type="text" class="form-control" id="offerSurvey" value="${survey}">
 			</div>
+			<div class="text-center mx-1 my-2">
+				<label for="offerOption">Option Period</label>
+				<input type="text" class="form-control" id="offerOption" value="${survey}">
+			</div>
 		</div>`
 
     $("#offer").html("").append(`${acceptHTML}`);
@@ -74,50 +85,50 @@ function populateCounterOfferForm(res) {
 
 } /// END OF POPULATE CO FORM
 
-export function submitCounterOffer(){
+export function submitCounterOffer() {
     $("#btn-confirm-counter").on('click', function (e) {
-            e.preventDefault();
-            let URI = sessionStorage.getItem("URI").split("/")
-            const listingId = parseInt(URI[URI.length - 1])
-            originalOfferId = $('#btn-confirm-counter').data("id");
+        e.preventDefault();
+        let URI = sessionStorage.getItem("URI").split("/")
+        const listingId = parseInt(URI[URI.length - 1])
+        originalOfferId = $('#btn-confirm-counter').data("id");
 
-            const offerData = {
-                offerAmount: $('#offer-amount').val(),
-                loanType: $('#loan-type').val(),
-                optionLength: $('#option-length').val(),
-                survey: $('#survey-requested').val(),
-                homeWarranty: $('#warranty-requested').val(),
-                appraisalWaiver: $('#appraisal-waiver').val(),
-                closingDate: $('#closing-date').val(),
-                closingCosts: $('#closing-costs').val(),
-                offerorId: offeror,
-                listingId: listingId,
-            }
+        const offerData = {
+            offerAmount: $('#offerAmount').val(),
+            loanType: $('#offerLoanType').val(),
+            optionLength: $('#option-length').val(),
+            survey: $('#offerSurvey').val(),
+            homeWarranty: $('#offerHomeWarranty').val(),
+            appraisalWaiver: $('#offerAppWaiver').val(),
+            closingDate: $('#offerClosingDate').val(),
+            closingCosts: $('#offerClosingCosts').val(),
+            offerorId: offeror,
+            listingId: listingId,
+        }
         console.log(offerData);
-            let request = {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(offerData)
-            }
+        let request = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(offerData)
+        }
 
-            fetch(`${OFFERS_URL}`, request)
-                .then(response => {
-                    console.log(response.status);
-                    createView(`/offers/findOffers/${listingId}`);
-                }).catch(error => {
-                console.log(error.status);
-            });
-        updateOfferToCountered();
+        fetch(`${OFFERS_URL}`, request)
+            .then(response => {
+                console.log(response.status);
+                createView(`/offers/findOffers/${listingId}`);
+            }).catch(error => {
+            console.log(error.status);
         });
+        updateOfferToCountered();
+    });
 
 }
 
-function updateOfferToCountered (){
+function updateOfferToCountered() {
 
     const offerBody = {
-        counterId: 222
+        counterId: '222'
     }
     const offerUpdate = {
         method: "PUT",
@@ -126,7 +137,7 @@ function updateOfferToCountered (){
         },
         body: JSON.stringify(offerBody)
     }
-    fetch(`${OFFERS_URL}/${originalOfferId}`, offerUpdate).then(function (res) {
+    fetch(`${OFFERS_URL}/countered/${originalOfferId}`, offerUpdate).then(function (res) {
         console.log(res)
     })
 }

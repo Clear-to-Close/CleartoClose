@@ -32,10 +32,10 @@ export default function Offers(props) {
             </div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full">
                 <button id="btn-confirm"
-                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
 	            <button id="btn-confirm-counter"
-	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
 	            </button>
             </div>
         </div>`
