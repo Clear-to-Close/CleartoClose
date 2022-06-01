@@ -59,7 +59,7 @@ OffersController {
         newOffer.setAppraisalWaiver(newOfferDTO.getAppraisalWaiver());
         newOffer.setClosingCosts(newOfferDTO.getClosingCosts());
         newOffer.setClosingDate(newOfferDTO.getClosingDate());
-        newOffer.setOfferStatus(OfferStatus.ACTIVE);
+        newOffer.setOfferStatus(newOfferDTO.getOfferStatus());
 
         User newOfferor = usersRepository.findByEmail(newOfferDTO.getOfferorEmail());
         System.out.println(newOfferor);
@@ -90,10 +90,11 @@ OffersController {
     }
 
     @PutMapping("/countered/{offerId}")
-    public void offerCountered(@PathVariable Long offerId) {
+    public void offerCountered(@PathVariable Long offerId, @RequestBody Offer counterOffer) {
         Offer counteredOffer = offersRepository.findById(offerId).get();
-        counteredOffer.setOfferStatus(OfferStatus.COUNTERED);
-//        counteredOffer.setCounterId(counteredOffer.getCounterId());
+        counteredOffer.setOfferStatus(counterOffer.getOfferStatus());
+        counteredOffer.setCounterId(counterOffer.getCounterId());
+        System.out.println(counterOffer);
         offersRepository.save(counteredOffer);
 
     }

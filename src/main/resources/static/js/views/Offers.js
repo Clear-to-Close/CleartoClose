@@ -31,10 +31,10 @@ export default function Offers(props) {
                 ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
             </div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full">
-                <button id="btn-confirm"
+                <button id="btn-confirm" type="submit"
                         class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
-	            <button id="btn-confirm-counter"
+	            <button id="btn-confirm-counter" type="submit"
 	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
 	            </button>
             </div>
@@ -73,12 +73,12 @@ const retrieveOffersFromDb = (offers) => {
                 </div>
                 <div class="text-center m-1 w-full">
                     <button
-                            data-id="${offer.id}"
+                            data-id="${offer.id}" type="button"
                             class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
                         Offer!
                     </button>
                     <button
-                            data-id="${offer.id}"
+                            data-id="${offer.id}" type="button"
                             class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
                         Offer!
                     </button>
@@ -104,7 +104,8 @@ function buttonAuthorization() {
     let currentOfferor = null;
 
     offers.forEach(function (offer) {
-        let searchOfferor = offer.offeror.email
+        console.log(offer);
+        let searchOfferor = offer.offeror.email;
         if (searchOfferor === user) {
             currentOfferor = user;
         }
@@ -123,7 +124,7 @@ function buttonAuthorization() {
 }
 
 export function OfferEvent() {
-    buttonAuthorization()
+    buttonAuthorization();
     confirmOfferAcceptance();
     updateOfferStatus(idArray);
     updateListingObject();

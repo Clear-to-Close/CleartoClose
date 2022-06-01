@@ -1,4 +1,5 @@
 import createView from "../createView.js";
+import {getLoggedInUser} from "../utility.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
@@ -9,21 +10,19 @@ export function initCounterOffer() {
         const offerId = $(this).data("id");
         $("#btn-confirm-counter").attr("data-id", offerId);
 
-
         $.get(`${OFFERS_URL}/${offerId}`).then(function (res) {
             console.log(res);
             populateCounterOfferForm(res);
         })
     })
-
 }///END OF COUNTER OFFER FUNCTION
-let offeror;
+
 let originalOfferId;
 
 function populateCounterOfferForm(res) {
     console.log(res);
     const id = res.id;
-    offeror = res.offeror.id;
+    const offeror = res.offeror.id;
     const offerAmount = res.offerAmount;
     const loanType = res.loanType;
     const appraisalWaiver = res.appraisalWaiver;
@@ -31,8 +30,9 @@ function populateCounterOfferForm(res) {
     const closingCosts = res.closingCosts;
     const closingDate = res.closingDate;
     const homeWarranty = res.homeWarranty;
-
+    const offerorEmail = res.offeror.email
     const buyersAgent = res.offeror.buyerAgentID;
+    const optionLength = res.optionLength;
 
     //language=html
     const acceptHTML = `
@@ -101,10 +101,12 @@ export function submitCounterOffer() {
             appraisalWaiver: $('#offerAppWaiver').val(),
             closingDate: $('#offerClosingDate').val(),
             closingCosts: $('#offerClosingCosts').val(),
-            offerorId: offeror,
+            offerorEmail: getLoggedInUser(),
+            offerStatus: "COUNTER",
             listingId: listingId,
         }
         console.log(offerData);
+
         let request = {
             method: "POST",
             headers: {
@@ -126,16 +128,16 @@ export function submitCounterOffer() {
 }
 
 function updateOfferToCountered() {
-
-    const offerBody = {
-        counterId: '222'
+    const updatedOfferBody = {
+        counterId: '222',
+        offerStatus: 'CANCELLED'
     }
     const offerUpdate = {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(offerBody)
+        body: JSON.stringify(updatedOfferBody)
     }
     fetch(`${OFFERS_URL}/countered/${originalOfferId}`, offerUpdate).then(function (res) {
         console.log(res)
