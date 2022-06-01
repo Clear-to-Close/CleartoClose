@@ -19,7 +19,7 @@ module.exports = {
                 'blue-ncs' : '#0592cd',
                 'primary' : '#b1becd',
                 'secondary' : '#9ab1c2',
-                'callToAction' : '#8080d8'
+                'callToAction' : '#FFCA36'
             },
             backgroundImage: {
                 'homeImage': "url('/src/main/resources/images/homeImage.jpeg"
