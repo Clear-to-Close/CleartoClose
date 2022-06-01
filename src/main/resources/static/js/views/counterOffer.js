@@ -3,7 +3,6 @@ import {getLoggedInUser} from "../utility.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
-
 export function initCounterOffer() {
     $('.btn-counter').on('click', function (e) {
         e.preventDefault();
@@ -81,7 +80,7 @@ function populateCounterOfferForm(res) {
 
     $("#offer").html("").append(`${acceptHTML}`);
     $("#btn-confirm-counter").removeClass('hidden');
-
+    $('#btn-confirm-counter').attr('data-email', offerorEmail);
 
 } /// END OF POPULATE CO FORM
 
@@ -101,7 +100,7 @@ export function submitCounterOffer() {
             appraisalWaiver: $('#offerAppWaiver').val(),
             closingDate: $('#offerClosingDate').val(),
             closingCosts: $('#offerClosingCosts').val(),
-            offerorEmail: getLoggedInUser(),
+            offerorEmail: $('#btn-confirm-counter').data('email'),
             offerStatus: "COUNTER",
             listingId: listingId,
         }
@@ -117,7 +116,7 @@ export function submitCounterOffer() {
 
         fetch(`${OFFERS_URL}`, request)
             .then(response => {
-                console.log(response.status);
+                console.log(response);
                 createView(`/offers/findOffers/${listingId}`);
             }).catch(error => {
             console.log(error.status);

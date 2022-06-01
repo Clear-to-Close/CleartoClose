@@ -102,24 +102,31 @@ function buttonAuthorization() {
     let seller = offers[0].listing.seller.email
     let user = getLoggedInUser()
     let currentOfferor = null;
+    let offerStatus;
 
     offers.forEach(function (offer) {
         console.log(offer);
+        offerStatus = offer.offerStatus;
         let searchOfferor = offer.offeror.email;
         if (searchOfferor === user) {
             currentOfferor = user;
         }
     })
     console.log(seller === user)
+
     if (seller !== user && currentOfferor !== user) {
         console.log("unhide make offer btn")
         $("#makeOfferBtn").removeClass("hidden");
     }
 
-    if (seller === user) {
+    if (seller === user && offerStatus === 'ACTIVE') {
         $(".btn-accept").removeClass("hidden");
         $(".btn-counter").removeClass("hidden");
         // $("#editOfferBtn").show();
+    }
+    if(user !== seller && offerStatus === 'COUNTER'){
+        $(".btn-accept").removeClass("hidden");
+        $(".btn-counter").removeClass("hidden");
     }
 }
 
