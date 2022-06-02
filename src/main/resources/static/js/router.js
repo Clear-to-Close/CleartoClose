@@ -54,7 +54,9 @@ export default function router(URI) {
         },
         '/listing': {
             returnView: ListingIndex,
-            state: {},
+            state: {
+                listing: ""
+            },
             uri: '/listing',
             title: "Listing",
             viewEvent: ListingEvent
@@ -75,7 +77,9 @@ export default function router(URI) {
         },
         '/allListings': {
             returnView: AllListings,
-            state: {},
+            state: {
+                allListings: ""
+            },
             uri: '/allListings',
             title: 'All Listings',
             viewEvent: AllListingsEvent

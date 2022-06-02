@@ -13,7 +13,7 @@ export default function AllListings(props) {
             <div class="m-4">
                 <div id="map" class="hidden w-full md:block" style="height:50vh"></div>
             </div>
-            <div class="m-4 flex flex-col items-center">
+            <div class="grid grid-cols-3 gap-4 m-4">
                 ${populateListings(props.allListings)}
             </div>
         </div>
@@ -25,7 +25,7 @@ const populateListings = listings => {
     //language=HTML
     listings.forEach(listing => {
         listingHtml += `
-            <div class="listing bg-white w-1/4 border-2 border-callToAction rounded-md shadow-xl m-2 md:w-1/4" data-id="${listing.id}">
+            <div class="listing bg-white w-full h-[700px] border-2 border-callToAction rounded-md shadow-xl" data-id="${listing.id}">
                 <div>
                     <img class="w-full h-full" src="${listing.house_images[0] ?? "Picture Not Available"}" alt="Picture of ${listing.listingAddress.address}">
                 </div>
@@ -37,7 +37,7 @@ const populateListings = listings => {
                 </div>
                 <div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
                 <div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
-                <div class="w-full text-justify">${listing.description}</div>
+                <div class="w-full text-justify p-2">${listing.description}</div>
             </div>`
     })
     return listingHtml;
@@ -46,7 +46,8 @@ const populateListings = listings => {
 const createListingView = _ => {
     $(".listing").click(e => {
         let id = null;
-        if (e.target.classList.contains("listing")) {
+        console.log(e.target.parentElement.parentElement)
+        if (e.target.classList.contains("listing") ) {
             id = e.target.getAttribute("data-id")
         } else {
             id = e.target.parentElement.getAttribute("data-id")

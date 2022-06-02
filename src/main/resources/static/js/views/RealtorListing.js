@@ -103,7 +103,7 @@ export default function RealtorListing(props) {
                                type="text"
                                placeholder="Zip Code"
                                class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
-                        <button type="button" id="submit" class="w-1/2 p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">
+                        <button type="button" id="submit" class="w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium">
                             Submit Listing
                         </button>
                     </div>
