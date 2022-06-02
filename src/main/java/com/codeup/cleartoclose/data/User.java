@@ -1,5 +1,6 @@
 package com.codeup.cleartoclose.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -77,7 +78,7 @@ public class User {
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"offeror", "listing"})
+    @JsonIgnoreProperties({"offeror", "listing","counterId"})
     @ToString.Exclude
     private Collection<Offer> userOffers;
 

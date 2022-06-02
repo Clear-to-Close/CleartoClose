@@ -49,7 +49,6 @@ OffersController {
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
         // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
 
-//        User offeror = usersRepository.getById(id);
         Offer newOffer = new Offer();
 
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
@@ -60,7 +59,7 @@ OffersController {
         newOffer.setAppraisalWaiver(newOfferDTO.getAppraisalWaiver());
         newOffer.setClosingCosts(newOfferDTO.getClosingCosts());
         newOffer.setClosingDate(newOfferDTO.getClosingDate());
-        newOffer.setOfferStatus(OfferStatus.ACTIVE);
+        newOffer.setOfferStatus(newOfferDTO.getOfferStatus());
 
         User newOfferor = usersRepository.findByEmail(newOfferDTO.getOfferorEmail());
         System.out.println(newOfferor);
@@ -69,7 +68,7 @@ OffersController {
         Listing currentListing = listingsRepository.findById(newOfferDTO.getListingId()).get();
         System.out.println(currentListing);
         newOffer.setListing(currentListing);
-
+        System.out.println(newOffer);
         offersRepository.save(newOffer);
     }
 
@@ -85,9 +84,23 @@ OffersController {
   
     @PutMapping("/decline/{offerId}")
     public void offerDeclined(@PathVariable Long offerId) {
-        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
         Offer acceptedOffer = offersRepository.findById(offerId).get();
         acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
         offersRepository.save(acceptedOffer);
     }
+
+
+//    @PutMapping("editOffer/{offerId}")
+
+
+    @PutMapping("/countered/{offerId}")
+    public void offerCountered(@PathVariable Long offerId, @RequestBody Offer counterOffer) {
+        Offer counteredOffer = offersRepository.findById(offerId).get();
+        counteredOffer.setOfferStatus(counterOffer.getOfferStatus());
+        counteredOffer.setCounterId(counterOffer.getCounterId());
+        System.out.println(counterOffer);
+        offersRepository.save(counteredOffer);
+
+    }
+
 }

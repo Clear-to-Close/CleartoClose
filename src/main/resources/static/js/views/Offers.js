@@ -1,19 +1,22 @@
 import createView from "../createView.js";
-import {initCounterOffer} from "./counterOffer.js";
+import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
+import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
+
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
 let idArray;
 let offers = [];
+idArray = [];
 
 
 export default function Offers(props) {
     let URI = sessionStorage.getItem("URI").split("/")
-    listingId = parseInt(URI[URI.length - 1])
-    console.log(props.offers);
+    listingId = parseInt(URI[URI.length - 1]);
     offers = props.offers
     //language=HTML
     return `
@@ -30,26 +33,31 @@ export default function Offers(props) {
             <div id="offer">
                 ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
             </div>
-            <div id="hiddenConfirmation" class="hidden text-center m-1 w-full">
-                <button id="btn-confirm"
-                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+            <div id="hiddenConfirmation" class="text-center m-1 w-full">
+                <button id="btn-confirm" type="submit"
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
+	            <button id="btn-confirm-counter" type="submit"
+	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+	            </button>
             </div>
         </div>`
 }
 
 
 const retrieveOffersFromDb = (offers) => {
-    idArray = [];
     offers.map(offer => idArray.push(offer.id));
+
+    console.log(offers.length);
     console.log(idArray);
 
+    noOffersOnListing();
+
     // language=HTML
-    console.log(offers);
     return offers.map(offer =>
 
         `
-            <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
+            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId">
                     ${offer.offerStatus} ${offer.id}
                 </div>
@@ -69,21 +77,43 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button
+                    <button type="button"
                             data-id="${offer.id}"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
-                    <button
+                    <button type="button"
                             data-id="${offer.id}"
                             class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-                        Offer!
+                    </button>
+                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
                     </button>
                 </div>
             </div>`
     ).join("")
+
 };
 
+function noOffersOnListing(){
+
+    console.log("no offers listed")
+
+    if(offers.length === 0){
+        console.log("inside conditional of noOFFES")
+        const request = {
+            method: "GET",
+            headers: getHeaders()
+        }
+
+        fetchData({
+            property: `/api/listings/${listingId}`
+        }, request)
+            .then(properties => {
+                console.log(properties)
+            })
+    }
+}
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
@@ -95,18 +125,42 @@ const createMakeOfferView = () => {
     })
 }
 
-function buttonAuthorization() {
+function renderEditOfferView () {
+    $(`.offer-btn`).click(function (e) {
+        const editBtnId = $(this).data('id');
+        createView(`/editOffer/api/offers/${editBtnId}`)
+    })
+}
+
+ const buttonAuthorization = _ => {
     let seller = offers[0].listing.seller.email
-    let user = getLoggedInUser()
+    let user = getLoggedInUser();
+
     let currentOfferor = null;
+    let offerStatus;
+    let offerID;
 
     offers.forEach(function (offer) {
-        let searchOfferor = offer.offeror.email
+        console.log(offer);
+        offerID = offer.id;
+        offerStatus = offer.offerStatus;
+        let searchOfferor = offer.offeror.email;
+
         if (searchOfferor === user) {
             currentOfferor = user;
+            $(`#btn-edit-${offer.id}`).removeClass('hidden');
+        }
+        if (seller === user && offerStatus === 'ACTIVE') {
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
+            // $("#editOfferBtn").show();
+        }
+        if(user !== seller && offerStatus === 'COUNTER'){
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
         }
     })
-    console.log(seller === user)
+
     if (seller !== user && currentOfferor !== user) {
         console.log("unhide make offer btn")
         $("#makeOfferBtn").removeClass("hidden");
@@ -115,16 +169,17 @@ function buttonAuthorization() {
     if (seller === user) {
         $(".btn-accept").removeClass("hidden");
         $(".btn-counter").removeClass("hidden");
-        // $("#editOfferBtn").show();
     }
 }
 
 export function OfferEvent() {
-    buttonAuthorization()
+    buttonAuthorization();
     confirmOfferAcceptance();
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
+    renderEditOfferView();
     initCounterOffer();
+    submitCounterOffer()
 }
 

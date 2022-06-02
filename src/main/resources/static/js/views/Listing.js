@@ -197,7 +197,7 @@ const viewOffers = _ => {
     $("#viewOffersBtn").click(_ => {
         clearStoredURI();
         let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/offers/api/findOffers/${listingId}`);
+        createView(`/offers/api/offers/findOffers/${listingId}`);
     });
 }
 
