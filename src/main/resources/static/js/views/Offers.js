@@ -3,6 +3,7 @@ import {initCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
 
+
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
@@ -78,7 +79,7 @@ const retrieveOffersFromDb = (offers) => {
                             data-id="${offer.id}"
                             class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
                     </button>
-                    <button type="button" data-id="${offer.id}" id="btn-edit"
+                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
                             class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
                     </button>
                 </div>
@@ -96,32 +97,20 @@ const createMakeOfferView = () => {
         createView(`/makeOffer/listings/${listingId}`)
     })
 }
-
-function buttonAuthorization() {
+ const buttonAuthorization = _ => {
     let seller = offers[0].listing.seller.email
-    let user = getLoggedInUser()
+    let user = getLoggedInUser();
+
     let currentOfferor = null;
 
     offers.forEach(function (offer) {
         let searchOfferor = offer.offeror.email
         if (searchOfferor === user) {
             currentOfferor = user;
-
-            if (currentOfferor === searchOfferor) {
-
-            }
+            $(`#btn-edit-${offer.id}`).removeClass('hidden');
         }
-
     })
 
-    // offers.every(offer => {
-    //     let offerorEmail = offer.offeror.email;
-    //     if (offerorEmail === user) {
-    //         // $("#btn-edit").removeClass("hidden");
-    //         return false;
-    //     }
-    //     return true;
-    // })
 
 
     if (seller !== user && currentOfferor !== user) {
@@ -133,7 +122,6 @@ function buttonAuthorization() {
         $(".btn-accept").removeClass("hidden");
         $(".btn-counter").removeClass("hidden");
     }
-
 
 }
 
