@@ -10,12 +10,14 @@ export function updateUserProfile() {
         $("#saveProfile-btn").removeClass("hidden")
         $("#cancel-btn").removeClass("hidden")
         $("#profileOffers").addClass("hidden")
-        const userId = localStorage.getItem("accessToken");
+
         fetchData({
             state: `/api/users/searchByEmail?email=${getLoggedInUser()}`
         }, getHeaders())
             .then(user => {
                 console.log(user);
+                $("#saveProfile-btn").attr("data-id", user.id);
+
                 // populateUpdateForm(res);
                 const updateHTML =
                     `<div>
@@ -23,15 +25,15 @@ export function updateUserProfile() {
             			<label for="firstname"></label>
             			<input type="text" class="form-control" id="firstname" value="${user.state.firstName}">
             		    </div>
-            		    <div class="text-center mx-1 my-2" id="offerId">
+            		    <div class="text-center mx-1 my-2">
             			<label for="lastname"></label>
             			<input type="text" class="form-control" id="lastname" value="${user.state.lastName}">
             		    </div>
-            		     <div class="text-center mx-1 my-2" id="offerId">
+            		     <div class="text-center mx-1 my-2">
             			<label for="email"></label>
             			<input type="text" class="form-control" id="email" value="${user.state.email}">
             		    </div>
-            		     <div class="text-center mx-1 my-2" id="offerId">
+            		     <div class="text-center mx-1 my-2">
             			<label for="phone-number"></label>
             			<input type="text" class="form-control" id="phone-number" value="${user.state.phoneNumber}">
             		    </div>
@@ -59,9 +61,10 @@ export function updateUserProfile() {
 }
 
 function saveProfileUpdate() {
+   let userToUpdate =  $("#saveProfile-btn").data('id');
+    console.log(userToUpdate);
     $("#saveProfile-btn").click(function (e) {
         e.preventDefault();
-        console.log("Profile updated")
         const updatedUser = {
             firstName: $("#firstname").val(),
             lastName: $("#lastname").val(),
@@ -81,7 +84,7 @@ function saveProfileUpdate() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(updatedUser)
         }
-        fetch(`http://${BACKEND_HOST}:${PORT}/api/users/create`, request)
+        fetch(`http://${BACKEND_HOST}:${PORT}/api/users/${userToUpdate}`, request)
             .then(response => {
                 console.log(response.status);
                 createView("/");

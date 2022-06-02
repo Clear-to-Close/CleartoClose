@@ -1,14 +1,15 @@
 package com.codeup.cleartoclose.web;
 
+import com.codeup.cleartoclose.data.Address;
+import com.codeup.cleartoclose.data.AddressRepository;
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.codeup.cleartoclose.dto.UserDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+
 import java.util.Optional;
 
 @CrossOrigin
@@ -18,10 +19,12 @@ public class UsersController {
 
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
 
-    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.addressRepository = addressRepository;
     }
 
     @GetMapping("searchByEmail")
@@ -48,14 +51,39 @@ public class UsersController {
         usersRepository.save(newUser);
     }
 
-    @RequestMapping(value = "/heavyresource/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> partialUpdateGeneric(
-            @RequestBody Map<String, Object> updates,
-            @PathVariable("id") String id) {
 
-        System.out.println(updates);
+    @PutMapping("{userId}")
+    private void updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+        User  userToUpdate = usersRepository.findById(userId).get();
+        userToUpdate.setPassword(userDTO.getPassword());
+        userToUpdate.setEmail(userDTO.getEmail());
+        userToUpdate.setFirstName(userDTO.getFirstName());
+        userToUpdate.setLastName(userDTO.getLastName());
+        userToUpdate.setPhoneNumber(userToUpdate.getPhoneNumber());
 
-//        heavyResourceRepository.save(updates, id);
-        return ResponseEntity.ok("resource updated");
+        Address addressToEdit = addressRepository.findById(userToUpdate.getUserAddress().getId()).get();
+
+        addressToEdit.setAddress(userDTO.getAddress());
+        addressToEdit.setCity(userDTO.getCity());
+        addressToEdit.setState(userDTO.getState());
+        addressToEdit.setApartmentNumber(userDTO.getApartmentNumber());
+        addressToEdit.setZipCode(userDTO.getZipCode());
+        usersRepository.save(userToUpdate);
+        System.out.println("updateUser UC reached");
     }
+
+//    @RequestMapping(value = "/heavyresource/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<?> partialUpdateGeneric(
+//            @RequestBody Map<String, Object> updates,
+//            @PathVariable("id") String id) {
+//
+//        System.out.println(updates);
+//
+////        heavyResourceRepository.save(updates, id);
+//        return ResponseEntity.ok("resource updated");
+//    }
+
+
+
+
 }
