@@ -89,6 +89,10 @@ OffersController {
         offersRepository.save(acceptedOffer);
     }
 
+
+//    @PutMapping("editOffer/{offerId}")
+
+
     @PutMapping("/countered/{offerId}")
     public void offerCountered(@PathVariable Long offerId, @RequestBody Offer counterOffer) {
         Offer counteredOffer = offersRepository.findById(offerId).get();
@@ -98,4 +102,5 @@ OffersController {
         offersRepository.save(counteredOffer);
 
     }
+
 }

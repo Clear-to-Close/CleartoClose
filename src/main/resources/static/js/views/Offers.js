@@ -5,6 +5,7 @@ import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import fetchData from "../fetchData.js";
 
+
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
@@ -56,7 +57,7 @@ const retrieveOffersFromDb = (offers) => {
     return offers.map(offer =>
 
         `
-            <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
+            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId">
                     ${offer.offerStatus} ${offer.id}
                 </div>
@@ -76,15 +77,17 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button id="btn-accept-${offer.id}"
-                            data-id="${offer.id}" type="button"
-                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                    <button type="button"
+                            data-id="${offer.id}"
+                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
-                    <button  id="btn-counter-${offer.id}"
-                            data-id="${offer.id}" type="button"
-                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-                        Offer!
+                    <button type="button"
+                            data-id="${offer.id}"
+                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
+                    </button>
+                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
                     </button>
                 </div>
             </div>`
@@ -122,9 +125,17 @@ const createMakeOfferView = () => {
     })
 }
 
-function buttonAuthorization() {
+function renderEditOfferView () {
+    $(`.offer-btn`).click(function (e) {
+        const editBtnId = $(this).data('id');
+        createView(`/editOffer/api/offers/${editBtnId}`)
+    })
+}
+
+ const buttonAuthorization = _ => {
     let seller = offers[0].listing.seller.email
-    let user = getLoggedInUser()
+    let user = getLoggedInUser();
+
     let currentOfferor = null;
     let offerStatus;
     let offerID;
@@ -137,6 +148,7 @@ function buttonAuthorization() {
 
         if (searchOfferor === user) {
             currentOfferor = user;
+            $(`#btn-edit-${offer.id}`).removeClass('hidden');
         }
         if (seller === user && offerStatus === 'ACTIVE') {
             $(`#btn-accept-${offerID}`).removeClass("hidden");
@@ -148,11 +160,15 @@ function buttonAuthorization() {
             $(`#btn-counter-${offerID}`).removeClass("hidden");
         }
     })
-    console.log(seller === user)
 
     if (seller !== user && currentOfferor !== user) {
         console.log("unhide make offer btn")
         $("#makeOfferBtn").removeClass("hidden");
+    }
+
+    if (seller === user) {
+        $(".btn-accept").removeClass("hidden");
+        $(".btn-counter").removeClass("hidden");
     }
 }
 
@@ -162,6 +178,7 @@ export function OfferEvent() {
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
+    renderEditOfferView();
     initCounterOffer();
     submitCounterOffer()
 }
