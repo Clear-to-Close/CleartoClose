@@ -1,12 +1,12 @@
 import createView from "../createView.js";
-import {initMap} from "../googleMaps.js";
+import { initMap, addMarkerForListing} from "../googleMaps.js";
 
 let listingsAddresses = [];
 
-
 export default function AllListings(props) {
-    console.log(props)
     getAddresses(props.allListings)
+    // TODO Talk to team about how to better pass listings array to map functions
+    sessionStorage.setItem("listings", JSON.stringify(props.allListings))
     //language=HTML
     return `
         <div class="content-height bg-slate-200 opacity-95">
@@ -65,4 +65,14 @@ const getAddresses = allListings => {
 export function AllListingsEvent() {
     createListingView();
     initMap();
+
+    let listings = JSON.parse(sessionStorage.getItem("listings"))
+    let address;
+    for (let i = 0; i < listings.length; i++) {
+         address = `${listings[i].listingAddress.address}, ${listings[i].listingAddress.city}, ${listings[i].listingAddress.state}`
+        addMarkerForListing(address);
+    }
 }
+
+}
+

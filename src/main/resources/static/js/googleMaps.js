@@ -1,3 +1,4 @@
+
 let map;
 let geocoder;
 
@@ -24,4 +25,29 @@ export function geocodeAddress(address) {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     })
+}
+
+export function addMarkerForListing(address){
+    geocodeAddress(address)
+        .then(locationArray => {
+            let position = {
+                lat: locationArray.results[0].geometry.location.lat(),
+                lng: locationArray.results[0].geometry.location.lng()
+            }
+            const infoWindow = new google.maps.InfoWindow({
+                content: `${address}`
+            })
+           let marker = new google.maps.Marker({
+                position: position,
+                map,
+                title: "Hello World!",
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infoWindow.open({
+                    anchor: marker,
+                    map,
+                    shouldFocus: false,
+                });
+            });
+        })
 }

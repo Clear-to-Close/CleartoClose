@@ -544,6 +544,17 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.75rem !important;
 }
 
+
+.mx-4 {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
+}
+
+.mx-2 {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+} 
+
 .mt-\[100px\] {
   margin-top: 100px !important;
 }
@@ -602,6 +613,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-\[144px\] {
   height: 144px !important;
+}
+
+.h-1\/4 {
+  height: 25% !important;
 }
 
 .h-\[50px\] {
@@ -737,6 +752,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-b-2 {
   border-bottom-width: 2px !important;
+}
+
+
+.bg-secondary {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(154 177 194 / var(--tw-bg-opacity)) !important;
 }
 
 .border-b-4 {
@@ -949,9 +970,9 @@ a.nav-link {
 
 .content-height {
   min-height: calc(100vh - 90px);
-  max-height: -webkit-max-content;
-  max-height: -moz-max-content;
-  max-height: max-content;
+  max-height:-webkit-max-content;
+  max-height:-moz-max-content;
+  max-height:max-content;
 }
 
 .valid {
