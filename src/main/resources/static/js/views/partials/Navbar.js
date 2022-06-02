@@ -3,23 +3,18 @@ import {isLoggedIn} from "../../auth.js";
 
 export default function Navbar(props) {
     const loggedIn = isLoggedIn();
-
+    //language=HTML
     let html =
         `
-            <nav class="navbar navbar-expand-lg navbar-light">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    <a class="navbar-brand text-2xl font-medium" href="/" data-link>Clear To Close</a>
+                    <button class="navbar-toggler outline-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarToggler">
-                        <a class="navbar-brand" href="/" data-link>Clear To Close</a>
-
-                        <ul class="navbar-nav me-auto mb-lg-0">
-
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/" data-link>Home</a>
-                            </li>
+                    <div class="collapse navbar-collapse justify-end" id="navbarToggler">
+                        <ul class="navbar-nav mb-lg-0">
         `
 
     if (isLoggedIn()) {
@@ -38,11 +33,7 @@ export default function Navbar(props) {
         html += `
             <li class="nav-item">
                 <a class="nav-link" href="/login" data-link>Login</a>
-            </li>
-              <li class="nav-item">
-	            <a class="nav-link" href="/register" data-link>Register</a>
-            </li>
-`
+            </li>`
     }
 
     //language=HTML
