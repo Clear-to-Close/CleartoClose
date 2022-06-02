@@ -50,7 +50,7 @@ const retrieveOffersFromDb = (offers) => {
     return offers.map(offer =>
 
         `
-            <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
+            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId">
                     ${offer.offerStatus} ${offer.id}
                 </div>
@@ -80,7 +80,7 @@ const retrieveOffersFromDb = (offers) => {
                             class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
                     </button>
                     <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
-                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
+                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
                     </button>
                 </div>
             </div>`
@@ -98,11 +98,13 @@ const createMakeOfferView = () => {
     })
 }
 
-const renderEditOfferView = _ => {
-    $(`#edit-btn-${offer.id}`).click(_ => {
-
+function renderEditOfferView () {
+    $(`.offer-btn`).click(function (e) {
+        const editBtnId = $(this).data('id');
+        createView(`/editOffer/api/offers/${editBtnId}`)
     })
 }
+
  const buttonAuthorization = _ => {
     let seller = offers[0].listing.seller.email
     let user = getLoggedInUser();
@@ -129,11 +131,12 @@ const renderEditOfferView = _ => {
 }
 
 export function OfferEvent() {
-    buttonAuthorization()
+    buttonAuthorization();
     confirmOfferAcceptance();
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
+    renderEditOfferView();
     initCounterOffer();
 }
 
