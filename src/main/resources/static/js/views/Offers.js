@@ -69,15 +69,17 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button
+                    <button type="button"
                             data-id="${offer.id}"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
-                    <button
+                    <button type="button"
                             data-id="${offer.id}"
                             class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-                        Offer!
+                    </button>
+                    <button type="button" data-id="${offer.id}" id="btn-edit"
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
                     </button>
                 </div>
             </div>`
@@ -104,9 +106,24 @@ function buttonAuthorization() {
         let searchOfferor = offer.offeror.email
         if (searchOfferor === user) {
             currentOfferor = user;
+
+            if (currentOfferor === searchOfferor) {
+
+            }
         }
+
     })
-    console.log(seller === user)
+
+    // offers.every(offer => {
+    //     let offerorEmail = offer.offeror.email;
+    //     if (offerorEmail === user) {
+    //         // $("#btn-edit").removeClass("hidden");
+    //         return false;
+    //     }
+    //     return true;
+    // })
+
+
     if (seller !== user && currentOfferor !== user) {
         console.log("unhide make offer btn")
         $("#makeOfferBtn").removeClass("hidden");
@@ -115,8 +132,9 @@ function buttonAuthorization() {
     if (seller === user) {
         $(".btn-accept").removeClass("hidden");
         $(".btn-counter").removeClass("hidden");
-        // $("#editOfferBtn").show();
     }
+
+
 }
 
 export function OfferEvent() {

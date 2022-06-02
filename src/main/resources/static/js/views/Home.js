@@ -140,7 +140,7 @@ export default function Home() {
                             <input type="text" name="search-by-zip" id="search-by-zip"
                                    class="search-form py-2 mx-1 my-2 md:flex-row rounded-sm p-1 flex md:w-1/2 md:grow"
                                    placeholder="Search By Zip Code">
-                            <button data-btn="zip" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction md:w-1/6 search-btn">
+                            <button data-btn="zip" class="p-2 mx-1 my-2 rounded-md shadow-xl text-[#002254] bg-callToAction md:w-1/6 search-btn">
                                 Search
                             </button>
                         </form>

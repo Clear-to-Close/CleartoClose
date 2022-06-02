@@ -13,7 +13,7 @@ export default function Navbar(props) {
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse flex justify-between" id="navbarToggler">
-                        <a class="navbar-brand text-white" href="/" data-link>Clear >>> Close</a>
+                        <a class="navbar-brand text-[#FFCA36] bg-[#FFCA36]" href="/" data-link>Clear to Close</a>
                         `
 
     if (isLoggedIn()) {
