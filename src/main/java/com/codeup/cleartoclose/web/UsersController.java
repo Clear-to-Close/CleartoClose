@@ -54,22 +54,25 @@ public class UsersController {
 
     @PutMapping("{userId}")
     private void updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+        System.out.println("made it to backend of update");
         User  userToUpdate = usersRepository.findById(userId).get();
         userToUpdate.setPassword(userDTO.getPassword());
         userToUpdate.setEmail(userDTO.getEmail());
         userToUpdate.setFirstName(userDTO.getFirstName());
         userToUpdate.setLastName(userDTO.getLastName());
         userToUpdate.setPhoneNumber(userToUpdate.getPhoneNumber());
-
+        System.out.println(userToUpdate);
         Address addressToEdit = addressRepository.findById(userToUpdate.getUserAddress().getId()).get();
-
+        System.out.println(addressToEdit);
         addressToEdit.setAddress(userDTO.getAddress());
         addressToEdit.setCity(userDTO.getCity());
         addressToEdit.setState(userDTO.getState());
         addressToEdit.setApartmentNumber(userDTO.getApartmentNumber());
         addressToEdit.setZipCode(userDTO.getZipCode());
+        System.out.println(addressToEdit);
+        System.out.println(userToUpdate);
         usersRepository.save(userToUpdate);
-        System.out.println("updateUser UC reached");
+
     }
 
 //    @RequestMapping(value = "/heavyresource/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)

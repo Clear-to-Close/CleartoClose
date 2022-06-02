@@ -15,9 +15,10 @@ export function updateUserProfile() {
             state: `/api/users/searchByEmail?email=${getLoggedInUser()}`
         }, getHeaders())
             .then(user => {
-                console.log(user.id);
-                $("#saveProfile-btn").attr("data-id", user.id);
-                console.log($("#saveProfile-btn").data('id'))
+
+                let userToUpdate = user.state.id;
+                $("#saveProfile-btn").attr("data-id", userToUpdate);
+
 
                 // populateUpdateForm(res);
                 const updateHTML =
@@ -62,8 +63,8 @@ export function updateUserProfile() {
 }
 
 function saveProfileUpdate() {
-   let userToUpdate =  $("#saveProfile-btn").data('id');
-    console.log(userToUpdate);
+    let userToUpdate = 4;
+
     $("#saveProfile-btn").click(function (e) {
         e.preventDefault();
         const updatedUser = {
@@ -71,18 +72,18 @@ function saveProfileUpdate() {
             lastName: $("#lastname").val(),
             email: $("#email").val(),
             phoneNumber: $("#phone-number").val(),
+            address: $("#newStreet").val(),
+            apartmentNumber: $("#suite").val(),
+            city: $("#newCity").val(),
+            state: $("#newState").val(),
+            zipCode: $("#newZip").val()
 
-            userAddress: {
-                address: $("#newStreet").val(),
-                apartmentNumber: $("#suite").val(),
-                city: $("#newCity").val(),
-                state: $("#newState").val(),
-                zipCode: $("#newZip").val(),
-            }
         }
+
+        console.log(updatedUser);
         let request = {
-            method: "PUT",
-            headers: {"Content-Type": "application/json"},
+            method: 'PUT',
+            headers: getHeaders(),
             body: JSON.stringify(updatedUser)
         }
         fetch(`http://${BACKEND_HOST}:${PORT}/api/users/${userToUpdate}`, request)
