@@ -21,15 +21,15 @@ function loadViewOnPageRequest() {
 function addListenerToNavLinks() {
     document.addEventListener('click', e => {
         if (e.target.type || e.target.type === "file") {
-            console.log(e.target.type)
             return;
         }
 
         e.preventDefault();
         if (e.target.dataset['link'] !== undefined) {
+            clearStoredURI();
             const URI = e.target.href.substring(location.origin.length);
             createView(URI);
-            clearStoredURI();
+
         }
     });
 }

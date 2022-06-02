@@ -2,12 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.navbar {
+    background-color: #002254;
+}
 .nav-pills .nav-link.active {
-    background-color: #8080d8;
+    background-color: #FFCA36;
 }
 
 .nav-link {
     color: black;
+}
+
+a.nav-link {
+    color: white;
 }
 
 #dropdownTabNav .nav-link {
@@ -16,5 +23,14 @@
 
 .content-height {
     min-height: calc(100vh - 90px);
-    max-height:max-content;
+    max-height: max-content;
+}
+
+.valid {
+    color: green;
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
 }

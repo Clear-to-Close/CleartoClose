@@ -31,16 +31,11 @@ public class ListingsController {
         return listingRepository.findAll();
     }
 
-    // Will return a single listing with all information; US19/F2 As an auth user, I can see all listing information
     @GetMapping("{listingId}")
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
         Listing listing = listingRepository.findById(listingId).get();
-        List<String> unsignedUrls = listing.getImage_icons();
-        List<String> signedUrls = new ArrayList<>();
-        for (String urls : unsignedUrls) {
-            signedUrls.add(s3Service.getSignedURL(urls));
-        }
-        listing.setImage_icons(signedUrls);
+        listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
+        listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
         return listingRepository.findById(listingId);
     }
 
@@ -49,22 +44,23 @@ public class ListingsController {
         Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
                 zip);
         Listing listing = listingRepository.findByListingAddress(addressToFind);
-        List<String> unsignedUrls = listing.getImage_icons();
-        List<String> signedUrls = new ArrayList<>();
-        for (String urls : unsignedUrls) {
-            signedUrls.add(s3Service.getSignedURL(urls));
-        }
-        listing.setImage_icons(signedUrls);
+        listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
+        listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
         return listing;
     }
 
-    // Searching by zipCode returns a list of addresses that can be used to pin on a map
-    // selection of one of these addresses in listing then appends the address and zip to the URL and GETS the listing using getListingByAddress
-    //***Note*** printing the list of addresses in this function returns StackTrace
     @GetMapping("search")
-    public Collection<Listing> getListingByMultiple(@RequestParam(required = false) String city, @RequestParam(required = false) String state,
+    public Collection<Listing> getListingByMultiple(@RequestParam(required = false) String city,
+                                                    @RequestParam(required = false) String state,
                                                     @RequestParam(required = false) String zip) {
-        return listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state), Optional.ofNullable(zip));
+
+        Collection<Listing> foundListings = listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state),
+                Optional.ofNullable(zip));
+        for (Listing listing : foundListings) {
+            listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
+            listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
+        }
+        return foundListings;
     }
 
 
@@ -133,5 +129,13 @@ public class ListingsController {
 //        listingToUpdate.setBuyerAgent(updatedListing.getBuyerAgent());
         listingToUpdate.setListingStatus(ListingStatus.PENDING);
         listingRepository.save(listingToUpdate);
+    }
+
+    private List<String> getSignedUrls(List<String> unsignedUrls) {
+        List<String> signedUrls = new ArrayList<>();
+        for (String urls : unsignedUrls) {
+            signedUrls.add(s3Service.getSignedURL(urls));
+        }
+        return signedUrls;
     }
 }

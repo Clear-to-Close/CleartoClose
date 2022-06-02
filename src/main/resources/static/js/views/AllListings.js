@@ -1,7 +1,6 @@
 import createView from "../createView.js";
 import { initMap, addMarkerForListing} from "../googleMaps.js";
 
-
 let listingsAddresses = [];
 
 export default function AllListings(props) {
@@ -10,11 +9,11 @@ export default function AllListings(props) {
     sessionStorage.setItem("listings", JSON.stringify(props.allListings))
     //language=HTML
     return `
-        <div class="content-height bg-primary">
+        <div class="content-height bg-slate-200 opacity-95">
             <div class="m-4">
-                <div id="map" class="w-full" style="height:50vh"></div>
+                <div id="map" class="hidden w-full md:block" style="height:50vh"></div>
             </div>
-            <div class="flex flex-col items-center">
+            <div class="grid grid-cols-3 gap-4 m-4">
                 ${populateListings(props.allListings)}
             </div>
         </div>
@@ -22,29 +21,38 @@ export default function AllListings(props) {
 }
 
 const populateListings = listings => {
+    let listingHtml = "";
     //language=HTML
-    return listings.map(listing =>
-         `
-            <div class="w-11/12 flex flex-wrap justify-evenly border-2 border-callToAction bg-secondary m-2" data-id="${listing.id}" id="listing">
+    listings.forEach(listing => {
+        listingHtml += `
+            <div class="listing bg-white w-full h-[700px] border-2 border-callToAction rounded-md shadow-xl" data-id="${listing.id}">
+                <div>
+                    <img class="w-full h-full" src="${listing.house_images[0] ?? "Picture Not Available"}" alt="Picture of ${listing.listingAddress.address}">
+                </div>
                 <div class="m-1 pb-1 text-center">${listing.askingPrice}</div>
                 <div class="m-1 pb-1 text-center" id="listing#-${listing.id}">MLS# ${listing.id}</div>
                 <div class="m-1 pb-1 text-center">${listing.listingStatus}</div>
-                <div class="m-1 pb-1 text-center">${listing.listingAddress.address}</div>
-                <div class="m-1 pb-1 text-center">${listing.listingAddress.city}, ${listing.listingAddress.state}, ${listing.listingAddress.zipCode}
+                <div class="m-1 pb-1 text-center"></div>
+                <div class="m-1 pb-1 text-center">${listing.listingAddress.address} </br>${listing.listingAddress.city}, ${listing.listingAddress.state}, ${listing.listingAddress.zipCode}
                 </div>
                 <div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
                 <div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
-                <p class="w-full text-justify">${listing.description}</p>
-                <button data-id="${listing.id}" type="button" id="viewListingButton">View Listing</button>
-            </div>
-        `
-    ).join("")
+                <div class="w-full text-justify p-2">${listing.description}</div>
+            </div>`
+    })
+    return listingHtml;
 }
 
 const createListingView = _ => {
-    $("#viewListingButton").click(e => {
-        e.preventDefault();
-        createView(`/listing/listings/${$("#viewListingButton").attr("data-id")}`)
+    $(".listing").click(e => {
+        let id = null;
+        console.log(e.target.parentElement.parentElement)
+        if (e.target.classList.contains("listing") ) {
+            id = e.target.getAttribute("data-id")
+        } else {
+            id = e.target.parentElement.getAttribute("data-id")
+        }
+        createView(`/listing/api/listings/${id}`)
     })
 }
 
@@ -57,6 +65,7 @@ const getAddresses = allListings => {
 export function AllListingsEvent() {
     createListingView();
     initMap();
+
     let listings = JSON.parse(sessionStorage.getItem("listings"))
     let address;
     for (let i = 0; i < listings.length; i++) {
@@ -64,3 +73,6 @@ export function AllListingsEvent() {
         addMarkerForListing(address);
     }
 }
+
+}
+

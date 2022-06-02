@@ -1,5 +1,5 @@
 import createView from "../createView.js";
-import {getMessage} from "../messaging.js";
+import {getLoggedInUser} from "../utility.js";
 
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
@@ -13,12 +13,12 @@ export default function MakeOffer(props) {
 				<div class="flex flex-col my-3">
 					<div class="flex flex-col items-center text-left justify-center w-3/4">
 						<label for="offer-amount">Offer Amount</label>
-						<input name="amount" id="offer-amount" type="text" class="offer-form m-1"
+						<input name="amount" id="offer-amount" type="text" class="offer-form bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1"
 						       value="${props.makeOffer.askingPrice}">
 					</div>
 					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
 						<label for="loan-type">Loan Type</label>
-						<select name="loan" id="loan-type" class="m-1">
+						<select name="loan" id="loan-type" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1">
 							<option disabled selected>Loan Type</option>
 							<option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
 							<option value="CON">Conventional</option>
@@ -28,32 +28,32 @@ export default function MakeOffer(props) {
 							<option value="VA">Veterans Affairs (VA)</option>
 						</select>
 					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center">
+					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
 						<label for="option-length">Option Length</label>
-						<input name="option" id="option-length" type="text" class="m-1 w-3/4">
+						<input name="option" id="option-length" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.optionLength}">
 					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center">
+					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
 						<label for="survey-requested">Survey Requested</label>
-						<input name="survey" id="survey-requested" type="text" class="m-1 w-3/4">
+						<input name="survey" id="survey-requested" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.survey}">
 					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center">
+					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
 						<label for="warranty-requested">Home Warranty Requested</label>
-						<input name="warranty" id="warranty-requested" type="text" class="m-1 w-3/4">
+						<input name="warranty" id="warranty-requested" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.homeWarranty}">
 					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center">
+					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
 						<label for="appraisal-waiver">Appraisal Waiver</label>
-						<input name="appraisal" id="appraisal-waiver" type="text" class="m-1 w-3/4">
+						<input name="appraisal" id="appraisal-waiver" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.appraisalWaiver}">
 					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center">
+					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
 						<label for="closing-date">Closing Date</label>
-						<input name="closing" id="closing-date" type="text" class="m-1 w-3/4">
+						<input name="closing" id="closing-date" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.closingDate}">
 					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center">
+					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
 						<label for="closing-costs">Closing Costs</label>
-						<input name="closing" id="closing-costs" type="text" class="m-1 w-3/4">
+						<input name="closing" id="closing-costs" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.closingCosts}">
 					</div>
 				</div>
-				<button id="make-offer-btn" class="border-2 my-3" data-id="${props.id}">Post Offer</button>
+				<button id="make-offer-btn" class="w-3/4 p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium" data-id="${props.id}">Post Offer</button>
 			</form>
 		</div>
 		<div id="confirmation-message" class="text-green-600"></div>
@@ -78,9 +78,7 @@ function submitOffer() {
     $('#make-offer-btn').on('click', function (e) {
         e.preventDefault();
         let URI = sessionStorage.getItem("URI").split("/")
-        console.log(URI)
         const listingId = parseInt(URI[URI.length - 1])
-        console.log(listingId)
 
         const offerData = {
             offerAmount: $('#offer-amount').val(),
@@ -91,11 +89,9 @@ function submitOffer() {
             appraisalWaiver: $('#appraisal-waiver').val(),
             closingDate: $('#closing-date').val(),
             closingCosts: $('#closing-costs').val(),
-            offerorId: parseInt(localStorage.getItem("accessToken")),
+            offerorEmail: getLoggedInUser(),
             listingId: listingId
         }
-
-        console.log(offerData);
 
         let request = {
             method: "POST",

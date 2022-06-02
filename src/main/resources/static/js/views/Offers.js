@@ -1,90 +1,119 @@
 import createView from "../createView.js";
-import {initCounterOffer} from "./counterOffer.js";
+import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
-import Login from "./Login.js";
+import {getLoggedInUser} from "../utility.js";
+import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
+
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
 let idArray;
-
+let offers = [];
+idArray = [];
 
 
 export default function Offers(props) {
     let URI = sessionStorage.getItem("URI").split("/")
-    listingId = parseInt(URI[URI.length - 1])
-    console.log(props.offers);
-
-    buttonAuthorization(props.offers, userId, listingId);
+    listingId = parseInt(URI[URI.length - 1]);
+    offers = props.offers
     //language=HTML
     return `
-		<div class="min-h-[calc(100vh-90px)] bg-primary">
-			<div class="w-full relative">
-				<img class="md:w-3/4 md:h-[350px] mx-auto"
-				     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-				     alt="main listing photo">
-				<button id="makeOfferBtn"
-				        class="absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
-					Make An Offer On This Home!
-				</button>
-			</div>
-			<div id="offer">
-				${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
-			</div>
-			<div id="hiddenConfirmation" class="text-center m-1 w-full">
-				<button id="btn-confirm"
-				        class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
-				</button>
-			</div>
-		</div>`
+        <div class="min-h-[calc(100vh-90px)] bg-primary">
+            <div class="w-full relative">
+                <img class="md:w-3/4 md:h-[350px] mx-auto"
+                     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                     alt="main listing photo">
+                <button id="makeOfferBtn"
+                        class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                    Make An Offer On This Home!
+                </button>
+            </div>
+            <div id="offer">
+                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
+            </div>
+            <div id="hiddenConfirmation" class="text-center m-1 w-full">
+                <button id="btn-confirm" type="submit"
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
+                </button>
+	            <button id="btn-confirm-counter" type="submit"
+	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+	            </button>
+            </div>
+        </div>`
 }
 
 
 const retrieveOffersFromDb = (offers) => {
-    idArray = [];
     offers.map(offer => idArray.push(offer.id));
+
+    console.log(offers.length);
     console.log(idArray);
 
+    noOffersOnListing();
+
     // language=HTML
-    console.log(offers);
     return offers.map(offer =>
 
         `
-			<div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
-				<div class="text-center mx-1 my-2" id="offerId">
-					${offer.offerStatus} ${offer.id}
-				</div>
-				<div class="text-center mx-1 my-2" id="offerAmount-${offer.id}">
-						\$${offer.offerAmount}
-				</div>
-				<div id="closingCosts" class="text-center mx-1 my-2">
-					C/C: \$${offer.closingCosts}
-				</div>
-				<div class="text-center mx-1 my-2">
-					Closing: ${offer.closingDate}
-				</div>
-				<div class="text-center mx-1 my-2">
-					H/W: ${offer.homeWarranty}
-				</div>
-				<div class="text-center mx-1 my-2">
-					L/T: ${offer.loanType}
-				</div>
-				<div class="text-center m-1 w-full">
-					<button
-							data-id="${offer.id}"
-							class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
-						Offer!
-					</button>
-					<button
-							data-id="${offer.id}"
-							class="btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-						Offer!
-					</button>
-				</div>
-			</div>`
+            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
+                <div class="text-center mx-1 my-2" id="offerId">
+                    ${offer.offerStatus} ${offer.id}
+                </div>
+                <div class="text-center mx-1 my-2" id="offerAmount-${offer.id}">
+                        \$${offer.offerAmount}
+                </div>
+                <div id="closingCosts" class="text-center mx-1 my-2">
+                    C/C: \$${offer.closingCosts}
+                </div>
+                <div class="text-center mx-1 my-2">
+                    Closing: ${offer.closingDate}
+                </div>
+                <div class="text-center mx-1 my-2">
+                    H/W: ${offer.homeWarranty}
+                </div>
+                <div class="text-center mx-1 my-2">
+                    L/T: ${offer.loanType}
+                </div>
+                <div class="text-center m-1 w-full">
+                    <button type="button"
+                            data-id="${offer.id}"
+                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
+                        Offer!
+                    </button>
+                    <button type="button"
+                            data-id="${offer.id}"
+                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
+                    </button>
+                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
+                    </button>
+                </div>
+            </div>`
     ).join("")
+
 };
 
+function noOffersOnListing(){
+
+    console.log("no offers listed")
+
+    if(offers.length === 0){
+        console.log("inside conditional of noOFFES")
+        const request = {
+            method: "GET",
+            headers: getHeaders()
+        }
+
+        fetchData({
+            property: `/api/listings/${listingId}`
+        }, request)
+            .then(properties => {
+                console.log(properties)
+            })
+    }
+}
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
@@ -96,42 +125,61 @@ const createMakeOfferView = () => {
     })
 }
 
-
-
-function whoIsLoggedIn(id) {
-    console.log(id)
+function renderEditOfferView () {
+    $(`.offer-btn`).click(function (e) {
+        const editBtnId = $(this).data('id');
+        createView(`/editOffer/api/offers/${editBtnId}`)
+    })
 }
 
-function buttonAuthorization(offers, userId, listingId) {
-    let sellerId = parseInt(offers[0].listing.seller.id);
-    let currentOfferorId = null;
+ const buttonAuthorization = _ => {
+    let seller = offers[0].listing.seller.email
+    let user = getLoggedInUser();
+
+    let currentOfferor = null;
+    let offerStatus;
+    let offerID;
 
     offers.forEach(function (offer) {
-        let searchOfferors = parseInt(offer.offeror.id)
-        if (searchOfferors === userId) {
-            currentOfferorId = userId;
+        console.log(offer);
+        offerID = offer.id;
+        offerStatus = offer.offerStatus;
+        let searchOfferor = offer.offeror.email;
+
+        if (searchOfferor === user) {
+            currentOfferor = user;
+            $(`#btn-edit-${offer.id}`).removeClass('hidden');
+        }
+        if (seller === user && offerStatus === 'ACTIVE') {
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
+            // $("#editOfferBtn").show();
+        }
+        if(user !== seller && offerStatus === 'COUNTER'){
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
         }
     })
 
-        $(document).ready(function () {
-            if (sellerId === userId) {
-                $('#makeOfferBtn').hide();
-            }
+    if (seller !== user && currentOfferor !== user) {
+        console.log("unhide make offer btn")
+        $("#makeOfferBtn").removeClass("hidden");
+    }
 
-            if (currentOfferorId !== null) {
-                $('#makeOfferBtn').hide();
-                $('.btn-accept').hide();
-                $('.btn-counter').hide();
-                $('#editOfferBtn').show();
-            }
-        })
+    if (seller === user) {
+        $(".btn-accept").removeClass("hidden");
+        $(".btn-counter").removeClass("hidden");
+    }
 }
 
 export function OfferEvent() {
+    buttonAuthorization();
     confirmOfferAcceptance();
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
+    renderEditOfferView();
     initCounterOffer();
+    submitCounterOffer()
 }
 

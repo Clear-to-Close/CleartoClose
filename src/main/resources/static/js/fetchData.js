@@ -1,4 +1,3 @@
-
 /**
  * Given an object containing all the required data for a given page, fetch all the needed data and return it as properties to pass to a view.
  * @param state
@@ -12,14 +11,20 @@ export default function fetchData(state, request) {
 
     const baseUri = `http://${BACKEND_HOST}:${PORT}`;
 
-    // console.log("got to fetch data");
     for (let pieceOfState of Object.keys(state)) {
         promises.push(
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
-                    return res.json()
+                    if (request.method === "POST" && typeof request.body === "string" && request.body.includes("grant")) {
+                        return res.json()
+                    } else if (request.method === "POST" || request.method === "PUT" || request.method === "PATCH") {
+                        return res
+                    } else {
+                        return res.json()
+                    }
                 }));
     }
+
     return Promise.all(promises).then(propsData => {
         const props = {};
         Object.keys(state).forEach((key, index) => {

@@ -4,12 +4,12 @@
  * @returns {*}
  */
 
-import Home, {HomeEvents} from "./views/Home.js";
-import ListingIndex, {ListingEvent} from "./views/Listing.js";
+import Home, { HomeEvents } from "./views/Home.js";
+import ListingIndex, { ListingEvent } from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
 import LoginEvent from "./auth.js";
-import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
+import RealtorListing, { RealtorListingEvent } from "./views/RealtorListing.js";
 import Login from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
@@ -18,10 +18,8 @@ import AllListings, {AllListingsEvent} from "./views/AllListings.js";
 import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 import {getLoggedInUser} from "./utility.js";
+import EditOffer, {EditEvent} from "./views/EditOffer.js";
 
-
-const userLoggedIn = localStorage.getItem('accessToken');
-console.log(userLoggedIn);
 
 export default function router(URI) {
     const piecesOfURI = URI.split("/");
@@ -51,9 +49,7 @@ export default function router(URI) {
         },
         '/realtorListing': {
             returnView: RealtorListing,
-            state: {
-                realtorListing: '/api'
-            },
+            state: {},
             uri: '/realtorListing',
             title: "Realtor Listing",
             viewEvent: RealtorListingEvent
@@ -61,7 +57,7 @@ export default function router(URI) {
         '/listing': {
             returnView: ListingIndex,
             state: {
-                listing: "/api",
+                listing: ""
             },
             uri: '/listing',
             title: "Listing",
@@ -69,26 +65,30 @@ export default function router(URI) {
         },
         '/offers': {
             returnView: Offers,
-            state: {
-                offers: "/api/offers",
-            },
+            state: {},
             uri: '/offers',
             title: 'Offers',
             viewEvent: OfferEvent
         },
         '/makeOffer': {
             returnView: MakeOffer,
-            state: {
-                makeOffer: '/api'
-            },
+            state: {},
             uri: '/makeOffer',
             title: "Make an Offer",
             viewEvent: MakeAnOffer
         },
+        '/editOffer': {
+            returnView: EditOffer,
+            state: {},
+            uri: '/editOffer',
+            title: 'Edit your Offer',
+            viewEvent: EditEvent
+        },
         '/allListings': {
             returnView: AllListings,
+
             state: {
-                allListings: "/api"
+                allListings: ""
             },
             uri: '/allListings',
             title: 'All Listings',
@@ -140,7 +140,7 @@ export default function router(URI) {
                 }
             }
 
-            routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
+            routes[`/${piecesOfURI[1]}`].state[`${piecesOfURI[1]}`] = `${pieceOfState}`
             sessionStorage.setItem("URI", JSON.stringify(`${routes[`/${piecesOfURI[1]}`].state[stateBase]}`))
             return routes[`/${piecesOfURI[1]}`]
         }
