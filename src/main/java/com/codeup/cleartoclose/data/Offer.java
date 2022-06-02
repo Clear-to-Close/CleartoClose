@@ -61,5 +61,7 @@ public class Offer {
     @Column(nullable = false)
     private OfferStatus offerStatus;
 
+    @Column
+    private Long counterId;
 
 }

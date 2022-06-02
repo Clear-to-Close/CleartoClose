@@ -1,5 +1,5 @@
 import createView from "../createView.js";
-import {initCounterOffer} from "./counterOffer.js";
+import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
 
@@ -30,10 +30,13 @@ export default function Offers(props) {
             <div id="offer">
                 ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
             </div>
-            <div id="hiddenConfirmation" class="hidden text-center m-1 w-full">
-                <button id="btn-confirm"
-                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+            <div id="hiddenConfirmation" class="text-center m-1 w-full">
+                <button id="btn-confirm" type="submit"
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
+	            <button id="btn-confirm-counter" type="submit"
+	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+	            </button>
             </div>
         </div>`
 }
@@ -69,14 +72,14 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button
-                            data-id="${offer.id}"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                    <button id="btn-accept-${offer.id}"
+                            data-id="${offer.id}" type="button"
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
                         Offer!
                     </button>
-                    <button
-                            data-id="${offer.id}"
-                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
+                    <button  id="btn-counter-${offer.id}"
+                            data-id="${offer.id}" type="button"
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
                         Offer!
                     </button>
                 </div>
@@ -99,32 +102,42 @@ function buttonAuthorization() {
     let seller = offers[0].listing.seller.email
     let user = getLoggedInUser()
     let currentOfferor = null;
+    let offerStatus;
+    let offerID;
 
     offers.forEach(function (offer) {
-        let searchOfferor = offer.offeror.email
+        console.log(offer);
+        offerID = offer.id;
+        offerStatus = offer.offerStatus;
+        let searchOfferor = offer.offeror.email;
         if (searchOfferor === user) {
             currentOfferor = user;
         }
+        if (seller === user && offerStatus === 'ACTIVE') {
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
+            // $("#editOfferBtn").show();
+        }
+        if(user !== seller && offerStatus === 'COUNTER'){
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
+        }
     })
     console.log(seller === user)
+
     if (seller !== user && currentOfferor !== user) {
         console.log("unhide make offer btn")
         $("#makeOfferBtn").removeClass("hidden");
     }
-
-    if (seller === user) {
-        $(".btn-accept").removeClass("hidden");
-        $(".btn-counter").removeClass("hidden");
-        // $("#editOfferBtn").show();
-    }
 }
 
 export function OfferEvent() {
-    buttonAuthorization()
+    buttonAuthorization();
     confirmOfferAcceptance();
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
     initCounterOffer();
+    submitCounterOffer()
 }
 
