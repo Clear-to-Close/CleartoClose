@@ -34,10 +34,20 @@ export function addMarkerForListing(address){
                 lat: locationArray.results[0].geometry.location.lat(),
                 lng: locationArray.results[0].geometry.location.lng()
             }
-            new google.maps.Marker({
+            const infoWindow = new google.maps.InfoWindow({
+                content: `${address}`
+            })
+           let marker = new google.maps.Marker({
                 position: position,
                 map,
                 title: "Hello World!",
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infoWindow.open({
+                    anchor: marker,
+                    map,
+                    shouldFocus: false,
+                });
             });
         })
 }

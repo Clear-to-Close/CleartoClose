@@ -58,8 +58,9 @@ export function AllListingsEvent() {
     createListingView();
     initMap();
     let listings = JSON.parse(sessionStorage.getItem("listings"))
+    let address;
     for (let i = 0; i < listings.length; i++) {
-        let address = `${listings[i].listingAddress.address}, ${listings[i].listingAddress.city}, ${listings[i].listingAddress.state}`
+         address = `${listings[i].listingAddress.address}, ${listings[i].listingAddress.city}, ${listings[i].listingAddress.state}`
         addMarkerForListing(address);
     }
 }
