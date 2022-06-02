@@ -2,18 +2,20 @@ import createView from "../createView.js";
 import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
+import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 let listingId = null;
 let idArray;
 let offers = [];
+idArray = [];
 
 
 export default function Offers(props) {
     let URI = sessionStorage.getItem("URI").split("/")
-    listingId = parseInt(URI[URI.length - 1])
-    console.log(props.offers);
+    listingId = parseInt(URI[URI.length - 1]);
     offers = props.offers
     //language=HTML
     return `
@@ -43,12 +45,14 @@ export default function Offers(props) {
 
 
 const retrieveOffersFromDb = (offers) => {
-    idArray = [];
     offers.map(offer => idArray.push(offer.id));
+
+    console.log(offers.length);
     console.log(idArray);
 
+    noOffersOnListing();
+
     // language=HTML
-    console.log(offers);
     return offers.map(offer =>
 
         `
@@ -85,8 +89,28 @@ const retrieveOffersFromDb = (offers) => {
                 </div>
             </div>`
     ).join("")
+
 };
 
+function noOffersOnListing(){
+
+    console.log("no offers listed")
+
+    if(offers.length === 0){
+        console.log("inside conditional of noOFFES")
+        const request = {
+            method: "GET",
+            headers: getHeaders()
+        }
+
+        fetchData({
+            property: `/api/listings/${listingId}`
+        }, request)
+            .then(properties => {
+                console.log(properties)
+            })
+    }
+}
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
@@ -110,6 +134,7 @@ function buttonAuthorization() {
         offerID = offer.id;
         offerStatus = offer.offerStatus;
         let searchOfferor = offer.offeror.email;
+
         if (searchOfferor === user) {
             currentOfferor = user;
         }
