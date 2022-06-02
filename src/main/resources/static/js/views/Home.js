@@ -106,15 +106,15 @@ function submitForm() {
         const zip = $('#search-zip').val()
 
         if (address !== "" && city !== "" && state !== "" && zip !== "") {
-            createView(`/listing/listings/searchByFullAddress?address=${address}&city=${city}&state=${state}&zip=${zip}`)
+            createView(`/listing/api/listings/searchByFullAddress?address=${address}&city=${city}&state=${state}&zip=${zip}`)
         } else if (city !== "" && state !== "") {
-            createView(`/allListings/listings/search?city=${city}&state=${state}`)
+            createView(`/allListings/api/listings/search?city=${city}&state=${state}`)
         } else if (city !== "") {
-            createView(`/allListings/listings/search?city=${city}`)
+            createView(`/allListings/api/listings/search?city=${city}`)
         } else if (state !== "") {
-            createView(`/allListings/listings/search?state=${state}`)
+            createView(`/allListings/api/listings/search?state=${state}`)
         } else if (zip !== "") {
-            createView(`/allListings/listings/search?zip=${zip}`)
+            createView(`/allListings/api/listings/search?zip=${zip}`)
         }
     });
 }

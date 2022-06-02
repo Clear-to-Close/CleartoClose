@@ -205,14 +205,14 @@ const viewOffers = _ => {
         event.preventDefault();
         clearStoredURI();
         let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/offers/findOffers/${listingId}`);
+        createView(`/offers/api/offers/findOffers/${listingId}`);
     });
 }
 
 const editListing = _ => {
         $('#editListing').click(_ => {
             let listingId = $('#listingPageDiv').attr('data-id');
-            createView(`/realtorListing/listings/${listingId}`)
+            createView(`/realtorListing/api/listings/${listingId}`)
         });
     }
 
