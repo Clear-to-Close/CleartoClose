@@ -638,10 +638,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   align-items: center !important;
 }
 
-.justify-start {
-  justify-content: flex-start !important;
-}
-
 .justify-end {
   justify-content: flex-end !important;
 }
@@ -652,6 +648,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .justify-between {
   justify-content: space-between !important;
+}
+
+.justify-around {
+  justify-content: space-around !important;
 }
 
 .justify-evenly {
@@ -878,6 +878,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:w-1\/2 {
     width: 50% !important;
+  }
+
+  .md\:grow {
+    flex-grow: 1 !important;
   }
 
   .md\:flex-row {

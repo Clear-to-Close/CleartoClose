@@ -35,12 +35,21 @@ public class ListingsController {
     @GetMapping("{listingId}")
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
         Listing listing = listingRepository.findById(listingId).get();
-        List<String> unsignedUrls = listing.getImage_icons();
-        List<String> signedUrls = new ArrayList<>();
-        for (String urls : unsignedUrls) {
-            signedUrls.add(s3Service.getSignedURL(urls));
+
+        List<String> unsignedIcons = listing.getImage_icons();
+        List<String> signedIcons = new ArrayList<>();
+        for (String urls : unsignedIcons) {
+            signedIcons.add(s3Service.getSignedURL(urls));
         }
-        listing.setImage_icons(signedUrls);
+        listing.setImage_icons(signedIcons);
+
+        List<String> unsignedImages = listing.getHouse_images();
+        List<String> signedImages = new ArrayList<>();
+        for (String imageName : unsignedImages) {
+            signedImages.add(s3Service.getSignedURL(imageName));
+        }
+        listing.setHouse_images(signedImages);
+
         return listingRepository.findById(listingId);
     }
 
@@ -58,9 +67,6 @@ public class ListingsController {
         return listing;
     }
 
-    // Searching by zipCode returns a list of addresses that can be used to pin on a map
-    // selection of one of these addresses in listing then appends the address and zip to the URL and GETS the listing using getListingByAddress
-    //***Note*** printing the list of addresses in this function returns StackTrace
     @GetMapping("search")
     public Collection<Listing> getListingByMultiple(@RequestParam(required = false) String city, @RequestParam(required = false) String state,
                                                     @RequestParam(required = false) String zip) {
