@@ -1,3 +1,4 @@
+
 let map;
 let geocoder;
 
@@ -24,4 +25,10 @@ export function geocodeAddress(address) {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     })
+}
+
+function addMarker(locationMarker){
+    const marker = new google.maps.Marker({
+
+    });
 }
