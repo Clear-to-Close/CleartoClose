@@ -8,8 +8,6 @@ import {getHeaders} from "../auth.js";
 let listingId = null;
 let sellerAgent = "";
 
-// style="background-image: url('https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')"
-
 export default function ListingIndex(props) {
     console.log(props)
     requestListingDetailView(props.listing.listingAddress, props.listing.image_icons);
@@ -18,7 +16,7 @@ export default function ListingIndex(props) {
     // language=HTML
     return `
         <div id="listingPageDiv" data-id="${props.listing.id}"
-             class="bg-cover content-height flex flex-col relative md:flex-row">
+             class="bg-cover content-height flex flex-col relative md:flex-row font-medium">
             <div class="content-height w-full flex flex-col items-center justify-center">
                 <div class="bg-slate-200 opacity-95 border-slate-300 border-2 shadow-xl rounded-md md:flex ">
                     <div class="md:flex md:flex-col md:w-1/2">
@@ -28,9 +26,9 @@ export default function ListingIndex(props) {
                                  alt="main listing photo">
                         </div>
                         <div>
-                            <form id="listingImgUpload">
-                                <input type="file" id="uploadDocs" accept="image/*">
-                                <button type="button" id="uploadBtn">Upload Documents</button>
+                            <form id="listingImgUpload" class="flex flex-col items-center">
+                                <input type="file" id="uploadDocs" accept="image/*" class="hidden">
+                                <button type="button" id="uploadBtn" class="text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload Documents</button>
                             </form>
                         </div>
                         <div class="p-2 text-center my-2">
@@ -50,10 +48,10 @@ export default function ListingIndex(props) {
                             </div>
                         </div>
                         <div class="flex mx-auto justify-center">
-                            <button type="button" id="viewOffersBtn" class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                            <button type="button" id="viewOffersBtn" class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-primary font-medium bg-callToAction">
                                 View Offers
                             </button>
-                            <button type="button" id="editListing" class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+                            <button type="button" id="editListing" class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-primary font-medium bg-callToAction">
                                 Edit Listing
                             </button>
                         </div>
@@ -199,14 +197,14 @@ const viewOffers = _ => {
     $("#viewOffersBtn").click(_ => {
         clearStoredURI();
         let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/offers/findOffers/${listingId}`);
+        createView(`/offers/api/findOffers/${listingId}`);
     });
 }
 
 const editListing = _ => {
     $('#editListing').click(_ => {
         let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/realtorListing/listings/${listingId}`)
+        createView(`/realtorListing/api/listings/${listingId}`)
     });
 }
 

@@ -22,7 +22,7 @@ export default function fetchData(state, request) {
                     } else {
                         return res.json()
                     }
-       }));
+                }));
     }
 
     return Promise.all(promises).then(propsData => {

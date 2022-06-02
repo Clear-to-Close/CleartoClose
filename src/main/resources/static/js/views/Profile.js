@@ -5,10 +5,10 @@ export default function ProfilePage(props) {
     console.log(props)
     //language=html
     return `
-        <div class="content-height bg-white flex justify-center items-center">
+        <div class="content-height bg-slate-200 opacity-95 flex justify-center items-center">
             <div class="md:w-3/4">
-                <div id="updateProfileForm" class="w-full bg-slate-200 opacity-95">
-                    <div class="bg-primary border-2 rounded-md border-secondary mx-2 flex flex-wrap justify-">
+                <div id="updateProfileForm" class="w-full">
+                    <div class="mx-2">
                         <div class="m-1 pb-1 text-center" data-username="${props.loggedInUser.username}">
                             ${props.loggedInUser.username}
                         </div>
@@ -22,10 +22,10 @@ export default function ProfilePage(props) {
                 </div>
                 <div class="flex justify-between">
                     <button id="saveProfile-btn" type="button"
-                            class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Save
+                            class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction hidden">Save
                     </button>
                     <button id="cancel-btn"
-                            class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction hidden">Cancel
+                            class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction hidden">Cancel
                     </button>
                 </div>
                 <div id="profileOffers" class="h-1/4 w-full bg-primary border-2 rounded-md border-secondary mx-2">
@@ -34,7 +34,9 @@ export default function ProfilePage(props) {
                 <div>
                     <form>
                         <input type="file" id="uploadDocs">
-                        <button id="uploadBtn" type="button">Upload Documents</button>
+                        <button id="uploadBtn" type="button" class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">
+                            Upload Documents
+                        </button>
                     </form>
                 </div>
             </div>
