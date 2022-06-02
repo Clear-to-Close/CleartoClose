@@ -97,6 +97,12 @@ const createMakeOfferView = () => {
         createView(`/makeOffer/listings/${listingId}`)
     })
 }
+
+const renderEditOfferView = _ => {
+    $(`#edit-btn-${offer.id}`).click(_ => {
+
+    })
+}
  const buttonAuthorization = _ => {
     let seller = offers[0].listing.seller.email
     let user = getLoggedInUser();
@@ -111,8 +117,6 @@ const createMakeOfferView = () => {
         }
     })
 
-
-
     if (seller !== user && currentOfferor !== user) {
         console.log("unhide make offer btn")
         $("#makeOfferBtn").removeClass("hidden");
@@ -122,7 +126,6 @@ const createMakeOfferView = () => {
         $(".btn-accept").removeClass("hidden");
         $(".btn-counter").removeClass("hidden");
     }
-
 }
 
 export function OfferEvent() {
