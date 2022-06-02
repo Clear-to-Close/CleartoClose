@@ -4,12 +4,13 @@ import {getLoggedInUser} from "../utility.js";
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 export function initCounterOffer() {
-    $('.btn-counter').on('click', function (e) {
+    const offerID = $(this).data("id");
+    $(`#btn-counter-${offerID}`).on('click', function (e) {
         e.preventDefault();
-        const offerId = $(this).data("id");
-        $("#btn-confirm-counter").attr("data-id", offerId);
 
-        $.get(`${OFFERS_URL}/${offerId}`).then(function (res) {
+        $("#btn-confirm-counter").attr("data-id", offerID);
+
+        $.get(`${OFFERS_URL}/${offerID}`).then(function (res) {
             console.log(res);
             populateCounterOfferForm(res);
         })
