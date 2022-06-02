@@ -40,7 +40,7 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-//    @ToString.Exclude
+    @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -93,4 +93,18 @@ public class User {
     @ToString.Exclude
     private Collection<AgentInfo> realtorInfo;
 
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH},
+            targetEntity = User.class)
+    @JoinTable(
+            name="users_realtor",
+            joinColumns = {@JoinColumn(name = "user_one_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="user_two_id", nullable = false, updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    @ToString.Exclude
+    @JsonIgnoreProperties({"friends", "listings", "buyer", "seller", "buyerAgent", "sellerAgent", "password"})
+    private Collection<User> realtor;
 }

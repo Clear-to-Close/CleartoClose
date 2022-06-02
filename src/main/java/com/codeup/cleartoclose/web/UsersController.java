@@ -5,11 +5,14 @@ import com.codeup.cleartoclose.data.AddressRepository;
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
 import com.codeup.cleartoclose.dto.UserDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
@@ -44,6 +47,7 @@ public class UsersController {
     }
 
     @PostMapping("create")
+    @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody User newUser) {
         System.out.println(newUser.getPassword());
         newUser.setRole(User.Role.USER);

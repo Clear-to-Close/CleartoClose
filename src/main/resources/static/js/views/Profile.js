@@ -1,14 +1,14 @@
-import {updateUserProfile} from "../updateProfile.js";
+import {updateUserProfile} from "./updateProfile.js";
 import {uploadDocuments} from "../utility.js";
 
 export default function ProfilePage(props) {
     console.log(props);
     //language=html
     return `
-        <div class="content-height bg-primary flex justify-center items-center">
-            <div class="bg-secondary md:w-3/4">
-                <div id="updateProfileForm" class="w-full">
-                    <div class=" bg-primary border-2 rounded-md border-secondary mx-2 flex flex-wrap justify-">
+        <div class="content-height bg-white flex justify-center items-center">
+            <div class="md:w-3/4">
+                <div id="updateProfileForm" class="w-full bg-slate-200 opacity-95">
+                    <div class="bg-primary border-2 rounded-md border-secondary mx-2 flex flex-wrap justify-">
                         <div class="m-1 pb-1 text-center" data-username="${props.loggedInUser.username}">
                             ${props.loggedInUser.username}
                         </div>
