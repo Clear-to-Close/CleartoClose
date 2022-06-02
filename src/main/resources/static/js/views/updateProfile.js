@@ -1,7 +1,7 @@
-import fetchData from "./fetchData.js";
-import {getLoggedInUser} from "./utility.js";
-import {getHeaders} from "./auth.js";
-import createView from "./createView.js";
+import fetchData from "../fetchData.js";
+import {getLoggedInUser} from "../utility.js";
+import {getHeaders} from "../auth.js";
+import createView from "../createView.js";
 
 export function updateUserProfile() {
     $("#btnUpdateProfile").click(function (e) {

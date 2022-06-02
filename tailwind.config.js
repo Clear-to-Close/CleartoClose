@@ -15,15 +15,9 @@ module.exports = {
                 'input-width-lg' : '300px'
             },
             colors: {
-                'non-photo-blue' : '#9ad5e7',
-                'blue-ncs' : '#0592cd',
-                'primary' : '#b1becd',
-                'secondary' : '#9ab1c2',
-                'callToAction' : '#8080d8'
+                'primary' : '#002254',
+                'callToAction' : '#FFCA36'
             },
-            backgroundImage: {
-                'homeImage': "url('/src/main/resources/images/homeImage.jpeg"
-            }
         },
     },
     plugins: [],

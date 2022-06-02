@@ -2,6 +2,8 @@ import createView from "../createView.js";
 import {isLoggedIn} from "../auth.js";
 import {clearStoredURI} from "../init.js";
 import {uploadDocuments, getLoggedInUser} from "../utility.js";
+import fetchData from "../fetchData.js";
+import {getHeaders} from "../auth.js";
 
 let listingId = null;
 let sellerAgent = "";
@@ -10,13 +12,13 @@ const BASE_URL = `http://${BACKEND_HOST}:${PORT}`;
 
 export default function ListingIndex(props) {
     console.log(props)
-    requestListingDetailView(props.listing.listingAddress, props.listing.image_list);
+    requestListingDetailView(props.listing.listingAddress, props.listing.image_icons);
     sellerAgent = props.listing.sellerAgent.email;
     listingId = props.listing.id
     // language=HTML
     return `
-        <div id="listingPageDiv" data-id="${props.listing.id}"
-             class="flex flex-col content-height relative bg-primary md:flex-row">
+        <div id="listingPageDiv" data-id="${props.listing.id}" 
+             class="flex flex-col content-height relative bg-primary md:flex-row bg-white">
             <div class="md:flex md:flex-col md:w-1/2">
                 <div class="w-full">
                     <img class="w-full"
@@ -85,6 +87,7 @@ const populateListingFromDB = listing => {
 };
 
 const populateDetailsFromApi = (propertyInfo, imageUrls) => {
+    console.log(propertyInfo)
     requestSchoolDetailView(propertyInfo.identifier.Id);
     //language=HTML
     const html = `
@@ -126,6 +129,7 @@ const populateDetailsFromApi = (propertyInfo, imageUrls) => {
 }
 
 const populateSchoolInfoDetails = details => {
+    console.log(details)
     const [primarySchool, secondarySchool, highSchool] = findSchool(details.property[0].school)
     //language=HTML
     let html = `
@@ -217,10 +221,18 @@ const editListing = _ => {
 const requestListingDetailView = (listingAddress, imageUrls) => {
     const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
 
-    fetch(`${BASE_URL}/api/houseInfo?address=${address}`, {
+    const request = {
         method: "GET",
-    }).then(response => response.json())
-        .then(properties => populateDetailsFromApi(properties.property[0], imageUrls))
+        headers: getHeaders()
+    }
+
+    fetchData({
+        property: `/api/houseInfo?address=${address}`
+    }, request)
+        .then(properties => {
+            console.log(properties)
+            populateDetailsFromApi(properties.property.property[0], imageUrls)
+        })
 }
 
 const requestSchoolDetailView = propertyId => {
@@ -251,8 +263,3 @@ export function ListingEvent() {
     editListing();
     submitImages();
 }
-
-
-
-
-
