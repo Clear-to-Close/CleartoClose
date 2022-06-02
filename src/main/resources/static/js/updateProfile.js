@@ -15,8 +15,9 @@ export function updateUserProfile() {
             state: `/api/users/searchByEmail?email=${getLoggedInUser()}`
         }, getHeaders())
             .then(user => {
-                console.log(user);
+                console.log(user.id);
                 $("#saveProfile-btn").attr("data-id", user.id);
+                console.log($("#saveProfile-btn").data('id'))
 
                 // populateUpdateForm(res);
                 const updateHTML =
