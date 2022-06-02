@@ -27,8 +27,17 @@ export function geocodeAddress(address) {
     })
 }
 
-function addMarker(locationMarker){
-    const marker = new google.maps.Marker({
-
-    });
+export function addMarkerForListing(address){
+    geocodeAddress(address)
+        .then(locationArray => {
+            let position = {
+                lat: locationArray.results[0].geometry.location.lat(),
+                lng: locationArray.results[0].geometry.location.lng()
+            }
+            new google.maps.Marker({
+                position: position,
+                map,
+                title: "Hello World!",
+            });
+        })
 }
