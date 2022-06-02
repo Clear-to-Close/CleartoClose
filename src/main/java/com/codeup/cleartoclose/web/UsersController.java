@@ -2,6 +2,7 @@ package com.codeup.cleartoclose.web;
 
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,6 +42,7 @@ public class UsersController {
     }
 
     @PostMapping("create")
+    @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody User newUser) {
         newUser.setRole(User.Role.USER);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));

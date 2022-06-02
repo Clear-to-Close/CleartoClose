@@ -47,45 +47,35 @@ export default function router(URI) {
         },
         '/realtorListing': {
             returnView: RealtorListing,
-            state: {
-                realtorListing: '/api'
-            },
+            state: {},
             uri: '/realtorListing',
             title: "Realtor Listing",
             viewEvent: RealtorListingEvent
         },
         '/listing': {
             returnView: ListingIndex,
-            state: {
-                listing: "/api",
-            },
+            state: {},
             uri: '/listing',
             title: "Listing",
             viewEvent: ListingEvent
         },
         '/offers': {
             returnView: Offers,
-            state: {
-                offers: "/api/offers",
-            },
+            state: {},
             uri: '/offers',
             title: 'Offers',
             viewEvent: OfferEvent
         },
         '/makeOffer': {
             returnView: MakeOffer,
-            state: {
-                makeOffer: '/api'
-            },
+            state: {},
             uri: '/makeOffer',
             title: "Make an Offer",
             viewEvent: MakeAnOffer
         },
         '/allListings': {
             returnView: AllListings,
-            state: {
-                allListings: "/api"
-            },
+            state: {},
             uri: '/allListings',
             title: 'All Listings',
             viewEvent: AllListingsEvent
@@ -136,7 +126,7 @@ export default function router(URI) {
                 }
             }
 
-            routes[`/${piecesOfURI[1]}`].state[stateBase] = `${routes[`/${piecesOfURI[1]}`].state[stateBase]}${pieceOfState}`
+            routes[`/${piecesOfURI[1]}`].state[`${piecesOfURI[1]}`] = `${pieceOfState}`
             sessionStorage.setItem("URI", JSON.stringify(`${routes[`/${piecesOfURI[1]}`].state[stateBase]}`))
             return routes[`/${piecesOfURI[1]}`]
         }

@@ -25,3 +25,12 @@ a.nav-link {
     min-height: calc(100vh - 90px);
     max-height: max-content;
 }
+
+.valid {
+    color: green;
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}

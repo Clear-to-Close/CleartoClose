@@ -24,6 +24,7 @@ export default function createView(URI) {
     render(null, router('/loading'));
 
     let request = {
+        method: "GET",
         headers: getHeaders()
     }
 
