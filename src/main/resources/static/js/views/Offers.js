@@ -94,7 +94,7 @@ const createMakeOfferView = () => {
         console.log(URI)
         listingId = parseInt(URI[URI.length - 1])
         console.log(listingId)
-        createView(`/makeOffer/listings/${listingId}`)
+        createView(`/makeOffer/api/listings/${listingId}`)
     })
 }
 

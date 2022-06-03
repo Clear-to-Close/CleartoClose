@@ -3,8 +3,6 @@ import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import fetchData from "../fetchData.js";
 
-const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
-
 export default function EditOffer(props) {
     //language=html
     console.log(props);
@@ -67,7 +65,7 @@ export default function EditOffer(props) {
                         <label class="text-left" for="closing-costs">Closing Costs</label>
                         <input name="closing" id="closing-costs" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1"
-                               value="${props.editOffer.closingCosts}">
+                               value="$${props.editOffer.closingCosts}">
                         <button id="edit-offer-btn"
                                 class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
                                 data-id="${props.id}">Edit Offer
@@ -85,13 +83,11 @@ export function EditEvent() {
 }
 
 function editOffer() {
-
     $('.offer-form').on('keyup', function (e) {
         let enterKey = e.key;
         if (enterKey === 'Enter') {
             e.preventDefault();
             $('#make-offer-btn').click(function () {
-
             });
         }
     });
@@ -102,7 +98,7 @@ function editOffer() {
         const listingId = parseInt(URI[URI.length - 1])
         const editOfferId = $(this).data('id');
 
-        const offerData = {
+        const editData = {
             offerAmount: parseInt($('#offer-amount').val()),
             loanType: $('#loan-type').val(),
             optionLength: parseInt($('#option-length').val()),
@@ -110,7 +106,7 @@ function editOffer() {
             homeWarranty: $('#warranty-requested').val(),
             appraisalWaiver: $('#appraisal-waiver').val(),
             closingDate: $('#closing-date').val(),
-            closingCosts: $('#closing-costs').val(),
+            closingCosts: parseInt($('#closing-costs').val()),
             offerorEmail: getLoggedInUser(),
             listingId: listingId
         }
@@ -118,7 +114,7 @@ function editOffer() {
         let request = {
             method: "PUT",
             headers: getHeaders(),
-            body: JSON.stringify(offerData)
+            body: JSON.stringify(editData)
         }
 
         fetchData({server: `/api/offers/editOffer/${editOfferId}`}, request).then(response => {

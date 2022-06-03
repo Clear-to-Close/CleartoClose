@@ -9,7 +9,8 @@ export default function Register(props) {
              style="background-image: url('https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')">
             <div class="content-height w-full flex flex-col items-center justify-center">
                 <div class="bg-slate-200 opacity-95 border-2 border-slate-300 shadow-xl rounded-md w-3/4 lg:w-1/2">
-                    <form id="login-form" class="flex flex-col items-center justify-center px-[15px] w-full mx-1 my-3 p-1">
+                    <form id="login-form"
+                          class="flex flex-col items-center justify-center px-[15px] w-full mx-1 my-3 p-1">
                         <div id="registration-error" class="text-red-600"></div>
 
                         <label for="firstname" class="px-[10px] my-auto"></label>
@@ -41,7 +42,8 @@ export default function Register(props) {
                         <input id="password"
                                class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full mx-1 my-3 p-1"
                                name="password" type="password"
-                               pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$" placeholder="Password"/>
+                               pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\\d]){1,})(?=(.*[\\W]){1,})(?!.*\\s).{8,}$"
+                               placeholder="Password"/>
 
                         <div id="message" class="hidden font-medium">
                             <h3>Password must contain the following:</h3>
@@ -57,7 +59,9 @@ export default function Register(props) {
                                class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full mx-1 my-3 p-1"
                                name="confirm-password" type="password" placeholder="Confirm Password"/>
 
-                        <button id="register-btn" class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">Register</button>
+                        <button id="register-btn"
+                                class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">Register
+                        </button>
                     </form>
                 </div>
             </div>
