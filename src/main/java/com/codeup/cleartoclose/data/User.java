@@ -1,6 +1,5 @@
 package com.codeup.cleartoclose.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -99,8 +98,8 @@ public class User {
             targetEntity = User.class)
     @JoinTable(
             name="users_realtor",
-            joinColumns = {@JoinColumn(name = "user_one_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name="user_two_id", nullable = false, updatable = false)},
+            joinColumns = {@JoinColumn(name = "realtor", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="user", nullable = false, updatable = false)},
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
     )
