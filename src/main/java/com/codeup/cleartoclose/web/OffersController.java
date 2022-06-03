@@ -72,6 +72,20 @@ OffersController {
         offersRepository.save(newOffer);
     }
 
+    @PutMapping("editOffer/{offerId}")
+    public void editOffer(@PathVariable long offerId) {
+        Offer offerToEdit = offersRepository.findById(offerId).get();
+        offerToEdit.setOfferAmount(offerToEdit.getOfferAmount());
+        offerToEdit.setLoanType(offerToEdit.getLoanType());
+        offerToEdit.setOptionLength(offerToEdit.getOptionLength());
+        offerToEdit.setSurvey(offerToEdit.getSurvey());
+        offerToEdit.setHomeWarranty(offerToEdit.getHomeWarranty());
+        offerToEdit.setAppraisalWaiver(offerToEdit.getAppraisalWaiver());
+        offerToEdit.setClosingDate(offerToEdit.getClosingDate());
+        offerToEdit.setClosingCosts(offerToEdit.getClosingCosts());
+        offersRepository.save(offerToEdit);
+    }
+
     // Offer can be accepted upon, submit of a selection form; post updates the historical data of the selected offer
     @PutMapping("{offerId}")
     public void offerAccepted(@PathVariable Long offerId) {
@@ -88,10 +102,6 @@ OffersController {
         acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
         offersRepository.save(acceptedOffer);
     }
-
-
-//    @PutMapping("editOffer/{offerId}")
-
 
     @PutMapping("/countered/{offerId}")
     public void offerCountered(@PathVariable Long offerId, @RequestBody Offer counterOffer) {

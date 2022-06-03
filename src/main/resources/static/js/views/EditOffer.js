@@ -94,8 +94,8 @@ function editOffer() {
 
     $('#edit-offer-btn').on('click', function (e) {
 
-        let URI = sessionStorage.getItem("URI").split("/")
-        const listingId = parseInt(URI[URI.length - 1])
+        let URI = sessionStorage.getItem("URI").split("/");
+        const listingId = parseInt(URI[URI.length - 1]);
         const editOfferId = $(this).data('id');
 
         const editData = {
