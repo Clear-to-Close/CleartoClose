@@ -1,7 +1,9 @@
 import createView from "../createView.js";
-import {initCounterOffer} from "./counterOffer.js";
+import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
+import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
 
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
@@ -9,12 +11,12 @@ const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 let listingId = null;
 let idArray;
 let offers = [];
+idArray = [];
 
 
 export default function Offers(props) {
     let URI = sessionStorage.getItem("URI").split("/")
-    listingId = parseInt(URI[URI.length - 1])
-    console.log(props.offers);
+    listingId = parseInt(URI[URI.length - 1]);
     offers = props.offers
     //language=HTML
     return `
@@ -31,22 +33,27 @@ export default function Offers(props) {
             <div id="offer">
                 ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
             </div>
-            <div id="hiddenConfirmation" class="hidden text-center m-1 w-full">
-                <button id="btn-confirm"
-                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+            <div id="hiddenConfirmation" class="text-center m-1 w-full">
+                <button id="btn-confirm" type="submit"
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
+	            <button id="btn-confirm-counter" type="submit"
+	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+	            </button>
             </div>
         </div>`
 }
 
 
 const retrieveOffersFromDb = (offers) => {
-    idArray = [];
     offers.map(offer => idArray.push(offer.id));
+
+    console.log(offers.length);
     console.log(idArray);
 
+    noOffersOnListing();
+
     // language=HTML
-    console.log(offers);
     return offers.map(offer =>
 
         `
@@ -85,8 +92,28 @@ const retrieveOffersFromDb = (offers) => {
                 </div>
             </div>`
     ).join("")
+
 };
 
+function noOffersOnListing(){
+
+    console.log("no offers listed")
+
+    if(offers.length === 0){
+        console.log("inside conditional of noOFFES")
+        const request = {
+            method: "GET",
+            headers: getHeaders()
+        }
+
+        fetchData({
+            property: `/api/listings/${listingId}`
+        }, request)
+            .then(properties => {
+                console.log(properties)
+            })
+    }
+}
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
@@ -110,12 +137,27 @@ function renderEditOfferView () {
     let user = getLoggedInUser();
 
     let currentOfferor = null;
+    let offerStatus;
+    let offerID;
 
     offers.forEach(function (offer) {
-        let searchOfferor = offer.offeror.email
+        console.log(offer);
+        offerID = offer.id;
+        offerStatus = offer.offerStatus;
+        let searchOfferor = offer.offeror.email;
+
         if (searchOfferor === user) {
             currentOfferor = user;
             $(`#btn-edit-${offer.id}`).removeClass('hidden');
+        }
+        if (seller === user && offerStatus === 'ACTIVE') {
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
+            // $("#editOfferBtn").show();
+        }
+        if(user !== seller && offerStatus === 'COUNTER'){
+            $(`#btn-accept-${offerID}`).removeClass("hidden");
+            $(`#btn-counter-${offerID}`).removeClass("hidden");
         }
     })
 
@@ -138,5 +180,6 @@ export function OfferEvent() {
     createMakeOfferView();
     renderEditOfferView();
     initCounterOffer();
+    submitCounterOffer()
 }
 
