@@ -1,23 +1,23 @@
 import createView from "../createView.js";
 import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
-import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
+import {confirmOfferAcceptance, updateListingObject, updateOfferStatus} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import fetchData from "../fetchData.js";
 
 
-const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
-
-let listingId = null;
-let idArray;
+let idArray = [];
 let offers = [];
-idArray = [];
+
+let seller;
 
 
 export default function Offers(props) {
-    let URI = sessionStorage.getItem("URI").split("/")
-    listingId = parseInt(URI[URI.length - 1]);
     offers = props.offers
+
+    grabSellerId();
+    fetchListingId();
+
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -47,15 +47,8 @@ export default function Offers(props) {
 
 const retrieveOffersFromDb = (offers) => {
     offers.map(offer => idArray.push(offer.id));
-
-    console.log(offers.length);
-    console.log(idArray);
-
-    noOffersOnListing();
-
     // language=HTML
     return offers.map(offer =>
-
         `
             <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId">
@@ -92,36 +85,32 @@ const retrieveOffersFromDb = (offers) => {
                 </div>
             </div>`
     ).join("")
-
 };
 
-function noOffersOnListing(){
+const fetchListingId = () =>{
+    let URI = sessionStorage.getItem("URI").split("/")
+   return parseInt(URI[URI.length - 1]);
+}
 
-    console.log("no offers listed")
-
-    if(offers.length === 0){
-        console.log("inside conditional of noOFFES")
+//Added function to grab seller email instead of relying on grabbing from offers. Null if no offers are present
+function grabSellerId(){
         const request = {
             method: "GET",
             headers: getHeaders()
         }
-
         fetchData({
-            property: `/api/listings/${listingId}`
+            property: `/api/listings/${fetchListingId()}`
         }, request)
             .then(properties => {
-                console.log(properties)
+                console.log(properties);
+                seller = properties.property.seller.email
             })
-    }
 }
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-        let URI = sessionStorage.getItem("URI").split("/")
-        console.log(URI)
-        listingId = parseInt(URI[URI.length - 1])
-        console.log(listingId)
-        createView(`/makeOffer/listings/${listingId}`)
+        console.log(fetchListingId());
+        createView(`/makeOffer/listings/${fetchListingId()}`)
     })
 }
 
@@ -132,44 +121,47 @@ function renderEditOfferView () {
     })
 }
 
- const buttonAuthorization = _ => {
-    let seller = offers[0].listing.seller.email
-    let user = getLoggedInUser();
-
-    let currentOfferor = null;
+function buttonAuthorization() {
+    let user = getLoggedInUser()
+    console.log(user);
+    let currentOfferor;
     let offerStatus;
     let offerID;
-
-    offers.forEach(function (offer) {
-        console.log(offer);
-        offerID = offer.id;
-        offerStatus = offer.offerStatus;
-        let searchOfferor = offer.offeror.email;
-
-        if (searchOfferor === user) {
-            currentOfferor = user;
-            $(`#btn-edit-${offer.id}`).removeClass('hidden');
-        }
-        if (seller === user && offerStatus === 'ACTIVE') {
-            $(`#btn-accept-${offerID}`).removeClass("hidden");
-            $(`#btn-counter-${offerID}`).removeClass("hidden");
-            // $("#editOfferBtn").show();
-        }
-        if(user !== seller && offerStatus === 'COUNTER'){
-            $(`#btn-accept-${offerID}`).removeClass("hidden");
-            $(`#btn-counter-${offerID}`).removeClass("hidden");
-        }
-    })
-
-    if (seller !== user && currentOfferor !== user) {
-        console.log("unhide make offer btn")
+    console.log(seller === user)
+  
+    if(offers.length ===0 && user !== seller){
         $("#makeOfferBtn").removeClass("hidden");
+
+    }else{
+
+        offers.forEach(function (offer) {
+            console.log(offer);
+            offerID = offer.id;
+            offerStatus = offer.offerStatus;
+            let searchOfferor = offer.offeror.email;
+
+            if (searchOfferor === user) {
+                currentOfferor = user;
+            }
+
+            if (seller === user && offerStatus === 'ACTIVE') {
+                $(`#btn-accept-${offerID}`).removeClass("hidden");
+                $(`#btn-counter-${offerID}`).removeClass("hidden");
+              
+            }
+            if(user !== seller && offerStatus === 'COUNTER'){
+                $(`#btn-accept-${offerID}`).removeClass("hidden");
+                $(`#btn-counter-${offerID}`).removeClass("hidden");
+            }
+        })
+
+        if (seller !== user && currentOfferor !== user) {
+            console.log("unhide make offer btn")
+            $("#makeOfferBtn").removeClass("hidden");
+        }
     }
 
-    if (seller === user) {
-        $(".btn-accept").removeClass("hidden");
-        $(".btn-counter").removeClass("hidden");
-    }
+    
 }
 
 export function OfferEvent() {
