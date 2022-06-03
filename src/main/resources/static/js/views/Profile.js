@@ -24,7 +24,7 @@ export default function ProfilePage(props) {
                     <button id="saveProfile-btn" type="button"
                             class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction hidden">Save
                     </button>
-                    <button id="cancel-btn"
+                    <button id="cancel-btn" type="button"
                             class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction hidden">Cancel
                     </button>
                 </div>
@@ -55,6 +55,7 @@ function submitDocument() {
 
 function populateProfileOffers(offers) {
     //language=html
+    let html = "";
     return `
         <div id="myOffersDiv" class="flex flex-wrap justify-evenly rounded m-1 bg-secondary">
             ${offers.map(offer => `
