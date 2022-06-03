@@ -4,7 +4,6 @@ import {getLoggedInUser} from "../utility.js";
 const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
 export default function MakeOffer(props) {
-    datePicker();
     //language=html
     console.log(props);
     return `

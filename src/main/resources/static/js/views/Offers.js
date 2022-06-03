@@ -20,28 +20,28 @@ export default function Offers(props) {
 
     //language=HTML
     return `
-        <div class="min-h-[calc(100vh-90px)] bg-primary">
-            <div class="w-full relative">
-                <img class="md:w-3/4 md:h-[350px] mx-auto"
-                     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                     alt="main listing photo">
-                <button id="makeOfferBtn"
-                        class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
-                    Make An Offer On This Home!
-                </button>
-            </div>
-            <div id="offer">
-                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
-            </div>
-            <div id="hiddenConfirmation" class="text-center m-1 w-full">
-                <button id="btn-confirm" type="submit"
-                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
-                </button>
-	            <button id="btn-confirm-counter" type="submit"
-	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
-	            </button>
-            </div>
-        </div>`
+		<div class="min-h-[calc(100vh-90px)] bg-primary">
+			<div class="w-full relative">
+				<img class="md:w-3/4 md:h-[350px] mx-auto"
+				     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+				     alt="main listing photo">
+				<button id="makeOfferBtn"
+				        class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+					Make An Offer On This Home!
+				</button>
+			</div>
+			<div id="offer">
+				${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
+			</div>
+			<div id="hiddenConfirmation" class="text-center m-1 w-full">
+				<button id="btn-confirm" type="submit"
+				        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
+				</button>
+				<button id="btn-confirm-counter" type="submit"
+				        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+				</button>
+			</div>
+		</div>`
 }
 
 
@@ -50,71 +50,84 @@ const retrieveOffersFromDb = (offers) => {
     // language=HTML
     return offers.map(offer =>
         `
-            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
-                <div class="text-center mx-1 my-2" id="offerId">
-                    ${offer.offerStatus} ${offer.id}
-                </div>
-                <div class="text-center mx-1 my-2" id="offerAmount-${offer.id}">
-                        \$${offer.offerAmount}
-                </div>
-                <div id="closingCosts" class="text-center mx-1 my-2">
-                    C/C: \$${offer.closingCosts}
-                </div>
-                <div class="text-center mx-1 my-2">
-                    Closing: ${offer.closingDate}
-                </div>
-                <div class="text-center mx-1 my-2">
-                    H/W: ${offer.homeWarranty}
-                </div>
-                <div class="text-center mx-1 my-2">
-                    L/T: ${offer.loanType}
-                </div>
-                <div class="text-center m-1 w-full">
-                    <button type="button"
-                            data-id="${offer.id}"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
-                        Offer!
-                    </button>
-                    <button type="button"
-                            data-id="${offer.id}"
-                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-                    </button>
-                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
-                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
-                    </button>
-                </div>
-            </div>`
+			<div id="offersDiv" data-id="${offer.id}"
+			     class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
+				<div class="text-center mx-1 my-2" id="offerId">
+					${offer.offerStatus} ${offer.id}
+				</div>
+				<div class="text-center mx-1 my-2" id="offerAmount-${offer.id}">
+						\$${offer.offerAmount}
+				</div>
+				<div id="closingCosts" class="text-center mx-1 my-2">
+					C/C: \$${offer.closingCosts}
+				</div>
+				<div class="text-center mx-1 my-2">
+					Closing: ${offer.closingDate}
+				</div>
+				<div class="text-center mx-1 my-2">
+					H/W: ${offer.homeWarranty}
+				</div>
+				<div class="text-center mx-1 my-2">
+					L/T: ${offer.loanType}
+				</div>
+				<div class="text-center m-1 w-full">
+					<button type="button"
+					        data-id="${offer.id}"
+					        class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+						Accept
+						Offer!
+					</button>
+					<button type="button"
+					        data-id="${offer.id}"
+					        class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
+						Counter
+					</button>
+					<button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+					        class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
+					</button>
+				</div>
+			</div>`
     ).join("")
 };
 
-const fetchListingId = () =>{
+const fetchListingId = () => {
     let URI = sessionStorage.getItem("URI").split("/")
-   return parseInt(URI[URI.length - 1]);
+    return parseInt(URI[URI.length - 1]);
 }
 
 //Added function to grab seller email instead of relying on grabbing from offers. Null if no offers are present
-function grabSellerId(){
-        const request = {
-            method: "GET",
-            headers: getHeaders()
-        }
-        fetchData({
-            property: `/api/listings/${fetchListingId()}`
-        }, request)
-            .then(properties => {
-                console.log(properties);
-                seller = properties.property.seller.email
-            })
+function grabSellerId() {
+    const request = {
+        method: "GET",
+        headers: getHeaders()
+    }
+    fetchData({
+        property: `/api/listings/${fetchListingId()}`
+    }, request)
+        .then(properties => {
+            console.log(properties);
+            seller = properties.property.seller.email
+        })
 }
+
+// const createMakeOfferView = () => {
+//     $('#makeOfferBtn').click(_ => {
+//         console.log(fetchListingId());
+//         createView(`/makeOffer/listings/${fetchListingId()}`)
+//     })
+// }
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-        console.log(fetchListingId());
-        createView(`/makeOffer/listings/${fetchListingId()}`)
+        let URI = sessionStorage.getItem("URI").split("/")
+        console.log(URI)
+        let listingId = parseInt(URI[URI.length - 1])
+        console.log(listingId)
+        createView(`/makeOffer/api/listings/${listingId}`)
     })
 }
 
-function renderEditOfferView () {
+function renderEditOfferView() {
     $(`.offer-btn`).click(function (e) {
         const editBtnId = $(this).data('id');
         createView(`/editOffer/api/offers/${editBtnId}`)
@@ -128,11 +141,11 @@ function buttonAuthorization() {
     let offerStatus;
     let offerID;
     console.log(seller === user)
-  
-    if(offers.length ===0 && user !== seller){
+
+    if (offers.length === 0 && user !== seller) {
         $("#makeOfferBtn").removeClass("hidden");
 
-    }else{
+    } else {
 
         offers.forEach(function (offer) {
             console.log(offer);
@@ -147,9 +160,9 @@ function buttonAuthorization() {
             if (seller === user && offerStatus === 'ACTIVE') {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
-              
+
             }
-            if(user !== seller && offerStatus === 'COUNTER'){
+            if (user !== seller && offerStatus === 'COUNTER') {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
             }
@@ -161,7 +174,7 @@ function buttonAuthorization() {
         }
     }
 
-    
+
 }
 
 export function OfferEvent() {
