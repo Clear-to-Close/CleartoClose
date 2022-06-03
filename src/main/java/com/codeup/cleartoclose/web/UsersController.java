@@ -58,37 +58,46 @@ public class UsersController {
 
     @PutMapping("{userId}")
     private void updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
-        System.out.println("made it to backend of update");
+
         User  userToUpdate = usersRepository.findById(userId).get();
-        userToUpdate.setPassword(userDTO.getPassword());
-        userToUpdate.setEmail(userDTO.getEmail());
-        userToUpdate.setFirstName(userDTO.getFirstName());
-        userToUpdate.setLastName(userDTO.getLastName());
-        userToUpdate.setPhoneNumber(userToUpdate.getPhoneNumber());
-        System.out.println(userToUpdate);
+        if(userDTO.getPassword() == null){
+            userToUpdate.setPassword(userToUpdate.getPassword());
+        }
+
+         if(userDTO.getEmail() != null) {
+             userToUpdate.setEmail(userDTO.getEmail());
+         }
+         if (userDTO.getFirstName() != null){
+             userToUpdate.setFirstName(userDTO.getFirstName());
+        }
+        if (userDTO.getLastName() != null){
+            userToUpdate.setLastName(userDTO.getLastName());
+        }
+        if (userDTO.getPhoneNumber() != null){
+            userToUpdate.setPhoneNumber(userDTO.getPhoneNumber());
+        }
         Address addressToEdit = addressRepository.findById(userToUpdate.getUserAddress().getId()).get();
-        System.out.println(addressToEdit);
-        addressToEdit.setAddress(userDTO.getAddress());
-        addressToEdit.setCity(userDTO.getCity());
-        addressToEdit.setState(userDTO.getState());
-        addressToEdit.setApartmentNumber(userDTO.getApartmentNumber());
-        addressToEdit.setZipCode(userDTO.getZipCode());
-        System.out.println(addressToEdit);
-        System.out.println(userToUpdate);
+
+        if(userDTO.getAddress() != null){
+            addressToEdit.setAddress(userDTO.getAddress());
+        }
+        if(userDTO.getCity() != null){
+            addressToEdit.setAddress(userDTO.getCity());
+        }
+        if(userDTO.getState() != null){
+            addressToEdit.setState(userDTO.getState());
+        }
+        if(userDTO.getZipCode() != null){
+            addressToEdit.setZipCode(userDTO.getZipCode());
+        }
+        if(userDTO.getApartmentNumber() != null){
+            addressToEdit.setApartmentNumber(userDTO.getApartmentNumber());
+        }
         usersRepository.save(userToUpdate);
 
     }
 
-//    @RequestMapping(value = "/heavyresource/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> partialUpdateGeneric(
-//            @RequestBody Map<String, Object> updates,
-//            @PathVariable("id") String id) {
-//
-//        System.out.println(updates);
-//
-////        heavyResourceRepository.save(updates, id);
-//        return ResponseEntity.ok("resource updated");
-//    }
+
 
 
 

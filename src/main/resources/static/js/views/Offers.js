@@ -107,8 +107,7 @@ function grabSellerId(){
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-        let URI = sessionStorage.getItem("URI").split("/")
-        console.log(URI)
+        console.log(fetchListingId());
         createView(`/makeOffer/listings/${fetchListingId()}`)
     })
 }
