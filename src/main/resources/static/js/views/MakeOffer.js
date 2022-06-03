@@ -12,7 +12,7 @@ export default function MakeOffer(props) {
                 <div class="flex flex-col items-center text-left justify-center my-3">
                     <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 m-1">
                         
-                        <input name="amount" id="offer-amount" type="number"
+                        <input name="amount" id="offer-amount" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
                                value="${props.makeOffer.askingPrice}" placeholder="How much are you offering?">
                         
@@ -27,29 +27,29 @@ export default function MakeOffer(props) {
                             <option value="VA">Veterans Affairs (VA)</option>
                         </select>
                         
-                        <input name="option" id="option-length" type="number"
+                        <input name="option" id="option-length" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.makeOffer.optionLength}" placeholder="How many days are you requesting for an option period?">
+                               placeholder="How many days are you requesting for an option period?">
                         
                         <input name="survey" id="survey-requested" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.makeOffer.survey}" placeholder="Are you requesting the seller to pay for the survey? (Yes/No)">
+                               placeholder="Are you requesting the seller to pay for the survey? (Yes/No)">
                         
                         <input name="warranty" id="warranty-requested" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.makeOffer.homeWarranty}" placeholder="Are you requesting the seller to pay for the home warranty? (Yes/No)">
+                               placeholder="Are you requesting the seller to pay for the home warranty? (Yes/No)">
                         
                         <input name="appraisal" id="appraisal-waiver" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.makeOffer.appraisalWaiver}" placeholder="Are you requesting an appraisal waiver? (Yes/No)">
+                               placeholder="Are you requesting an appraisal waiver? (Yes/No)">
                         
                         <input name="closing" id="closing-date" type="date"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.makeOffer.closingDate}" placeholder="What is your requested closing date?">
+                               placeholder="What is your requested closing date?">
                         
-                        <input name="closing" id="closing-costs" type="number"
+                        <input name="closing" id="closing-costs" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.makeOffer.closingCosts}" placeholder="How much are you requesting the seller pay in closing costs?">
+                               placeholder="How much are you requesting the seller pay in closing costs?">
                         <button id="make-offer-btn"
                                 class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
                                 data-id="${props.id}">Post Offer

@@ -16,7 +16,7 @@ export default function EditOffer(props) {
                         <label class="text-left" for="offer-amount">Offer Amount</label>
                         <input name="amount" id="offer-amount" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="$${props.editOffer.offerAmount}">
+                               value="${props.editOffer.offerAmount}">
 
 
                         <label class="text-left" for="loan-type">Loan Type</label>
@@ -35,7 +35,7 @@ export default function EditOffer(props) {
                         <label class="text-left" for="option-length">Option Length</label>
                         <input name="option" id="option-length" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.editOffer.optionLength} days">
+                               value="${props.editOffer.optionLength}">
 
 
                         <label class="text-left" for="survey-requested">Survey Requested</label>
@@ -65,10 +65,10 @@ export default function EditOffer(props) {
                         <label class="text-left" for="closing-costs">Closing Costs</label>
                         <input name="closing" id="closing-costs" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1"
-                               value="$${props.editOffer.closingCosts}">
+                               value="${props.editOffer.closingCosts}">
                         <button id="edit-offer-btn"
                                 class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
-                                data-id="${props.id}">Edit Offer
+                                data-id="${props.editOffer.id}" data-listing="${props.editOffer.listing.id}" type="button">Edit Offer
                         </button>
                     </form>
                 </div>
@@ -87,26 +87,25 @@ function editOffer() {
         let enterKey = e.key;
         if (enterKey === 'Enter') {
             e.preventDefault();
-            $('#make-offer-btn').click(function () {
-            });
+            $('#edit-offer-btn').click();
         }
     });
 
     $('#edit-offer-btn').on('click', function (e) {
 
-        let URI = sessionStorage.getItem("URI").split("/");
-        const listingId = parseInt(URI[URI.length - 1]);
+        const listingId = $('#edit-offer-btn').data('listing');
+        console.log(typeof listingId);
         const editOfferId = $(this).data('id');
 
         const editData = {
-            offerAmount: parseInt($('#offer-amount').val()),
+            offerAmount: $('#offer-amount').val(),
             loanType: $('#loan-type').val(),
-            optionLength: parseInt($('#option-length').val()),
+            optionLength: $('#option-length').val(),
             survey: $('#survey-requested').val(),
             homeWarranty: $('#warranty-requested').val(),
             appraisalWaiver: $('#appraisal-waiver').val(),
             closingDate: $('#closing-date').val(),
-            closingCosts: parseInt($('#closing-costs').val()),
+            closingCosts: $('#closing-costs').val(),
             offerorEmail: getLoggedInUser(),
             listingId: listingId
         }

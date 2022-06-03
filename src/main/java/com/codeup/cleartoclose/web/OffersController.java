@@ -73,16 +73,19 @@ OffersController {
     }
 
     @PutMapping("editOffer/{offerId}")
-    public void editOffer(@PathVariable long offerId) {
+    public void editOffer(@PathVariable long offerId, @RequestBody Offer updateOffer) {
         Offer offerToEdit = offersRepository.findById(offerId).get();
-        offerToEdit.setOfferAmount(offerToEdit.getOfferAmount());
-        offerToEdit.setLoanType(offerToEdit.getLoanType());
-        offerToEdit.setOptionLength(offerToEdit.getOptionLength());
-        offerToEdit.setSurvey(offerToEdit.getSurvey());
-        offerToEdit.setHomeWarranty(offerToEdit.getHomeWarranty());
-        offerToEdit.setAppraisalWaiver(offerToEdit.getAppraisalWaiver());
-        offerToEdit.setClosingDate(offerToEdit.getClosingDate());
-        offerToEdit.setClosingCosts(offerToEdit.getClosingCosts());
+        System.out.println(offerToEdit);
+        System.out.println(updateOffer);
+        offerToEdit.setOfferAmount(updateOffer.getOfferAmount());
+        offerToEdit.setLoanType(updateOffer.getLoanType());
+        offerToEdit.setOptionLength(updateOffer.getOptionLength());
+        offerToEdit.setSurvey(updateOffer.getSurvey());
+        offerToEdit.setHomeWarranty(updateOffer.getHomeWarranty());
+        offerToEdit.setAppraisalWaiver(updateOffer.getAppraisalWaiver());
+        offerToEdit.setClosingDate(updateOffer.getClosingDate());
+        offerToEdit.setClosingCosts(updateOffer.getClosingCosts());
+        System.out.println(offerToEdit);
         offersRepository.save(offerToEdit);
     }
 
