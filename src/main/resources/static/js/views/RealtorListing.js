@@ -1,88 +1,112 @@
 const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
 let listingId = null;
 export default function RealtorListing(props) {
-    console.log(props)
     listingId = props.realtorListing?.id ?? null;
     //language=HTML
     return `
-        <div class="content-height bg-primary flex items-center justify-center w-full">
-            <div class="bg-secondary md:w-3/4 lg:w-1/2 my-3">
-                <form class="w-full flex flex-col justify-center px-3 my-auto mx-auto">
-                    <div class="flex flex-col my-3">
-                        <h1 class="text-center">Users Information</h1>
-                        <div class="my-2 flex justify-between">
-                            <label for="sellersEmail">Seller's Email</label>
-                            <input value="${props.realtorListing?.seller?.email ?? ""}" name="sellersEmail" id="sellersEmail" type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="sellersAgentsEmail">Seller's Agent's Email</label>
-                            <input value="${props.realtorListing?.sellerAgent?.email ?? ""}" name="sellersAgentsEmail" id="sellersAgentsEmail"
-                                   type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="buyersEmail">Buyer's Email</label>
-                            <input value="${props.realtorListing?.buyer?.email ?? ""}" name="buyersEmail" id="buyersEmail" type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="buyersAgentsEmail">Buyer's Agent's Email</label>
-                            <input value="${props.realtorListing?.buyerAgent?.email ?? ""}" name="buyersAgentsEmail" id="buyersAgentsEmail"
-                                   type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
+        <div class="content-height bg-slate-200 opacity-95 flex items-center justify-center w-full">
+            <div class="w-3/4 lg:w-1/2 my-3">
+                <form class="w-full bg-white border-callToAction border-2 rounded-md flex flex-col justify-center px-3 my-auto mx-auto">
+                    <div class="flex flex-col my-3 items-center">
+                        <h1 class="text-center font-medium text-xl">Users Information</h1>
+                        <label for="sellersEmail"></label>
+                        <input value="${props.realtorListing?.seller?.email ?? ""}"
+                               name="sellersEmail"
+                               id="sellersEmail"
+                               type="text"
+                               placeholder="Seller's Email"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+
+                        <label for="sellersAgentsEmail"></label>
+                        <input value="${props.realtorListing?.sellerAgent?.email ?? ""}"
+                               name="sellersAgentsEmail"
+                               id="sellersAgentsEmail"
+                               type="text"
+                               placeholder="Listing Agent's Email"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+
+                        <label for="buyersEmail"></label>
+                        <input value="${props.realtorListing?.buyer?.email ?? ""}"
+                               name="buyersEmail"
+                               id="buyersEmail"
+                               type="text"
+                               placeholder="Buyer's Email"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+                        <label for="buyersAgentsEmail"></label>
+                        <input value="${props.realtorListing?.buyerAgent?.email ?? ""}"
+                               name="buyersAgentsEmail"
+                               id="buyersAgentsEmail"
+                               type="text"
+                               placeholder="Buyer's Agent's Email"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
                     </div>
 
-                    <div class="flex flex-col my-3">
-                        <h1 class="text-center">Property Information</h1>
-                        <div class="my-2 flex justify-between">
-                            <label for="propertyDescription">Property Description</label>
-                            <textarea maxlength="200" name="propertyDescription" id="propertyDescription"
-                                      class="text-sm w-input-width-sm md:w-input-width-lg">${props.realtorListing?.description ?? ""}</textarea>
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="propertyAskingPrice">Asking Price</label>
-                            <input value="${props.realtorListing?.askingPrice ?? ""}" name="propertyAskingPrice" id="propertyAskingPrice" type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="listingStatus">Listing Status</label>
-                            <input value="${props.realtorListing?.listingStatus ?? ""}" name="listingStatus" id="listingStatus" type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
+                    <div class="flex flex-col my-3 items-center">
+                        <h1 class="text-center font-medium text-xl">Property Information</h1>
+                        <label for="propertyDescription"></label>
+                        <textarea maxlength="200"
+                                  name="propertyDescription"
+                                  id="propertyDescription"
+                                  placeholder="Enter Property Description"
+                                  class="h-[200px] bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm ">${props.realtorListing?.description ?? ""}</textarea>
+                        <label for="propertyAskingPrice"></label>
+                        <input value="${props.realtorListing?.askingPrice ?? ""}"
+                               name="propertyAskingPrice"
+                               id="propertyAskingPrice"
+                               type="text"
+                               placeholder="Asking Price"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+                        <label for="listingStatus"></label>
+                        <input value="${props.realtorListing?.listingStatus ?? ""}"
+                               name="listingStatus"
+                               id="listingStatus"
+                               type="text"
+                               placeholder="Listing Status"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
                     </div>
 
-                    <div class="flex flex-col my-3">
-                        <h1 class="text-center">Property Address</h1>
-                        <div class="my-2 flex justify-between">
-                            <label for="propertyAddress">Address</label>
-                            <input value="${props.realtorListing?.listingAddress?.address ?? ""}" name="propertyAddress" id="propertyAddress"
-                                   type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="propertyAptNum">Apartment Number</label>
-                            <input value="${props.realtorListing?.listingAddress?.apartmentNumber ?? ""}" name="propertyAptNum" id="propertyAptNum"
-                                   type="text" class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="propertyCity">City</label>
-                            <input value="${props.realtorListing?.listingAddress?.city ?? ""}" name="propertyCity" id="propertyCity" type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="propertyState">State</label>
-                            <input value="${props.realtorListing?.listingAddress?.state ?? ""}" name="propertyState" id="propertyState" type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
-                        <div class="my-2 flex justify-between">
-                            <label for="propertyZip">Zip Code</label>
-                            <input value="${props.realtorListing?.listingAddress?.zipCode ?? ""}" name="propertyZip" id="propertyZip" type="text"
-                                   class="text-sm w-input-width-sm md:w-input-width-lg">
-                        </div>
+                    <div class="flex flex-col my-3 items-center">
+                        <h1 class="text-center font-medium text-xl"></h1>
+                        <label for="propertyAddress"></label>
+                        <input value="${props.realtorListing?.listingAddress?.address ?? ""}"
+                               name="propertyAddress"
+                               id="propertyAddress"
+                               type="text"
+                               placeholder="Address"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+                        <label for="propertyAptNum"></label>
+                        <input value="${props.realtorListing?.listingAddress?.apartmentNumber ?? ""}"
+                               name="propertyAptNum"
+                               id="propertyAptNum"
+                               type="text"
+                               placeholder="Apartment Number"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+                        <label for="propertyCity"></label>
+                        <input value="${props.realtorListing?.listingAddress?.city ?? ""}"
+                               name="propertyCity"
+                               id="propertyCity"
+                               type="text"
+                               placeholder="City"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+                        <label for="propertyState"></label>
+                        <input value="${props.realtorListing?.listingAddress?.state ?? ""}"
+                               name="propertyState"
+                               id="propertyState"
+                               type="text"
+                               placeholder="State"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+
+                        <label for="propertyZip"></label>
+                        <input value="${props.realtorListing?.listingAddress?.zipCode ?? ""}"
+                               name="propertyZip"
+                               id="propertyZip"
+                               type="text"
+                               placeholder="Zip Code"
+                               class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 text-sm">
+                        <button type="button" id="submit" class="w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium">
+                            Submit Listing
+                        </button>
                     </div>
-                    <button id="submit" class="p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Submit Listing</button>
                 </form>
             </div>
         </div>
@@ -92,8 +116,6 @@ export default function RealtorListing(props) {
 const submitListing = _ => {
 
     $("#submit").click(e => {
-        e.preventDefault();
-        console.log(listingId)
         if (listingId === null) {
             createListing();
         } else {

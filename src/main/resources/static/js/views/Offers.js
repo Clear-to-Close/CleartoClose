@@ -50,7 +50,7 @@ const retrieveOffersFromDb = (offers) => {
     // language=HTML
     return offers.map(offer =>
         `
-            <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
+            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId">
                     ${offer.offerStatus} ${offer.id}
                 </div>
@@ -70,15 +70,17 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button id="btn-accept-${offer.id}"
-                            data-id="${offer.id}" type="button"
-                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                    <button type="button"
+                            data-id="${offer.id}"
+                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
-                    <button  id="btn-counter-${offer.id}"
-                            data-id="${offer.id}" type="button"
-                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-                        Offer!
+                    <button type="button"
+                            data-id="${offer.id}"
+                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
+                    </button>
+                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
                     </button>
                 </div>
             </div>`
@@ -112,6 +114,13 @@ const createMakeOfferView = () => {
     })
 }
 
+function renderEditOfferView () {
+    $(`.offer-btn`).click(function (e) {
+        const editBtnId = $(this).data('id');
+        createView(`/editOffer/api/offers/${editBtnId}`)
+    })
+}
+
 function buttonAuthorization() {
     let user = getLoggedInUser()
     console.log(user);
@@ -119,8 +128,8 @@ function buttonAuthorization() {
     let offerStatus;
     let offerID;
     console.log(seller === user)
+  
     if(offers.length ===0 && user !== seller){
-
         $("#makeOfferBtn").removeClass("hidden");
 
     }else{
@@ -138,7 +147,7 @@ function buttonAuthorization() {
             if (seller === user && offerStatus === 'ACTIVE') {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
-                // $("#editOfferBtn").show();
+              
             }
             if(user !== seller && offerStatus === 'COUNTER'){
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
@@ -151,6 +160,8 @@ function buttonAuthorization() {
             $("#makeOfferBtn").removeClass("hidden");
         }
     }
+
+    
 }
 
 export function OfferEvent() {
@@ -159,6 +170,7 @@ export function OfferEvent() {
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
+    renderEditOfferView();
     initCounterOffer();
     submitCounterOffer()
 }

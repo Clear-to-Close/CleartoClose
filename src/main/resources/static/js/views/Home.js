@@ -6,7 +6,7 @@ export default function Home() {
         <div class="bg-cover content-height"
              style="background-image: url('https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')">
             <div class="content-height w-full flex flex-col items-center justify-center">
-                <div class="bg-slate-200 opacity-95 border-slate-300 border-2 shadow-xl rounded-md  w-3/4 flex flex-col items-center justify-center p-3">
+                <div class="bg-slate-200 opacity-95 border-slate-300 border-2 shadow-xl rounded-md w-3/4 flex flex-col items-center justify-center p-3">
                     <div class="text-3xl font-medium text-center p-3 lg:text-4xl text-primary mb-4 mt-2">
                         Search For Your Dream Home
                     </div>
@@ -99,7 +99,6 @@ function submitForm() {
     });
 
     $('.search-btn').click(e => {
-        e.preventDefault();
         const address = $('#search-address').val()
         const city = $('#search-city').val()
         const state = $('#select-state').val()
