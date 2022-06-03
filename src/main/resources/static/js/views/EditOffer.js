@@ -7,10 +7,10 @@ export default function EditOffer(props) {
     //language=html
     console.log(props);
     return `
-        <div class="content-height bg-slate-200 opacity-95 flex flex-col items-center">
+        <div class="content-height bg-slate-200 opacity-95 flex flex-col items-center justify-center">
             <div class="w-3/4 md:w-1/2">
                 <div class="flex flex-col items-center text-left justify-center my-3">
-                    <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 m-1">
+                    <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 py-2 m-1">
 
 
                         <label class="text-left" for="offer-amount">Offer Amount</label>
