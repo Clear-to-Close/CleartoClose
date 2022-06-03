@@ -143,9 +143,7 @@ const getFields = _ => {
 }
 
 const createListing = () => {
-
     const newListing = getFields();
-
     const createListingRequest = {
         method: "POST",
         headers: {

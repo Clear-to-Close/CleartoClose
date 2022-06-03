@@ -1,5 +1,6 @@
 package com.codeup.cleartoclose.dto;
 
+import com.codeup.cleartoclose.data.OfferStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,6 @@ public class MakeOfferDTO {
     private String closingDate;
     private String offerorEmail;
     private long listingId;
+    private Long counterId;
+    private OfferStatus offerStatus;
 }

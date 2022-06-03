@@ -11,13 +11,15 @@ import Loading from "./views/Loading.js";
 import LoginEvent from "./auth.js";
 import RealtorListing, { RealtorListingEvent } from "./views/RealtorListing.js";
 import Login from "./views/Login.js";
-import { LogoutEvent } from "./views/Logout.js";
-import Offers, { OfferEvent } from "./views/Offers.js";
-import MakeOffer, { MakeAnOffer } from "./views/MakeOffer.js";
-import AllListings, { AllListingsEvent } from "./views/AllListings.js";
-import Register, { RegisterEvent } from "./views/Register.js";
-import ProfilePage, { ProfileEvents } from "./views/Profile.js";
-import { getLoggedInUser } from "./utility.js";
+import {LogoutEvent} from "./views/Logout.js";
+import Offers, {OfferEvent} from "./views/Offers.js";
+import MakeOffer, {MakeAnOffer} from "./views/MakeOffer.js";
+import AllListings, {AllListingsEvent} from "./views/AllListings.js";
+import Register, {RegisterEvent} from "./views/Register.js";
+import ProfilePage, {ProfileEvents} from "./views/Profile.js";
+import {getLoggedInUser} from "./utility.js";
+import EditOffer, {EditEvent} from "./views/EditOffer.js";
+
 
 export default function router(URI) {
     const piecesOfURI = URI.split("/");
@@ -75,8 +77,16 @@ export default function router(URI) {
             title: "Make an Offer",
             viewEvent: MakeAnOffer
         },
+        '/editOffer': {
+            returnView: EditOffer,
+            state: {},
+            uri: '/editOffer',
+            title: 'Edit your Offer',
+            viewEvent: EditEvent
+        },
         '/allListings': {
             returnView: AllListings,
+
             state: {
                 allListings: ""
             },

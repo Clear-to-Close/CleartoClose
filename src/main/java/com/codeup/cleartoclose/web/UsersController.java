@@ -1,7 +1,10 @@
 package com.codeup.cleartoclose.web;
 
+import com.codeup.cleartoclose.data.Address;
+import com.codeup.cleartoclose.data.AddressRepository;
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
+import com.codeup.cleartoclose.dto.UserDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +22,12 @@ public class UsersController {
 
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
 
-    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.addressRepository = addressRepository;
     }
 
     @GetMapping("searchByEmail")
@@ -44,19 +49,57 @@ public class UsersController {
     @PostMapping("create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody User newUser) {
+        System.out.println(newUser.getPassword());
         newUser.setRole(User.Role.USER);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         usersRepository.save(newUser);
     }
 
-    @RequestMapping(value = "/heavyresource/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> partialUpdateGeneric(
-            @RequestBody Map<String, Object> updates,
-            @PathVariable("id") String id) {
 
-        System.out.println(updates);
+    @PutMapping("{userId}")
+    private void updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
 
-//        heavyResourceRepository.save(updates, id);
-        return ResponseEntity.ok("resource updated");
+        User  userToUpdate = usersRepository.findById(userId).get();
+        if(userDTO.getPassword() == null){
+            userToUpdate.setPassword(userToUpdate.getPassword());
+        }
+
+         if(userDTO.getEmail() != null) {
+             userToUpdate.setEmail(userDTO.getEmail());
+         }
+         if (userDTO.getFirstName() != null){
+             userToUpdate.setFirstName(userDTO.getFirstName());
+        }
+        if (userDTO.getLastName() != null){
+            userToUpdate.setLastName(userDTO.getLastName());
+        }
+        if (userDTO.getPhoneNumber() != null){
+            userToUpdate.setPhoneNumber(userDTO.getPhoneNumber());
+        }
+        Address addressToEdit = addressRepository.findById(userToUpdate.getUserAddress().getId()).get();
+
+        if(userDTO.getAddress() != null){
+            addressToEdit.setAddress(userDTO.getAddress());
+        }
+        if(userDTO.getCity() != null){
+            addressToEdit.setAddress(userDTO.getCity());
+        }
+        if(userDTO.getState() != null){
+            addressToEdit.setState(userDTO.getState());
+        }
+        if(userDTO.getZipCode() != null){
+            addressToEdit.setZipCode(userDTO.getZipCode());
+        }
+        if(userDTO.getApartmentNumber() != null){
+            addressToEdit.setApartmentNumber(userDTO.getApartmentNumber());
+        }
+        usersRepository.save(userToUpdate);
+
     }
+
+
+
+
+
+
 }

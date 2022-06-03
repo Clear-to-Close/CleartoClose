@@ -1,20 +1,23 @@
 import createView from "../createView.js";
-import {initCounterOffer} from "./counterOffer.js";
-import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
+import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
+import {confirmOfferAcceptance, updateListingObject, updateOfferStatus} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
+import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
 
-const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 
-let listingId = null;
-let idArray;
+let idArray = [];
 let offers = [];
+
+let seller;
 
 
 export default function Offers(props) {
-    let URI = sessionStorage.getItem("URI").split("/")
-    listingId = parseInt(URI[URI.length - 1])
-    console.log(props.offers);
     offers = props.offers
+
+    grabSellerId();
+    fetchListingId();
+
     //language=HTML
     return `
         <div class="min-h-[calc(100vh-90px)] bg-primary">
@@ -30,26 +33,24 @@ export default function Offers(props) {
             <div id="offer">
                 ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
             </div>
-            <div id="hiddenConfirmation" class="hidden text-center m-1 w-full">
-                <button id="btn-confirm"
-                        class="btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Confirm
+            <div id="hiddenConfirmation" class="text-center m-1 w-full">
+                <button id="btn-confirm" type="submit"
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
+	            <button id="btn-confirm-counter" type="submit"
+	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+	            </button>
             </div>
         </div>`
 }
 
 
 const retrieveOffersFromDb = (offers) => {
-    idArray = [];
     offers.map(offer => idArray.push(offer.id));
-    console.log(idArray);
-
     // language=HTML
-    console.log(offers);
     return offers.map(offer =>
-
         `
-            <div id="offersDiv" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
+            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
                 <div class="text-center mx-1 my-2" id="offerId">
                     ${offer.offerStatus} ${offer.id}
                 </div>
@@ -69,62 +70,108 @@ const retrieveOffersFromDb = (offers) => {
                     L/T: ${offer.loanType}
                 </div>
                 <div class="text-center m-1 w-full">
-                    <button
+                    <button type="button"
                             data-id="${offer.id}"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction ">Accept
+                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
                         Offer!
                     </button>
-                    <button
+                    <button type="button"
                             data-id="${offer.id}"
                             class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-                        Offer!
+                    </button>
+                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
                     </button>
                 </div>
             </div>`
     ).join("")
 };
 
+const fetchListingId = () =>{
+    let URI = sessionStorage.getItem("URI").split("/")
+   return parseInt(URI[URI.length - 1]);
+}
+
+//Added function to grab seller email instead of relying on grabbing from offers. Null if no offers are present
+function grabSellerId(){
+        const request = {
+            method: "GET",
+            headers: getHeaders()
+        }
+        fetchData({
+            property: `/api/listings/${fetchListingId()}`
+        }, request)
+            .then(properties => {
+                console.log(properties);
+                seller = properties.property.seller.email
+            })
+}
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-        let URI = sessionStorage.getItem("URI").split("/")
-        console.log(URI)
-        listingId = parseInt(URI[URI.length - 1])
-        console.log(listingId)
-        createView(`/makeOffer/listings/${listingId}`)
+        console.log(fetchListingId());
+        createView(`/makeOffer/listings/${fetchListingId()}`)
+    })
+}
+
+function renderEditOfferView () {
+    $(`.offer-btn`).click(function (e) {
+        const editBtnId = $(this).data('id');
+        createView(`/editOffer/api/offers/${editBtnId}`)
     })
 }
 
 function buttonAuthorization() {
-    let seller = offers[0].listing.seller.email
     let user = getLoggedInUser()
-    let currentOfferor = null;
-
-    offers.forEach(function (offer) {
-        let searchOfferor = offer.offeror.email
-        if (searchOfferor === user) {
-            currentOfferor = user;
-        }
-    })
+    console.log(user);
+    let currentOfferor;
+    let offerStatus;
+    let offerID;
     console.log(seller === user)
-    if (seller !== user && currentOfferor !== user) {
-        console.log("unhide make offer btn")
+  
+    if(offers.length ===0 && user !== seller){
         $("#makeOfferBtn").removeClass("hidden");
+
+    }else{
+
+        offers.forEach(function (offer) {
+            console.log(offer);
+            offerID = offer.id;
+            offerStatus = offer.offerStatus;
+            let searchOfferor = offer.offeror.email;
+
+            if (searchOfferor === user) {
+                currentOfferor = user;
+            }
+
+            if (seller === user && offerStatus === 'ACTIVE') {
+                $(`#btn-accept-${offerID}`).removeClass("hidden");
+                $(`#btn-counter-${offerID}`).removeClass("hidden");
+              
+            }
+            if(user !== seller && offerStatus === 'COUNTER'){
+                $(`#btn-accept-${offerID}`).removeClass("hidden");
+                $(`#btn-counter-${offerID}`).removeClass("hidden");
+            }
+        })
+
+        if (seller !== user && currentOfferor !== user) {
+            console.log("unhide make offer btn")
+            $("#makeOfferBtn").removeClass("hidden");
+        }
     }
 
-    if (seller === user) {
-        $(".btn-accept").removeClass("hidden");
-        $(".btn-counter").removeClass("hidden");
-        // $("#editOfferBtn").show();
-    }
+    
 }
 
 export function OfferEvent() {
-    buttonAuthorization()
+    buttonAuthorization();
     confirmOfferAcceptance();
     updateOfferStatus(idArray);
     updateListingObject();
     createMakeOfferView();
+    renderEditOfferView();
     initCounterOffer();
+    submitCounterOffer()
 }
 

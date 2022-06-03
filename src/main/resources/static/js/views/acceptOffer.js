@@ -18,8 +18,7 @@ export function confirmOfferAcceptance() {
             console.log(res);
             populateAcceptedOfferDiv(res);
         })
-        $("#btn-confirm").attr("data-id", offerId)
-        $("#hiddenConfirmation").removeClass("hidden");
+        $("#btn-confirm").attr("data-id", offerId).removeClass('hidden');
     })///END OF CONFIRM FUNCTION
 }
 
