@@ -13,8 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 @ToString
+
+@Entity
 @Table(name = "listings")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Listing {
@@ -43,7 +44,7 @@ public class Listing {
 
     @ManyToOne
     @NotNull
-    @JsonIgnoreProperties({"listings", "password", "userAddress"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress", "userOffers"})
     private User seller;
 
     @ManyToOne
@@ -61,7 +62,8 @@ public class Listing {
     private ListingStatus listingStatus;
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"listing", "offeror"})
+    @JsonIgnoreProperties({"listing", "offeror", "seller", "buyer", "buyerAgent", "sellerAgent"})
+    @ToString.Exclude
     private Collection<Offer> listingOffers;
 
     @OneToOne
@@ -69,5 +71,4 @@ public class Listing {
     @JsonIgnoreProperties("listing")
     @ToString.Exclude
     private Address listingAddress;
-
 }

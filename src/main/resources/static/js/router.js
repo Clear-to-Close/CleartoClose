@@ -116,7 +116,7 @@ export default function router(URI) {
         '/profile': {
             returnView: ProfilePage,
             state: {
-                loggedInUser: `/api/users/searchByEmail?email=${getLoggedInUser()}`
+                profile: `/api/users/searchByEmail?email=${getLoggedInUser()}`
             },
             uri: '/profile',
             title: 'Your profile page',

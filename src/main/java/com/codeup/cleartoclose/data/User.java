@@ -20,7 +20,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "users")
 public class User {
-    public enum Role{USER, ADMIN}
+    public enum Role{USER, ADMIN, REALTOR}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,7 +77,7 @@ public class User {
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"offeror", "listing","counterId"})
+    @JsonIgnoreProperties({"offeror","counterId"})
     @ToString.Exclude
     private Collection<Offer> userOffers;
 
@@ -98,8 +98,8 @@ public class User {
             targetEntity = User.class)
     @JoinTable(
             name="users_realtor",
-            joinColumns = {@JoinColumn(name = "realtor", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name="user", nullable = false, updatable = false)},
+            joinColumns = {@JoinColumn(name = "user", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="realtor", nullable = false, updatable = false)},
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
     )

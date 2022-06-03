@@ -5,14 +5,15 @@ import com.codeup.cleartoclose.data.AddressRepository;
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
 import com.codeup.cleartoclose.dto.UserDTO;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
@@ -30,9 +31,22 @@ public class UsersController {
         this.addressRepository = addressRepository;
     }
 
+//    @GetMapping("searchByEmail")
+//    public User findUserEmail(@RequestParam String email) {
+//        return usersRepository.findByEmail(email);
+//    }
+
     @GetMapping("searchByEmail")
-    public User findUserEmail(@RequestParam String email) {
-        return usersRepository.findByEmail(email);
+    public MappingJacksonValue getUserByEmail(@RequestParam String email) {
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept("user");
+
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
+
+        User user = usersRepository.findByEmail(email);
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
+        mappingJacksonValue.setFilters(filterProvider);
+
+        return mappingJacksonValue;
     }
 
     @GetMapping
@@ -56,7 +70,8 @@ public class UsersController {
     }
 
 
-    @PutMapping("{userId}")
+    @PutMapping("editUser/{userId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     private void updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
 
         User  userToUpdate = usersRepository.findById(userId).get();
@@ -82,7 +97,7 @@ public class UsersController {
             addressToEdit.setAddress(userDTO.getAddress());
         }
         if(userDTO.getCity() != null){
-            addressToEdit.setAddress(userDTO.getCity());
+            addressToEdit.setCity(userDTO.getCity());
         }
         if(userDTO.getState() != null){
             addressToEdit.setState(userDTO.getState());
@@ -93,13 +108,7 @@ public class UsersController {
         if(userDTO.getApartmentNumber() != null){
             addressToEdit.setApartmentNumber(userDTO.getApartmentNumber());
         }
+        userToUpdate.setUserAddress(addressToEdit);
         usersRepository.save(userToUpdate);
-
     }
-
-
-
-
-
-
 }
