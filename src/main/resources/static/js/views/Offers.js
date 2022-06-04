@@ -174,6 +174,7 @@ function grabSellerId() {
     }, request)
         .then(properties => {
             console.log(properties);
+
             seller = properties.property.seller.email;
             console.log(seller);
         })
@@ -196,12 +197,14 @@ function renderEditOfferView() {
 function buttonAuthorization() {
     let user = getLoggedInUser()
     console.log(user);
+    console.log(seller)
     let currentOfferor;
     let offerStatus;
     let offerID;
 
     console.log(seller === user)
     console.log(seller);
+
     if (offers.length === 0 && user !== seller) {
         $("#makeOfferBtn").removeClass("hidden");
 
@@ -229,12 +232,9 @@ function buttonAuthorization() {
         })
 
         if (seller !== user && currentOfferor !== user) {
-            console.log("unhide make offer btn")
             $("#makeOfferBtn").removeClass("hidden");
         }
     }
-
-
 }
 
 export function OfferEvent() {

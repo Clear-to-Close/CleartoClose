@@ -1,43 +1,32 @@
 import {updateUserProfile} from "./updateProfile.js";
-import {uploadDocuments} from "../utility.js";
+import {uploadDocuments, normalizeSentence} from "../utility.js";
+import createView from "../createView.js";
 
 export default function ProfilePage(props) {
     console.log(props);
     //language=html
     return `
-        <div class="content-height bg-slate-200 opacity-95 flex justify-center items-center">
-            <div class="md:w-3/4">
-                <div id="updateProfileForm" class="w-full">
-                    <div class="mx-2">
-                        <div class="m-1 pb-1 text-center" data-username="${props.loggedInUser.username}">
-                            ${props.loggedInUser.username}
-                        </div>
-                        <div class="m-1 pb-1 text-center">${props.loggedInUser.email}</div>
-                        <div class="m-1 pb-1 text-center">${props.loggedInUser.phoneNumber}</div>
-
-                        <button id="btnUpdateProfile" type="button"
-                                class="m-auto my-2 rounded-sm shadow-xl text-white bg-callToAction">Update Profile
-                        </button>
-                    </div>
-                </div>
-                <div class="flex justify-between">
-                    <button id="saveProfile-btn" type="button"
-                            class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction hidden">Save
-                    </button>
-                    <button id="cancel-btn"
-                            class="w-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction hidden">Cancel
-                    </button>
-                </div>
-                <div id="profileOffers" class="h-1/4 w-full bg-primary border-2 rounded-md border-secondary mx-2">
-                    ${populateProfileOffers(props.loggedInUser.userOffers)}
-                </div>
-                <div>
-                    <form>
-                        <input type="file" id="uploadDocs">
-                        <button id="uploadBtn" type="button" class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">
+        <div class="content-height bg-slate-200 opacity-95 flex justify-center">
+            <div id="updateProfileForm" class="flex flex-col items-center w-3/4 lg:w-full lg:m-2">
+                <div class="w-full flex flex-col md:flex-row xl:w-3/4">
+                    <div class="w-full flex flex-col items-center my-2 md:w-1/2">
+                        <img class="my-1 rounded-full" src="https://via.placeholder.com/150"
+                             alt="Image of ${normalizeSentence(props.profile.firstName)} ${normalizeSentence(props.profile.lastName)}">
+                        <input type="file" id="uploadDocs" class="hidden">
+                        <button id="uploadBtn" type="button" class="my-1 p-2 w-3/4 rounded-md shadow-xl bg-callToAction font-medium">
                             Upload Documents
                         </button>
-                    </form>
+                    </div>
+                    <div class="w-full my-2 flex flex-col items-center justify-between md:w-1/2">
+                        ${populateUserDetails(props.profile)}
+                    </div>
+                </div>
+                <div id="profileOffers" class="flex flex-col my-2 w-full xl:w-3/4">
+                    <div class="text-center text-4xl my-2">My Offers</div>
+                    <div id="offers" class="w-full grid grid-col-1 gap-2 center md:grid-cols-2 lg:grid-cols-3">
+                        ${populateProfileOffers(props.profile.userOffers)}
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -53,49 +42,94 @@ function submitDocument() {
     })
 }
 
-function populateProfileOffers(offers) {
-    //language=html
+const populateUserDetails = user => {
+    //language=HTML
     return `
-        <div id="myOffersDiv" class="flex flex-wrap justify-evenly rounded m-1 bg-secondary">
-            ${offers.map(offer => `
-                    <div class="text-center mx-1 my-2" id="offerId" data-id="${offer.id}">
-                                ${offer.id}
-                    </div>  
-                   
-					<div class="text-center mx-1 my-2">
-							\$${offer.offerAmount}
-					</div>
-					
-					<div id="closingCosts" class="text-center mx-1 my-2">
-						C/C: \$${offer.closingCosts}
-					</div>
-					
-					<div class="text-center mx-1 my-2">
-						Close Date: ${offer.closingDate}
-					</div>
-					
-					<div class="text-center mx-1 my-2">
-						H/W: ${offer.homeWarranty}
-					</div>
-					
-					<div class="text-center mx-1 my-2">
-						L/T: ${offer.loanType}
-					</div>
-					
-					<div class="text-center mx-1 my-2">
-						Waive Appraisal: ${offer.appraisalWaiver}
-					</div>
-					
-					<div class="text-center mx-1 my-2">
-						Buyer Pays for Survey: ${offer.survey}
-					</div>
+        <div class="text-center text-xl">${normalizeSentence(user.firstName)} ${normalizeSentence(user.lastName)}</div>
+        <div class="text-center text-xl" data-username="${user.username}">
+            ${user.username}
+        </div>
+        <div class="text-center text-xl">${user.email}</div>
+        <div class="text-center text-xl">${user.phoneNumber}</div>
+        <div class="text-center text-xl">${normalizeSentence(user.userAddress.address)}</div>
+        <div class="text-center text-xl">${normalizeSentence(user.userAddress.city)}, ${normalizeSentence(user.userAddress.state)}
+            ${user.userAddress.zipCode}
+        </div>
+        <button id="btnUpdateProfile" type="button"
+                class="w-3/4 p-2 rounded-md shadow-xl bg-callToAction font-medium">
+            Update Profile
+        </button>
+    `
+}
 
-`).join('')}
+function populateProfileOffers(offers) {
+    let html = "";
+    //language=html
+    offers.forEach(offer => {
+        html += `
+            <div data-id="${offer.listing.id}" class="flex flex-col bg-white justify-evenly m-1 border-2 border-callToAction rounded-md shadow-xl">
+                <div class="m-1 flex flex-col items-center bg-callToAction">
+                    <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.address)}</span>
+                    <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.city)}
+                        , ${normalizeSentence(offer.listing.listingAddress.state)} ${offer.listing.listingAddress.zipCode}</span>
+                </div>
+                <div class="flex flex-col p-3">
+                    <div class="m-1 flex justify-between">
+                        <span>Amount Offered:</span>
+                        <span>\$${offer.offerAmount}</span>
+                    </div>
+                    <div id="closingCosts" class="m-1 flex justify-between">
+                        <span>Closing Costs:</span>
+                        <span>\$${offer.closingCosts}</span>
+                    </div>
+                    <div class="m-1 flex justify-between">
+                        <span>Close Date:</span>
+                        <span>${offer.closingDate}</span>
+                    </div>
+                    <div class="m-1 flex justify-between">
+                        <span>Home Warranty:</span>
+                        <span>${normalizeSentence(offer.homeWarranty)}</span>
+                    </div>
+                    <div class="m-1 flex justify-between">
+                        <span>Loan Type:</span>
+                        <span>${offer.loanType}</span>
+                    </div>
+                    <div class="m-1 flex justify-between">
+                        <span>Waive Appraisal:</span>
+                        <span>${normalizeSentence(offer.appraisalWaiver)}</span>
+                    </div>
+                    <div class="m-1 flex justify-between">
+                        <span>Paying for Survey:</span>
+                        <span>${normalizeSentence(offer.survey)}</span>
+                    </div>
+                </div>
+            </div>
+        `
+    })
+    return html;
+}
 
-        </div>`;
+const showListing = _ => {
+    $("#offers").click(function (e) {
+        let listingId;
+        if (e.target.parentElement || e.target.parentElement.parentElement) {
+            if (e.target.parentElement.getAttribute("data-id") === null ) {
+                listingId = e.target.parentElement.parentElement.getAttribute("data-id");
+            } else {
+                listingId = e.target.parentElement.getAttribute("data-id");
+            }
+
+            if (listingId === null) {
+                return;
+            } else {
+                createView(`/listing/api/listings/${listingId}`)
+            }
+        }
+    })
 }
 
 export function ProfileEvents() {
     updateUserProfile();
     submitDocument();
+    showListing();
 }
