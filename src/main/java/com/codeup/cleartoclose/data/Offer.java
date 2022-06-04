@@ -22,10 +22,9 @@ public class Offer {
 
     // Foreign key pointing to User id
     @ManyToOne
-    @JsonIgnoreProperties("userAddress")
+    @JsonIgnoreProperties({"userAddress"})
     private User offeror;
 
-    // Foreign key pointing to listing table
     @ManyToOne
     @ToString.Exclude
     private Listing listing;

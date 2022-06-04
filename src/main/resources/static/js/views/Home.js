@@ -20,11 +20,11 @@ export default function Home() {
                         <select name="state" id="select-state"
                                 class="search-form bg-slate-200 mx-1 my-3 p-1 border-b-2 border-callToAction outline-0 placeholder-primary font-medium">
                             <option disabled selected>State</option>
-                            <option value="AL" >Alabama</option>
-                            <option value="AK" >Alaska</option>
-                            <option value="AZ" >Arizona</option>
-                            <option value="AR" >Arkansas</option>
-                            <option value="CA" >California</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
                             <option value="CO">Colorado</option>
                             <option value="CT">Connecticut</option>
                             <option value="DE">Delaware</option>
@@ -105,15 +105,18 @@ function submitForm() {
         const zip = $('#search-zip').val()
 
         if (address !== "" && city !== "" && state !== "" && zip !== "") {
-            createView(`/listing/api/listings/searchByFullAddress?address=${address}&city=${city}&state=${state}&zip=${zip}`)
+            createView({listing: {listing: `/api/listings/searchByFullAddress?address=${address}&city=${city}&state=${state}&zip=${zip}`}})
         } else if (city !== "" && state !== "") {
-            createView(`/allListings/api/listings/search?city=${city}&state=${state}`)
+            createView({allListings: { listings: `/api/listings/search?city=${city}&state=${state}`}})
         } else if (city !== "") {
-            createView(`/allListings/api/listings/search?city=${city}`)
+            createView({
+                allListings: { listings: `/api/listings/search?city=${city}`}
+            })
         } else if (state !== "") {
-            createView(`/allListings/api/listings/search?state=${state}`)
+            createView({ allListings: { listings: `/api/listings/search?state=${state}`}
+        })
         } else if (zip !== "") {
-            createView(`/allListings/api/listings/search?zip=${zip}`)
+            createView({ allListings: { listings: `/api/listings/search?zip=${zip}`}})
         }
     });
 }
