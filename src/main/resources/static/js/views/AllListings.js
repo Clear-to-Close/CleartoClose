@@ -4,9 +4,10 @@ import { initMap, addMarkerForListing} from "../googleMaps.js";
 let listingsAddresses = [];
 
 export default function AllListings(props) {
-    getAddresses(props.allListings)
+    console.log(props)
+    getAddresses(props.listings)
     // TODO Talk to team about how to better pass listings array to map functions
-    sessionStorage.setItem("listings", JSON.stringify(props.allListings))
+    sessionStorage.setItem("listings", JSON.stringify(props.listings))
     //language=HTML
     return `
         <div class="content-height bg-slate-200 opacity-95">
@@ -14,7 +15,7 @@ export default function AllListings(props) {
                 <div id="map" class="hidden w-full md:block" style="height:50vh"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 m-4">
-                ${populateListings(props.allListings)}
+                ${populateListings(props.listings)}
             </div>
         </div>
     `

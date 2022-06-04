@@ -6,8 +6,6 @@ import createView from "../createView.js";
 export function updateUserProfile() {
     $("#btnUpdateProfile").click(function (e) {
         //langauge=HTML
-        $("#profileOffers").addClass("hidden")
-
         fetchData({
             state: `/api/users/searchByEmail?email=${getLoggedInUser()}`
         }, getHeaders())
@@ -15,35 +13,35 @@ export function updateUserProfile() {
                 //language=HTML
                 const updateHTML =
                     `
-                        <div>
+                        <div class="w-full">
                             <label for="firstname"></label>
-                            <input type="text" class="form-control" id="firstname" value="${user.state.firstName}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="firstname" value="${user.state.firstName}">
 
                             <label for="lastname"></label>
-                            <input type="text" class="form-control" id="lastname" value="${user.state.lastName}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="lastname" value="${user.state.lastName}">
 
                             <label for="email"></label>
-                            <input type="text" class="form-control" id="email" value="${user.state.email}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 control" id="email" value="${user.state.email}">
 
                             <label for="phone-number"></label>
-                            <input type="text" class="form-control" id="phone-number" value="${user.state.phoneNumber}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="phone-number" value="${user.state.phoneNumber}">
 
 
                             <label for="newStreet"></label>
-                            <input type="text" class="form-control" id="newStreet" value="${user.state.userAddress?.address ?? ""}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="newStreet" value="${user.state.userAddress?.address ?? ""}">
 
                             <label for="suite"></label>
-                            <input type="text" class="form-control" id="suite" value="${user.state.userAddress?.apartmentNumber ?? ""}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="suite" value="${user.state.userAddress?.apartmentNumber ?? ""}">
 
                             <label for="newCity"></label>
-                            <input type="text" class="form-control" id="newCity" value="${user.state.userAddress?.city ?? ""}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="newCity" value="${user.state.userAddress?.city ?? ""}">
 
 
                             <label for="newState"></label>
-                            <input type="text" class="form-control" id="newState" value="${user.state.userAddress?.state ?? ""}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="newState" value="${user.state.userAddress?.state ?? ""}">
 
                             <label for="newZip"></label>
-                            <input type="text" class="form-control" id="newZip" value="${user.state.userAddress?.zipCode ?? ""}">
+                            <input type="text" class="bg-white border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-1 my-3 p-1 " id="newZip" value="${user.state.userAddress?.zipCode ?? ""}">
 
                             <div class="flex justify-between">
                                 <button id="saveProfile-btn" type="button" data-id="${user.state.id}"
@@ -54,6 +52,7 @@ export function updateUserProfile() {
                                 </button>
                             </div>
                         </div>`
+                $("#profileOffers").addClass("hidden")
                 $("#updateProfileForm").html("").append(updateHTML);
             })
     })

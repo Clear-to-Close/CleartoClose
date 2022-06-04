@@ -561,10 +561,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 0.5rem !important;
 }
 
-.mt-3 {
-  margin-top: 0.75rem !important;
-}
-
 .mr-3 {
   margin-right: 0.75rem !important;
 }
@@ -595,10 +591,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-\[144px\] {
   height: 144px !important;
-}
-
-.h-1\/4 {
-  height: 25% !important;
 }
 
 .h-\[48px\] {
@@ -714,6 +706,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .justify-evenly {
   justify-content: space-evenly !important;
+}
+
+.gap-2 {
+  gap: 0.5rem !important;
 }
 
 .gap-4 {
@@ -852,14 +848,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 2.25rem !important;
 }
 
-.text-2xl {
-  font-size: 1.5rem !important;
-  line-height: 2rem !important;
+.text-4xl {
+  font-size: 2.25rem !important;
+  line-height: 2.5rem !important;
 }
 
 .text-5xl {
   font-size: 3rem !important;
   line-height: 1 !important;
+}
+
+.text-2xl {
+  font-size: 1.5rem !important;
+  line-height: 2rem !important;
 }
 
 .font-medium {
@@ -1025,8 +1026,16 @@ a.nav-link {
 }
 
 @media (min-width: 1024px) {
+  .lg\:m-2 {
+    margin: 0.5rem !important;
+  }
+
   .lg\:w-1\/2 {
     width: 50% !important;
+  }
+
+  .lg\:w-full {
+    width: 100% !important;
   }
 
   .lg\:grid-cols-3 {
@@ -1044,6 +1053,10 @@ a.nav-link {
 }
 
 @media (min-width: 1280px) {
+  .xl\:w-3\/4 {
+    width: 75% !important;
+  }
+
   .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
