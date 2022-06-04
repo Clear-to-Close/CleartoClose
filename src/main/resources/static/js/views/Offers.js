@@ -13,25 +13,29 @@ let seller;
 
 
 export default function Offers(props) {
-    offers = props.offers
+    offers = props.offers;
 
     grabSellerId();
     fetchListingId();
 
     //language=HTML
     return `
-        <div class="min-h-[calc(100vh-90px)] bg-primary">
-            <div class="w-full relative">
-                <img class="md:w-3/4 md:h-[350px] mx-auto"
-                     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                     alt="main listing photo">
-                <button id="makeOfferBtn"
-                        class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
-                    Make An Offer On This Home!
-                </button>
+        <div class="content-height bg-slate-200 opacity-95">
+            <div id="listing-container" class="w-1/2 h-1/2 relative">
+                <div id="listing-photo-container">
+                    <img class="w-full h-full mx-auto"
+                         src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                         alt="main listing photo">
+                </div>
+                <div id="">
+                    <button id="makeOfferBtn"
+                            class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                        Make An Offer
+                    </button>
+                </div>
             </div>
             <div id="offer">
-                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
+                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div class="grid grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
             </div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full">
                 <button id="btn-confirm" type="submit"
@@ -50,38 +54,105 @@ const retrieveOffersFromDb = (offers) => {
     // language=HTML
     return offers.map(offer =>
         `
-            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
-                <div class="text-center mx-1 my-2" id="offerId">
-                    ${offer.offerStatus} ${offer.id}
+            <div id="offersDiv" data-id="${offer.id}"
+                 class="flex flex-col border-2 border-callToAction bg-callToAction shadow-xl rounded-md m-1">
+
+                <div class="offer-header w-full flex justify-center items-center bg-callToAction">
+                    <div class="text-primary font-medium text-xl mx-3 my-1 py-2">
+                        Offer Status: ${offer.offerStatus}
+                    </div>
                 </div>
-                <div class="text-center mx-1 my-2" id="offerAmount-${offer.id}">
-                        \$${offer.offerAmount}
-                </div>
-                <div id="closingCosts" class="text-center mx-1 my-2">
-                    C/C: \$${offer.closingCosts}
-                </div>
-                <div class="text-center mx-1 my-2">
-                    Closing: ${offer.closingDate}
-                </div>
-                <div class="text-center mx-1 my-2">
-                    H/W: ${offer.homeWarranty}
-                </div>
-                <div class="text-center mx-1 my-2">
-                    L/T: ${offer.loanType}
-                </div>
-                <div class="text-center m-1 w-full">
-                    <button type="button"
-                            data-id="${offer.id}"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
-                        Offer!
-                    </button>
-                    <button type="button"
-                            data-id="${offer.id}"
-                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
-                    </button>
-                    <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
-                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
-                    </button>
+
+                <div class="offer-body bg-white px-3">
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Offer Amount:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                                \$${offer.offerAmount}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Loan Type:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                            ${offer.loanType}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Option Length:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                            ${offer.optionLength} days
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Survey Requested:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                            ${offer.survey}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Home Warranty Requested:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                            ${offer.homeWarranty}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Buyer Waives Appraisal:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                            ${offer.appraisalWaiver}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Closing Date Requested:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                            ${offer.closingDate}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div class="text-primary font-medium mx-3 my-1">
+                            Seller Closing Costs:
+                        </div>
+                        <div class="text-primary font-medium mx-3 my-1">
+                                \$${offer.closingCosts}
+                        </div>
+                    </div>
+
+                    <div class="text-center m-1 w-full">
+                        <button type="button" id="button-accept-${offer.id}"
+                                data-id="${offer.id}"
+                                class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                            Accept
+                            Offer!
+                        </button>
+                        <button type="button" id="button-counter-${offer.id}"
+                                data-id="${offer.id}"
+                                class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                            Counter
+                        </button>
+                        <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+                                class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                            Edit
+                        </button>
+                    </div>
                 </div>
             </div>`
     ).join("")
@@ -103,14 +174,16 @@ function grabSellerId() {
     }, request)
         .then(properties => {
             console.log(properties);
-            seller = properties.property.seller.email
+
+            seller = properties.property.seller.email;
+            console.log(seller);
         })
 }
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
         console.log(fetchListingId());
-        createView(`/makeOffer/listings/${fetchListingId()}`)
+        createView(`/makeOffer/api/listings/${fetchListingId()}`)
     })
 }
 
@@ -128,7 +201,9 @@ function buttonAuthorization() {
     let currentOfferor;
     let offerStatus;
     let offerID;
+
     console.log(seller === user)
+    console.log(seller);
 
     if (offers.length === 0 && user !== seller) {
         $("#makeOfferBtn").removeClass("hidden");
