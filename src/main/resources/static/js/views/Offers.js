@@ -15,7 +15,7 @@ let seller;
 export default function Offers(props) {
     offers = props.offers;
 
-    grabSellerId();
+    // grabSellerId();
     fetchListingId();
 
     //language=HTML
@@ -164,22 +164,22 @@ const fetchListingId = () => {
 }
 
 //Added function to grab seller email instead of relying on grabbing from offers. Null if no offers are present
-function grabSellerId() {
-    const request = {
-        method: "GET",
-        headers: getHeaders()
-    }
-    fetchData({
-        property: `/api/listings/${fetchListingId()}`
-    }, request)
-        .then(properties => {
-            console.log(properties);
-
-            seller = properties.property.seller.email;
-            console.log(seller);
-
-        })
-}
+// function grabSellerId() {
+//     const request = {
+//         method: "GET",
+//         headers: getHeaders()
+//     }
+//     fetchData({
+//         property: `/api/listings/${fetchListingId()}`
+//     }, request)
+//         .then(properties => {
+//             console.log(properties);
+//
+//             seller = properties.property.seller.email;
+//             console.log(seller);
+//
+//         })
+// }
 
 // const createMakeOfferView = () => {
 //     $('#makeOfferBtn').click(_ => {
