@@ -3,22 +3,20 @@ import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import fetchData from "../fetchData.js";
 
-const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
-
 export default function EditOffer(props) {
     //language=html
     console.log(props);
     return `
-        <div class="content-height bg-slate-200 opacity-95 flex flex-col items-center">
+        <div class="content-height bg-slate-200 opacity-95 flex flex-col items-center justify-center">
             <div class="w-3/4 md:w-1/2">
                 <div class="flex flex-col items-center text-left justify-center my-3">
-                    <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 m-1">
+                    <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 py-2 m-1">
 
 
                         <label class="text-left" for="offer-amount">Offer Amount</label>
                         <input name="amount" id="offer-amount" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="$${props.editOffer.offerAmount}">
+                               value="${props.editOffer.offerAmount}">
 
 
                         <label class="text-left" for="loan-type">Loan Type</label>
@@ -37,7 +35,7 @@ export default function EditOffer(props) {
                         <label class="text-left" for="option-length">Option Length</label>
                         <input name="option" id="option-length" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 my-3 p-1"
-                               value="${props.editOffer.optionLength} days">
+                               value="${props.editOffer.optionLength}">
 
 
                         <label class="text-left" for="survey-requested">Survey Requested</label>
@@ -70,7 +68,7 @@ export default function EditOffer(props) {
                                value="${props.editOffer.closingCosts}">
                         <button id="edit-offer-btn"
                                 class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
-                                data-id="${props.id}">Edit Offer
+                                data-id="${props.editOffer.id}" data-listing="${props.editOffer.listing.id}" type="button">Edit Offer
                         </button>
                     </form>
                 </div>
@@ -85,27 +83,24 @@ export function EditEvent() {
 }
 
 function editOffer() {
-
     $('.offer-form').on('keyup', function (e) {
         let enterKey = e.key;
         if (enterKey === 'Enter') {
             e.preventDefault();
-            $('#make-offer-btn').click(function () {
-
-            });
+            $('#edit-offer-btn').click();
         }
     });
 
     $('#edit-offer-btn').on('click', function (e) {
 
-        let URI = sessionStorage.getItem("URI").split("/")
-        const listingId = parseInt(URI[URI.length - 1])
+        const listingId = $('#edit-offer-btn').data('listing');
+        console.log(typeof listingId);
         const editOfferId = $(this).data('id');
 
-        const offerData = {
-            offerAmount: parseInt($('#offer-amount').val()),
+        const editData = {
+            offerAmount: $('#offer-amount').val(),
             loanType: $('#loan-type').val(),
-            optionLength: parseInt($('#option-length').val()),
+            optionLength: $('#option-length').val(),
             survey: $('#survey-requested').val(),
             homeWarranty: $('#warranty-requested').val(),
             appraisalWaiver: $('#appraisal-waiver').val(),
@@ -118,7 +113,7 @@ function editOffer() {
         let request = {
             method: "PUT",
             headers: getHeaders(),
-            body: JSON.stringify(offerData)
+            body: JSON.stringify(editData)
         }
 
         fetchData({server: `/api/offers/editOffer/${editOfferId}`}, request).then(response => {
