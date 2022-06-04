@@ -4,12 +4,12 @@
  * @returns {*}
  */
 
-import Home, {HomeEvents} from "./views/Home.js";
-import ListingIndex, {ListingEvent} from "./views/Listing.js";
+import Home, { HomeEvents } from "./views/Home.js";
+import ListingIndex, { ListingEvent } from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
 import LoginEvent from "./auth.js";
-import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
+import RealtorListing, { RealtorListingEvent } from "./views/RealtorListing.js";
 import Login from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
@@ -19,6 +19,7 @@ import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 import {getLoggedInUser} from "./utility.js";
 import EditOffer, {EditEvent} from "./views/EditOffer.js";
+
 
 export default function router(URI) {
     const piecesOfURI = URI.split("/");
@@ -55,7 +56,9 @@ export default function router(URI) {
         },
         '/listing': {
             returnView: ListingIndex,
-            state: {},
+            state: {
+                listing: ""
+            },
             uri: '/listing',
             title: "Listing",
             viewEvent: ListingEvent
@@ -83,7 +86,10 @@ export default function router(URI) {
         },
         '/allListings': {
             returnView: AllListings,
-            state: {},
+
+            state: {
+                allListings: ""
+            },
             uri: '/allListings',
             title: 'All Listings',
             viewEvent: AllListingsEvent

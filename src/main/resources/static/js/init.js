@@ -26,9 +26,10 @@ function addListenerToNavLinks() {
 
         e.preventDefault();
         if (e.target.dataset['link'] !== undefined) {
+            clearStoredURI();
             const URI = e.target.href.substring(location.origin.length);
             createView(URI);
-            clearStoredURI();
+
         }
     });
 }

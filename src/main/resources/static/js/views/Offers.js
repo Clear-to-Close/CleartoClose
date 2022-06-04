@@ -1,45 +1,45 @@
 import createView from "../createView.js";
 import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
-import {updateListingObject, updateOfferStatus, confirmOfferAcceptance} from "./acceptOffer.js";
+import {confirmOfferAcceptance, updateListingObject, updateOfferStatus} from "./acceptOffer.js";
 import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import fetchData from "../fetchData.js";
 
 
-const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
-
-let listingId = null;
-let idArray;
+let idArray = [];
 let offers = [];
-idArray = [];
+
+let seller;
 
 
 export default function Offers(props) {
-    let URI = sessionStorage.getItem("URI").split("/")
-    listingId = parseInt(URI[URI.length - 1]);
     offers = props.offers
+
+    grabSellerId();
+    fetchListingId();
+
     //language=HTML
     return `
-        <div class="min-h-[calc(100vh-90px)] bg-primary">
+        <div class="min-h-[calc(100vh-90px)] bg-slate-200">
             <div class="w-full relative">
-                <img class="md:w-3/4 md:h-[350px] mx-auto"
+                <img class="w-full h-full mx-auto"
                      src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="main listing photo">
                 <button id="makeOfferBtn"
-                        class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">
-                    Make An Offer On This Home!
+                        class="hidden absolute top-[50%] right-[50%] translate-y-1/2 translate-x-1/2 p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                    Make An Offer
                 </button>
             </div>
             <div id="offer">
-                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : retrieveOffersFromDb(props.offers)}
+                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div class="grid grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
             </div>
             <div id="hiddenConfirmation" class="text-center m-1 w-full">
                 <button id="btn-confirm" type="submit"
                         class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
-	            <button id="btn-confirm-counter" type="submit"
-	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
-	            </button>
+                <button id="btn-confirm-counter" type="submit"
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+                </button>
             </div>
         </div>`
 }
@@ -47,129 +47,189 @@ export default function Offers(props) {
 
 const retrieveOffersFromDb = (offers) => {
     offers.map(offer => idArray.push(offer.id));
-
-    console.log(offers.length);
-    console.log(idArray);
-
-    noOffersOnListing();
-
     // language=HTML
     return offers.map(offer =>
-
         `
-            <div id="offersDiv" data-id="${offer.id}" class="flex flex-wrap justify-evenly rounded bg-secondary m-1 h-[144px]">
-                <div class="text-center mx-1 my-2" id="offerId">
-                    ${offer.offerStatus} ${offer.id}
+            <div id="offersDiv" data-id="${offer.id}"
+                 class="flex flex-col border-2 border-callToAction bg-white shadow-xl rounded-md m-1">
+                
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Offer Status: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        ${offer.offerStatus}
+                    </div>
                 </div>
-                <div class="text-center mx-1 my-2" id="offerAmount-${offer.id}">
+                
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Offer Amount: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
                         \$${offer.offerAmount}
+                    </div>
                 </div>
-                <div id="closingCosts" class="text-center mx-1 my-2">
-                    C/C: \$${offer.closingCosts}
+
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Loan Type: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        ${offer.loanType}
+                    </div>
                 </div>
-                <div class="text-center mx-1 my-2">
-                    Closing: ${offer.closingDate}
+
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Option Length: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        ${offer.optionLength} days
+                    </div>
                 </div>
-                <div class="text-center mx-1 my-2">
-                    H/W: ${offer.homeWarranty}
+
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Survey Requested: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        ${offer.survey}
+                    </div>
                 </div>
-                <div class="text-center mx-1 my-2">
-                    L/T: ${offer.loanType}
+
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Home Warranty Requested: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        ${offer.homeWarranty}
+                    </div>
                 </div>
+
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Buyer Waives Appraisal: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        ${offer.appraisalWaiver}
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Closing Date Requested: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        ${offer.closingDate}
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <div class="text-primary font-medium mx-3 my-1">
+                        Seller Closing Costs: 
+                    </div>
+                    <div class="text-primary font-medium mx-3 my-1">
+                        \$${offer.closingCosts}
+                    </div>
+                </div>
+                
                 <div class="text-center m-1 w-full">
                     <button type="button"
                             data-id="${offer.id}"
-                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept
+                            class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                        Accept
                         Offer!
                     </button>
                     <button type="button"
                             data-id="${offer.id}"
-                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter
+                            class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                        Counter
                     </button>
                     <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
-                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Edit
+                            class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+                        Edit
                     </button>
                 </div>
             </div>`
     ).join("")
-
 };
 
-function noOffersOnListing(){
+const fetchListingId = () => {
+    let URI = sessionStorage.getItem("URI").split("/")
+    return parseInt(URI[URI.length - 1]);
+}
 
-    console.log("no offers listed")
-
-    if(offers.length === 0){
-        console.log("inside conditional of noOFFES")
-        const request = {
-            method: "GET",
-            headers: getHeaders()
-        }
-
-        fetchData({
-            property: `/api/listings/${listingId}`
-        }, request)
-            .then(properties => {
-                console.log(properties)
-            })
+//Added function to grab seller email instead of relying on grabbing from offers. Null if no offers are present
+function grabSellerId() {
+    const request = {
+        method: "GET",
+        headers: getHeaders()
     }
+    fetchData({
+        property: `/api/listings/${fetchListingId()}`
+    }, request)
+        .then(properties => {
+            console.log(properties);
+            seller = properties.property.seller.email
+        })
 }
 
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-        let URI = sessionStorage.getItem("URI").split("/")
-        console.log(URI)
-        listingId = parseInt(URI[URI.length - 1])
-        console.log(listingId)
-        createView(`/makeOffer/api/listings/${listingId}`)
+        console.log(fetchListingId());
+        createView(`/makeOffer/api/listings/${fetchListingId()}`)
     })
 }
 
-function renderEditOfferView () {
+function renderEditOfferView() {
     $(`.offer-btn`).click(function (e) {
         const editBtnId = $(this).data('id');
         createView(`/editOffer/api/offers/${editBtnId}`)
     })
 }
 
- const buttonAuthorization = _ => {
-    let seller = offers[0].listing.seller.email
-    let user = getLoggedInUser();
-
-    let currentOfferor = null;
+function buttonAuthorization() {
+    let user = getLoggedInUser()
+    console.log(user);
+    let currentOfferor;
     let offerStatus;
     let offerID;
+    console.log(seller === user)
 
-    offers.forEach(function (offer) {
-        console.log(offer);
-        offerID = offer.id;
-        offerStatus = offer.offerStatus;
-        let searchOfferor = offer.offeror.email;
-
-        if (searchOfferor === user) {
-            currentOfferor = user;
-            $(`#btn-edit-${offer.id}`).removeClass('hidden');
-        }
-        if (seller === user && offerStatus === 'ACTIVE') {
-            $(`#btn-accept-${offerID}`).removeClass("hidden");
-            $(`#btn-counter-${offerID}`).removeClass("hidden");
-            // $("#editOfferBtn").show();
-        }
-        if(user !== seller && offerStatus === 'COUNTER'){
-            $(`#btn-accept-${offerID}`).removeClass("hidden");
-            $(`#btn-counter-${offerID}`).removeClass("hidden");
-        }
-    })
-
-    if (seller !== user && currentOfferor !== user) {
-        console.log("unhide make offer btn")
+    if (offers.length === 0 && user !== seller) {
         $("#makeOfferBtn").removeClass("hidden");
+
+    } else {
+
+        offers.forEach(function (offer) {
+            console.log(offer);
+            offerID = offer.id;
+            offerStatus = offer.offerStatus;
+            let searchOfferor = offer.offeror.email;
+
+            if (searchOfferor === user) {
+                currentOfferor = user;
+            }
+
+            if (seller === user && offerStatus === 'ACTIVE') {
+                $(`#btn-accept-${offerID}`).removeClass("hidden");
+                $(`#btn-counter-${offerID}`).removeClass("hidden");
+
+            }
+            if (user !== seller && offerStatus === 'COUNTER') {
+                $(`#btn-accept-${offerID}`).removeClass("hidden");
+                $(`#btn-counter-${offerID}`).removeClass("hidden");
+            }
+        })
+
+        if (seller !== user && currentOfferor !== user) {
+            console.log("unhide make offer btn")
+            $("#makeOfferBtn").removeClass("hidden");
+        }
     }
 
-    if (seller === user) {
-        $(".btn-accept").removeClass("hidden");
-        $(".btn-counter").removeClass("hidden");
-    }
+
 }
 
 export function OfferEvent() {

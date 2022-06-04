@@ -103,3 +103,6 @@ function submitOffer() {
         });
     });
 }
+
+
+

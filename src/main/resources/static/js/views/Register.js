@@ -1,6 +1,7 @@
 import createView from "../createView.js";
-import {getHeaders, getToken} from "../auth.js";
+import { getHeaders } from "../auth.js";
 import fetchData from "../fetchData.js";
+import { getMessage } from "../utility.js";
 
 export default function Register(props) {
     //language=HTML
@@ -149,7 +150,7 @@ const registerUser = _ => {
         const username = $("#username").val()
 
         if (password !== confirmPassword) {
-            $("#registration-error").html("Passwords Do Not Match");
+            getMessage("Passwords Do Not Match","registration-error");
             return;
         }
 
@@ -169,7 +170,7 @@ const registerUser = _ => {
         }
 
         if (email === "" || password === "" || firstname === "" || lastname === "" || username === "") {
-            alert("Please enter your information.")
+            getMessage("Please enter your information","registration-error");
         } else {
             fetchData({server: "/api/users/create"}, request)
                 .then(response => {

@@ -122,12 +122,12 @@ export function submitCounterOffer() {
             }).catch(error => {
             console.log(error.status);
         });
-        updateOfferToCountered();
+        updateOfferStatusToCountered();
     });
 
 }
 
-function updateOfferToCountered() {
+function updateOfferStatusToCountered() {
     const updatedOfferBody = {
         counterId: '222',
         offerStatus: 'CANCELLED'
