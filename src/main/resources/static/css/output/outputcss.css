@@ -593,6 +593,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 15px !important;
 }
 
+.h-1\/2 {
+  height: 50% !important;
+}
+
 .h-1\/4 {
   height: 25% !important;
 }
@@ -611,10 +615,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .min-h-screen {
   min-height: 100vh !important;
-}
-
-.min-h-\[calc\(100vh-90px\)\] {
-  min-height: calc(100vh - 90px) !important;
 }
 
 .w-full {
@@ -813,14 +813,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 0.75rem !important;
 }
 
-.px-2 {
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
-}
-
 .py-2 {
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
+}
+
+.px-2 {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
 }
 
 .pb-1 {
