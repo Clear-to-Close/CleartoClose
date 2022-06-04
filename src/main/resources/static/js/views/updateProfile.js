@@ -89,7 +89,7 @@ function saveProfileUpdate() {
             fetchData({server: `/api/users/editUser/${userToUpdate}`}, request)
                 .then(response => {
                     console.log(response);
-                    createView(`/profile/api/users/${userToUpdate}`);
+                    createView({profile: {profile: `/api/users/${userToUpdate}`}})
                 })
         }
     })
