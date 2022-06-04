@@ -99,12 +99,16 @@ public class User {
             targetEntity = User.class)
     @JoinTable(
             name="users_realtor",
-            joinColumns = {@JoinColumn(name = "user_one_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name="user_two_id", nullable = false, updatable = false)},
+            joinColumns = {@JoinColumn(name = "user", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="realtor", nullable = false, updatable = false)},
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
     )
     @ToString.Exclude
-    @JsonIgnoreProperties({"friends", "listings", "buyer", "seller", "buyerAgent", "sellerAgent", "password"})
+    @JsonIgnoreProperties({"friends", "listings", "buyer", "seller", "buyerAgent", "sellerAgent", "password", "listing"})
     private Collection<User> realtor;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
 }

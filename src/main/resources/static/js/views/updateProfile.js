@@ -1,6 +1,6 @@
 import fetchData from "../fetchData.js";
 import {getLoggedInUser} from "../utility.js";
-import {getHeaders} from "../auth.js";
+import {getHeaders, getToken} from "../auth.js";
 import createView from "../createView.js";
 
 export function updateUserProfile() {
@@ -19,8 +19,6 @@ export function updateUserProfile() {
                 let userToUpdate = user.state.id;
                 $("#saveProfile-btn").attr("data-id", userToUpdate);
 
-
-                // populateUpdateForm(res);
                 const updateHTML =
                     `<div>
                         <div class="text-center mx-1 my-2" >
@@ -79,7 +77,6 @@ function saveProfileUpdate() {
             zipCode: $("#newZip").val()
 
         }
-
         console.log(updatedUser);
         let request = {
             method: 'PUT',
@@ -92,6 +89,30 @@ function saveProfileUpdate() {
                 createView("/");
             })
     })
+
+
+    //Pulled from Raymonds Repsitory
+    const updatePassword = _ => {
+        $("#change-pwd").click(e => {
+            const curPass = $("#current-password").val()
+            const newPass = $("#new-password").val()
+            const confirmNewPass = $("#confirm-new-password").val()
+
+            if (newPass === confirmNewPass) {
+                let updatePasswordRequest = {
+                    method: "PUT",
+                    headers: {Authorization: getToken()}
+                }
+                fetch(`http://localhost:8080/api/users/updatePassword?currentPassword=${curPass}&newPassword=${newPass}`, updatePasswordRequest)
+                    .then(_ => {
+                        localStorage.clear();
+                        createView("/")
+                    })
+            } else {
+                $("#error-message").html("Passwords Do Not Match.")
+            }
+        })
+    }
 
     $("#cancel-btn").click(function () {
         location.reload()
