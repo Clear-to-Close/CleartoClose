@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -30,11 +29,6 @@ public class UsersController {
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
     }
-
-//    @GetMapping("searchByEmail")
-//    public User findUserEmail(@RequestParam String email) {
-//        return usersRepository.findByEmail(email);
-//    }
 
     @GetMapping("searchByEmail")
     public MappingJacksonValue getUserByEmail(@RequestParam String email) {
@@ -54,10 +48,17 @@ public class UsersController {
         return usersRepository.findAll();
     }
 
-    // Where was I going with this? Seems like an admin function
     @GetMapping("{userId}")
-    public Optional<User> getById(@PathVariable Long userId) {
-        return usersRepository.findById(userId);
+    public MappingJacksonValue getUserByEmail(@PathVariable Long userId) {
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept("user");
+
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
+
+        User user = usersRepository.findById(userId).get();
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
+        mappingJacksonValue.setFilters(filterProvider);
+
+        return mappingJacksonValue;
     }
 
     @PostMapping("create")
