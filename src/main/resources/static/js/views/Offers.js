@@ -37,9 +37,9 @@ export default function Offers(props) {
                 <button id="btn-confirm" type="submit"
                         class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
                 </button>
-	            <button id="btn-confirm-counter" type="submit"
-	                    class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
-	            </button>
+                <button id="btn-confirm-counter" type="submit"
+                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+                </button>
             </div>
         </div>`
 }
@@ -87,24 +87,24 @@ const retrieveOffersFromDb = (offers) => {
     ).join("")
 };
 
-const fetchListingId = () =>{
+const fetchListingId = () => {
     let URI = sessionStorage.getItem("URI").split("/")
-   return parseInt(URI[URI.length - 1]);
+    return parseInt(URI[URI.length - 1]);
 }
 
 //Added function to grab seller email instead of relying on grabbing from offers. Null if no offers are present
-function grabSellerId(){
-        const request = {
-            method: "GET",
-            headers: getHeaders()
-        }
-        fetchData({
-            property: `/api/listings/${fetchListingId()}`
-        }, request)
-            .then(properties => {
-                console.log(properties);
-                seller = properties.property.seller.email
-            })
+function grabSellerId() {
+    const request = {
+        method: "GET",
+        headers: getHeaders()
+    }
+    fetchData({
+        property: `/api/listings/${fetchListingId()}`
+    }, request)
+        .then(properties => {
+            console.log(properties);
+            seller = properties.property.seller.email
+        })
 }
 
 const createMakeOfferView = () => {
@@ -114,7 +114,7 @@ const createMakeOfferView = () => {
     })
 }
 
-function renderEditOfferView () {
+function renderEditOfferView() {
     $(`.offer-btn`).click(function (e) {
         const editBtnId = $(this).data('id');
         createView(`/editOffer/api/offers/${editBtnId}`)
@@ -124,15 +124,16 @@ function renderEditOfferView () {
 function buttonAuthorization() {
     let user = getLoggedInUser()
     console.log(user);
+    console.log(seller)
     let currentOfferor;
     let offerStatus;
     let offerID;
     console.log(seller === user)
-  
-    if(offers.length ===0 && user !== seller){
+
+    if (offers.length === 0 && user !== seller) {
         $("#makeOfferBtn").removeClass("hidden");
 
-    }else{
+    } else {
 
         offers.forEach(function (offer) {
             console.log(offer);
@@ -147,21 +148,18 @@ function buttonAuthorization() {
             if (seller === user && offerStatus === 'ACTIVE') {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
-              
+
             }
-            if(user !== seller && offerStatus === 'COUNTER'){
+            if (user !== seller && offerStatus === 'COUNTER') {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
             }
         })
 
         if (seller !== user && currentOfferor !== user) {
-            console.log("unhide make offer btn")
             $("#makeOfferBtn").removeClass("hidden");
         }
     }
-
-    
 }
 
 export function OfferEvent() {
