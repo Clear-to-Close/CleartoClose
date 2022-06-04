@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 @CrossOrigin
 @RestController
@@ -24,11 +25,7 @@ public class RealtorApiController {
     @GetMapping
     private ResponseEntity<String> getAll(@RequestParam String address) {
         String encode = null;
-        try {
-           encode = java.net.URLEncoder.encode(address, "UTF-8").replace("+", "%20");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        encode = java.net.URLEncoder.encode(address, StandardCharsets.UTF_8).replace("+", "%20");
 
         HttpGet request = new HttpGet("https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/detail?address="+encode);
         String result = getRequestResponse(request);

@@ -177,13 +177,29 @@ function grabSellerId() {
 
             seller = properties.property.seller.email;
             console.log(seller);
+
         })
 }
 
+// const createMakeOfferView = () => {
+//     $('#makeOfferBtn').click(_ => {
+//         console.log(fetchListingId());
+//         createView(`/makeOffer/listings/${fetchListingId()}`)
+//     })
+// }
+
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
+
+        let URI = sessionStorage.getItem("URI").split("/")
+        console.log(URI)
+        let listingId = parseInt(URI[URI.length - 1])
+        console.log(listingId)
+        createView(`/makeOffer/api/listings/${listingId}`)
+
         console.log(fetchListingId());
         createView(`/makeOffer/api/listings/${fetchListingId()}`)
+
     })
 }
 
@@ -203,7 +219,6 @@ function buttonAuthorization() {
     let offerID;
 
     console.log(seller === user)
-    console.log(seller);
 
     if (offers.length === 0 && user !== seller) {
         $("#makeOfferBtn").removeClass("hidden");
