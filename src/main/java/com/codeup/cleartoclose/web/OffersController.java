@@ -44,11 +44,8 @@ OffersController {
         return offersRepository.findByOfferor(usersRepository.findById(userId));
     }
 
-    // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
     @PostMapping
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
-        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
-
         Offer newOffer = new Offer();
 
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
@@ -61,14 +58,14 @@ OffersController {
         newOffer.setClosingDate(newOfferDTO.getClosingDate());
         newOffer.setOfferStatus(newOfferDTO.getOfferStatus());
 
+
         User newOfferor = usersRepository.findByEmail(newOfferDTO.getOfferorEmail());
-        System.out.println(newOfferor);
         newOffer.setOfferor(newOfferor);
 
         Listing currentListing = listingsRepository.findById(newOfferDTO.getListingId()).get();
         System.out.println(currentListing);
         newOffer.setListing(currentListing);
-        System.out.println(newOffer);
+
         offersRepository.save(newOffer);
     }
 

@@ -14,7 +14,7 @@ export default function MakeOffer(props) {
                         
                         <input name="amount" id="offer-amount" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                               value="${props.makeOffer.askingPrice}" placeholder="How much are you offering?">
+                               value="${props.listing.askingPrice}" placeholder="How much are you offering?">
                         
                         <select name="loan" id="loan-type"
                                 class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1">
@@ -52,7 +52,7 @@ export default function MakeOffer(props) {
                                placeholder="How much are you requesting the seller pay in closing costs?">
                         <button id="make-offer-btn"
                                 class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
-                                data-id="${props.id}">Post Offer
+                                data-id="${props.listing.id}">Post Offer
                         </button>
                     </form>
                 </div>
@@ -89,7 +89,9 @@ function submitOffer() {
             closingDate: $('#closing-date').val(),
             closingCosts: $('#closing-costs').val(),
             offerorEmail: getLoggedInUser(),
-            listingId: listingId
+            listingId: $('#make-Offer-btn').data('id'),
+            offerStatus: `ACTIVE`
+
         }
 
         let postRequest = {
@@ -99,7 +101,7 @@ function submitOffer() {
         }
 
         fetchData({server: `/api/offers`}, postRequest).then(response => {
-            createView(`/offers/api/offers/findOffers/${listingId}`);
+            createView({offers: {offers: `/api/offers/findOffers/${listingId}`, listing: `/api/listings/${listingId}`}});
         });
     });
 }

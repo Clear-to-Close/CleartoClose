@@ -1,5 +1,6 @@
 package com.codeup.cleartoclose.dto;
 
+import com.codeup.cleartoclose.data.Listing;
 import com.codeup.cleartoclose.data.OfferStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
