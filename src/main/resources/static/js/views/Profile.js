@@ -6,7 +6,7 @@ export default function ProfilePage(props) {
     console.log(props);
     //language=html
     return `
-        <div class="content-height bg-slate-200 opacity-95 flex justify-center">
+        <div  class="content-height bg-slate-200 opacity-95 flex justify-center">
             <div id="updateProfileForm" class="flex flex-col items-center w-3/4 lg:w-full lg:m-2">
                 <div class="w-full flex flex-col md:flex-row xl:w-3/4">
                     <div class="w-full flex flex-col items-center my-2 md:w-1/2">
@@ -26,7 +26,6 @@ export default function ProfilePage(props) {
                     <div id="offers" class="w-full grid grid-col-1 gap-2 center md:grid-cols-2 lg:grid-cols-3">
                         ${populateProfileOffers(props.profile.userOffers)}
                     </div>
-
                 </div>
             </div>
         </div>
@@ -124,6 +123,7 @@ const showListing = _ => {
                 return;
             } else {
                 createView({listing: {listing: `/api/listings/${listingId}`}});
+
             }
         }
     })
