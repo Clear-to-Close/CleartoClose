@@ -1,5 +1,5 @@
 import {updateUserProfile} from "./updateProfile.js";
-import {uploadDocuments, normalizeSentence} from "../utility.js";
+import {uploadDocuments, normalizeSentence, formatPhoneNumber} from "../utility.js";
 import createView from "../createView.js";
 
 export default function ProfilePage(props) {
@@ -13,7 +13,7 @@ export default function ProfilePage(props) {
                         <img class="my-1 rounded-full" src="https://via.placeholder.com/150"
                              alt="Image of ${normalizeSentence(props.profile.firstName)} ${normalizeSentence(props.profile.lastName)}">
                         <input type="file" id="uploadDocs" class="hidden">
-                        <button id="uploadBtn" type="button" class="my-1 p-2 w-3/4 rounded-md shadow-xl bg-callToAction font-medium">
+                        <button id="uploadBtn" data-id="${props.profile.id}" type="button" class="my-1 p-2 w-3/4 rounded-md shadow-xl bg-callToAction font-medium">
                             Upload Documents
                         </button>
                     </div>
@@ -32,15 +32,6 @@ export default function ProfilePage(props) {
     `
 }
 
-function submitDocument() {
-    $("#uploadBtn").click(e => {
-        e.preventDefault();
-        const id = parseInt(localStorage.getItem("accessToken"))
-        const file = document.getElementById("uploadDocs")
-        uploadDocuments('uploadPreApproval', id, file)
-    })
-}
-
 const populateUserDetails = user => {
     //language=HTML
     return `
@@ -49,16 +40,25 @@ const populateUserDetails = user => {
             ${user.username}
         </div>
         <div class="text-center text-xl">${user.email}</div>
-        <div class="text-center text-xl">${user.phoneNumber}</div>
-        <div class="text-center text-xl">${normalizeSentence(user.userAddress.address)}</div>
-        <div class="text-center text-xl">${normalizeSentence(user.userAddress.city)}, ${normalizeSentence(user.userAddress.state)}
-            ${user.userAddress.zipCode}
-        </div>
+        <div class="text-center text-xl">${formatPhoneNumber(user.phoneNumber)}</div>
+        ${populateAddress(user.userAddress)}
         <button id="btnUpdateProfile" type="button"
                 class="w-3/4 p-2 rounded-md shadow-xl bg-callToAction font-medium">
             Update Profile
         </button>
     `
+}
+
+const populateAddress = address => {
+    console.log(address)
+    if(address === null) {
+        return `<div class="text-center text-xl">Address Not Listed</div>`
+    } else {
+      return `<div class="text-center text-xl">${normalizeSentence(address.address)}</div>
+        <div class="text-center text-xl">${normalizeSentence(address.city)}, ${normalizeSentence(address.state)}
+            ${address.zipCode}
+        </div>`
+    }
 }
 
 function populateProfileOffers(offers) {
@@ -67,7 +67,7 @@ function populateProfileOffers(offers) {
     offers.forEach(offer => {
         html += `
             <div data-id="${offer.listing.id}" class="flex flex-col bg-white justify-evenly m-1 border-2 border-callToAction rounded-md shadow-xl">
-                <div class="m-1 flex flex-col items-center bg-callToAction">
+                <div class=" flex flex-col items-center bg-callToAction">
                     <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.address)}</span>
                     <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.city)}
                         , ${normalizeSentence(offer.listing.listingAddress.state)} ${offer.listing.listingAddress.zipCode}</span>
@@ -124,6 +124,20 @@ const showListing = _ => {
                 createView({listing: {listing: `/api/listings/${listingId}`}})
             }
         }
+    })
+}
+
+function submitDocument() {
+    let userId;
+    $("#uploadBtn").click(function () {
+        userId = $(this).data("id");
+        $("#uploadDocs").click()
+    })
+
+    $("#uploadDocs").on("change", _ => {
+        const file = document.getElementById("uploadDocs")
+        uploadDocuments('uploadPreApproval', userId, file)
+        $("#uploadDocs").val("")
     })
 }
 

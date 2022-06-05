@@ -3,6 +3,8 @@ package com.codeup.cleartoclose.web;
 import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.codeup.cleartoclose.services.S3Service;
 
@@ -40,13 +42,18 @@ public class ListingsController {
     }
 
     @GetMapping("searchByFullAddress")
-    public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state, @RequestParam String zip) {
-        Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
-                zip);
-        Listing listing = listingRepository.findByListingAddress(addressToFind);
-        listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
-        listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-        return listing;
+    public ResponseEntity<Listing> getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state,
+                                              @RequestParam String zip) {
+        try {
+            Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
+                    zip);
+            Listing listing = listingRepository.findByListingAddress(addressToFind);
+            listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
+            listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
+            return new ResponseEntity<>(listing, HttpStatus.OK);
+        } catch (NullPointerException ex) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("search")

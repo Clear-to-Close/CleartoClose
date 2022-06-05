@@ -15,6 +15,10 @@ export default function fetchData(state, request) {
         promises.push(
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        return res.status
+                    }
                     if (request.method === "POST" && typeof request.body === "string" && request.body.includes("grant")) {
                         return res.json()
                     } else if (request.method === "POST" || request.method === "PUT" || request.method === "PATCH") {

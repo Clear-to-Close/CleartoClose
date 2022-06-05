@@ -64,10 +64,6 @@ export function isLoggedIn() {
     return localStorage.getItem("access_token")
 }
 
-export function getToken() {
-    return  'Bearer ' + `${localStorage.getItem("access_token")}`;
-}
-
 export function getHeaders() {
     const token = localStorage.getItem("access_token");
     return token

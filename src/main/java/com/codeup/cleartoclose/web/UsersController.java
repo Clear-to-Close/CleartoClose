@@ -5,6 +5,7 @@ import com.codeup.cleartoclose.data.AddressRepository;
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
 import com.codeup.cleartoclose.dto.UserDTO;
+import com.codeup.cleartoclose.services.S3Service;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -23,11 +24,13 @@ public class UsersController {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final S3Service s3Service;
 
-    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository) {
+    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, S3Service s3Service) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
+        this.s3Service = s3Service;
     }
 
     @GetMapping("searchByEmail")
@@ -37,6 +40,7 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findByEmail(email);
+        user.setPreApprovalileName(s3Service.getSignedURL(user.getPreApprovalileName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
 
@@ -55,6 +59,7 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findById(userId).get();
+        user.setPreApprovalileName(s3Service.getSignedURL(user.getPreApprovalileName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
 

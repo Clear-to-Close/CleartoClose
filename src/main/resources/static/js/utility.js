@@ -15,7 +15,7 @@ export const uploadDocuments = (path, id, file) => {
 }
 
 export const getLoggedInUser = _ => {
-    const token = localStorage.getItem(("access_token"))
+    let token = getToken()
     if (token) {
         return JSON.parse(atob(token.split(".")[1])).user_name
     } else {
@@ -23,15 +23,24 @@ export const getLoggedInUser = _ => {
     }
 }
 
+export function getUserRole() {
+    let token = getToken();
+    if (token !== null) {
+        const user = JSON.parse(atob(token.split(".")[1]))
+        const [role] = user.authorities;
+        return role;
+    }
+}
+
+const getToken = _ => {
+    return localStorage.getItem(("access_token"))
+}
+
 export const getMessage = (message, messageType) => {
     const $messageType =  $(`#${messageType}`);
     $messageType.hide();
     $messageType.html(`<div class="${messageType}">${message}</div>`);
     $messageType.slideDown(200).delay(4000).slideUp(200);
-}
-
-export const normalizeWords = word => {
-    return word === undefined ? null : word[0].toUpperCase() + word.substring(1).toLowerCase();
 }
 
 export const normalizeSentence = sentence => {
@@ -42,4 +51,16 @@ export const normalizeSentence = sentence => {
         sentence.split(" ").forEach(word => normalizedSentence.push(word[0].toUpperCase() + word.substring(1).toLowerCase()))
         return normalizedSentence.join(" ");
     }
+}
+
+export const formatPhoneNumber = phoneNumber => {
+    //normalize string and remove all unnecessary characters
+    phoneNumber = phoneNumber.replace(/[^\d]/g, "");
+
+    //check if number length equals to 10
+    if (phoneNumber.length === 10) {
+        //reformat and return phone number
+        return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+    }
+    return 'Phone Number Not Listed';
 }
