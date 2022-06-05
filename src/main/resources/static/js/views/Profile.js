@@ -66,43 +66,44 @@ function populateProfileOffers(offers) {
     //language=html
     offers.forEach(offer => {
         html += `
-            <div data-id="${offer.listing.id}" class="flex flex-col bg-white justify-evenly m-1 border-2 border-callToAction rounded-md shadow-xl">
-                <div class="m-1 flex flex-col items-center bg-callToAction">
-                    <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.address)}</span>
-                    <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.city)}
+	        <div data-id="${offer.listing.id}"
+	             class="flex flex-col bg-slate-200 justify-evenly m-1 border-2 border-callToAction rounded-md shadow-xl">
+		        <div class="m-1 flex flex-col items-center bg-callToAction">
+			        <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.address)}</span>
+			        <span class="text-center text-xl">${normalizeSentence(offer.listing.listingAddress.city)}
                         , ${normalizeSentence(offer.listing.listingAddress.state)} ${offer.listing.listingAddress.zipCode}</span>
-                </div>
-                <div class="flex flex-col p-3">
-                    <div class="m-1 flex justify-between">
-                        <span>Amount Offered:</span>
-                        <span>\$${offer.offerAmount}</span>
-                    </div>
-                    <div id="closingCosts" class="m-1 flex justify-between">
-                        <span>Closing Costs:</span>
-                        <span>\$${offer.closingCosts}</span>
-                    </div>
-                    <div class="m-1 flex justify-between">
-                        <span>Close Date:</span>
-                        <span>${offer.closingDate}</span>
-                    </div>
-                    <div class="m-1 flex justify-between">
-                        <span>Home Warranty:</span>
-                        <span>${normalizeSentence(offer.homeWarranty)}</span>
-                    </div>
-                    <div class="m-1 flex justify-between">
-                        <span>Loan Type:</span>
-                        <span>${offer.loanType}</span>
-                    </div>
-                    <div class="m-1 flex justify-between">
-                        <span>Waive Appraisal:</span>
-                        <span>${normalizeSentence(offer.appraisalWaiver)}</span>
-                    </div>
-                    <div class="m-1 flex justify-between">
-                        <span>Paying for Survey:</span>
-                        <span>${normalizeSentence(offer.survey)}</span>
-                    </div>
-                </div>
-            </div>
+		        </div>
+		        <div class="flex flex-col p-3">
+			        <div class="m-1 flex justify-between">
+				        <span>Amount Offered:</span>
+				        <span>\$${offer.offerAmount}</span>
+			        </div>
+			        <div id="closingCosts" class="m-1 flex justify-between">
+				        <span>Closing Costs:</span>
+				        <span>\$${offer.closingCosts}</span>
+			        </div>
+			        <div class="m-1 flex justify-between">
+				        <span>Close Date:</span>
+				        <span>${offer.closingDate}</span>
+			        </div>
+			        <div class="m-1 flex justify-between">
+				        <span>Home Warranty:</span>
+				        <span>${normalizeSentence(offer.homeWarranty)}</span>
+			        </div>
+			        <div class="m-1 flex justify-between">
+				        <span>Loan Type:</span>
+				        <span>${offer.loanType}</span>
+			        </div>
+			        <div class="m-1 flex justify-between">
+				        <span>Waive Appraisal:</span>
+				        <span>${normalizeSentence(offer.appraisalWaiver)}</span>
+			        </div>
+			        <div class="m-1 flex justify-between">
+				        <span>Paying for Survey:</span>
+				        <span>${normalizeSentence(offer.survey)}</span>
+			        </div>
+		        </div>
+	        </div>
         `
     })
     return html;
@@ -121,7 +122,8 @@ const showListing = _ => {
             if (listingId === null) {
                 return;
             } else {
-                createView({listing: {listing: `/api/listings/${listingId}`}})
+                createView({listing: {listing: `/api/listings/${listingId}`}});
+
             }
         }
     })

@@ -69,7 +69,7 @@ export default function Register(props) {
         </div>`;
 }
 
-const validatePassword = _ => {
+export function validatePassword (){
     let $password = $("#password");
     let $letter = $("#letter");
     let $capital = $("#capital");
