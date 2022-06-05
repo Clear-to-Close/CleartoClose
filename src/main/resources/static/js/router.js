@@ -4,12 +4,12 @@
  * @returns {*}
  */
 
-import Home, { HomeEvents } from "./views/Home.js";
-import ListingIndex, { ListingEvent } from "./views/Listing.js";
+import Home, {HomeEvents} from "./views/Home.js";
+import ListingIndex, {ListingEvent} from "./views/Listing.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
 import LoginEvent from "./auth.js";
-import RealtorListing, { RealtorListingEvent } from "./views/RealtorListing.js";
+import RealtorListing, {RealtorListingEvent} from "./views/RealtorListing.js";
 import Login from "./views/Login.js";
 import {LogoutEvent} from "./views/Logout.js";
 import Offers, {OfferEvent} from "./views/Offers.js";
@@ -19,10 +19,10 @@ import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 import {getLoggedInUser} from "./utility.js";
 import EditOffer, {EditEvent} from "./views/EditOffer.js";
+import ResetPassword, {ResetEvent} from "./views/ResetPassword.js";
 
 
-export default function router(URI) {
-    const piecesOfURI = URI.split("/");
+export default function router(URIObject) {
     const newURI = JSON.parse(sessionStorage.getItem("URI"));
 
     const routes = {
@@ -56,9 +56,7 @@ export default function router(URI) {
         },
         '/listing': {
             returnView: ListingIndex,
-            state: {
-                listing: ""
-            },
+            state: {},
             uri: '/listing',
             title: "Listing",
             viewEvent: ListingEvent
@@ -86,10 +84,7 @@ export default function router(URI) {
         },
         '/allListings': {
             returnView: AllListings,
-
-            state: {
-                allListings: ""
-            },
+            state: {},
             uri: '/allListings',
             title: 'All Listings',
             viewEvent: AllListingsEvent
@@ -116,33 +111,37 @@ export default function router(URI) {
         '/profile': {
             returnView: ProfilePage,
             state: {
-                loggedInUser: `/api/users/searchByEmail?email=${getLoggedInUser()}`
+                profile: `/api/users/searchByEmail?email=${getLoggedInUser()}`
             },
             uri: '/profile',
             title: 'Your profile page',
             viewEvent: ProfileEvents
+        },
+        '/reset': {
+            returnView: ResetPassword,
+            state: {
+            },
+            uri: '/reset',
+            title: 'Reset Password',
+            viewEvent: ResetEvent
         }
     };
 
-    for (const key in routes) {
-        if (key === URI) {
+    const URIkey = Object.keys(URIObject)[0]
+    for (const routeKey in routes) {
+        if (routeKey === URIObject) {
             if (newURI !== null) {
-                routes[URI].state[piecesOfURI[1]] = newURI
-                sessionStorage.setItem("URI", JSON.stringify(newURI))
+                routes[routeKey].state = newURI
             }
-            return routes[URI];
-        } else if (key.includes(`/${piecesOfURI[1]}`)) {
-            let stateBase = piecesOfURI[1];
-            let pieceOfState = "";
-            for (let i = 0; i < piecesOfURI.length; i++) {
-                if (i > 1) {
-                    pieceOfState += `/${piecesOfURI[i]}`;
-                }
-            }
-
-            routes[`/${piecesOfURI[1]}`].state[`${piecesOfURI[1]}`] = `${pieceOfState}`
-            sessionStorage.setItem("URI", JSON.stringify(`${routes[`/${piecesOfURI[1]}`].state[stateBase]}`))
-            return routes[`/${piecesOfURI[1]}`]
+            return routes[URIObject];
+        } else if (routeKey.includes(`/${URIkey}`)) {
+            let URIStrings = Object.values(URIObject)[0];
+            Object.keys(URIStrings).forEach(endpointKey => {
+                routes[`/${URIkey}`].state[`${endpointKey}`] = `${URIStrings[endpointKey]}`
+            })
+            let URIToSave = routes[`/${URIkey}`].state
+            sessionStorage.setItem("URI", JSON.stringify(URIToSave))
+            return routes[`/${URIkey}`]
         }
     }
 }

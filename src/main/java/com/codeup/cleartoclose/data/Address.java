@@ -1,5 +1,6 @@
 package com.codeup.cleartoclose.data;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -10,6 +11,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
+
+@JsonFilter("addressFilter")
 @Entity
 @ToString
 @Table(name = "addresses")

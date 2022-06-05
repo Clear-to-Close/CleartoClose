@@ -3,6 +3,7 @@ package com.codeup.cleartoclose.security;
 import com.codeup.cleartoclose.errors.CustomAccessDeniedHandler;
 import com.codeup.cleartoclose.errors.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -39,6 +40,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "api/users/reset_password").permitAll()
                 .antMatchers("/api/listings/**").permitAll()
                 .antMatchers("/api/offers/**").permitAll()
                 .antMatchers("/api/users/**").permitAll()

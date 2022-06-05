@@ -1,7 +1,7 @@
 import createView from "../createView.js";
 import {isLoggedIn} from "../auth.js";
 import {clearStoredURI} from "../init.js";
-import {uploadDocuments, getLoggedInUser, getMessage, normalizeSentence, normalizeWords} from "../utility.js";
+import {uploadDocuments, getLoggedInUser, normalizeSentence} from "../utility.js";
 import fetchData from "../fetchData.js";
 import {getHeaders} from "../auth.js";
 
@@ -117,15 +117,15 @@ const populateDetailsFromApi = (propertyInfo, imageUrls) => {
         </div>
         <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiAC">
             <img src="${imageUrls[4]}" alt="AC Icon" class="w-[15px] h-[15px] mx-3">
-            <span class="w-[135px]">${normalizeWords(propertyInfo.utilities.coolingtype)}</span>
+            <span class="w-[135px]">${normalizeSentence(propertyInfo.utilities.coolingtype)}</span>
         </div>
         <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiHeat">
             <img src="${imageUrls[5]}" alt="Heat Icon" class="w-[15px] h-[15px] mx-3">
-            <span class="w-[135px]">${normalizeWords(propertyInfo.utilities.heatingtype)}</span>
+            <span class="w-[135px]">${normalizeSentence(propertyInfo.utilities.heatingtype)}</span>
         </div>
         <div class="flex m-1 pb-1 text-center justify-end items-center" id="apiRoof">
             <img src="${imageUrls[2]}" alt="Roof Icon" class="w-[15px] h-[15px] mx-3">
-            <span class="w-[135px]">${normalizeWords(propertyInfo?.building?.construction?.roofcover?.split(" ")[1]) ?? "Not Listed"}</span>
+            <span class="w-[135px]">${normalizeSentence(propertyInfo?.building?.construction?.roofcover?.split(" ")[1]) ?? "Not Listed"}</span>
         </div>
         <div class="flex m-1 pb-1 text-center justify-end items-center " id="apiLot">
             <img src="${imageUrls[0]}" alt="Lot Icon" class="w-[15px] h-[15px] mx-3">
@@ -197,7 +197,7 @@ const viewOffers = _ => {
     $("#viewOffersBtn").click(_ => {
         clearStoredURI();
         let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/offers/api/offers/findOffers/${listingId}`);
+        createView({offers: {offers: `/api/offers/findOffers/${listingId}`,  listing: `/api/listings/${listingId}`}});
     });
 }
 

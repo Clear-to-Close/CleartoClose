@@ -1,64 +1,63 @@
 import createView from "../createView.js";
 import {getLoggedInUser} from "../utility.js";
-
-const BASE_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
+import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
 
 export default function MakeOffer(props) {
-    datePicker();
     //language=html
     console.log(props);
     return `
-		<div class="min-h-[calc(100vh-90px)]">
-			<h1 class="text-center my-3">Offer Details</h1>
-			<form class="flex flex-col justify-center px-3 border-2">
-				<div class="flex flex-col my-3">
-					<div class="flex flex-col items-center text-left justify-center w-3/4">
-						<label for="offer-amount">Offer Amount</label>
-						<input name="amount" id="offer-amount" type="text" class="offer-form bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1"
-						       value="${props.makeOffer.askingPrice}">
-					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
-						<label for="loan-type">Loan Type</label>
-						<select name="loan" id="loan-type" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1">
-							<option disabled selected>Loan Type</option>
-							<option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
-							<option value="CON">Conventional</option>
-							<option value="FRM">Fixed-Rate Mortgage</option>
-							<option value="FHA">Federal Housing Administration (FHA)</option>
-							<option value="USDA">U.S. Department of Agriculture (USDA)</option>
-							<option value="VA">Veterans Affairs (VA)</option>
-						</select>
-					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
-						<label for="option-length">Option Length</label>
-						<input name="option" id="option-length" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.optionLength}">
-					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
-						<label for="survey-requested">Survey Requested</label>
-						<input name="survey" id="survey-requested" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.survey}">
-					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
-						<label for="warranty-requested">Home Warranty Requested</label>
-						<input name="warranty" id="warranty-requested" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.homeWarranty}">
-					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
-						<label for="appraisal-waiver">Appraisal Waiver</label>
-						<input name="appraisal" id="appraisal-waiver" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.appraisalWaiver}">
-					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
-						<label for="closing-date">Closing Date</label>
-						<input name="closing" id="closing-date" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.closingDate}">
-					</div>
-					<div class="offer-form flex flex-col items-center text-left justify-center w-3/4">
-						<label for="closing-costs">Closing Costs</label>
-						<input name="closing" id="closing-costs" type="text" class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-3/4 mx-1 my-3 p-1" value="${props.makeOffer.closingCosts}">
-					</div>
-				</div>
-				<button id="make-offer-btn" class="w-3/4 p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium" data-id="${props.id}">Post Offer</button>
-			</form>
-		</div>
-		<div id="confirmation-message" class="text-green-600"></div>
-    `;
+        <div class="content-height bg-slate-200 opacity-95 flex flex-col items-center justify-center">
+            <div class="w-3/4 md:w-1/2">
+                <div class="flex flex-col items-center text-left justify-center my-3">
+                    <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 py-2 m-1">
+                        
+                        <input name="amount" id="offer-amount" type="text"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               value="${props.listing.askingPrice}" placeholder="How much are you offering?">
+                        
+                        <select name="loan" id="loan-type"
+                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1">
+                            <option disabled selected>Loan Type</option>
+                            <option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
+                            <option value="CON">Conventional</option>
+                            <option value="FRM">Fixed-Rate Mortgage</option>
+                            <option value="FHA">Federal Housing Administration (FHA)</option>
+                            <option value="USDA">U.S. Department of Agriculture (USDA)</option>
+                            <option value="VA">Veterans Affairs (VA)</option>
+                        </select>
+                        
+                        <input name="option" id="option-length" type="text"
+                               class="offer-form whitespace-normal border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="How many days are you requesting for an option period?">
+                        
+                        <input name="survey" id="survey-requested" type="text"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="Are you requesting the seller to pay for the survey? (Yes/No)">
+                        
+                        <input name="warranty" id="warranty-requested" type="text"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="Are you requesting the seller to pay for the home warranty? (Yes/No)">
+                        
+                        <input name="appraisal" id="appraisal-waiver" type="text"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="Are you requesting an appraisal waiver? (Yes/No)">
+                        
+                        <input name="closing" id="closing-date" type="date"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="What is your requested closing date?">
+                        
+                        <input name="closing" id="closing-costs" type="text"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="How much are you requesting the seller pay in closing costs?">
+                        <button id="make-offer-btn"
+                                class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
+                                data-id="${props.listing.id}">Post Offer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>`;
 }
 
 export function MakeAnOffer() {
@@ -71,7 +70,6 @@ function submitOffer() {
         if (enterKey === 'Enter') {
             e.preventDefault();
             $('#make-offer-btn').click(function () {
-                console.log('This button was clicked by pressing enter!');
             });
         }
     });
@@ -91,24 +89,19 @@ function submitOffer() {
             closingDate: $('#closing-date').val(),
             closingCosts: $('#closing-costs').val(),
             offerorEmail: getLoggedInUser(),
-            listingId: listingId
+            listingId: $('#make-Offer-btn').data('id'),
+            offerStatus: `ACTIVE`
+
         }
 
-        let request = {
+        let postRequest = {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: getHeaders(),
             body: JSON.stringify(offerData)
         }
 
-        fetch(`${BASE_URL}`, request)
-            .then(response => {
-                console.log(response.status);
-                // getMessage("Your offer has been posted!", 'confirmation-message');
-                createView(`/offers/findOffers/${listingId}`);
-            }).catch(error => {
-            console.log(error.status);
+        fetchData({server: `/api/offers`}, postRequest).then(response => {
+            createView({offers: {offers: `/api/offers/findOffers/${listingId}`, listing: `/api/listings/${listingId}`}});
         });
     });
 }

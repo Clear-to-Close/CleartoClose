@@ -44,11 +44,8 @@ OffersController {
         return offersRepository.findByOfferor(usersRepository.findById(userId));
     }
 
-    // Offer can be made, but authentication of the user needs to occur before US26/F2 is complete
     @PostMapping
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
-        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
-
         Offer newOffer = new Offer();
 
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
@@ -61,15 +58,32 @@ OffersController {
         newOffer.setClosingDate(newOfferDTO.getClosingDate());
         newOffer.setOfferStatus(newOfferDTO.getOfferStatus());
 
+
         User newOfferor = usersRepository.findByEmail(newOfferDTO.getOfferorEmail());
-        System.out.println(newOfferor);
         newOffer.setOfferor(newOfferor);
 
         Listing currentListing = listingsRepository.findById(newOfferDTO.getListingId()).get();
         System.out.println(currentListing);
         newOffer.setListing(currentListing);
-        System.out.println(newOffer);
+
         offersRepository.save(newOffer);
+    }
+
+    @PutMapping("editOffer/{offerId}")
+    public void editOffer(@PathVariable long offerId, @RequestBody Offer updateOffer) {
+        Offer offerToEdit = offersRepository.findById(offerId).get();
+        System.out.println(offerToEdit);
+        System.out.println(updateOffer);
+        offerToEdit.setOfferAmount(updateOffer.getOfferAmount());
+        offerToEdit.setLoanType(updateOffer.getLoanType());
+        offerToEdit.setOptionLength(updateOffer.getOptionLength());
+        offerToEdit.setSurvey(updateOffer.getSurvey());
+        offerToEdit.setHomeWarranty(updateOffer.getHomeWarranty());
+        offerToEdit.setAppraisalWaiver(updateOffer.getAppraisalWaiver());
+        offerToEdit.setClosingDate(updateOffer.getClosingDate());
+        offerToEdit.setClosingCosts(updateOffer.getClosingCosts());
+        System.out.println(offerToEdit);
+        offersRepository.save(offerToEdit);
     }
 
     // Offer can be accepted upon, submit of a selection form; post updates the historical data of the selected offer
@@ -88,10 +102,6 @@ OffersController {
         acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
         offersRepository.save(acceptedOffer);
     }
-
-
-//    @PutMapping("editOffer/{offerId}")
-
 
     @PutMapping("/countered/{offerId}")
     public void offerCountered(@PathVariable Long offerId, @RequestBody Offer counterOffer) {

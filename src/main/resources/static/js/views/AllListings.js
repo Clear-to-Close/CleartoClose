@@ -1,20 +1,20 @@
 import createView from "../createView.js";
-import { initMap, addMarkerForListing} from "../googleMaps.js";
+import {initMap, addMarkerForListing} from "../googleMaps.js";
 
 let listingsAddresses = [];
 
 export default function AllListings(props) {
-    getAddresses(props.allListings)
-    // TODO Talk to team about how to better pass listings array to map functions
-    sessionStorage.setItem("listings", JSON.stringify(props.allListings))
+    console.log(props)
+    getAddresses(props.listings)
+    sessionStorage.setItem("listings", JSON.stringify(props.listings))
     //language=HTML
     return `
-        <div class="content-height bg-slate-200 opacity-95">
-            <div class="m-4">
-                <div id="map" class="hidden w-full md:block" style="height:50vh"></div>
+        <div class="h-max bg-slate-200 opacity-95 overflow-hidden">
+            <div class="m-4 h-1/2">
+                <div id="map" class="hidden w-full md:block" style="height:65vh"></div>
             </div>
-            <div class="grid grid-cols-3 gap-4 m-4">
-                ${populateListings(props.allListings)}
+            <div class="h-full grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 m-4">
+                ${populateListings(props.listings)}
             </div>
         </div>
     `
@@ -25,19 +25,44 @@ const populateListings = listings => {
     //language=HTML
     listings.forEach(listing => {
         listingHtml += `
-            <div class="listing bg-white w-full h-[700px] border-2 border-callToAction rounded-md shadow-xl" data-id="${listing.id}">
-                <div>
-                    <img class="w-full h-full" src="${listing.house_images[0] ?? "Picture Not Available"}" alt="Picture of ${listing.listingAddress.address}">
+            <div class="listing bg-white w-full h-[770px] border-2 border-callToAction rounded-md shadow-xl" data-id="${listing.id}">
+                <div class="h-1/3">
+                    <img class="w-full h-full" src="${listing.house_images[0] ?? "Picture Not Available"}"
+                         alt="Picture of ${listing.listingAddress.address}">
                 </div>
-                <div class="m-1 pb-1 text-center">${listing.askingPrice}</div>
-                <div class="m-1 pb-1 text-center" id="listing#-${listing.id}">MLS# ${listing.id}</div>
-                <div class="m-1 pb-1 text-center">${listing.listingStatus}</div>
-                <div class="m-1 pb-1 text-center"></div>
-                <div class="m-1 pb-1 text-center">${listing.listingAddress.address} </br>${listing.listingAddress.city}, ${listing.listingAddress.state}, ${listing.listingAddress.zipCode}
+                <div class="px-5">
+                    <div class="m-1 pb-1 flex justify-between">
+                        <span>Asking Price</span>
+                        <span>${listing.askingPrice}</span>
+                    </div>
+                    <div class="m-1 pb-1 flex justify-between" id="listing#-${listing.id}">
+                        <span>MLS#</span>
+                        <span>${listing.id}</span>
+                    </div>
+                    <div class="m-1 pb-1 flex justify-between">
+                        <span>Listing Status:</span>
+                        <span>${listing.listingStatus}</span>
+                    </div>
+                    <div class="m-1 pb-1 flex justify-between">
+                        <span>Address</span>
+                        <span>
+                        ${listing.listingAddress.address} </br>${listing.listingAddress.city}, ${listing.listingAddress.state}
+                            , ${listing.listingAddress.zipCode}
+                        </span>
+                    </div>
+                    <div class="m-1 pb-1 flex justify-between">
+                        <span>Listing Agent:</span>
+                        <span>${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</span>
+                    </div>
+                    <div class="m-1 pb-1 flex justify-between">
+                        <span>Agent's Email:</span>
+                        <span>${listing.sellerAgent.email}</span>
+                    </div>
                 </div>
-                <div class="m-1 pb-1 text-center">${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</div>
-                <div class="m-1 pb-1 text-center">${listing.sellerAgent.email}</div>
-                <div class="w-full text-justify p-2">${listing.description}</div>
+                <div class="w-full px-5">
+                    <span>Property Description:</span><br>
+                    <span>${listing.description}</span>
+                </div>
             </div>`
     })
     return listingHtml;
@@ -46,13 +71,10 @@ const populateListings = listings => {
 const createListingView = _ => {
     $(".listing").click(e => {
         let id = null;
-        console.log(e.target.parentElement.parentElement)
-        if (e.target.classList.contains("listing") ) {
-            id = e.target.getAttribute("data-id")
-        } else {
-            id = e.target.parentElement.getAttribute("data-id")
+        if (e.target.closest(".listing")) {
+            id = e.target.closest(".listing").getAttribute("data-id")
         }
-        createView(`/listing/api/listings/${id}`)
+        createView({listing: {listing: `/api/listings/${id}`}})
     })
 }
 
@@ -62,15 +84,20 @@ const getAddresses = allListings => {
     })
 }
 
+const loadMapMarkers = _ => {
+    $(document).ready(function () {
+        let listings = JSON.parse(sessionStorage.getItem("listings"))
+        let address;
+        for (let i = 0; i < listings.length; i++) {
+            address = `${listings[i].listingAddress.address}, ${listings[i].listingAddress.city}, ${listings[i].listingAddress.state}`
+            addMarkerForListing(address);
+        }
+    })
+}
+
 export function AllListingsEvent() {
     createListingView();
     initMap();
-
-    let listings = JSON.parse(sessionStorage.getItem("listings"))
-    let address;
-    for (let i = 0; i < listings.length; i++) {
-         address = `${listings[i].listingAddress.address}, ${listings[i].listingAddress.city}, ${listings[i].listingAddress.state}`
-        addMarkerForListing(address);
-    }
+    loadMapMarkers();
 }
 

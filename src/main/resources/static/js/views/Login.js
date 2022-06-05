@@ -1,4 +1,8 @@
 import createView from "../createView.js";
+import {getHeaders} from "../auth.js";
+
+
+const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
 
 export default function Login(props) {
     //language=HTML
@@ -19,8 +23,10 @@ export default function Login(props) {
                                name="password" type="password" placeholder="Password"/>
 
                         <button id="login-btn" class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">Login</button>
+	                    <a id="forgotPasswordLink">Forgot your password?</a>
                     </form>
-                    <p class="register-link flex-wrap mb-[25px] mt-[25px]">Don't have an account?
+
+                    <p class="register-link flex-wrap my-[50px]" id="register-link">Don't have an account?
                         <button class="p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction font-medium" id="goToRegister">Register Here</button>
                     </p>
                     <p class="flex-wrap mb-2 mt-4 text-sm"><a href="">Forgot Username/Password?</a></p>
@@ -34,4 +40,50 @@ export function registrationPage() {
         e.preventDefault();
         createView("/register")
     })
+    renderResetPasswordForm();
 }
+function renderResetPasswordForm() {
+    $('#app').click(function (e) {
+        if (e.target.id === 'forgotPasswordLink') {
+            let forgotPasswordForm =
+                //language=html
+                ` <label for="forgot-my-password-email" class="px-[10px] my-auto">A reset password link will be sent to your
+	            email</label>
+                <input id="forgot-my-password-email"
+                   class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full mx-1 my-3 p-1"
+                   name="email" type="email" placeholder="Please Enter Your Email"/>
+            <button id="recovery-email" type="button" class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">
+	            Recover Password
+            </button>
+            `
+            $('#login-form').html('').append(forgotPasswordForm)
+        }
+        resetPassword();
+    })
+}
+
+
+function resetPassword(){
+    $("#login-form").click(function (e) {
+        if(e.target.id === 'recovery-email'){
+            let email = $("#forgot-my-password-email").val();
+            console.log("reset password button")
+            console.log(email);
+
+            let request = {
+                method: "PUT",
+                headers: getHeaders(),
+            }
+
+            fetch(`${BASE_URI}/api/users/send?email=${email}`, request)
+                .then(response => {
+                    console.log(response.status);
+                }).catch(error => {
+                console.log(error);
+            });
+        }
+    })
+}
+
+
+
