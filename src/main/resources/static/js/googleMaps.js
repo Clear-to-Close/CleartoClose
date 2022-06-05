@@ -9,7 +9,7 @@ export function initMap() {
     const center = geocodeAddress(centerLocation[0].split("=")[1])
     center.then(locationArray => {
         map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 8,
+            zoom: 6,
             center: {
                 lat: locationArray.results[0].geometry.location.lat(),
                 lng: locationArray.results[0].geometry.location.lng()
