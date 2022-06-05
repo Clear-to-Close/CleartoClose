@@ -1,5 +1,6 @@
 import createView from "../createView.js";
 import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
 
 
 const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
@@ -47,7 +48,7 @@ function renderResetPasswordForm() {
         if (e.target.id === 'forgotPasswordLink') {
             let forgotPasswordForm =
                 //language=html
-                ` <label for="forgot-my-password-email" class="px-[10px] my-auto">A reset password link will be sent to your
+                ` <label for="forgot-my-password-email" class="px-[10px] my-auto text-center">A reset password link will be sent to your
 	            email</label>
                 <input id="forgot-my-password-email"
                    class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full mx-1 my-3 p-1"
@@ -66,21 +67,20 @@ function renderResetPasswordForm() {
 function resetPassword(){
     $("#login-form").click(function (e) {
         if(e.target.id === 'recovery-email'){
-            let email = $("#forgot-my-password-email").val();
+            let userEmail = $("#forgot-my-password-email").val();
             console.log("reset password button")
-            console.log(email);
+            console.log(typeof userEmail);
 
             let request = {
                 method: "PUT",
                 headers: getHeaders(),
             }
 
-            fetch(`${BASE_URI}/api/users/send?email=${email}`, request)
+            fetchData({server: `/api/users/send?userEmail=${userEmail}`}, request)
                 .then(response => {
-                    console.log(response.status);
-                }).catch(error => {
-                console.log(error);
-            });
+                    console.log(response);
+
+                })
         }
     })
 }

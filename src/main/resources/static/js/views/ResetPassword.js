@@ -63,7 +63,7 @@ export function ResetEvent() {
                 method: "PUT",
                 headers: getHeaders()
             }
-            fetchData({server: `"http://localhost:8080"/api/users/reset_password?password=${newPassword}&token=${token}`}, request)
+            fetchData({server: `/api/users/reset_password?password=${newPassword}&token=${token}`}, request)
                 .then(response => {
                     if (response.server.status === 201) {
                         createView("/");

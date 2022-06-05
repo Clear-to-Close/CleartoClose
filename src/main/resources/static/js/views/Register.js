@@ -69,7 +69,7 @@ export default function Register(props) {
         </div>`;
 }
 
-export function validatePassword (){
+export const validatePassword =  () =>{
     let $password = $("#password");
     let $letter = $("#letter");
     let $capital = $("#capital");
@@ -169,7 +169,7 @@ const registerUser = _ => {
             body: JSON.stringify(newUser)
         }
 
-        if (email === "" || password === "" || firstname === "" || lastname === "" || username === "") {
+        if (email === "" || password === "" || firstName === "" || lastName === "" || username === "") {
             getMessage("Please enter your information","registration-error");
         } else {
             fetchData({server: "/api/users/create"}, request)
