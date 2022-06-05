@@ -19,12 +19,11 @@ import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 import {getLoggedInUser} from "./utility.js";
 import EditOffer, {EditEvent} from "./views/EditOffer.js";
+import ResetPassword, {ResetEvent} from "./views/ResetPassword.js";
 
 
 export default function router(URIObject) {
-    console.log(URIObject)
     const newURI = JSON.parse(sessionStorage.getItem("URI"));
-    console.log(newURI)
 
     const routes = {
         '/': {
@@ -117,11 +116,18 @@ export default function router(URIObject) {
             uri: '/profile',
             title: 'Your profile page',
             viewEvent: ProfileEvents
+        },
+        '/reset': {
+            returnView: ResetPassword,
+            state: {
+            },
+            uri: '/reset',
+            title: 'Reset Password',
+            viewEvent: ResetEvent
         }
     };
 
     const URIkey = Object.keys(URIObject)[0]
-    console.log(URIkey)
     for (const routeKey in routes) {
         if (routeKey === URIObject) {
             if (newURI !== null) {
@@ -134,9 +140,7 @@ export default function router(URIObject) {
                 routes[`/${URIkey}`].state[`${endpointKey}`] = `${URIStrings[endpointKey]}`
             })
             let URIToSave = routes[`/${URIkey}`].state
-            console.log(URIToSave)
             sessionStorage.setItem("URI", JSON.stringify(URIToSave))
-            console.log(routes[`/${URIkey}`])
             return routes[`/${URIkey}`]
         }
     }

@@ -14,7 +14,9 @@ let seller;
 
 export default function Offers(props) {
     offers = props.offers;
+  
     console.log(props)
+  
     // grabSellerId();
     // fetchListingId();
 
