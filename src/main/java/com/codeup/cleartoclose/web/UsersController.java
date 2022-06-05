@@ -1,5 +1,6 @@
 package com.codeup.cleartoclose.web;
 
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.UserDTO;
 import com.codeup.cleartoclose.services.MailService;
@@ -10,9 +11,11 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +23,10 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
 
 @CrossOrigin
 @RestController
@@ -127,31 +130,34 @@ public class UsersController {
         usersRepository.save(userToUpdate);
     }
 
-    public void sendEmail(String recipientEmail, String link)
+    public void sendResetLinkToEmail(String usersRegisteredEmail, String resetLink)
             throws MessagingException, UnsupportedEncodingException {
+
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setFrom("cleartoclose.biz", "Did you forget your password?");
-        helper.setTo(recipientEmail);
+        helper.setFrom("teamcleartoclose.biz", "Did you forget your password?");
+        helper.setTo(usersRegisteredEmail);
         String subject = "Password Reset";
-        String content = "<html><p>Hello,</p><p>You have requested to reset your password.</p><p>Click the link below to change your password:</p><br><a href=\"" + link + "\">Change my password</a><br><p>Ignore this email if you do remember your password, or you have not made the request.</p></html>";
+        String content = "<html><p>Hello,</p><p>Click the link below to change your password:</p><br><a href=\"" + resetLink + "\">Change my password</a></html>";
         helper.setSubject(subject);
         helper.setText(content, true);
         mailSender.send(message);
     }
 
     @PutMapping("/send")
-    public void processForgotPassword(@RequestParam String email) throws MessagingException, UnsupportedEncodingException {
-        System.out.println("send email backend reached:" + email);
+    public void forgotMyPassword(@RequestParam String userEmail)
+            throws MessagingException, UnsupportedEncodingException {
+        System.out.println(userEmail.getClass());
+
+        System.out.println("send email backend reached:" + userEmail);
         String token = RandomString.make(15);
-        mailService.updateResetPasswordToken(token, email);
-        String resetPasswordLink = "http://localhost:8080/reset_password?token=" + token;
-        sendEmail(email, resetPasswordLink);
+        mailService.updateResetPasswordToken(token, userEmail);
+        String resetPasswordLink = "https://localhost:8080/reset_password?token=" + token;
+        sendResetLinkToEmail(userEmail, resetPasswordLink);
     }
 
-
     @PutMapping("/reset_password")
-    public void resetPasswordFromToken(@RequestParam String password, @RequestParam String token) {
+    public void resetUserPasswordFromToken(@RequestParam String password, @RequestParam String token) {
         User user = mailService.getByPasswordToken(token);
         System.out.println(user.getUsername());
         String encryptedPassword = passwordEncoder.encode(password);
@@ -159,6 +165,21 @@ public class UsersController {
         user.setResetPasswordToken(null);
         usersRepository.save(user);
     }
+        ///SWIPED FROM RAYMONDS GITHUB
+    @PutMapping("update_password")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN') || (#currentPassword != null && !#currentPassword.isEmpty())")
+    void updatePassword(@RequestParam String currentPassword, @RequestParam String newPassword, OAuth2Authentication authUser
+    ) {
+        if (!currentPassword.equals(newPassword)) {
+            User currentUser = usersRepository.findByEmail(authUser.getName());
+            currentUser.setPassword(passwordEncoder.encode(newPassword));
+            usersRepository.save(currentUser);
+        }
+    }
 
 
-}
+
+
+
+}///END OF CLASS
+

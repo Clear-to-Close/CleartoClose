@@ -40,7 +40,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "api/users/reset_password").permitAll()
                 .antMatchers("/api/listings/**").permitAll()
                 .antMatchers("/api/offers/**").permitAll()
                 .antMatchers("/api/users/**").permitAll()
