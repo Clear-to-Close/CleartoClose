@@ -528,6 +528,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.75rem !important;
 }
 
+.mx-5 {
+  margin-left: 1.25rem !important;
+  margin-right: 1.25rem !important;
+}
+
 .my-1 {
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
@@ -579,6 +584,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-1\/2 {
   height: 50% !important;
+}
+
+.h-4\/5 {
+  height: 80% !important;
+}
+
+.h-1\/5 {
+  height: 20% !important;
 }
 
 .h-\[48px\] {
@@ -644,10 +657,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .animate-spin {
   -webkit-animation: spin 1s linear infinite !important;
           animation: spin 1s linear infinite !important;
-}
-
-.grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 
 .grid-cols-1 {
@@ -766,6 +775,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .p-2 {
   padding: 0.5rem !important;
+}
+
+.p-4 {
+  padding: 1rem !important;
 }
 
 .p-3 {
@@ -985,6 +998,10 @@ a.nav-link {
 
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
   .md\:flex-row {

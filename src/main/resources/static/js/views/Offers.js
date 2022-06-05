@@ -21,31 +21,52 @@ export default function Offers(props) {
     //language=HTML
     return `
         <div class="content-height bg-slate-200 opacity-95">
-            <div id="listing-container" class="w-full h-full flex relative m-4">
-                
+            <div id="listing-container"
+                 class="w-full h-1/2 grid md:grid-cols-2 m-4 border-callToAction border-2 rounded-md">
+                <div>
                     <img class="w-full h-full mx-auto"
                          src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                          alt="main listing photo">
-               
-                
-                    <div>${props.listing.listingAddress.address}</div>
-                    <div>${props.listing.listingAddress.city}, ${props.listing.listingAddress.state} ${props.listing.listingAddress.zipCode}</div>
                 </div>
-                <button id="makeOfferBtn"
-                        class="hidden flex justify-end p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
-                    Make An Offer
-                </button>
+                <div class="w-full flex-col p-4 bg-white">
+                    <div class="w-full h-4/5 flex flex-col">
+                        <div class="flex justify-between">
+                            <span>Asking Price:</span>
+                            <span>${props.listing.askingPrice}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Status:</span>
+                            <span>${props.listing.listingStatus}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Address:</span>
+                            <span>
+                                ${props.listing.listingAddress.address}<br>
+                                ${props.listing.listingAddress.city}, ${props.listing.listingAddress.state}
+                                ${props.listing.listingAddress.zipCode}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="w-full h-1/5 flex justify-center items-center">
+                        <button id="makeOfferBtn"
+                                class="hidden p-2 mx-5 my-2 rounded-md shadow-xl font-medium text-primary bg-callToAction">
+                            Make Offer
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div id="offer">
-                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div class="grid grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
-            </div>
-            <div id="hiddenConfirmation" class="text-center m-1 w-full">
-                <button id="btn-confirm" type="submit"
-                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
-                </button>
-                <button id="btn-confirm-counter" type="submit"
-                        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
-                </button>
+
+
+            <div id="offer" class="bg-slate-200">
+                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div class="grid md:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
+                <div id="hiddenConfirmation" class="text-center m-1 w-full">
+                    <button id="btn-confirm" type="submit"
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
+                    </button>
+                    <button id="btn-confirm-counter" type="submit"
+                            class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Counter!
+                    </button>
+                </div>
             </div>
         </div>`
 }
@@ -57,9 +78,9 @@ const retrieveOffersFromDb = (offers) => {
     return offers.map(offer =>
         `
             <div id="offersDiv" data-id="${offer.id}"
-                 class="flex flex-col border-2 border-callToAction bg-callToAction shadow-xl rounded-md m-1">
+                 class="flex flex-col border-2 border-callToAction bg-white shadow-xl rounded-md m-1">
 
-                <div class="offer-header w-full flex justify-center items-center bg-callToAction m-1">
+                <div class="offer-header w-full flex justify-center items-center bg-callToAction">
                     <div class="text-primary font-medium text-xl p-3">
                         Offer Status: ${offer.offerStatus}
                     </div>
