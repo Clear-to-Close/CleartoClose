@@ -104,7 +104,9 @@ public class User {
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
     )
     @ToString.Exclude
+
     @JsonIgnoreProperties({"friends", "listings", "buyer", "seller", "buyerAgent", "sellerAgent", "password", "listing"})
+      
     private Collection<User> realtor;
 
     @Column(name = "reset_password_token")
