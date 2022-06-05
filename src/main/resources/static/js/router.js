@@ -58,9 +58,7 @@ export default function router(URIObject) {
         },
         '/listing': {
             returnView: ListingIndex,
-            state: {
-                listing: ""
-            },
+            state: {},
             uri: '/listing',
             title: "Listing",
             viewEvent: ListingEvent

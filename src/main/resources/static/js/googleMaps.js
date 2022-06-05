@@ -5,7 +5,8 @@ let geocoder;
 export function initMap() {
     // The location of Uluru
     geocoder = new google.maps.Geocoder();
-    const center = geocodeAddress(JSON.parse(sessionStorage.getItem("URI")).split("=")[1])
+    const centerLocation = Object.values(JSON.parse(sessionStorage.getItem("URI")))
+    const center = geocodeAddress(centerLocation[0].split("=")[1])
     center.then(locationArray => {
         map = new google.maps.Map(document.getElementById("map"), {
             zoom: 8,

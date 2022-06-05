@@ -26,46 +26,48 @@ const populateListings = listings => {
     //language=HTML
     listings.forEach(listing => {
         listingHtml += `
-            <div class="listing bg-white w-full min-h-[700px] border-2 border-callToAction rounded-md shadow-xl" data-id="${listing.id}">
-                <div class="h-1/3">
-                    <img class="w-full h-full" src="${listing.house_images[0] ?? "Picture Not Available"}"
-                         alt="Picture of ${listing.listingAddress.address}">
-                </div>
-                <div class="p-5">
-                    <div class="m-1 pb-1 flex justify-between">
-                        <span>Asking Price</span>
-                        <span>${listing.askingPrice}</span>
-                    </div>
-                    <div class="m-1 pb-1 flex justify-between" id="listing#-${listing.id}">
-                        <span>MLS#</span>
-                        <span>${listing.id}</span>
-                    </div>
-                    <div class="m-1 pb-1 flex justify-between">
-                        <span>Listing Status:</span>
-                        <span>${listing.listingStatus}</span>
-                    </div>
-                    <div class="m-1 pb-1 flex justify-between">
-                        <span>Address</span>
-                        <span>
-                        ${listing.listingAddress.address} </br>${listing.listingAddress.city}, ${listing.listingAddress.state}
+	        <div class="listing bg-slate-200 w-full min-h-[700px] border-2 border-callToAction rounded-md shadow-xl"
+	             data-id="${listing.id}">
+		        <div class="h-1/3">
+			        <img class="w-full h-full" src="${listing.house_images[0] ?? "Picture Not Available"}"
+			             alt="Picture of ${listing.listingAddress.address}">
+		        </div>
+		        <div class="p-5">
+			        <div class="m-1 pb-1 flex justify-between">
+				        <span>Asking Price</span>
+				        <span>${listing.askingPrice}</span>
+			        </div>
+			        <div class="m-1 pb-1 flex justify-between" id="listing#-${listing.id}">
+				        <span>MLS#</span>
+				        <span>${listing.id}</span>
+			        </div>
+			        <div class="m-1 pb-1 flex justify-between">
+				        <span>Listing Status:</span>
+				        <span>${listing.listingStatus}</span>
+			        </div>
+			        <div class="m-1 pb-1 flex justify-between">
+				        <span>Address</span>
+				        <span>
+                        ${listing.listingAddress.address} </br>${listing.listingAddress.city}
+					        , ${listing.listingAddress.state}
                             , ${listing.listingAddress.zipCode}
                         </span>
-                    </div>
-                    <div class="m-1 pb-1 flex justify-between">
-                        <span>Listing Agent:</span>
-                        <span>${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</span>
+			        </div>
+			        <div class="m-1 pb-1 flex justify-between">
+				        <span>Listing Agent:</span>
+				        <span>${listing.sellerAgent.firstName} ${listing.sellerAgent.lastName}</span>
 
-                    </div>
-                    <div class="m-1 pb-1 flex justify-between">
-                        <span>Agent's Email:</span>
-                        <span>${listing.sellerAgent.email}</span>
-                    </div>
-                </div>
-                <div class="w-full p-5">
-                    <span>Property Description:</span>
-                    <span>${listing.description}</span>
-                </div>
-            </div>`
+			        </div>
+			        <div class="m-1 pb-1 flex justify-between">
+				        <span>Agent's Email:</span>
+				        <span>${listing.sellerAgent.email}</span>
+			        </div>
+		        </div>
+		        <div class="w-full p-5">
+			        <span>Property Description:</span>
+			        <span>${listing.description}</span>
+		        </div>
+	        </div>`
     })
     return listingHtml;
 }

@@ -14,6 +14,7 @@ let seller;
 
 export default function Offers(props) {
     offers = props.offers;
+    console.log(props)
 
     grabSellerId();
     fetchListingId();
@@ -54,107 +55,107 @@ const retrieveOffersFromDb = (offers) => {
     // language=HTML
     return offers.map(offer =>
         `
-            <div id="offersDiv" data-id="${offer.id}"
-                 class="flex flex-col border-2 border-callToAction bg-callToAction shadow-xl rounded-md m-1">
+	        <div id="offersDiv" data-id="${offer.id}"
+	             class="flex flex-col border-2 border-callToAction bg-callToAction shadow-xl rounded-md m-1">
 
-                <div class="offer-header w-full flex justify-center items-center bg-callToAction">
-                    <div class="text-primary font-medium text-xl mx-3 my-1 py-2">
-                        Offer Status: ${offer.offerStatus}
-                    </div>
-                </div>
+		        <div class="offer-header w-full flex justify-center items-center bg-callToAction">
+			        <div class="text-primary font-medium text-xl mx-3 my-1 py-2">
+				        Offer Status: ${offer.offerStatus}
+			        </div>
+		        </div>
 
-                <div class="offer-body bg-white px-3">
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Offer Amount:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                                \$${offer.offerAmount}
-                        </div>
-                    </div>
+		        <div class="offer-body bg-slate-200 px-3">
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Offer Amount:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+						        \$${offer.offerAmount}
+				        </div>
+			        </div>
 
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Loan Type:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                            ${offer.loanType}
-                        </div>
-                    </div>
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Loan Type:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+					        ${offer.loanType}
+				        </div>
+			        </div>
 
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Option Length:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                            ${offer.optionLength} days
-                        </div>
-                    </div>
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Option Length:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+					        ${offer.optionLength} days
+				        </div>
+			        </div>
 
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Survey Requested:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                            ${offer.survey}
-                        </div>
-                    </div>
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Survey Requested:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+					        ${offer.survey}
+				        </div>
+			        </div>
 
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Home Warranty Requested:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                            ${offer.homeWarranty}
-                        </div>
-                    </div>
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Home Warranty Requested:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+					        ${offer.homeWarranty}
+				        </div>
+			        </div>
 
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Buyer Waives Appraisal:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                            ${offer.appraisalWaiver}
-                        </div>
-                    </div>
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Buyer Waives Appraisal:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+					        ${offer.appraisalWaiver}
+				        </div>
+			        </div>
 
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Closing Date Requested:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                            ${offer.closingDate}
-                        </div>
-                    </div>
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Closing Date Requested:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+					        ${offer.closingDate}
+				        </div>
+			        </div>
 
-                    <div class="flex justify-between">
-                        <div class="text-primary font-medium mx-3 my-1">
-                            Seller Closing Costs:
-                        </div>
-                        <div class="text-primary font-medium mx-3 my-1">
-                                \$${offer.closingCosts}
-                        </div>
-                    </div>
+			        <div class="flex justify-between">
+				        <div class="text-primary font-medium mx-3 my-1">
+					        Seller Closing Costs:
+				        </div>
+				        <div class="text-primary font-medium mx-3 my-1">
+						        \$${offer.closingCosts}
+				        </div>
+			        </div>
 
-                    <div class="text-center m-1 w-full">
-                        <button type="button" id="button-accept-${offer.id}"
-                                data-id="${offer.id}"
-                                class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
-                            Accept
-                            Offer!
-                        </button>
-                        <button type="button" id="button-counter-${offer.id}"
-                                data-id="${offer.id}"
-                                class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
-                            Counter
-                        </button>
-                        <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
-                                class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
-                            Edit
-                        </button>
-                    </div>
-                </div>
-            </div>`
+			        <div class="text-center m-1 w-full">
+				        <button type="button" id="button-accept-${offer.id}"
+				                data-id="${offer.id}"
+				                class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+					        Accept
+					        Offer!
+				        </button>
+				        <button type="button" id="button-counter-${offer.id}"
+				                data-id="${offer.id}"
+				                class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+					        Counter
+				        </button>
+				        <button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+				                class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
+					        Edit
+				        </button>
+			        </div>
+		        </div>
+	        </div>`
     ).join("")
 };
 
