@@ -20,9 +20,10 @@ export default function Login(props) {
 
                         <button id="login-btn" class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">Login</button>
                     </form>
-                    <p class="register-link flex-wrap my-[50px]">Don't have an account?
+                    <p class="register-link flex-wrap mb-[25px] mt-[25px]">Don't have an account?
                         <button class="p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction font-medium" id="goToRegister">Register Here</button>
                     </p>
+                    <p class="flex-wrap mb-2 mt-4 text-sm"><a href="">Forgot Username/Password?</a></p>
                 </div>
             </div>
         </div>`;

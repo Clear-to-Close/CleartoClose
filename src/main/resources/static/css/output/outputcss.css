@@ -529,11 +529,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 0.5rem !important;
 }
 
-.my-\[50px\] {
-  margin-top: 50px !important;
-  margin-bottom: 50px !important;
-}
-
 .mx-auto {
   margin-left: auto !important;
   margin-right: auto !important;
@@ -544,19 +539,24 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.75rem !important;
 }
 
-
-.mx-4 {
-  margin-left: 1rem !important;
-  margin-right: 1rem !important;
-}
-
-.mx-2 {
-  margin-left: 0.5rem !important;
-  margin-right: 0.5rem !important;
-} 
-
 .mt-\[100px\] {
   margin-top: 100px !important;
+}
+
+.mb-\[25px\] {
+  margin-bottom: 25px !important;
+}
+
+.mt-\[25px\] {
+  margin-top: 25px !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mt-4 {
+  margin-top: 1rem !important;
 }
 
 .mb-4 {
@@ -565,10 +565,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mt-2 {
   margin-top: 0.5rem !important;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem !important;
 }
 
 .mr-3 {
@@ -591,18 +587,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 200px !important;
 }
 
-.h-1\/4 {
-  height: 25% !important;
-}
-
-.h-\[48px\] {
-  height: 48px !important;
-}
-
-.h-\[700px\] {
-  height: 700px !important;
-}
-
 .h-full {
   height: 100% !important;
 }
@@ -617,6 +601,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-1\/4 {
   height: 25% !important;
+}
+
+.h-\[48px\] {
+  height: 48px !important;
+}
+
+.h-\[700px\] {
+  height: 700px !important;
 }
 
 .h-\[50px\] {
@@ -643,10 +635,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 50% !important;
 }
 
-.w-\[48px\] {
-  width: 48px !important;
-}
-
 .w-\[15px\] {
   width: 15px !important;
 }
@@ -655,8 +643,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 135px !important;
 }
 
-.w-1\/2 {
-  width: 50% !important;
+.w-\[48px\] {
+  width: 48px !important;
 }
 
 .grow {
@@ -742,6 +730,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-radius: 0.25rem !important;
 }
 
+.rounded-sm {
+  border-radius: 0.125rem !important;
+}
+
 .rounded-full {
   border-radius: 9999px !important;
 }
@@ -752,12 +744,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-b-2 {
   border-bottom-width: 2px !important;
-}
-
-
-.bg-secondary {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(154 177 194 / var(--tw-bg-opacity)) !important;
 }
 
 .border-b-4 {
@@ -853,14 +839,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 
-.text-xl {
-  font-size: 1.25rem !important;
-  line-height: 1.75rem !important;
-}
-
 .text-sm {
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
+}
+
+.text-xl {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
 }
 
 .text-3xl {
@@ -943,10 +929,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   outline-width: 0px !important;
 }
 
-
 .blur {
   --tw-blur: blur(8px) !important;
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow) !important;
+}
 
 .navbar {
   background-color: #002254;
@@ -970,9 +956,9 @@ a.nav-link {
 
 .content-height {
   min-height: calc(100vh - 90px);
-  max-height:-webkit-max-content;
-  max-height:-moz-max-content;
-  max-height:max-content;
+  max-height: -webkit-max-content;
+  max-height: -moz-max-content;
+  max-height: max-content;
 }
 
 .valid {
