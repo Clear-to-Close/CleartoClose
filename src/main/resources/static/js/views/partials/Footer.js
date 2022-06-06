@@ -5,7 +5,7 @@ export default function Footer(props) {
             <div class="container-fluid flex justify-center">
                 <ul class="flex justify-center items-center">
                     <li class="flex justify-center items-center px-3">
-                        <a class="text-navLink text-sm" href="/realtorListing" data-link>About</a>
+                        <a class="text-navLink text-sm" href="/about" data-link>About</a>
                     </li>
                     <li class="flex justify-center items-center px-3">
                         <a href="/" data-link>
@@ -14,7 +14,7 @@ export default function Footer(props) {
                         </a>
                     </li class="flex justify-center items-center px-3">
                     <li>
-                        <a class="text-navLink text-sm" href="/realtorListing" data-link>Contact Us</a>
+                        <a class="text-navLink text-sm" href="/contactUs" data-link>Contact Us</a>
                     </li>
                 </ul>
 <!--                <br>-->
