@@ -5,6 +5,10 @@ let listingsAddresses = [];
 
 export default function AllListings(props) {
     console.log(props)
+    if (props.listings.length === 0) {
+        alert("No Listings Found")
+        createView("/")
+    }
     getAddresses(props.listings)
     sessionStorage.setItem("listings", JSON.stringify(props.listings))
     //language=HTML

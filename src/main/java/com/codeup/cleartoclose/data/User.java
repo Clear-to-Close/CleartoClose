@@ -53,7 +53,11 @@ public class User {
 
     @Column(name = "preApproval_filename")
     @ToString.Exclude
-    private String preApprovalileName;
+    private String preApprovalFileName;
+
+    @Column(name = "profile_img")
+    @ToString.Exclude
+    private String profileImageName;
 
     @Column(name = "profile_img")
     @ToString.Exclude

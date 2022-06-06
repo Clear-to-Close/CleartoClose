@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @CrossOrigin
@@ -36,32 +35,36 @@ public class S3Controller {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        User editUser = usersRepository.getById(userId);
-        editUser.setPreApprovalileName(filename);
+        User editUser = usersRepository.findById(userId).get();
+        System.out.println(editUser);
+        editUser.setPreApprovalFileName(filename);
+        System.out.println(editUser);
         usersRepository.save(editUser);
 
         return new ResponseEntity<>(filename, HttpStatus.OK);
     }
 
     @PostMapping("/uploadListingImg/{listingId}")
-    public ResponseEntity<String> uploadListingImg(@RequestParam(value = "file") MultipartFile upload, @PathVariable long listingId,HttpServletResponse response) {
+    public ResponseEntity<String> uploadListingImg(@RequestParam(value = "file") MultipartFile upload, @PathVariable long listingId) {
         String filename = s3Service.uploadFile(upload);
         Listing listingToEdit = listingsRepository.findById(listingId).get();
         List<String> imgNames = listingToEdit.getHouse_images();
+
+
         if (imgNames.isEmpty()) {
             imgNames.add(filename);
         } else {
             for (String imgName : imgNames) {
                 if (imgName.split("\\.")[0].equalsIgnoreCase(filename.split("\\.")[0])) {
                     s3Service.deleteFile(imgName);
-                    imgNames.remove(imgName);
-
                     imgNames.add(filename);
                 } else {
                     imgNames.add(filename);
                 }
             }
         }
+
+        imgNames.removeIf(imgName -> imgName.split("\\.")[0].equalsIgnoreCase(filename.split("\\.")[0]));
 
         listingToEdit.setHouse_images(imgNames);
         listingsRepository.save(listingToEdit);

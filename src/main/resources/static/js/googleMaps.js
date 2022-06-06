@@ -8,6 +8,9 @@ export function initMap() {
     const centerLocation = Object.values(JSON.parse(sessionStorage.getItem("URI")))
     const center = geocodeAddress(centerLocation[0].split("=")[1])
     center.then(locationArray => {
+        if (document.getElementById("map") === null) {
+            return;
+        }
         map = new google.maps.Map(document.getElementById("map"), {
             zoom: 6,
             center: {

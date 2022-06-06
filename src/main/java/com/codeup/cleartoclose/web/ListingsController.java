@@ -3,6 +3,8 @@ package com.codeup.cleartoclose.web;
 import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.codeup.cleartoclose.services.S3Service;
 
@@ -40,21 +42,26 @@ public class ListingsController {
         }
         listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
         listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
+        listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+        listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
         return listingRepository.findById(listingId);
     }
 
     @GetMapping("searchByFullAddress")
-    public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state, @RequestParam String zip) {
-
-        Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
-                zip);
-        Listing listing = listingRepository.findByListingAddress(addressToFind);
-        if (listing.getSellerAgent() != null) {
+    public ResponseEntity<Listing> getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state,
+                                              @RequestParam String zip) {
+        try {
+            Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
+                    zip);
+            Listing listing = listingRepository.findByListingAddress(addressToFind);
+            listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
+            listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
             listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
+            return new ResponseEntity<>(listing, HttpStatus.OK);
+        } catch (NullPointerException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
-        listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-        return listing;
     }
 
     @GetMapping("search")
@@ -70,6 +77,8 @@ public class ListingsController {
             }
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
+            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
         }
         return foundListings;
     }

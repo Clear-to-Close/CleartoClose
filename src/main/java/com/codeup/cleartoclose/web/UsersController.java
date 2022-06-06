@@ -1,29 +1,27 @@
 package com.codeup.cleartoclose.web;
 
-import com.amazonaws.services.dynamodbv2.xspec.S;
-import com.codeup.cleartoclose.data.*;
+import com.codeup.cleartoclose.data.Address;
+import com.codeup.cleartoclose.data.AddressRepository;
+import com.codeup.cleartoclose.data.User;
+import com.codeup.cleartoclose.data.UsersRepository;
 import com.codeup.cleartoclose.dto.UserDTO;
 import com.codeup.cleartoclose.services.MailService;
-import net.bytebuddy.utility.RandomString;
+import com.codeup.cleartoclose.services.S3Service;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.JavaMailSender;
-
 import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.UUID;
@@ -37,16 +35,19 @@ public class UsersController {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final S3Service s3Service;
     private final JavaMailSender mailSender;
     private final MailService mailService;
 
-    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, JavaMailSender mailSender, MailService mailService) {
+    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, S3Service s3Service, JavaMailSender mailSender, MailService mailService) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
+        this.s3Service = s3Service;
         this.mailSender = mailSender;
         this.mailService = mailService;
     }
+
 
     @GetMapping("searchByEmail")
     public MappingJacksonValue getUserByEmail(@RequestParam String email) {
@@ -55,6 +56,8 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findByEmail(email);
+        user.setPreApprovalFileName(s3Service.getSignedURL(user.getPreApprovalFileName()));
+        user.setProfileImageName(s3Service.getSignedURL(user.getProfileImageName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
 
@@ -73,6 +76,8 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findById(userId).get();
+        user.setPreApprovalFileName(s3Service.getSignedURL(user.getPreApprovalFileName()));
+        user.setProfileImageName(s3Service.getSignedURL(user.getProfileImageName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
 
@@ -85,6 +90,7 @@ public class UsersController {
         System.out.println(newUser.getPassword());
         newUser.setRole(User.Role.USER);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setPreApprovalFileName("default-user.jpg");
         usersRepository.save(newUser);
     }
 
