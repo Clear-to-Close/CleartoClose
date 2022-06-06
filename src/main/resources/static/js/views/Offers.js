@@ -1,64 +1,66 @@
 import createView from "../createView.js";
 import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {confirmOfferAcceptance, updateListingObject, updateOfferStatus} from "./acceptOffer.js";
-import {getLoggedInUser} from "../utility.js";
-import {getHeaders} from "../auth.js";
-import fetchData from "../fetchData.js";
-
+import {getLoggedInUser, numberWithCommas} from "../utility.js";
 
 let idArray = [];
 let offers = [];
-
 let seller;
-
 
 export default function Offers(props) {
     offers = props.offers;
-    console.log(props)
-    // grabSellerId();
-    // fetchListingId();
-
     //language=HTML
     return `
         <div class="content-height bg-slate-200 opacity-95">
             <div id="listing-container"
-                 class="w-full h-1/2 grid md:grid-cols-2 m-4 border-callToAction border-2 rounded-md">
+                 class="h-1/2 grid md:grid-cols-2 m-4 border-callToAction border-2 rounded-md">
                 <div>
                     <img class="w-full h-full mx-auto"
                          src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                          alt="main listing photo">
                 </div>
                 <div class="w-full flex-col p-4 bg-white">
-                    <div class="w-full h-4/5 flex flex-col">
-                        <div class="flex justify-between">
-                            <span>Asking Price:</span>
-                            <span>${props.listing.askingPrice}</span>
+                    <div class="w-full h-4/5 flex flex-col lg:p-8">
+                        <div class="flex justify-between m-1">
+                            <span class="font-medium lg:text-2xl">Asking Price:</span>
+                            <span class="lg:text-2xl">$${numberWithCommas(props.listing.askingPrice)}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span>Status:</span>
-                            <span>${props.listing.listingStatus}</span>
+                        <div class="flex justify-between m-1">
+                            <span class="font-medium lg:text-2xl">Status:</span>
+                            <span class="lg:text-2xl">${props.listing.listingStatus}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span>Address:</span>
-                            <span>
+                        <div class="flex justify-between m-1">
+                            <span class="font-medium lg:text-2xl">Address:</span>
+                            <span class="lg:text-2xl">
                                 ${props.listing.listingAddress.address}<br>
                                 ${props.listing.listingAddress.city}, ${props.listing.listingAddress.state}
                                 ${props.listing.listingAddress.zipCode}
                             </span>
                         </div>
+                        <div class="flex justify-between m-1">
+                            <span class="font-medium lg:text-2xl">Selling Agent:</span>
+                            <span class="lg:text-2xl">${props.listing.sellerAgent.firstName} ${props.listing.sellerAgent.lastName}</span>
+                        </div>
+                        <div class="flex justify-between m-1">
+                            <span class="font-medium lg:text-2xl">Selling Agent Email:</span>
+                            <span class="lg:text-2xl">${props.listing.sellerAgent.email}</span>
+                        </div>
+                        <div class="flex justify-between m-1">
+                            <span class="font-medium lg:text-2xl">Number of Offers:</span>
+                            <span class="lg:text-2xl">${props.listing.listingOffers.length}</span>
+                        </div>
                     </div>
                     <div class="w-full h-1/5 flex justify-center items-center">
                         <button id="makeOfferBtn"
-                                class="hidden p-2 mx-5 my-2 rounded-md shadow-xl font-medium text-primary bg-callToAction">
+                                class="hidden p-3 mx-5 my-2 rounded-md shadow-xl font-medium text-lg text-primary bg-callToAction">
                             Make Offer
                         </button>
                     </div>
                 </div>
             </div>
-
-
+            
             <div id="offer" class="bg-slate-200">
-                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div class="grid md:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
+                ${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
                 <div id="hiddenConfirmation" class="text-center m-1 w-full">
                     <button id="btn-confirm" type="submit"
                             class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
@@ -92,7 +94,7 @@ const retrieveOffersFromDb = (offers) => {
                             Offer Amount:
                         </div>
                         <div class="text-primary font-medium">
-                                \$${offer.offerAmount}
+                                \$${numberWithCommas(offer.offerAmount)}
                         </div>
                     </div>
 
@@ -155,7 +157,7 @@ const retrieveOffersFromDb = (offers) => {
                             Seller Closing Costs:
                         </div>
                         <div class="text-primary font-medium mx-3 my-1">
-                                \$${offer.closingCosts}
+                                \$${numberWithCommas(offer.closingCosts)}
                         </div>
                     </div>
 
@@ -181,47 +183,11 @@ const retrieveOffersFromDb = (offers) => {
     ).join("")
 };
 
-const fetchListingId = () => {
-    let URI = sessionStorage.getItem("URI").split("/")
-    return parseInt(URI[URI.length - 1]);
-}
-
-//Added function to grab seller email instead of relying on grabbing from offers. Null if no offers are present
-// function grabSellerId() {
-//     const request = {
-//         method: "GET",
-//         headers: getHeaders()
-//     }
-//     fetchData({
-//         property: `/api/listings/${fetchListingId()}`
-//     }, request)
-//         .then(properties => {
-//             console.log(properties);
-//
-//             seller = properties.property.seller.email;
-//             console.log(seller);
-//
-//         })
-// }
-
-// const createMakeOfferView = () => {
-//     $('#makeOfferBtn').click(_ => {
-//         console.log(fetchListingId());
-//         createView(`/makeOffer/listings/${fetchListingId()}`)
-//     })
-// }
-
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
-
         let URI = sessionStorage.getItem("URI").split("/")
         let listingId = parseInt(URI[URI.length - 1])
-
         createView({makeOffer: {listing: `/api/listings/${listingId}`}})
-
-        // console.log(fetchListingId());
-        // createView(`/makeOffer/api/listings/${fetchListingId()}`)
-
     })
 }
 
@@ -240,13 +206,10 @@ function buttonAuthorization() {
     let offerStatus;
     let offerID;
 
-    console.log(seller === user)
 
     if (offers.length === 0 && user !== seller) {
         $("#makeOfferBtn").removeClass("hidden");
-
     } else {
-
         offers.forEach(function (offer) {
             console.log(offer);
             offerID = offer.id;
@@ -282,6 +245,6 @@ export function OfferEvent() {
     createMakeOfferView();
     renderEditOfferView();
     initCounterOffer();
-    submitCounterOffer()
+    submitCounterOffer();
 }
 

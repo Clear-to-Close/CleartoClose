@@ -844,6 +844,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.25rem !important;
 }
 
+.text-lg {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+}
+
 .text-3xl {
   font-size: 1.875rem !important;
   line-height: 2.25rem !important;
@@ -1000,10 +1005,6 @@ a.nav-link {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  .md\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-
   .md\:flex-row {
     flex-direction: row !important;
   }
@@ -1040,6 +1041,15 @@ a.nav-link {
 
   .lg\:flex-row {
     flex-direction: row !important;
+  }
+
+  .lg\:p-8 {
+    padding: 2rem !important;
+  }
+
+  .lg\:text-2xl {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
   }
 
   .lg\:text-4xl {
