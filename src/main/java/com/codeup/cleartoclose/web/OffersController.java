@@ -18,6 +18,7 @@ OffersController {
     public final ListingsRepository listingsRepository;
     private final UsersRepository usersRepository;
 
+
     public OffersController(OffersRepository offersRepository, ListingsRepository listingsRepository, UsersRepository usersRepository) {
         this.offersRepository = offersRepository;
         this.listingsRepository = listingsRepository;
@@ -46,6 +47,7 @@ OffersController {
 
     @PostMapping
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
+        System.out.println(newOfferDTO.getListingId());
         Offer newOffer = new Offer();
 
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
