@@ -946,6 +946,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
+.text-navLink {
+  color: rgba(255,255,255,.55) !important;
+}
+
 .placeholder-primary::-moz-placeholder {
   --tw-placeholder-opacity: 1 !important;
   color: rgb(0 34 84 / var(--tw-placeholder-opacity)) !important;
