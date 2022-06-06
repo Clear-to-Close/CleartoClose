@@ -1,7 +1,7 @@
 import createView from "../createView.js";
 import {isLoggedIn} from "../auth.js";
 import {clearStoredURI} from "../init.js";
-import {uploadDocuments, getLoggedInUser, normalizeSentence} from "../utility.js";
+import {uploadDocuments, getLoggedInUser, normalizeSentence, getUserRole, getMessage} from "../utility.js";
 import fetchData from "../fetchData.js";
 import {getHeaders} from "../auth.js";
 
@@ -10,59 +10,119 @@ let sellerAgent = "";
 
 export default function ListingIndex(props) {
     console.log(props)
+    if (props.listing === 400) {
+        alert("No Listing Found At Address")
+        createView("/")
+    }
     requestListingDetailView(props.listing.listingAddress, props.listing.image_icons);
     sellerAgent = props.listing.sellerAgent.email;
     listingId = props.listing.id
     // language=HTML
     return `
         <div id="listingPageDiv" data-id="${props.listing.id}"
-             class="bg-cover content-height flex flex-col relative md:flex-row font-medium">
-            <div class="content-height w-full flex flex-col items-center justify-center">
-                <div class="bg-slate-200 opacity-95 border-slate-300 border-2 shadow-xl rounded-md md:flex ">
-                    <div class="md:flex md:flex-col md:w-1/2">
-                        <div class="w-full">
-                            <img class="w-full"
-                                 src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                 alt="main listing photo">
-                        </div>
-                        <div>
-                            <form id="listingImgUpload" class="flex flex-col items-center">
-                                <input type="file" id="uploadDocs" accept="image/*" class="hidden">
-                                <button type="button" id="uploadBtn" class="text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload Documents</button>
-                            </form>
-                        </div>
-                        <div class="p-2 text-center my-2">
-                            ${props.listing.description}
-                        </div>
-                        <div class="hidden md:flex md:p-2">
-                            ${populateListingFromDB(props.listing)}
-                        </div>
+             class="content-height w-full font-medium">
+            <div class="content-height w-full flex flex-col items-center justify-center md:flex-row">
+                
+                <div class="md:w-1/2">
+                    ${populateCarousel(props.listing.house_images)}
+                    <div id="listingImgUpload" class="flex justify-center">
+                        <input type="file" id="uploadDocs" accept="image/*" class="hidden">
+                        <button type="button" id="uploadBtn"
+                                class="text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload
+                            Documents
+                        </button>
                     </div>
-                    
-                    <div class="md:content-height md:w-1/2 md:flex md:items-center md:flex-col">
-                        <div class="flex w-full md:grow">
-                            <div class="md:hidden">${populateListingFromDB(props.listing)}</div>
-                            <div class="w-full flex flex-col justify-around">
-                                <div id="ApiDetails" class="w-full md:flex md:flex-col md:items-center"></div>
-                                <div id="apiSchoolInfo" class="hidden md:flex md:flex-col md:p-2"></div>
+                    <div class="p-2 text-center my-2">
+                        ${props.listing.description}
+                    </div>
+                    <div class="flex p-2 text-center md:text-left">
+                        ${populateListingInfo(props.listing)}
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">                    
+                    <div>
+                        <div class="flex flex-col">
+                            <img class="my-1 rounded-full" src="https://via.placeholder.com/150"
+                                 alt="Image of ${normalizeSentence(props.listing.sellerAgent.firstName)}">
+                            <div>
+                                <span>${normalizeSentence(props.listing.sellerAgent.firstName)}</span>
+                                <span>${normalizeSentence(props.listing.sellerAgent.lastName)}</span>
+                            </div>
+                            <div>
+                                <span>${props.listing.sellerAgent.email}</span>
                             </div>
                         </div>
+
+                        <div class="w-full flex flex-col justify-around">
+                            <div id="ApiDetails" class="w-full md:flex md:flex-col md:items-center">
+                            </div>
+                            <div id="apiSchoolInfo" class="hidden md:flex md:flex-col md:p-2"></div>
+                        </div>
+
                         <div class="flex mx-auto justify-center">
-                            <button type="button" id="viewOffersBtn" class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-primary font-medium bg-callToAction">
+                            <button type="button" id="viewOffersBtn"
+                                    class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-primary font-medium bg-callToAction">
                                 View Offers
                             </button>
-                            <button type="button" id="editListing" class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-primary font-medium bg-callToAction">
+                            <button type="button" id="editListing"
+                                    class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl text-primary font-medium bg-callToAction">
                                 Edit Listing
                             </button>
                         </div>
+                        
                     </div>
                     
                 </div>
+                
             </div>
         </div>`
 }
 
-const populateListingFromDB = listing => {
+const populateCarousel = images => {
+    //language=HTML
+    let html = `
+        <div id="houseImageCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="false">
+            <div class="carousel-inner">`
+    images.forEach((img, i) => {
+        if (i === 0) {
+            //language=HTML
+            html += `
+                <div class="carousel-item active">
+                    <img src="${img}" class="d-block w-100" alt="Picture of House">
+                </div>`
+        } else {
+            //language=HTML
+            html += `
+                <div class="carousel-item">
+                    <img src="${img}" class="d-block w-100" alt="Picture of House">
+                </div>`
+        }
+    })
+    //language=HTML
+    html += `</div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#houseImageCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next " type="button" data-bs-target="#houseImageCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div>`
+
+    return html;
+}
+
+const populateSellerAgentInfo = agentInfo => {
+    console.log(agentInfo)
+    //language=HTML
+    return `
+
+    `
+}
+
+const populateListingInfo = listing => {
     //language=HTML
     return `
         <div class="h-full w-full">
@@ -76,7 +136,7 @@ const populateListingFromDB = listing => {
                 Status: ${listing.listingStatus}
             </div>
             <div class="m-1 pb-1 flex flex-col md:flex-row">
-                <span class="mx-1">Physical Address:</span>
+                <span class="md:mx-1">Physical Address:</span>
                 <div class="md:flex md:flex-col md:mx-1">
                     <span>${listing.listingAddress.address}</span>
                     <span>${listing.listingAddress.city}, ${listing.listingAddress.state}
@@ -95,7 +155,6 @@ const populateListingFromDB = listing => {
 };
 
 const populateDetailsFromApi = (propertyInfo, imageUrls) => {
-    console.log(propertyInfo)
     requestSchoolDetailView(propertyInfo.identifier.Id);
     //language=HTML
     const html = `
@@ -136,7 +195,7 @@ const populateDetailsFromApi = (propertyInfo, imageUrls) => {
     $("#ApiDetails").append(html);
 }
 
-const populateSchoolInfoDetails = details => {
+const populateSchoolInfo = details => {
     const [primarySchool, secondarySchool, highSchool] = findSchool(details.property[0].school)
     //language=HTML
     let html = `
@@ -197,14 +256,14 @@ const viewOffers = _ => {
     $("#viewOffersBtn").click(_ => {
         clearStoredURI();
         let listingId = $('#listingPageDiv').attr('data-id');
-        createView({offers: {offers: `/api/offers/findOffers/${listingId}`,  listing: `/api/listings/${listingId}`}});
+        createView({offers: {offers: `/api/offers/findOffers/${listingId}`}});
     });
 }
 
 const editListing = _ => {
     $('#editListing').click(_ => {
         let listingId = $('#listingPageDiv').attr('data-id');
-        createView(`/realtorListing/api/listings/${listingId}`)
+        createView({realtorListing: {realtorListing: `/api/listings/${listingId}`}})
     });
 }
 
@@ -212,14 +271,7 @@ const editListing = _ => {
 const requestListingDetailView = (listingAddress, imageUrls) => {
     const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
 
-    const request = {
-        method: "GET",
-        headers: getHeaders()
-    }
-
-    fetchData({
-        properties: `/api/houseInfo?address=${address}`
-    }, request)
+    fetchData({properties: `/api/houseInfo?address=${address}`}, getHeaders())
         .then(response => {
             console.log(response)
             populateDetailsFromApi(response.properties.property[0], imageUrls)
@@ -230,7 +282,7 @@ const requestSchoolDetailView = propertyId => {
     fetchData({schoolInfo: `/api/houseInfo/schoolInfo?propertyId=${propertyId}`}, getHeaders())
         .then(response => {
             console.log(response)
-            populateSchoolInfoDetails(response.schoolInfo)
+            populateSchoolInfo(response.schoolInfo)
         })
 }
 
@@ -240,9 +292,12 @@ const isListingActive = listing => {
 }
 
 const toggleButtonDisplay = _ => {
-    if (sellerAgent === getLoggedInUser()) {
+    $('#viewOffersBtn').removeClass('hidden');
+    $('#editListing').removeClass('hidden');
+    $('#listingImgUpload').removeClass('hidden');
+    if (sellerAgent === getLoggedInUser() || getUserRole() === "ADMIN") {
         $('#editListing').removeClass('hidden');
-        // $('#listingImgUpload').removeClass('hidden');
+        $('#listingImgUpload').removeClass('hidden');
     }
     if (isLoggedIn()) {
         $('#viewOffersBtn').removeClass('hidden');

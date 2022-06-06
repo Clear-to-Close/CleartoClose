@@ -36,13 +36,16 @@ public class UsersController {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final S3Service s3Service;
     private final JavaMailSender mailSender;
     private final MailService mailService;
 
+    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, S3Service s3Service) {
     public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, JavaMailSender mailSender, MailService mailService) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
+        this.s3Service = s3Service;
         this.mailSender = mailSender;
         this.mailService = mailService;
     }
@@ -54,6 +57,7 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findByEmail(email);
+        user.setPreApprovalileName(s3Service.getSignedURL(user.getPreApprovalileName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
 
@@ -72,6 +76,7 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findById(userId).get();
+        user.setPreApprovalileName(s3Service.getSignedURL(user.getPreApprovalileName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
 
