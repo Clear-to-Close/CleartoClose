@@ -5,22 +5,17 @@ import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import fetchData from "../fetchData.js";
 
-
 let idArray = [];
 let offers = [];
-
 let seller;
 
 
 export default function Offers(props) {
     offers = props.offers;
-  
+    seller = props.listing.seller.email;
     console.log(props)
-  
-    // grabSellerId();
-    // fetchListingId();
-
     //language=HTML
+
     return `
         <div class="content-height bg-slate-200 opacity-95">
             <div id="listing-container"

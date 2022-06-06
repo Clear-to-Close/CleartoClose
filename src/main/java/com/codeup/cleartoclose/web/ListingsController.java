@@ -35,29 +35,27 @@ public class ListingsController {
 
     @GetMapping("{listingId}")
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
-
         Listing listing = listingRepository.findById(listingId).get();
+        listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
+        listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
         if (listing.getSellerAgent() != null) {
             listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
         }
-        listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
-        listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-        listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
-        listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
         return listingRepository.findById(listingId);
     }
 
     @GetMapping("searchByFullAddress")
     public ResponseEntity<Listing> getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state,
-                                              @RequestParam String zip) {
+                                                       @RequestParam String zip) {
         try {
             Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
                     zip);
             Listing listing = listingRepository.findByListingAddress(addressToFind);
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
-            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
+            if (listing.getSellerAgent() != null) {
+                listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            }
             return new ResponseEntity<>(listing, HttpStatus.OK);
         } catch (NullPointerException ex) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -72,13 +70,11 @@ public class ListingsController {
         Collection<Listing> foundListings = listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state),
                 Optional.ofNullable(zip));
         for (Listing listing : foundListings) {
+            listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
+            listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
             if (listing.getSellerAgent() != null) {
                 listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
             }
-            listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
-            listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
-            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
         }
         return foundListings;
     }
