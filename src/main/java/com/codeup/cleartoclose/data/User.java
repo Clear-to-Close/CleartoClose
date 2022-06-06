@@ -59,10 +59,6 @@ public class User {
     @ToString.Exclude
     private String profileImageName;
 
-    @Column(name = "profile_img")
-    @ToString.Exclude
-    private String profileImageName;
-
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnoreProperties({"buyer", "buyerAgent", "listingOffers", "listingAddress", "sellerAgent", "seller"})
     @ToString.Exclude
