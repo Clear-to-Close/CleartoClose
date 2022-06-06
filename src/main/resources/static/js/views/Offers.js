@@ -5,10 +5,13 @@ import {getLoggedInUser, numberWithCommas, standardDateFormat} from "../utility.
 
 let idArray = [];
 let offers = [];
+let listing = [];
 let seller;
 
 export default function Offers(props) {
     offers = props.offers;
+    seller = props.listing.seller.email;
+    listing = props.listing;
     //language=HTML
     return `
         <div class="content-height bg-slate-200 opacity-95">
@@ -75,7 +78,6 @@ export default function Offers(props) {
 
 
 const retrieveOffersFromDb = (offers) => {
-    console.log(standardDateFormat(offers[1].closingDate));
     offers.map(offer => idArray.push(offer.id));
     // language=HTML
     return offers.map(offer =>
@@ -202,9 +204,11 @@ function renderEditOfferView() {
 function buttonAuthorization() {
     let user = getLoggedInUser()
     console.log(user);
-    console.log(seller)
+    console.log(seller);
+    console.log(offers);
+    console.log(listing);
     let currentOfferor;
-    let offerStatus;
+    let listingStatus = listing.listingStatus;
     let offerID;
 
 
@@ -212,25 +216,25 @@ function buttonAuthorization() {
         $("#makeOfferBtn").removeClass("hidden");
     } else {
         offers.forEach(function (offer) {
-            console.log(offer);
             offerID = offer.id;
-            offerStatus = offer.offerStatus;
             let searchOfferor = offer.offeror.email;
 
             if (searchOfferor === user) {
                 currentOfferor = user;
             }
 
-            if (seller === user && offerStatus === 'ACTIVE') {
+            if (seller === user && listingStatus === 'ACTIVE') {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
 
             }
-            if (user !== seller && offerStatus === 'COUNTER') {
+            if (user !== seller && listingStatus === 'COUNTER') {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
             }
         })
+
+
 
         if (seller !== user && currentOfferor !== user) {
             $("#makeOfferBtn").removeClass("hidden");
