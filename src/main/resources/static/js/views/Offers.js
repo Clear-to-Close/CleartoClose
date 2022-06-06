@@ -224,13 +224,9 @@ function buttonAuthorization() {
     } else {
 
         offers.forEach(function (offer) {
-            console.log(offer);
             let offerStatus = offer.offerStatus;
-            console.log(offerStatus);
             offerID = offer.id;
-            console.log(offerID);
             let alreadyABidder = offer.offeror.email;
-            console.log(alreadyABidder);
 
             if (alreadyABidder === user) {
                 currentBidder = user;
@@ -243,6 +239,10 @@ function buttonAuthorization() {
                 $(`#btn-accept-${offerID}`).removeClass("hidden");
                 $(`#btn-counter-${offerID}`).removeClass("hidden");
             }
+            if (user === alreadyABidder && offerStatus === 'ACTIVE') {
+                $(`#btn-edit-${offerID}`).removeClass("hidden");
+            }
+
         })
 
         if (homeOwner !== user && currentBidder !== user) {
