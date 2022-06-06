@@ -14,7 +14,7 @@ export default function Footer(props) {
                         </a>
                     </li class="flex justify-center items-center px-3">
                     <li>
-                        <a class="text-navLink text-sm" href="/contactUs" data-link>Contact Us</a>
+                        <a class="text-navLink text-sm" href="/contact" data-link>Contact Us</a>
                     </li>
                 </ul>
 <!--                <br>-->
