@@ -17,7 +17,7 @@ export default function fetchData(state, request) {
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
                     console.log(res.status)
-                    if (res.status === 400) {
+                    if (res.status === 404) {
                         return res.status
                     }
                     if (request.method === "POST" && typeof request.body === "string" && request.body.includes("grant")) {

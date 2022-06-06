@@ -1,5 +1,6 @@
 import createView from "../createView.js";
-import {getLoggedInUser} from "../utility.js";
+import { getLoggedInUser } from "../utility.js";
+import fetchData from "../fetchData.js";
 
 const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
 

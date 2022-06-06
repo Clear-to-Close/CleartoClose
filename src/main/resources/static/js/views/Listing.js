@@ -10,7 +10,7 @@ let sellerAgent = "";
 
 export default function ListingIndex(props) {
     console.log(props)
-    if (props.listing === 400) {
+    if (props.listing === 404) {
         alert("No Listing Found At Address")
         createView("/")
     }
@@ -22,7 +22,7 @@ export default function ListingIndex(props) {
         <div id="listingPageDiv" data-id="${props.listing.id}"
              class="content-height w-full font-medium">
             <div class="content-height w-full flex flex-col items-center justify-center md:flex-row">
-                
+
                 <div class="md:w-1/2">
                     ${populateCarousel(props.listing.house_images)}
                     <div id="listingImgUpload" class="flex justify-center">
@@ -39,25 +39,16 @@ export default function ListingIndex(props) {
                         ${populateListingInfo(props.listing)}
                     </div>
                 </div>
-                
-                <div class="md:w-1/2">                    
-                    <div>
-                        <div class="flex flex-col">
-                            <img class="my-1 rounded-full" src="https://via.placeholder.com/150"
-                                 alt="Image of ${normalizeSentence(props.listing.sellerAgent.firstName)}">
-                            <div>
-                                <span>${normalizeSentence(props.listing.sellerAgent.firstName)}</span>
-                                <span>${normalizeSentence(props.listing.sellerAgent.lastName)}</span>
-                            </div>
-                            <div>
-                                <span>${props.listing.sellerAgent.email}</span>
-                            </div>
-                        </div>
 
+                <div class="md:w-1/2 md:h-full">
+                    <div>
+                        <div id="agentProfile" data-id="${props.listing.sellerAgent.id}" class="flex flex-col items-center">
+                            ${populateSellerAgentInfo(props.listing.sellerAgent)}
+                        </div>
                         <div class="w-full flex flex-col justify-around">
-                            <div id="ApiDetails" class="w-full md:flex md:flex-col md:items-center">
+                            <div id="ApiDetails" class="w-full md:flex md:flex-col md:items-center md:m-2">
                             </div>
-                            <div id="apiSchoolInfo" class="hidden md:flex md:flex-col md:p-2"></div>
+                            <div id="apiSchoolInfo" class="hidden md:flex md:flex-col md:m-2"></div>
                         </div>
 
                         <div class="flex mx-auto justify-center">
@@ -70,11 +61,11 @@ export default function ListingIndex(props) {
                                 Edit Listing
                             </button>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
-                
+
             </div>
         </div>`
 }
@@ -118,7 +109,20 @@ const populateSellerAgentInfo = agentInfo => {
     console.log(agentInfo)
     //language=HTML
     return `
-
+        <div class="w-[150px] h-[150px] m-1">
+            <img class="my-1 rounded-full" src="${agentInfo.profileImageName}"
+                 alt="Image of ${normalizeSentence(agentInfo.firstName)}">
+        </div>
+        <div class="m-1">
+            <span>${normalizeSentence(agentInfo.firstName)}</span>
+            <span>${normalizeSentence(agentInfo.lastName)}</span>
+        </div>
+        <div class="m-1">
+            <span>${agentInfo.email}</span>
+        </div>
+        <div class="m-1">
+            <a id="profileLink" class="mx-1 hover:text-callToAction hover:bg-primary">Click for Listing Agents Profile</a>
+        </div>
     `
 }
 
@@ -267,6 +271,15 @@ const editListing = _ => {
     });
 }
 
+const loadAgentProfile = _ => {
+    $("#agentProfile").click(function (e) {
+        if (e.target.id === 'profileLink') {
+            const userId = $(this).data("id")
+            createView({profile: {profile: `/api/users/${userId}`}})
+        }
+    })
+}
+
 
 const requestListingDetailView = (listingAddress, imageUrls) => {
     const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
@@ -309,4 +322,5 @@ export function ListingEvent() {
     viewOffers();
     editListing();
     submitImages();
+    loadAgentProfile();
 }

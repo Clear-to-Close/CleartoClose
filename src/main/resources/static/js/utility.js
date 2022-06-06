@@ -54,12 +54,9 @@ export const normalizeSentence = sentence => {
 }
 
 export const formatPhoneNumber = phoneNumber => {
-    //normalize string and remove all unnecessary characters
     phoneNumber = phoneNumber.replace(/[^\d]/g, "");
 
-    //check if number length equals to 10
     if (phoneNumber.length === 10) {
-        //reformat and return phone number
         return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
     }
     return 'Phone Number Not Listed';

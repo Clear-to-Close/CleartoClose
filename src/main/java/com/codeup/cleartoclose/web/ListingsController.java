@@ -38,6 +38,8 @@ public class ListingsController {
         Listing listing = listingRepository.findById(listingId).get();
         listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
         listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
+        listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+        listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
         return listingRepository.findById(listingId);
     }
 
@@ -50,9 +52,11 @@ public class ListingsController {
             Listing listing = listingRepository.findByListingAddress(addressToFind);
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
+            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
             return new ResponseEntity<>(listing, HttpStatus.OK);
         } catch (NullPointerException ex) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -66,6 +70,8 @@ public class ListingsController {
         for (Listing listing : foundListings) {
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
+            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
         }
         return foundListings;
     }

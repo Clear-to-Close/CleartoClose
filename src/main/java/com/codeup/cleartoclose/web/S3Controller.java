@@ -37,7 +37,7 @@ public class S3Controller {
         }
         User editUser = usersRepository.findById(userId).get();
         System.out.println(editUser);
-        editUser.setPreApprovalileName(filename);
+        editUser.setPreApprovalFileName(filename);
         System.out.println(editUser);
         usersRepository.save(editUser);
 
