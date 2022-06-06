@@ -22,7 +22,7 @@ a.nav-link {
 }
 
 .content-height {
-    min-height: calc(100vh - 90px);
+    min-height: calc(100vh - 168px);
     max-height: max-content;
 }
 

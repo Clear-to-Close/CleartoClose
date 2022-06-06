@@ -5,6 +5,7 @@ import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
