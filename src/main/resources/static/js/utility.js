@@ -47,3 +47,10 @@ export const normalizeSentence = sentence => {
 export function numberWithCommas(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+export function standardDateFormat(sqlDate) {
+    let month = sqlDate.substring(5,7);
+    let day = sqlDate.substring(8,10);
+    let year = sqlDate.substring(0,4);
+    return `${month}/${day}/${year}`;
+}

@@ -1,7 +1,7 @@
 import createView from "../createView.js";
 import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {confirmOfferAcceptance, updateListingObject, updateOfferStatus} from "./acceptOffer.js";
-import {getLoggedInUser, numberWithCommas} from "../utility.js";
+import {getLoggedInUser, numberWithCommas, standardDateFormat} from "../utility.js";
 
 let idArray = [];
 let offers = [];
@@ -75,6 +75,7 @@ export default function Offers(props) {
 
 
 const retrieveOffersFromDb = (offers) => {
+    console.log(standardDateFormat(offers[1].closingDate));
     offers.map(offer => idArray.push(offer.id));
     // language=HTML
     return offers.map(offer =>
@@ -148,7 +149,7 @@ const retrieveOffersFromDb = (offers) => {
                             Closing Date Requested:
                         </div>
                         <div class="text-primary font-medium mx-3 my-1">
-                            ${offer.closingDate}
+                            ${standardDateFormat(offer.closingDate)}
                         </div>
                     </div>
 
