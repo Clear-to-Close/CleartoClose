@@ -72,6 +72,7 @@ export default function ListingIndex(props) {
                         </div>
                         
                     </div>
+                    
                 </div>
                 
             </div>
@@ -266,11 +267,13 @@ const editListing = _ => {
     });
 }
 
+
 const requestListingDetailView = (listingAddress, imageUrls) => {
     const address = encodeURIComponent(`${listingAddress.address}, ${listingAddress.city}, ${listingAddress.state}`);
 
     fetchData({properties: `/api/houseInfo?address=${address}`}, getHeaders())
         .then(response => {
+            console.log(response)
             populateDetailsFromApi(response.properties.property[0], imageUrls)
         })
 }

@@ -12,6 +12,7 @@ export default function fetchData(state, request) {
     const baseUri = `http://${BACKEND_HOST}:${PORT}`;
 
     for (let pieceOfState of Object.keys(state)) {
+
         promises.push(
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
@@ -22,6 +23,7 @@ export default function fetchData(state, request) {
                     if (request.method === "POST" && typeof request.body === "string" && request.body.includes("grant")) {
                         return res.json()
                     } else if (request.method === "POST" || request.method === "PUT" || request.method === "PATCH") {
+                        console.log(res)
                         return res
                     } else {
                         return res.json()

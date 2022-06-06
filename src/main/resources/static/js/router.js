@@ -19,6 +19,7 @@ import Register, {RegisterEvent} from "./views/Register.js";
 import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 import {getLoggedInUser} from "./utility.js";
 import EditOffer, {EditEvent} from "./views/EditOffer.js";
+import ResetPassword, {ResetEvent} from "./views/ResetPassword.js";
 
 
 export default function router(URIObject) {
@@ -55,9 +56,7 @@ export default function router(URIObject) {
         },
         '/listing': {
             returnView: ListingIndex,
-            state: {
-                listing: ""
-            },
+            state: {},
             uri: '/listing',
             title: "Listing",
             viewEvent: ListingEvent
@@ -117,6 +116,14 @@ export default function router(URIObject) {
             uri: '/profile',
             title: 'Your profile page',
             viewEvent: ProfileEvents
+        },
+        '/reset': {
+            returnView: ResetPassword,
+            state: {
+            },
+            uri: '/reset',
+            title: 'Reset Password',
+            viewEvent: ResetEvent
         }
     };
 

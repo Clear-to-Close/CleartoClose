@@ -104,3 +104,4 @@ export function AllListingsEvent() {
     initMap();
     loadMapMarkers();
 }
+

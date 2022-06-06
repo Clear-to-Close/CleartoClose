@@ -13,6 +13,7 @@ module.exports = {
         "./src/main/resources/static/js/views/MakeOffer.js",
         "./src/main/resources/static/js/views/Register.js",
         "./src/main/resources/static/js/views/partials/Footer.js",
+        "./src/main/resources/static/js/views/updateProfile.js",
         "./src/main/resources/static/js/views/partials/Navbar.js"],
     theme: {
         extend: {
