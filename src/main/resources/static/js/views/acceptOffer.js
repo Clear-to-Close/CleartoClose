@@ -1,6 +1,6 @@
 import createView from "../createView.js";
-
-const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
+import { getHeaders } from "../auth.js";
+import fetchData from "../fetchData.js";
 
 let acceptanceID = null;
 let buyerID = null;
@@ -105,12 +105,10 @@ export function updateListingObject() {
         }
         const listingUpdate = {
             method: "PUT",
-            headers: {
-                "Content-Type": 'application/json'
-            },
+            headers: getHeaders(),
             body: JSON.stringify(soldListing)
         }
-        fetch(`http://${BACKEND_HOST}:${PORT}/api/listings/acceptOffer/${acceptanceID}`, listingUpdate)
-            .then(response => createView(`/listing/listings/${acceptanceID}`))
+        fetchData({server: `/api/listings/acceptOffer/${acceptanceID}`}, listingUpdate)
+            .then(response=> createView({listing: {listing : `/listings/${acceptanceID}`}}))
     })
 }////END OF UPDATE LISTING OBJECT

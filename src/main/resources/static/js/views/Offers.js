@@ -2,6 +2,8 @@ import createView from "../createView.js";
 import {initCounterOffer, submitCounterOffer} from "./counterOffer.js";
 import {confirmOfferAcceptance, updateListingObject, updateOfferStatus} from "./acceptOffer.js";
 import {getLoggedInUser, numberWithCommas, standardDateFormat} from "../utility.js";
+import {getHeaders} from "../auth.js";
+import fetchData from "../fetchData.js";
 
 let idArray = [];
 let offers = [];
@@ -11,8 +13,11 @@ let seller;
 export default function Offers(props) {
     offers = props.offers;
     seller = props.listing.seller.email;
+
     listing = props.listing;
+    console.log(props)
     //language=HTML
+
     return `
         <div class="content-height bg-slate-200 opacity-95">
             <div id="listing-container"

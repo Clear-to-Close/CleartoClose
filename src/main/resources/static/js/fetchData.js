@@ -9,13 +9,17 @@ export default function fetchData(state, request) {
     const promises = [];
     //TODO: this needs to be moved to a prop file or env variable
 
-    const baseUri = `http://${BACKEND_HOST}:${PORT}`;
+    const baseUri = `${BACKEND_HOST}:${PORT}`;
 
     for (let pieceOfState of Object.keys(state)) {
 
         promises.push(
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
+                    console.log(res.status)
+                    if (res.status === 404) {
+                        return res.status
+                    }
                     if (request.method === "POST" && typeof request.body === "string" && request.body.includes("grant")) {
                         return res.json()
                     } else if (request.method === "POST" || request.method === "PUT" || request.method === "PATCH") {
