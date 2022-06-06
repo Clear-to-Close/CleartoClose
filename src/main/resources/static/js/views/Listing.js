@@ -1,7 +1,7 @@
 import createView from "../createView.js";
-import {isLoggedIn} from "../auth.js";
-import {clearStoredURI} from "../init.js";
-import {uploadDocuments, getLoggedInUser, normalizeSentence, getUserRole, getMessage} from "../utility.js";
+import { isLoggedIn } from "../auth.js";
+import { clearStoredURI } from "../init.js";
+import { uploadDocuments, getLoggedInUser, normalizeSentence, getUserRole } from "../utility.js";
 import fetchData from "../fetchData.js";
 import {getHeaders} from "../auth.js";
 
@@ -10,6 +10,7 @@ let sellerAgent = "";
 
 export default function ListingIndex(props) {
     console.log(props)
+
     if (props.listing === 404) {
         alert("No Listing Found At Address")
         createView("/")
@@ -17,6 +18,7 @@ export default function ListingIndex(props) {
     requestListingDetailView(props.listing.listingAddress, props.listing.image_icons);
     sellerAgent = props.listing.sellerAgent.email;
     listingId = props.listing.id
+
     // language=HTML
     return `
         <div id="listingPageDiv" data-id="${props.listing.id}"
@@ -29,7 +31,7 @@ export default function ListingIndex(props) {
                         <input type="file" id="uploadDocs" accept="image/*" class="hidden">
                         <button type="button" id="uploadBtn"
                                 class="text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload
-                            Documents
+                            Images
                         </button>
                     </div>
                     <div class="p-2 text-center my-2">

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.codeup.cleartoclose.services.S3Service;
-
 import java.util.*;
 
 @CrossOrigin
@@ -38,8 +37,9 @@ public class ListingsController {
         Listing listing = listingRepository.findById(listingId).get();
         listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
         listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-        listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
-        listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
+        if (listing.getSellerAgent() != null) {
+            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+        }
         return listingRepository.findById(listingId);
     }
 
@@ -52,8 +52,9 @@ public class ListingsController {
             Listing listing = listingRepository.findByListingAddress(addressToFind);
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
-            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
+            if (listing.getSellerAgent() != null) {
+                listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            }
             return new ResponseEntity<>(listing, HttpStatus.OK);
         } catch (NullPointerException ex) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -70,8 +71,9 @@ public class ListingsController {
         for (Listing listing : foundListings) {
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
-            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
-            listing.getBuyerAgent().setProfileImageName(s3Service.getSignedURL(listing.getBuyerAgent().getProfileImageName()));
+            if (listing.getSellerAgent() != null) {
+                listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            }
         }
         return foundListings;
     }
