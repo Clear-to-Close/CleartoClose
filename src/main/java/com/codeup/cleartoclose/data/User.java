@@ -20,6 +20,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "users")
 public class User {
+
     public enum Role{USER, ADMIN, REALTOR}
 
     @Id
@@ -53,6 +54,10 @@ public class User {
     @Column(name = "preApproval_filename")
     @ToString.Exclude
     private String preApprovalFileName;
+
+    @Column(name = "profile_img")
+    @ToString.Exclude
+    private String profileImageName;
 
     @Column(name = "profile_img")
     @ToString.Exclude

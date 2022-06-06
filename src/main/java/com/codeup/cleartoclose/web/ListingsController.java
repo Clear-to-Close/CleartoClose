@@ -35,7 +35,11 @@ public class ListingsController {
 
     @GetMapping("{listingId}")
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
+
         Listing listing = listingRepository.findById(listingId).get();
+        if (listing.getSellerAgent() != null) {
+            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+        }
         listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
         listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
         listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
@@ -68,6 +72,9 @@ public class ListingsController {
         Collection<Listing> foundListings = listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state),
                 Optional.ofNullable(zip));
         for (Listing listing : foundListings) {
+            if (listing.getSellerAgent() != null) {
+                listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            }
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
             listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
