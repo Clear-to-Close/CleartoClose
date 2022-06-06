@@ -33,7 +33,11 @@ public class ListingsController {
 
     @GetMapping("{listingId}")
     public Optional<Listing> getListingById(@PathVariable Long listingId) {
+
         Listing listing = listingRepository.findById(listingId).get();
+        if (listing.getSellerAgent() != null) {
+            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+        }
         listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
         listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
         return listingRepository.findById(listingId);
@@ -41,9 +45,13 @@ public class ListingsController {
 
     @GetMapping("searchByFullAddress")
     public Listing getListingByAddress(@RequestParam String address, @RequestParam String city, @RequestParam String state, @RequestParam String zip) {
+
         Address addressToFind = addressRepository.findByAddressAndCityAndStateAndZipCode(address, city, state,
                 zip);
         Listing listing = listingRepository.findByListingAddress(addressToFind);
+        if (listing.getSellerAgent() != null) {
+            listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+        }
         listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
         listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
         return listing;
@@ -57,6 +65,9 @@ public class ListingsController {
         Collection<Listing> foundListings = listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state),
                 Optional.ofNullable(zip));
         for (Listing listing : foundListings) {
+            if (listing.getSellerAgent() != null) {
+                listing.getSellerAgent().setProfileImageName(s3Service.getSignedURL(listing.getSellerAgent().getProfileImageName()));
+            }
             listing.setImage_icons(getSignedUrls(listing.getImage_icons()));
             listing.setHouse_images(getSignedUrls(listing.getHouse_images()));
         }

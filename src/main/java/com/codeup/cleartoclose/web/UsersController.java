@@ -26,6 +26,7 @@ import javax.validation.constraints.Size;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.UUID;
 
 
 @CrossOrigin
@@ -150,13 +151,13 @@ public class UsersController {
         System.out.println(userEmail.getClass());
 
         System.out.println("send email backend reached:" + userEmail);
-        String token = RandomString.make(15);
+        String token = UUID.randomUUID().toString();;
         mailService.updateResetPasswordToken(token, userEmail);
-        String resetPasswordLink = "https://localhost:8080/reset_password?token=" + token;
+        String resetPasswordLink = "http://localhost:8080/api/users/reset-password?token=" + token;
         sendResetLinkToEmail(userEmail, resetPasswordLink);
     }
 
-    @PutMapping("/reset_password")
+    @PutMapping("/reset-password")
     public void resetUserPasswordFromToken(@RequestParam String password, @RequestParam String token) {
         User user = mailService.getByPasswordToken(token);
         System.out.println(user.getUsername());
