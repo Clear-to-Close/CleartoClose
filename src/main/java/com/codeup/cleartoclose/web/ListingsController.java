@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.codeup.cleartoclose.services.S3Service;
-
 import java.util.*;
 
 @CrossOrigin

@@ -49,25 +49,24 @@ public class S3Controller {
         String filename = s3Service.uploadFile(upload);
         Listing listingToEdit = listingsRepository.findById(listingId).get();
         List<String> imgNames = listingToEdit.getHouse_images();
+        String duplicateImage = null;
 
-
-        if (imgNames.isEmpty()) {
-            imgNames.add(filename);
-        } else {
-            for (String imgName : imgNames) {
-                if (imgName.split("\\.")[0].equalsIgnoreCase(filename.split("\\.")[0])) {
-                    s3Service.deleteFile(imgName);
-                    imgNames.add(filename);
-                } else {
-                    imgNames.add(filename);
-                }
+        for (String imgName : imgNames) {
+            if (imgName.split("\\.")[0].equalsIgnoreCase(filename.split("\\.")[0])) {
+                duplicateImage = imgName;
             }
         }
 
-        imgNames.removeIf(imgName -> imgName.split("\\.")[0].equalsIgnoreCase(filename.split("\\.")[0]));
+        if (duplicateImage != null) {
+            imgNames.remove(duplicateImage);
+            s3Service.deleteFile(duplicateImage);
+            imgNames.add(filename);
+        } else {
+            imgNames.add(filename);
+        }
 
         listingToEdit.setHouse_images(imgNames);
         listingsRepository.save(listingToEdit);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
+}
 }
