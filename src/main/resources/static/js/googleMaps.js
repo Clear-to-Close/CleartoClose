@@ -1,4 +1,3 @@
-
 let map;
 let geocoder;
 
@@ -44,9 +43,9 @@ export function addMarkerForListing(address){
            let marker = new google.maps.Marker({
                 position: position,
                 map,
-                title: "Hello World!",
+                title: address
             });
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(marker, 'hover', function() {
                 infoWindow.open({
                     anchor: marker,
                     map,

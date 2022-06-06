@@ -15,7 +15,7 @@ export default function AllListings(props) {
     return `
         <div class="h-max bg-slate-200 opacity-95 overflow-hidden">
             <div class="m-4 h-1/2">
-                <div id="map" class="hidden w-full md:block" style="height:65vh"></div>
+                <div id="map" class="hidden w-full md:block border-2 border-callToAction rounded-md" style="height:65vh"></div>
             </div>
             <div class="h-full grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 m-4">
                 ${populateListings(props.listings)}
