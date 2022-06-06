@@ -1,6 +1,6 @@
 import fetchData from "../fetchData.js";
 import {getLoggedInUser} from "../utility.js";
-import {getHeaders, getToken} from "../auth.js";
+import {getHeaders} from "../auth.js";
 import createView from "../createView.js";
 import {validatePassword} from "./Register.js";
 
@@ -41,12 +41,12 @@ export function updateUserProfile() {
 								<label for="newStreet"></label>
 								<input type="text"
 								       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
-								       id="newStreet" value="${user.state.userAddress?.address ?? ""}">
+								       id="newStreet" placeholder="Street" value="${user.state.userAddress?.address ?? ""}">
 
 								<label for="suite"></label>
 								<input type="text"
 								       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
-								       id="suite" value="${user.state.userAddress?.apartmentNumber ?? ""}">
+								       id="suite" placeholder="Apt" value="${user.state.userAddress?.apartmentNumber ?? ""}">
 
 								<label for="newCity"></label>
 								<input type="text"
@@ -171,7 +171,7 @@ function updatePassword (){
 
                 let passwordRequest = {
                     method: "PUT",
-                    headers: {Authorization: getToken()},
+                    headers: getHeaders(),
                 }
 
                 fetchData({server: `/api/users/update_password?currentPassword=${currentPassword}&newPassword=${newPassword}`}, passwordRequest)

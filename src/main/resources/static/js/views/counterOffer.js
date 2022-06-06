@@ -1,7 +1,10 @@
 import createView from "../createView.js";
-import {getLoggedInUser} from "../utility.js";
+import fetchData from "../fetchData.js";
+import {getHeaders} from "../auth.js";
+import { getLoggedInUser } from "../utility.js";
 
-const OFFERS_URL = `http://${BACKEND_HOST}:${PORT}/api/offers`;
+
+
 
 export function initCounterOffer() {
     const offerID = $(this).data("id");
@@ -10,9 +13,17 @@ export function initCounterOffer() {
 
         $("#btn-confirm-counter").attr("data-id", offerID);
 
-        $.get(`${OFFERS_URL}/${offerID}`).then(function (res) {
-            console.log(res);
-            populateCounterOfferForm(res);
+        let request = {
+            method: "GET",
+            headers: getHeaders()
+        }
+
+        fetchData({
+            server: `/api/offers/${offerID}`
+        }, request)
+        .then(function (res) {
+                console.log(res);
+                populateCounterOfferForm(res);
         })
     })
 }///END OF COUNTER OFFER FUNCTION
@@ -115,7 +126,9 @@ export function submitCounterOffer() {
             body: JSON.stringify(offerData)
         }
 
-        fetch(`${OFFERS_URL}`, request)
+        fetchData({
+            server: `api/offers`
+        }, request)
             .then(response => {
                 console.log(response);
                 createView(`/offers/findOffers/${listingId}`);
@@ -132,14 +145,17 @@ function updateOfferStatusToCountered() {
         counterId: '222',
         offerStatus: 'CANCELLED'
     }
-    const offerUpdate = {
+    const updateRequest = {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(updatedOfferBody)
     }
-    fetch(`${OFFERS_URL}/countered/${originalOfferId}`, offerUpdate).then(function (res) {
+    fetchData({
+        server: `api/offers/countered/${originalOfferId}`
+    }, updateRequest)
+        .then(function (res) {
         console.log(res)
     })
 }
