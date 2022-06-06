@@ -626,6 +626,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 50px !important;
 }
 
+.h-60 {
+  height: 15rem !important;
+}
+
 .max-h-fit {
   max-height: -webkit-fit-content !important;
   max-height: -moz-fit-content !important;
@@ -805,6 +809,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bg-cover {
   background-size: cover !important;
+}
+
+.object-contain {
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
 }
 
 .p-1 {
@@ -994,7 +1003,7 @@ a.nav-link {
 }
 
 .content-height {
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 138px);
   max-height: -webkit-max-content;
   max-height: -moz-max-content;
   max-height: max-content;

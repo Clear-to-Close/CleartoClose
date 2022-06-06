@@ -8,8 +8,13 @@ export default function Navbar(props) {
         `
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div class="container-fluid">
-                    <a class="navbar-brand text-2xl font-medium" href="/" data-link>Clear To Close</a>
-                    <button class="navbar-toggler outline-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    <a class="navbar-brand text-2xl font-medium" href="/" data-link>
+                        <img src="../../../img/logo.png"
+                             class="object-contain h-60"
+                             alt="Clear to Close Logo">
+                    </a>
+                    <button class="navbar-toggler outline-0" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarToggler"
                             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
