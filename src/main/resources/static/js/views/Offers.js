@@ -9,6 +9,7 @@ let idArray = [];
 let offers = [];
 let listing = [];
 let homeOwner;
+let hasRealtor = false;
 
 
 export default function Offers(props) {
@@ -17,7 +18,11 @@ export default function Offers(props) {
     homeOwner = props.listing.seller.email;
 
     listing = props.listing;
-    console.log(props)
+    if(props.user.realtor.length > 0){
+        hasRealtor = true;
+    }
+
+    console.log(hasRealtor);
     //language=HTML
 
     return `
@@ -254,7 +259,7 @@ function buttonAuthorization() {
     let offerID;
 
 
-    if (offers.length === 0 && user !== homeOwner && listingStatus === "ACTIVE") {
+    if (offers.length === 0 && user !== homeOwner && listingStatus === "ACTIVE" && hasRealtor) {
 
         $("#makeOfferBtn").removeClass("hidden");
 

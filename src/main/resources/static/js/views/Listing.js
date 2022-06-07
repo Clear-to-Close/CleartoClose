@@ -10,6 +10,7 @@ let sellerAgent = "";
 
 export default function ListingIndex(props) {
     console.log(props)
+    console.log(getLoggedInUser());
 
     if (props.listing === 404) {
         alert("No Listing Found At Address")
@@ -265,7 +266,8 @@ const viewOffers = _ => {
         createView({
             offers: {
                 offers: `/api/offers/findOffers/${listingId}`,
-                listing: `/api/listings/${listingId}`
+                listing: `/api/listings/${listingId}`,
+                user: `/api/users/searchByEmail?email=${getLoggedInUser()}`
             },
         });
     });
