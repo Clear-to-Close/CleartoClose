@@ -149,15 +149,16 @@ function submitOffer() {
             body: JSON.stringify(offerData)
         }
 
-
-        fetchData({server: `/api/offers`}, postRequest).then(response => {
-            createView({
-                offers: {
-                    offers: `/api/offers/findOffers/${listingId}`,
-                    listing: `/api/listings/${listingId}`
-                }
+        if (Object.keys(offerData).every(key => key === '')) {
+            fetchData({server: `/api/offers`}, postRequest).then(response => {
+                createView({
+                    offers: {
+                        offers: `/api/offers/findOffers/${listingId}`,
+                        listing: `/api/listings/${listingId}`
+                    }
+                });
             });
-        });
+        }
     });
 }
 
