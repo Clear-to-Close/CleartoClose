@@ -64,7 +64,7 @@ export default function Offers(props) {
 						</div>
 					</div>
 					<div class="w-full h-1/5 flex justify-center items-center">
-						<button id="makeOfferBtn"
+						<button id="makeOfferBtn" data-id="${props.listing.id}"
 						        class="hidden p-3 mx-5 my-2 rounded-md shadow-xl font-medium text-lg text-primary bg-callToAction">
 							Make Offer
 						</button>
@@ -73,7 +73,7 @@ export default function Offers(props) {
 			</div>
 
 			<div id="offer" class="bg-slate-200">
-				${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div id="offer-sub-div" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
+				${props.offers.length === 0 ? `<div class="text-3xl text-center">Currently No Offers Submitted</div>` : `<div id="offer-sub-div" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
 				<div id="hiddenConfirmation" class="text-center m-1 w-full">
 					<button id="btn-confirm" type="submit" 
 					        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
@@ -232,9 +232,9 @@ const populateCarousel = images => {
 }
 
 const createMakeOfferView = () => {
-    $('#makeOfferBtn').click(_ => {
-        let URI = sessionStorage.getItem("URI").split("/")
-        let listingId = parseInt(URI[URI.length - 1]);
+    $('#makeOfferBtn').click(function () {
+        let listingId = $(this).data('id');
+        console.log(listingId);
         createView({makeOffer: {listing: `/api/listings/${listingId}`}})
     })
 }
