@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service("mailService")
-
 public class MailService {
-
-
 
     private final UsersRepository usersRepository;
 
@@ -25,13 +22,20 @@ public class MailService {
     @Value("${spring.mail.from}")
     private String from;
 
-    public MailService(UsersRepository usersRepository){
+
+    public MailService(UsersRepository usersRepository) {
+
         this.usersRepository = usersRepository;
     }
 
     public void updateResetPasswordToken(String token, String email) {
+        System.out.println(email);
+        if (usersRepository == null) {
+            System.out.println("hello");
+        }
         User user = usersRepository.findByEmail(email);
         user.setResetPasswordToken(token);
+        System.out.println(user);
         usersRepository.save(user);
     }
 
@@ -43,8 +47,10 @@ public class MailService {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
         msg.setTo(user.getEmail());
+        System.out.println(user.getEmail());
         msg.setSubject(subject);
         msg.setText(body);
+        System.out.println(msg);
 
         try {
             this.emailSender.send(msg);

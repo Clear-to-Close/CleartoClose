@@ -9,8 +9,11 @@ export default function ProfilePage(props) {
         <div class="content-height bg-slate-200 opacity-95 flex justify-center">
             <div id="updateProfileForm" class="flex flex-col items-center w-3/4 lg:w-full lg:m-2">
                 <div class="w-full flex flex-col md:flex-row xl:w-3/4">
+                    <div class="hidden" id="profile-error">
+                        ${checkForRealtor(props.profile.realtor)}
+                    </div>
                     <div class="w-full flex flex-col items-center my-2 md:w-1/2">
-                        <img class="my-1 rounded-full w-[150px] h-[150px]" src="${props.profile.profileImageName}"
+                        <img class="my-1 rounded-full w-[150px] h-[200px]" src="${props.profile.profileImageName}"
                              alt="Image of ${normalizeSentence(props.profile.firstName)} ${normalizeSentence(props.profile.lastName)}">
                         <div class="w-full flex flex-col items-center">
                             <input type="file" id="uploadPreApprovalInput" class="hidden">
@@ -156,6 +159,12 @@ function submitDocument() {
         uploadDocuments('uploadProfileImage', userId, file)
         $("#uploadProfileImageInput").val("")
     })
+}
+
+const checkForRealtor = realtorArray => {
+    if (realtorArray.length === 0) {
+
+    }
 }
 
 export function ProfileEvents() {

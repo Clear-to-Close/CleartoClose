@@ -51,7 +51,6 @@ OffersController {
     }
 
     @PostMapping
-
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO, OAuth2Authentication authUser) {
         Offer newOffer = new Offer();
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
@@ -76,8 +75,9 @@ OffersController {
         String subject = "New Offer";
         System.out.println(subject);
         String body = "A new offer has been placed. Log in to see the offer. http://localhost:8080/login";
+        mailService.prepareAndSend(currentListing.getSeller(), subject, body);
+        System.out.println(currentListing.getSellerAgent());
         mailService.prepareAndSend(currentListing.getSellerAgent(), subject, body);
-        mailService.prepareAndSend(currentListing.getSellerAgent().getRealtor().iterator().next(), subject, body);
         offersRepository.save(newOffer);
         System.out.println(newOffer);
     }
@@ -144,7 +144,10 @@ OffersController {
         Offer counteredOffer = offersRepository.findById(offerId).get();
         counteredOffer.setOfferStatus(offerUpdate.getOfferStatus());
         counteredOffer.setCounterId(offerUpdate.getCounterId());
+
         System.out.println(counteredOffer);
+
+        System.out.println(offerUpdate);
 
         String listingAddress = counteredOffer.getListing().getListingAddress().getAddress();
 
@@ -159,7 +162,6 @@ OffersController {
                 listingAddress).toString();
 
         mailService.prepareAndSend(counteredOffer.getOfferor(), subject, offerorBody);
-        System.out.println(counteredOffer.getOfferor().getRealtor());
         mailService.prepareAndSend(counteredOffer.getOfferor().getRealtor().iterator().next(), subject, realtorBody);
 
         System.out.println(offerUpdate);

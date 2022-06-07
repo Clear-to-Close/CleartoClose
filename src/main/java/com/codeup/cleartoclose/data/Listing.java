@@ -39,7 +39,7 @@ public class Listing {
     private User buyer;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password", "userAddress", "buyerAgentListings"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress", "buyerAgentListings", "userOffers"})
     private User buyerAgent;
 
     @ManyToOne
@@ -48,7 +48,7 @@ public class Listing {
     private User seller;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password", "userAddress","sellerAgentListings"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress","sellerAgentListings", "userOffers"})
     private User sellerAgent;
 
 
