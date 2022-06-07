@@ -86,7 +86,7 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"user"})
+    @JsonIgnoreProperties({"user", "listing", "realtor"})
     @ToString.Exclude
     private Address userAddress;
 
@@ -106,6 +106,7 @@ public class User {
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
     )
+
     @ToString.Exclude
     @JsonIgnoreProperties({"friends", "listings", "buyer", "seller", "buyerAgent", "sellerAgent", "password", "listing"})
     private Collection<User> realtor;

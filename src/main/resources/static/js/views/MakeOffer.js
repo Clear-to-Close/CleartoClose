@@ -149,6 +149,7 @@ function submitOffer() {
             body: JSON.stringify(offerData)
         }
 
+
         fetchData({server: `/api/offers`}, postRequest).then(response => {
             createView({
                 offers: {
