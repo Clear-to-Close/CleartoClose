@@ -179,12 +179,14 @@ public class UsersController {
         String token = UUID.randomUUID().toString();
 
         mailService.updateResetPasswordToken(token, userEmail);
-        String resetPasswordLink = "http://localhost:8080/api/users/reset-password?token=" + token;
+        String resetPasswordLink = "https://team-guy.fulgentcorp.com:8080/api/users/reset?token=" + token;
         sendResetLinkToEmail(userEmail, resetPasswordLink);
     }
 
-    @PutMapping("/reset-password")
+    @PutMapping("/reset")
     public void resetUserPasswordFromToken(@RequestParam String password, @RequestParam String token) {
+        System.out.println(password);
+        System.out.println(token);
         User user = mailService.getByPasswordToken(token);
         System.out.println(user.getUsername());
         String encryptedPassword = passwordEncoder.encode(password);

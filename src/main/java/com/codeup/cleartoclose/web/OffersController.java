@@ -7,7 +7,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,7 +143,10 @@ OffersController {
         Offer counteredOffer = offersRepository.findById(offerId).get();
         counteredOffer.setOfferStatus(offerUpdate.getOfferStatus());
         counteredOffer.setCounterId(offerUpdate.getCounterId());
+
         System.out.println(counteredOffer);
+
+        System.out.println(offerUpdate);
 
         String listingAddress = counteredOffer.getListing().getListingAddress().getAddress();
 
