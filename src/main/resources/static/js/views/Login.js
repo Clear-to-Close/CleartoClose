@@ -48,7 +48,7 @@ function renderResetPasswordForm() {
         if (e.target.id === 'forgotPasswordLink') {
             let forgotPasswordForm =
                 //language=html
-                ` <label for="forgot-my-password-email" class="px-[10px] my-auto text-center">A reset password link will be sent to your
+                ` <label for="forgot-my-password-email" class="px-[10px] my-auto text-center text-4xl">A reset password link will be sent to your
 	            email</label>
                 <input id="forgot-my-password-email"
                    class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full mx-1 my-3 p-1"
@@ -56,6 +56,7 @@ function renderResetPasswordForm() {
             <button id="recovery-email" type="button" class="w-full p-2 mx-2 my-2 rounded-md shadow-xl bg-callToAction font-medium">
 	            Recover Password
             </button>
+               <p id="recovery-email-sent" class="hidden bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full mx-1 my-3 p-1 text-4xl">If the email is associated with a registered user a link to reset password will be sent </p>
             `
             $('#login-form').html('').append(forgotPasswordForm)
         }
@@ -79,7 +80,7 @@ function resetPassword(){
             fetchData({server: `/api/users/send?userEmail=${userEmail}`}, request)
                 .then(response => {
                     console.log(response);
-
+                    $('#recovery-email-sent').removeClass('hidden');
                 })
         }
     })

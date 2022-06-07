@@ -10,6 +10,7 @@ let sellerAgent = "";
 
 export default function ListingIndex(props) {
     console.log(props)
+    console.log(getLoggedInUser());
 
     if (props.listing === 404) {
         alert("No Listing Found At Address")
@@ -30,7 +31,7 @@ export default function ListingIndex(props) {
                     <div id="listingImgUpload" class="flex justify-center">
                         <input type="file" id="uploadDocs" accept="image/*" class="hidden">
                         <button type="button" id="uploadBtn"
-                                class="text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload
+                                class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload
                             Images
                         </button>
                     </div>
@@ -265,7 +266,8 @@ const viewOffers = _ => {
         createView({
             offers: {
                 offers: `/api/offers/findOffers/${listingId}`,
-                listing: `/api/listings/${listingId}`
+                listing: `/api/listings/${listingId}`,
+                user: `/api/users/searchByEmail?email=${getLoggedInUser()}`
             },
         });
     });
@@ -312,15 +314,17 @@ const isListingActive = listing => {
 }
 
 const toggleButtonDisplay = _ => {
-    $('#viewOffersBtn').removeClass('hidden');
-    $('#editListing').removeClass('hidden');
-    $('#listingImgUpload').removeClass('hidden');
     if (sellerAgent === getLoggedInUser() || getUserRole() === "ADMIN") {
         $('#editListing').removeClass('hidden');
         $('#listingImgUpload').removeClass('hidden');
     }
+
     if (isLoggedIn()) {
         $('#viewOffersBtn').removeClass('hidden');
+    }
+
+    if (getUserRole() === "Realtor") {
+        $("#uploadBtn").removeClass('hidden')
     }
 }
 

@@ -3,6 +3,7 @@ import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import fetchData from "../fetchData.js";
 
+
 export default function EditOffer(props) {
     //language=html
     console.log(props);
@@ -11,17 +12,17 @@ export default function EditOffer(props) {
             <div class="w-3/4 md:w-1/2">
                 <div class="flex flex-col items-center text-left justify-center my-3">
                     <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 py-2 m-1">
-                        
+
                         <div class="justify-center w-full md:w-3/4 my-3 p-1">
-                            <input name="amount" id="offer-amount" type="text"
-                                   class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                                   value="${props.offer.offerAmount}" placeholder="How much are you offering?" required>
+                            <input name="amount" id="amount" type="text"
+                                   class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full my-3 p-1"
+                                   value="${props.offer.offerAmount}" placeholder="How much are you offering?">
                             <p id="invalid-amount-input" class="hidden m-2">Please enter your offer amount.</p>
                         </div>
 
                         <div class="justify-center w-full md:w-3/4 my-3 p-1">
-                            <select name="loan" id="loan-type"
-                                    class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                            <select name="loan" id="loanType"
+                                    class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full my-3 p-1"
                                     required>
                                 <option disabled selected>Loan Type</option>
                                 <option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
@@ -35,11 +36,12 @@ export default function EditOffer(props) {
                         </div>
 
                         <div class="justify-center w-full md:w-3/4 my-3 p-1">
-                            <input name="option" id="option-length" type="text"
-                                   class="validate whitespace-normal border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                            <input name="option" id="option" type="text"
+                                   class="validate whitespace-normal border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full my-3 p-1"
                                    placeholder="How many days are you requesting for an option period?"
-                                   value="${props.offer.optionLength}" required>
-                            <p id="invalid-option-input" class="hidden m-2">Please select your preferred option period (in days).</p>
+                                   value="${props.offer.optionLength}">
+                            <p id="invalid-option-input" class="hidden m-2">Please select your preferred option period
+                                (in days).</p>
                         </div>
 
                         <div class="justify-center w-full md:w-3/4 my-3 p-1">
@@ -91,21 +93,23 @@ export default function EditOffer(props) {
                         </div>
 
                         <div class="justify-center w-full md:w-3/4 my-3 p-1">
-                            <input name="closing-Date" id="closing-date" type="date"
-                                   class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                            <input name="closing-Date" id="closingDate" type="date"
+                                   class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full my-3 p-1"
                                    placeholder="What is your requested closing date?"
-                                   value="${props.offer.closingDate}" required>
-                            <p id="invalid-closingDate-input" class="hidden m-2">Please select your preferred closing date.</p>
+                                   value="${props.offer.closingDate}">
+                            <p id="invalid-closingDate-input" class="hidden m-2">Please select your preferred closing
+                                date.</p>
                         </div>
-                        
+
                         <div class="justify-center w-full md:w-3/4 my-3 p-1">
-                        <input name="closing-Costs" id="closing-costs" type="text"
-                               class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                               placeholder="How much are you requesting the seller pay in closing costs?"
-                               value="${props.offer.closingCosts}" required>
-                            <p id="invalid-closingCost-input" class="hidden m-2">Please enter how much you would like the buyer to pay in closing costs.</p>
+                            <input name="closing-Costs" id="closingCosts" type="text"
+                                   class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full my-3 p-1"
+                                   placeholder="How much are you requesting the seller pay in closing costs?"
+                                   value="${props.offer.closingCosts}">
+                            <p id="invalid-closingCosts-input" class="hidden m-2">Please enter how much you would like
+                                the buyer to pay in closing costs.</p>
                         </div>
-                        
+
                         <button id="edit-offer-btn" type="button"
                                 class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
                                 data-id="${props.offer.id}" data-listing="${props.listing.id}">Edit Offer
@@ -120,6 +124,29 @@ export default function EditOffer(props) {
 
 export function EditEvent() {
     editOffer();
+
+    $('.validate').on('change', function () {
+        let errorDiv = `#invalid-${$(this).prop('id')}-input`;
+        console.log(errorDiv);
+        if (isNaN(parseInt($(this).val()))) {
+            inputValidator($(this).val(), errorDiv, 'string');
+        } else {
+            inputValidator(parseInt($(this).val()), errorDiv, 'number');
+        }
+    })
+
+
+    function inputValidator(inputRequired, errorSelector, dataType) {
+        console.log(inputRequired);
+        console.log(errorSelector);
+        console.log(dataType);
+        console.log($('#loanType').val());
+        if (inputRequired === '' || inputRequired === null) {
+            $(`${errorSelector}`).removeClass('hidden').css('color', '#B80422');
+        } else if (typeof inputRequired !== dataType) {
+            $(`${errorSelector}`).removeClass('hidden').css('color', '#B80422').html(`You must use a ${dataType} here.`)
+        }
+    }
 }
 
 
@@ -135,32 +162,20 @@ function editOffer() {
     $('#edit-offer-btn').on('click', function (e) {
         const editOfferId = $(this).data('id');
         const listingId = $('#edit-offer-btn').data('listing');
-        console.log(listingId);
 
 
-      //TODO: 2. if the keys in this object all meet validation standards then fetchData will execute; may need loop/while logic
         const editData = {
-            offerAmount: inputValidator($('#offer-amount'), $('#invalid-offer-input'), 'number'),
-            loanType: inputValidator($('#loan-type'), $('#invalid-loanType-input'), 'string'),
-            optionLength: inputValidator($('#option-length'), $('#invalid-option-input'), 'number'),
+            offerAmount: $('#amount').val(),
+            loanType: $('#loanType').val(),
+            optionLength: $('#option').val(),
             survey: $(`input[name="survey"]:checked`).val(),
             homeWarranty: $(`input[name="warranty"]`).val(),
             appraisalWaiver: $(`input[name="appraisal"]`).val(),
-            closingDate: inputValidator($('#closing-date'), $('#invalid-closingDate-input'), 'string'),
-            closingCosts: inputValidator($('#closing-costs'), $('#invalid-closingCosts-input'), 'number'),
+            closingDate: $('#closingDate').val(),
+            closingCosts: $('#closingCosts').val(),
             offerorEmail: getLoggedInUser(),
             listingId: $(this).data('id')
         }
-
-        //TODO: 1. move to utility.js and import to this form & others
-        // export function inputValidator(inputRequired, errorSelector, dataType) {
-        //     if (inputRequired.prop('required', true).val() === '') {
-        //         errorSelector.removeClass('hidden').css('color', '#B80422');
-        //     } else if (typeof inputRequired.prop('required', true).val() !== dataType) {
-        //         errorSelector.removeClass('hidden').css('color', '#B80422').html(`You must use a ${dataType} here.`)
-        //     }
-        //     return inputRequired.val();
-        // }
 
         let request = {
             method: "PUT",
@@ -168,16 +183,18 @@ function editOffer() {
             body: JSON.stringify(editData)
         }
 
-        console.log(editData);
-        //TODO: 3. uncomment this after validation is working
-        // if editData.keys is not empty or null it can submit the form
-        // fetchData({server: `/api/offers/editOffer/${editOfferId}`}, request).then(response => {
-        //     createView({
-        //         offers: {
-        //             offers: `/api/offers/findOffers/${listingId}`,
-        //             listing: `/api/listings/${listingId}`
-        //         },
-        //     });
-        // })
+
+        if (Object.keys(editData).every(key => key === '')) {
+            alert('Please make sure all fields are filled.')
+        } else {
+            fetchData({server: `/api/offers/editOffer/${editOfferId}`}, request).then(response => {
+                createView({
+                    offers: {
+                        offers: `/api/offers/findOffers/${listingId}`,
+                        listing: `/api/listings/${listingId}`
+                    },
+                });
+            })
+        }
     });
 }

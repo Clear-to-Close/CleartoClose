@@ -468,12 +468,28 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-sepia:  ;
 }
 
+.absolute {
+  position: absolute !important;
+}
+
 .relative {
   position: relative !important;
 }
 
+.top-\[88px\] {
+  top: 88px !important;
+}
+
+.right-0 {
+  right: 0px !important;
+}
+
 .bottom-0 {
   bottom: 0px !important;
+}
+
+.z-50 {
+  z-index: 50 !important;
 }
 
 .m-2 {
@@ -546,20 +562,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 100px !important;
 }
 
-.mb-2 {
-  margin-bottom: 0.5rem !important;
-}
-
-.mt-4 {
-  margin-top: 1rem !important;
-}
-
 .mb-4 {
   margin-bottom: 1rem !important;
 }
 
 .mt-2 {
   margin-top: 0.5rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
 }
 
 .mr-3 {
@@ -893,14 +905,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 
-.text-sm {
-  font-size: 0.875rem !important;
-  line-height: 1.25rem !important;
+.text-4xl {
+  font-size: 2.25rem !important;
+  line-height: 2.5rem !important;
 }
 
 .text-xl {
   font-size: 1.25rem !important;
   line-height: 1.75rem !important;
+}
+
+.text-sm {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
 }
 
 .text-lg {
@@ -911,11 +928,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-3xl {
   font-size: 1.875rem !important;
   line-height: 2.25rem !important;
-}
-
-.text-4xl {
-  font-size: 2.25rem !important;
-  line-height: 2.5rem !important;
 }
 
 .text-5xl {

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -46,6 +48,14 @@ public class UsersController {
         this.mailService = mailService;
     }
 
+    @RequestMapping(value = "/viewPreApproval", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> viewPreApproval(OAuth2Authentication authUser) {
+        System.out.println(authUser);
+        System.out.println(usersRepository.findByEmail(authUser.getName()));
+        String preApproval = usersRepository.findByEmail(authUser.getName()).getPreApprovalFileName();
+        return Collections.singletonMap("url", s3Service.getSignedURL(preApproval));
+    }
 
     @GetMapping("searchByEmail")
     public MappingJacksonValue getUserByEmail(@RequestParam String email) {
@@ -62,11 +72,6 @@ public class UsersController {
         mappingJacksonValue.setFilters(filterProvider);
 
         return mappingJacksonValue;
-    }
-
-    @GetMapping
-    public List<User> getAllUsers() {
-        return usersRepository.findAll();
     }
 
     @GetMapping("{userId}")
@@ -92,7 +97,7 @@ public class UsersController {
         System.out.println(newUser.getPassword());
         newUser.setRole(User.Role.USER);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser.setPreApprovalFileName("default-user.jpg");
+        newUser.setProfileImageName("default-user.jpg");
         usersRepository.save(newUser);
     }
 

@@ -62,7 +62,7 @@ export default function router(URIObject) {
             returnView: RealtorListing,
             state: {},
             uri: '/realtorListing',
-            title: "Realtor Listing",
+            title: "Create Listing",
             viewEvent: RealtorListingEvent
         },
         '/listing': {

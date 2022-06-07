@@ -16,7 +16,6 @@ export default function fetchData(state, request) {
         promises.push(
             fetch(baseUri + state[pieceOfState], request)
                 .then(function (res) {
-                    console.log(res.status)
                     if (res.status === 404) {
                         return res.status
                     }
