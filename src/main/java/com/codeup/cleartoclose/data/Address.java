@@ -42,7 +42,7 @@ public class Address {
     private String zipCode;
 
     @OneToOne(mappedBy = "listingAddress")
-    @JsonIgnoreProperties("listingAddress")
+    @JsonIgnoreProperties({"listingAddress", "sellerAgent"})
     private Listing listing;
 
     @OneToOne(mappedBy = "userAddress")

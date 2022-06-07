@@ -27,7 +27,7 @@ import ContactUs from "./views/ContactUs.js";
 export default function router(URIObject) {
     const newURI = JSON.parse(sessionStorage.getItem("URI"));
 
-    if(URIObject.includes('/reset')){
+    if(typeof URIObject === "string" && URIObject.includes('/reset')){
         let href = location.href
         href = href.split("?")
         let splitOne = href[1]

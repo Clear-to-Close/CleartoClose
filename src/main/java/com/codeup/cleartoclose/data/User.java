@@ -86,7 +86,7 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "addresses_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"user"})
+    @JsonIgnoreProperties({"user", "listing", "realtor"})
     @ToString.Exclude
     private Address userAddress;
 
