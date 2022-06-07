@@ -11,29 +11,38 @@ export default function EditOffer(props) {
             <div class="w-3/4 md:w-1/2">
                 <div class="flex flex-col items-center text-left justify-center my-3">
                     <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 py-2 m-1">
-
                         
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
+                            <input name="amount" id="offer-amount" type="text"
+                                   class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                                   value="${props.offer.offerAmount}" placeholder="How much are you offering?" required>
+                            <p id="invalid-amount-input" class="hidden m-2">Please enter your offer amount.</p>
+                        </div>
 
-                        <input name="amount" id="offer-amount" type="text"
-                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                               value="${props.offer.offerAmount}" placeholder="How much are you offering?">
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
+                            <select name="loan" id="loan-type"
+                                    class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                                    required>
+                                <option disabled selected>Loan Type</option>
+                                <option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
+                                <option value="CON">Conventional</option>
+                                <option value="FRM">Fixed-Rate Mortgage</option>
+                                <option value="FHA">Federal Housing Administration (FHA)</option>
+                                <option value="USDA">U.S. Department of Agriculture (USDA)</option>
+                                <option value="VA">Veterans Affairs (VA)</option>
+                            </select>
+                            <p id="invalid-loanType-input" class="hidden m-2">Please select your loan type.</p>
+                        </div>
 
-                        <select name="loan" id="loan-type"
-                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1">
-                            <option disabled selected>Loan Type</option>
-                            <option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
-                            <option value="CON">Conventional</option>
-                            <option value="FRM">Fixed-Rate Mortgage</option>
-                            <option value="FHA">Federal Housing Administration (FHA)</option>
-                            <option value="USDA">U.S. Department of Agriculture (USDA)</option>
-                            <option value="VA">Veterans Affairs (VA)</option>
-                        </select>
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
+                            <input name="option" id="option-length" type="text"
+                                   class="validate whitespace-normal border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                                   placeholder="How many days are you requesting for an option period?"
+                                   value="${props.offer.optionLength}" required>
+                            <p id="invalid-option-input" class="hidden m-2">Please select your preferred option period (in days).</p>
+                        </div>
 
-                        <input name="option" id="option-length" type="text"
-                               class="offer-form whitespace-normal border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                               placeholder="How many days are you requesting for an option period?" value="${props.offer.optionLength}">
-
-                        <div class="w-full md:w-3/4 my-3 p-1">
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
                             <span class="font-medium text-primary">Are you requesting the seller to pay for the survey?</span><br>
                             <span class="m-3">
                                 <input name="survey" id="survey-yes" type="radio"
@@ -49,7 +58,7 @@ export default function EditOffer(props) {
                             </span>
                         </div>
 
-                        <div class="w-full md:w-3/4 my-3 p-1">
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
                             <span class="font-medium text-primary">Are you requesting the seller to pay for the home warranty?</span><br>
                             <span class="m-3">
                                 <input name="warranty" id="warranty-yes" type="radio"
@@ -65,7 +74,7 @@ export default function EditOffer(props) {
                             </span>
                         </div>
 
-                        <div class="w-full md:w-3/4 my-3 p-1">
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
                             <span class="font-medium text-primary">Are you requesting an appraisal waiver?</span><br>
                             <span class="m-3">
                                 <input name="appraisal" id="appraisal-yes" type="radio"
@@ -81,13 +90,22 @@ export default function EditOffer(props) {
                             </span>
                         </div>
 
-                        <input name="closing" id="closing-date" type="date"
-                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                               placeholder="What is your requested closing date?" value="${props.offer.closingDate}">
-
-                        <input name="closing" id="closing-costs" type="text"
-                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                               placeholder="How much are you requesting the seller pay in closing costs?" value="${props.offer.closingCosts}">
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
+                            <input name="closing-Date" id="closing-date" type="date"
+                                   class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                                   placeholder="What is your requested closing date?"
+                                   value="${props.offer.closingDate}" required>
+                            <p id="invalid-closingDate-input" class="hidden m-2">Please select your preferred closing date.</p>
+                        </div>
+                        
+                        <div class="justify-center w-full md:w-3/4 my-3 p-1">
+                        <input name="closing-Costs" id="closing-costs" type="text"
+                               class="validate border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="How much are you requesting the seller pay in closing costs?"
+                               value="${props.offer.closingCosts}" required>
+                            <p id="invalid-closingCost-input" class="hidden m-2">Please enter how much you would like the buyer to pay in closing costs.</p>
+                        </div>
+                        
                         <button id="edit-offer-btn" type="button"
                                 class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
                                 data-id="${props.offer.id}" data-listing="${props.listing.id}">Edit Offer
@@ -104,6 +122,7 @@ export function EditEvent() {
     editOffer();
 }
 
+
 function editOffer() {
     $('.offer-form').on('keyup', function (e) {
         let enterKey = e.key;
@@ -119,18 +138,29 @@ function editOffer() {
         console.log(listingId);
 
 
+      //TODO: 2. if the keys in this object all meet validation standards then fetchData will execute; may need loop/while logic
         const editData = {
-            offerAmount: $('#offer-amount').val(),
-            loanType: $('#loan-type').val(),
-            optionLength: $('#option-length').val(),
+            offerAmount: inputValidator($('#offer-amount'), $('#invalid-offer-input'), 'number'),
+            loanType: inputValidator($('#loan-type'), $('#invalid-loanType-input'), 'string'),
+            optionLength: inputValidator($('#option-length'), $('#invalid-option-input'), 'number'),
             survey: $(`input[name="survey"]:checked`).val(),
             homeWarranty: $(`input[name="warranty"]`).val(),
             appraisalWaiver: $(`input[name="appraisal"]`).val(),
-            closingDate: $('#closing-date').val(),
-            closingCosts: $('#closing-costs').val(),
+            closingDate: inputValidator($('#closing-date'), $('#invalid-closingDate-input'), 'string'),
+            closingCosts: inputValidator($('#closing-costs'), $('#invalid-closingCosts-input'), 'number'),
             offerorEmail: getLoggedInUser(),
             listingId: $(this).data('id')
         }
+
+        //TODO: 1. move to utility.js and import to this form & others
+        // export function inputValidator(inputRequired, errorSelector, dataType) {
+        //     if (inputRequired.prop('required', true).val() === '') {
+        //         errorSelector.removeClass('hidden').css('color', '#B80422');
+        //     } else if (typeof inputRequired.prop('required', true).val() !== dataType) {
+        //         errorSelector.removeClass('hidden').css('color', '#B80422').html(`You must use a ${dataType} here.`)
+        //     }
+        //     return inputRequired.val();
+        // }
 
         let request = {
             method: "PUT",
@@ -138,13 +168,16 @@ function editOffer() {
             body: JSON.stringify(editData)
         }
 
-        fetchData({server: `/api/offers/editOffer/${editOfferId}`}, request).then(response => {
-            createView({
-                offers: {
-                    offers: `/api/offers/findOffers/${listingId}`,
-                    listing: `/api/listings/${listingId}`
-                },
-            });
-        })
+        console.log(editData);
+        //TODO: 3. uncomment this after validation is working
+        // if editData.keys is not empty or null it can submit the form
+        // fetchData({server: `/api/offers/editOffer/${editOfferId}`}, request).then(response => {
+        //     createView({
+        //         offers: {
+        //             offers: `/api/offers/findOffers/${listingId}`,
+        //             listing: `/api/listings/${listingId}`
+        //         },
+        //     });
+        // })
     });
 }

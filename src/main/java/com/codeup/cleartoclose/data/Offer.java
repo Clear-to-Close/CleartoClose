@@ -27,6 +27,7 @@ public class Offer {
 
     @ManyToOne
     @ToString.Exclude
+    @JsonIgnoreProperties({"seller", "sellerAgent"})
     private Listing listing;
 
     @Column(nullable = false)
