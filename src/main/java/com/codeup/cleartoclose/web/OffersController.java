@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,11 +73,13 @@ OffersController {
 
 
         String subject = "New Offer";
+        System.out.println(subject);
         String body = "A new offer has been placed. Log in to see the offer. http://localhost:8080/login";
         mailService.prepareAndSend(currentListing.getSeller(), subject, body);
         System.out.println(currentListing.getSellerAgent());
         mailService.prepareAndSend(currentListing.getSellerAgent(), subject, body);
         offersRepository.save(newOffer);
+        System.out.println(newOffer);
     }
 
     @PutMapping("editOffer/{offerId}")
