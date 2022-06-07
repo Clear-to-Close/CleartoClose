@@ -9,14 +9,24 @@ export default function ProfilePage(props) {
         <div class="content-height bg-slate-200 opacity-95 flex justify-center">
             <div id="updateProfileForm" class="flex flex-col items-center w-3/4 lg:w-full lg:m-2">
                 <div class="w-full flex flex-col md:flex-row xl:w-3/4">
+                    <div class="hidden" id="profile-error">
+                        ${checkForRealtor(props.profile.realtor)}
+                    </div>
                     <div class="w-full flex flex-col items-center my-2 md:w-1/2">
-                        <img class="my-1 rounded-full w-[150px] h-[150px]" src="${props.profile.profileImageName}"
+                        <img class="my-1 rounded-full w-[150px] h-[200px]" src="${props.profile.profileImageName}"
                              alt="Image of ${normalizeSentence(props.profile.firstName)} ${normalizeSentence(props.profile.lastName)}">
-                        <input type="file" id="uploadDocs" class="hidden">
-                        <button id="uploadBtn" data-id="${props.profile.id}" type="button"
-                                class="my-1 p-2 w-3/4 rounded-md shadow-xl bg-callToAction font-medium">
-                            Upload Documents
-                        </button>
+                        <div class="w-full flex flex-col items-center">
+                            <input type="file" id="uploadPreApprovalInput" class="hidden">
+                            <button id="uploadPreApprovalBtn" data-id="${props.profile.id}" type="button" ${getLoggedInUser() === props.profile.email ? "" : "disabled"}
+                                    class="my-1 p-1 w-1/2 rounded-md shadow-xl bg-callToAction font-medium">
+                                Upload Pre-Approval
+                            </button>
+                            <input type="file" id="uploadProfileImageInput" accept="image/*" class="hidden">
+                            <button id="uploadProfileImageBtn" data-id="${props.profile.id}" type="button" ${getLoggedInUser() === props.profile.email ? "" : "disabled"}
+                                    class="my-1 p-1 w-1/2 rounded-md shadow-xl bg-callToAction font-medium">
+                                Upload Profile Picture
+                            </button>
+                        </div>
                     </div>
                     <div class="w-full my-2 flex flex-col items-center justify-between md:w-1/2">
                         ${populateUserDetails(props.profile)}
@@ -43,7 +53,7 @@ const populateUserDetails = user => {
         <div class="text-center text-xl">${user.email}</div>
         <div class="text-center text-xl">${formatPhoneNumber(user.phoneNumber)}</div>
         ${populateAddress(user.userAddress)}
-        <button id="btnUpdateProfile" type="button"
+        <button id="btnUpdateProfile" type="button" ${getLoggedInUser() === user.email ? "" : "disabled"}
                 class="w-3/4 p-2 rounded-md shadow-xl bg-callToAction font-medium">
             Update Profile
         </button>
@@ -130,16 +140,31 @@ const showListing = _ => {
 
 function submitDocument() {
     let userId;
-    $("#uploadBtn").click(function () {
+    $("#uploadPreApprovalBtn").click(function () {
         userId = $(this).data("id");
-        $("#uploadDocs").click()
+        $("#uploadPreApprovalInput").click()
+    })
+    $("#uploadProfileImageBtn").click(function () {
+        userId = $(this).data("id");
+        $("#uploadProfileImageInput").click()
     })
 
-    $("#uploadDocs").on("change", _ => {
-        const file = document.getElementById("uploadDocs")
+    $("#uploadPreApprovalInput").on("change", _ => {
+        const file = document.getElementById("uploadPreApprovalInput")
         uploadDocuments('uploadPreApproval', userId, file)
-        $("#uploadDocs").val("")
+        $("#uploadPreApprovalInput").val("")
     })
+    $("#uploadProfileImageInput").on("change", _ => {
+        const file = document.getElementById("uploadProfileImageInput")
+        uploadDocuments('uploadProfileImage', userId, file)
+        $("#uploadProfileImageInput").val("")
+    })
+}
+
+const checkForRealtor = realtorArray => {
+    if (realtorArray.length === 0) {
+
+    }
 }
 
 export function ProfileEvents() {

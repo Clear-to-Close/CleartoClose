@@ -12,6 +12,7 @@ let homeOwner;
 
 
 export default function Offers(props) {
+    console.log(props)
     offers = props.offers;
     homeOwner = props.listing.seller.email;
 
@@ -67,9 +68,9 @@ export default function Offers(props) {
 			</div>
 
 			<div id="offer" class="bg-slate-200">
-				${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
+				${props.offers.length === 0 ? `<h1>Currently No Offers Submitted</h1>` : `<div id="offer-sub-div" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
 				<div id="hiddenConfirmation" class="text-center m-1 w-full">
-					<button id="btn-confirm" type="submit"
+					<button id="btn-confirm" type="submit" 
 					        class="hidden p-2 mx-1 my-2 rounded-md shadow-xl text-white bg-callToAction">Accept!
 					</button>
 					<button id="btn-confirm-counter" type="submit"
@@ -170,7 +171,7 @@ const retrieveOffersFromDb = (offers) => {
 
 					<div class="text-center m-1 w-full">
 						<button type="button" id="btn-accept-${offer.id}"
-						        data-id="${offer.id}"
+						        data-id="${offer.id}" data-listing="${listing.id}"
 						        class="hidden btn-accept p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
 							Accept
 							Offer!

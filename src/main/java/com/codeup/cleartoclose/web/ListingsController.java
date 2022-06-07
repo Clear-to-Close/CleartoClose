@@ -3,10 +3,11 @@ package com.codeup.cleartoclose.web;
 import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.AcceptOfferDTO;
 import com.codeup.cleartoclose.dto.ListingDTO;
+import com.codeup.cleartoclose.services.S3Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.codeup.cleartoclose.services.S3Service;
+
 import java.util.*;
 
 @CrossOrigin
@@ -140,8 +141,9 @@ public class ListingsController {
     @PutMapping("/acceptOffer/{listingId}")
     public void acceptOffer(@PathVariable Long listingId, @RequestBody AcceptOfferDTO offer) {
         Listing listingToUpdate = listingRepository.getById(listingId);
-        listingToUpdate.setBuyer(usersRepository.getById(offer.getBuyerID()));
-//        listingToUpdate.setBuyerAgent(updatedListing.getBuyerAgent());
+        User offeror = usersRepository.findById(offer.getBuyerID()).get();
+        listingToUpdate.setBuyer(offeror);
+        listingToUpdate.setBuyerAgent(offeror.getRealtor().iterator().next());
         listingToUpdate.setListingStatus(ListingStatus.PENDING);
         listingRepository.save(listingToUpdate);
     }

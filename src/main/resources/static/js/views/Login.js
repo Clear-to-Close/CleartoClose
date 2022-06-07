@@ -30,7 +30,7 @@ export default function Login(props) {
                     <p class="register-link flex-wrap my-[50px]" id="register-link">Don't have an account?
                         <button class="p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction font-medium" id="goToRegister">Register Here</button>
                     </p>
-                    <p class="flex-wrap mb-2 mt-4 text-sm"><a href="">Forgot Username/Password?</a></p>
+                    
                 </div>
             </div>
         </div>`;
@@ -65,7 +65,7 @@ function renderResetPasswordForm() {
 
 
 function resetPassword(){
-    $("#login-form").click(function (e) {
+    $("#login-form").one("click", function (e) {
         if(e.target.id === 'recovery-email'){
             let userEmail = $("#forgot-my-password-email").val();
             console.log("reset password button")
