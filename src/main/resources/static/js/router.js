@@ -27,6 +27,15 @@ import ContactUs from "./views/ContactUs.js";
 export default function router(URIObject) {
     const newURI = JSON.parse(sessionStorage.getItem("URI"));
 
+    if(URIObject.includes('/reset')){
+        let href = location.href
+        href = href.split("?")
+        let splitOne = href[1]
+        let splitTwo = splitOne.split("=")
+        let token = splitTwo[1]
+        sessionStorage.setItem('token', token)
+    }
+
     const routes = {
         '/': {
             returnView: Home,
