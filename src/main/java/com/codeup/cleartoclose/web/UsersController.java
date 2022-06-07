@@ -184,7 +184,8 @@ public class UsersController {
         String token = UUID.randomUUID().toString();
 
         mailService.updateResetPasswordToken(token, userEmail);
-        String resetPasswordLink = "http://localhost:8080/reset?token=" + token;
+//        String resetPasswordLink = "http://localhost:8080/reset?token=" + token;
+        String resetPasswordLink = "https://team-guy.fulgentcorp.com:8080/reset?token=" + token;
         sendResetLinkToEmail(userEmail, resetPasswordLink);
     }
 
