@@ -30,7 +30,7 @@ export default function ListingIndex(props) {
                     <div id="listingImgUpload" class="flex justify-center">
                         <input type="file" id="uploadDocs" accept="image/*" class="hidden">
                         <button type="button" id="uploadBtn"
-                                class="text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload
+                                class="hidden text-primary p-2 mx-1 my-2 rounded-md shadow-xl bg-callToAction text-primary font-medium">Upload
                             Images
                         </button>
                     </div>
@@ -312,15 +312,17 @@ const isListingActive = listing => {
 }
 
 const toggleButtonDisplay = _ => {
-    $('#viewOffersBtn').removeClass('hidden');
-    $('#editListing').removeClass('hidden');
-    $('#listingImgUpload').removeClass('hidden');
     if (sellerAgent === getLoggedInUser() || getUserRole() === "ADMIN") {
         $('#editListing').removeClass('hidden');
         $('#listingImgUpload').removeClass('hidden');
     }
+
     if (isLoggedIn()) {
         $('#viewOffersBtn').removeClass('hidden');
+    }
+
+    if (getUserRole() === "Realtor") {
+        $("#uploadBtn").removeClass('hidden')
     }
 }
 

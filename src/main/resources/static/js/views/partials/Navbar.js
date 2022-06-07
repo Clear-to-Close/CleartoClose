@@ -1,8 +1,8 @@
 import {isLoggedIn} from "../../auth.js";
+import {getUserRole} from "../../utility.js";
 
 
 export default function Navbar(props) {
-    const loggedIn = isLoggedIn();
     //language=HTML
     let html =
         `
@@ -23,10 +23,10 @@ export default function Navbar(props) {
         `
 
     if (isLoggedIn()) {
-        //language=HTML
-        html += `
-            <li class="nav-item">
-                <a class="nav-link" href="/realtorListing" data-link>Realtor Listing</a>
+        if (getUserRole() === "REALTOR") {
+            //language=HTML
+            html += `<li class="nav-item">
+                <a class="nav-link" href="/realtorListing" data-link>Create Listing</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout" data-link>Logout</a>
@@ -34,6 +34,16 @@ export default function Navbar(props) {
             <li class="nav-item">
                 <a class="nav-link" href="/profile" data-link>Profile</a>
             </li>`
+        } else {
+            //language=HTML
+            html += `
+            <li class="nav-item">
+                <a class="nav-link" href="/logout" data-link>Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/profile" data-link>Profile</a>
+            </li>`
+        }
     } else {
         html += `
             <li class="nav-item">

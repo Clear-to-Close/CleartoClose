@@ -468,12 +468,28 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-sepia:  ;
 }
 
+.absolute {
+  position: absolute !important;
+}
+
 .relative {
   position: relative !important;
 }
 
+.top-\[88px\] {
+  top: 88px !important;
+}
+
+.right-0 {
+  right: 0px !important;
+}
+
 .bottom-0 {
   bottom: 0px !important;
+}
+
+.z-50 {
+  z-index: 50 !important;
 }
 
 .m-2 {
