@@ -2,6 +2,8 @@ package com.codeup.cleartoclose.web;
 
 import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.MakeOfferDTO;
+import com.codeup.cleartoclose.services.MailService;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -18,12 +20,14 @@ OffersController {
     private final OffersRepository offersRepository;
     public final ListingsRepository listingsRepository;
     private final UsersRepository usersRepository;
+    private final MailService mailService;
 
 
-    public OffersController(OffersRepository offersRepository, ListingsRepository listingsRepository, UsersRepository usersRepository) {
+    public OffersController(OffersRepository offersRepository, ListingsRepository listingsRepository, UsersRepository usersRepository, MailService mailService) {
         this.offersRepository = offersRepository;
         this.listingsRepository = listingsRepository;
         this.usersRepository = usersRepository;
+        this.mailService = mailService;
     }
 
     @GetMapping
@@ -47,8 +51,8 @@ OffersController {
     }
 
     @PostMapping
-    public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
-        System.out.println(newOfferDTO.getListingId());
+
+    public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO, OAuth2Authentication authUser) {
         Offer newOffer = new Offer();
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
         newOffer.setLoanType(newOfferDTO.getLoanType());
@@ -68,6 +72,12 @@ OffersController {
         System.out.println(currentListing);
         newOffer.setListing(currentListing);
 
+
+        String subject = "New Offer";
+        System.out.println(subject);
+        String body = "A new offer has been placed. Log in to see the offer. http://localhost:8080/login";
+        mailService.prepareAndSend(currentListing.getSeller(), subject, body);
+        mailService.prepareAndSend(currentListing.getSeller().getRealtor().iterator().next(), subject, body);
         offersRepository.save(newOffer);
         System.out.println(newOffer);
     }
@@ -95,24 +105,62 @@ OffersController {
         System.out.println("made it to accepted offer");
         Offer acceptedOffer = offersRepository.findById(offerId).get();
         acceptedOffer.setOfferStatus(OfferStatus.ACCEPTED);
+
+        String subject = "Offer Accepted";
+        String offerorBody = "Your Offer has been accepted. Log in to view. http://localhost:8080/login";
+        String realtorBody = "An offer has been accepted";
+
+        mailService.prepareAndSend(acceptedOffer.getOfferor(), subject, offerorBody);
+        mailService.prepareAndSend(acceptedOffer.getOfferor().getRealtor().iterator().next(), subject, realtorBody);
         offersRepository.save(acceptedOffer);
         System.out.printf("The seller has accepted an offer with the id of %d!", acceptedOffer.getId());
     }
   
     @PutMapping("/decline/{offerId}")
     public void offerDeclined(@PathVariable Long offerId) {
+
+        Offer acceptedOffer = offersRepository.findById(offerId).get();
+        acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
+
+        String subject = "Offer Declined";
+        String offerorBody = "Your Offer has been declined. Log in to view. http://localhost:8080/login";
+        String realtorBody = "An offer has been declined";
+
+        mailService.prepareAndSend(acceptedOffer.getOfferor(), subject, offerorBody);
+        mailService.prepareAndSend(acceptedOffer.getOfferor().getRealtor().iterator().next(), subject, realtorBody);
+
+        offersRepository.save(acceptedOffer);
+
         System.out.println("made it to decline offer");
         Offer declinedOffer = offersRepository.findById(offerId).get();
         declinedOffer.setOfferStatus(OfferStatus.DECLINED);
         offersRepository.save(declinedOffer);
         System.out.println(declinedOffer);
+
     }
 
     @PutMapping("/countered/{offerId}")
     public void offerCountered(@PathVariable Long offerId, @RequestBody Offer offerUpdate) {
         Offer counteredOffer = offersRepository.findById(offerId).get();
-        counteredOffer.setOfferStatus(offerUpdate.getOfferStatus());
-        counteredOffer.setCounterId(offerUpdate.getCounterId());
+        counteredOffer.setOfferStatus(counterOffer.getOfferStatus());
+        counteredOffer.setCounterId(counterOffer.getCounterId());
+        System.out.println(counterOffer);
+
+        String listingAddress = counteredOffer.getListing().getListingAddress().getAddress();
+
+        String subject = "Offer Countered";
+
+        String offerorBody =
+                String.format("Your offer has been countered for %s. Log in to view the updates to the offer. http://localhost:8080/login",
+                        listingAddress).toString();
+
+        String realtorBody = String.format("An offer has been countered for %s. Log in to view the updates to the offer. " +
+                        "http://localhost:8080/login",
+                listingAddress).toString();
+
+        mailService.prepareAndSend(counteredOffer.getOfferor(), subject, offerorBody);
+        mailService.prepareAndSend(counteredOffer.getOfferor().getRealtor().iterator().next(), subject, realtorBody);
+
         System.out.println(offerUpdate);
         offersRepository.save(counteredOffer);
     }

@@ -1,16 +1,12 @@
 package com.codeup.cleartoclose.web;
 
-import com.codeup.cleartoclose.data.Address;
-import com.codeup.cleartoclose.data.AddressRepository;
-import com.codeup.cleartoclose.data.User;
-import com.codeup.cleartoclose.data.UsersRepository;
+import com.codeup.cleartoclose.data.*;
 import com.codeup.cleartoclose.dto.UserDTO;
 import com.codeup.cleartoclose.services.MailService;
 import com.codeup.cleartoclose.services.S3Service;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -35,14 +31,16 @@ public class UsersController {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final UserRealtorRepository userRealtorRepository;
     private final S3Service s3Service;
     private final JavaMailSender mailSender;
     private final MailService mailService;
 
-    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, S3Service s3Service, JavaMailSender mailSender, MailService mailService) {
+    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, UserRealtorRepository userRealtorRepository, S3Service s3Service, JavaMailSender mailSender, MailService mailService) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
+        this.userRealtorRepository = userRealtorRepository;
         this.s3Service = s3Service;
         this.mailSender = mailSender;
         this.mailService = mailService;
@@ -56,7 +54,9 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findByEmail(email);
-        user.setPreApprovalFileName(s3Service.getSignedURL(user.getPreApprovalFileName()));
+        if (user.getPreApprovalFileName() != null) {
+            user.setPreApprovalFileName(s3Service.getSignedURL(user.getPreApprovalFileName()));
+        }
         user.setProfileImageName(s3Service.getSignedURL(user.getProfileImageName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
@@ -76,7 +76,9 @@ public class UsersController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("addressFilter", filter);
 
         User user = usersRepository.findById(userId).get();
-        user.setPreApprovalFileName(s3Service.getSignedURL(user.getPreApprovalFileName()));
+        if (user.getPreApprovalFileName()!= null) {
+            user.setPreApprovalFileName(s3Service.getSignedURL(user.getPreApprovalFileName()));
+        }
         user.setProfileImageName(s3Service.getSignedURL(user.getProfileImageName()));
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
@@ -97,43 +99,59 @@ public class UsersController {
 
     @PutMapping("editUser/{userId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    private void updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+    public void updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+        System.out.println(userDTO);
+        User userToUpdate = usersRepository.findById(userId).get();
 
-        User  userToUpdate = usersRepository.findById(userId).get();
-        if(userDTO.getPassword() == null){
-            userToUpdate.setPassword(userToUpdate.getPassword());
+        if (userDTO.getEmail() != null) {
+            userToUpdate.setEmail(userDTO.getEmail());
         }
-
-         if(userDTO.getEmail() != null) {
-             userToUpdate.setEmail(userDTO.getEmail());
-         }
-         if (userDTO.getFirstName() != null){
-             userToUpdate.setFirstName(userDTO.getFirstName());
+        if (userDTO.getFirstName() != null) {
+            userToUpdate.setFirstName(userDTO.getFirstName());
         }
-        if (userDTO.getLastName() != null){
+        if (userDTO.getLastName() != null) {
             userToUpdate.setLastName(userDTO.getLastName());
         }
-        if (userDTO.getPhoneNumber() != null){
+        if (userDTO.getPhoneNumber() != null) {
             userToUpdate.setPhoneNumber(userDTO.getPhoneNumber());
         }
-        Address addressToEdit = addressRepository.findById(userToUpdate.getUserAddress().getId()).get();
 
-        if(userDTO.getAddress() != null){
+        Address addressToEdit = null;
+
+        if (userToUpdate.getUserAddress() == null) {
+            addressToEdit = new Address();
+        } else {
+            addressToEdit = addressRepository.findById(userToUpdate.getUserAddress().getId()).get();
+        }
+
+        if (userDTO.getAddress() != null) {
             addressToEdit.setAddress(userDTO.getAddress());
         }
-        if(userDTO.getCity() != null){
+        if (userDTO.getCity() != null) {
             addressToEdit.setCity(userDTO.getCity());
         }
-        if(userDTO.getState() != null){
+        if (userDTO.getState() != null) {
             addressToEdit.setState(userDTO.getState());
         }
-        if(userDTO.getZipCode() != null){
+        if (userDTO.getZipCode() != null) {
             addressToEdit.setZipCode(userDTO.getZipCode());
         }
-        if(userDTO.getApartmentNumber() != null){
+        if (userDTO.getApartmentNumber() != null) {
             addressToEdit.setApartmentNumber(userDTO.getApartmentNumber());
         }
+        addressRepository.save(addressToEdit);
         userToUpdate.setUserAddress(addressToEdit);
+
+        if (userDTO.getRealtorEmail() != null) {
+            User realtor = usersRepository.findByEmail(userDTO.getRealtorEmail());
+            UserRealtor userRealtor = new UserRealtor();
+            if (userDTO.getRealtorFirstName().equalsIgnoreCase(realtor.getFirstName()) && userDTO.getRealtorLastName().equalsIgnoreCase(realtor.getLastName())) {
+                userRealtor.setUser(userToUpdate);
+                userRealtor.setRealtor(realtor);
+                userRealtorRepository.save(userRealtor);
+            }
+        }
+        System.out.println(userToUpdate);
         usersRepository.save(userToUpdate);
     }
 
@@ -158,6 +176,7 @@ public class UsersController {
 
         System.out.println("send email backend reached:" + userEmail);
         String token = UUID.randomUUID().toString();
+
         mailService.updateResetPasswordToken(token, userEmail);
         String resetPasswordLink = "http://localhost:8080/api/users/reset-password?token=" + token;
         sendResetLinkToEmail(userEmail, resetPasswordLink);
@@ -172,7 +191,8 @@ public class UsersController {
         user.setResetPasswordToken(null);
         usersRepository.save(user);
     }
-        ///SWIPED FROM RAYMONDS GITHUB
+
+    ///SWIPED FROM RAYMONDS GITHUB
     @PutMapping("update_password")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN') || (#currentPassword != null && !#currentPassword.isEmpty())")
     void updatePassword(@RequestParam String currentPassword, @RequestParam String newPassword, OAuth2Authentication authUser
@@ -183,9 +203,6 @@ public class UsersController {
             usersRepository.save(currentUser);
         }
     }
-
-
-
 
 
 }///END OF CLASS
