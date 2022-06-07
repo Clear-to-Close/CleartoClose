@@ -66,7 +66,7 @@ public class ListingsController {
     public Collection<Listing> getListingByMultiple(@RequestParam(required = false) String city,
                                                     @RequestParam(required = false) String state,
                                                     @RequestParam(required = false) String zip) {
-
+        System.out.println(zip);
         Collection<Listing> foundListings = listingRepository.findByMultiple(Optional.ofNullable(city), Optional.ofNullable(state),
                 Optional.ofNullable(zip));
         for (Listing listing : foundListings) {
