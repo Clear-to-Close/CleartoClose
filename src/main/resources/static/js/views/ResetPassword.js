@@ -54,7 +54,7 @@ export function ResetEvent() {
     $('#submit-new-password').click(function () {
         let newPassword;
         let password = $('#password').val();
-        let confirmPassword = $('confirm-password').val();
+        let confirmPassword = $('#confirm-password').val();
 
         if( password === confirmPassword){
             newPassword = password;
