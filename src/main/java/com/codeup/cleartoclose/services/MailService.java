@@ -47,8 +47,10 @@ public class MailService {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
         msg.setTo(user.getEmail());
+        System.out.println(user.getEmail());
         msg.setSubject(subject);
         msg.setText(body);
+        System.out.println(msg);
 
         try {
             this.emailSender.send(msg);
