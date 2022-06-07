@@ -76,8 +76,8 @@ OffersController {
         String subject = "New Offer";
         System.out.println(subject);
         String body = "A new offer has been placed. Log in to see the offer. http://localhost:8080/login";
-        mailService.prepareAndSend(currentListing.getSeller(), subject, body);
-        mailService.prepareAndSend(currentListing.getSeller().getRealtor().iterator().next(), subject, body);
+        mailService.prepareAndSend(currentListing.getSellerAgent(), subject, body);
+        mailService.prepareAndSend(currentListing.getSellerAgent().getRealtor().iterator().next(), subject, body);
         offersRepository.save(newOffer);
         System.out.println(newOffer);
     }
@@ -159,6 +159,7 @@ OffersController {
                 listingAddress).toString();
 
         mailService.prepareAndSend(counteredOffer.getOfferor(), subject, offerorBody);
+        System.out.println(counteredOffer.getOfferor().getRealtor());
         mailService.prepareAndSend(counteredOffer.getOfferor().getRealtor().iterator().next(), subject, realtorBody);
 
         System.out.println(offerUpdate);
