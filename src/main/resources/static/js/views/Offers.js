@@ -202,7 +202,7 @@ const createMakeOfferView = () => {
 function renderEditOfferView() {
     $(`.offer-btn`).click(function (e) {
         const editBtnId = $(this).data('id');
-        createView(`/editOffer/api/offers/${editBtnId}`)
+        createView({editOffer: {offer: `/api/offers/${editBtnId}`}})
     })
 }
 
