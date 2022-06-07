@@ -7,75 +7,96 @@ export default function EditOffer(props) {
     //language=html
     console.log(props);
     return `
-	    <div class="content-height bg-slate-200 opacity-95 flex flex-col items-center justify-center">
-		    <div class="w-3/4 md:w-1/2">
-			    <div class="flex flex-col items-center text-left justify-center my-3">
-				    <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 py-2 m-1">
+        <div class="content-height bg-slate-200 opacity-95 flex flex-col items-center justify-center">
+            <div class="w-3/4 md:w-1/2">
+                <div class="flex flex-col items-center text-left justify-center my-3">
+                    <form class="flex flex-col items-center justify-center bg-white border-2 border-callToAction shadow-xl rounded-md w-full px-2 py-2 m-1">
+
                         
-                        <div id="offer-amount-container" class="flex justify-start w-full md:w-3/4 my-3 p-1">
-					    <label class="text-left" for="offer-amount">Offer Amount</label>
-                        </div>
+
                         <input name="amount" id="offer-amount" type="text"
                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-                               value="${props.offer.offerAmount}">
-                        
-					    <label class="text-left" for="loan-type">Loan Type</label>
-					    <select name="loan" id="loan-type"
-					            class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1">
-						    <option disabled selected>Loan Type</option>
-						    <option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
-						    <option value="CON">Conventional</option>
-						    <option value="FRM">Fixed-Rate Mortgage</option>
-						    <option value="FHA">Federal Housing Administration (FHA)</option>
-						    <option value="USDA">U.S. Department of Agriculture (USDA)</option>
-						    <option value="VA">Veterans Affairs (VA)</option>
-					    </select>
+                               value="${props.offer.offerAmount}" placeholder="How much are you offering?">
 
+                        <select name="loan" id="loan-type"
+                                class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1">
+                            <option disabled selected>Loan Type</option>
+                            <option value="ARM">Adjustable-Rate Mortgage (ARM)</option>
+                            <option value="CON">Conventional</option>
+                            <option value="FRM">Fixed-Rate Mortgage</option>
+                            <option value="FHA">Federal Housing Administration (FHA)</option>
+                            <option value="USDA">U.S. Department of Agriculture (USDA)</option>
+                            <option value="VA">Veterans Affairs (VA)</option>
+                        </select>
 
-					    <label class="text-left" for="option-length">Option Length</label>
-					    <input name="option" id="option-length" type="text"
-					           class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-					           value="${props.offer.optionLength}">
+                        <input name="option" id="option-length" type="text"
+                               class="offer-form whitespace-normal border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="How many days are you requesting for an option period?" value="${props.offer.optionLength}">
 
+                        <div class="w-full md:w-3/4 my-3 p-1">
+                            <span class="font-medium text-primary">Are you requesting the seller to pay for the survey?</span><br>
+                            <span class="m-3">
+                                <input name="survey" id="survey-yes" type="radio"
+                                       class="accent-callToAction pr-3"
+                                       value="Yes" checked>
+                                <label for="survey-yes text-primary font-medium">Yes</label>
+                            </span>
+                            <span class="m-3">
+                                <input name="survey" id="survey-no" type="radio"
+                                       class="accent-callToAction"
+                                       value="No">
+                                <label for="survey-yes text-primary font-medium">No</label>
+                            </span>
+                        </div>
 
-					    <label class="text-left" for="survey-requested">Survey Requested</label>
-					    <input name="survey" id="survey-requested" type="text"
-					           class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-					           value="${props.offer.survey}">
+                        <div class="w-full md:w-3/4 my-3 p-1">
+                            <span class="font-medium text-primary">Are you requesting the seller to pay for the home warranty?</span><br>
+                            <span class="m-3">
+                                <input name="warranty" id="warranty-yes" type="radio"
+                                       class="accent-callToAction pr-3"
+                                       value="Yes" checked>
+                                <label for="warranty-yes text-primary font-medium">Yes</label>
+                            </span>
+                            <span class="m-3">
+                                <input name="warranty" id="warranty-no" type="radio"
+                                       class="accent-callToAction"
+                                       value="No">
+                                <label for="warranty-no text-primary font-medium">No</label>
+                            </span>
+                        </div>
 
+                        <div class="w-full md:w-3/4 my-3 p-1">
+                            <span class="font-medium text-primary">Are you requesting an appraisal waiver?</span><br>
+                            <span class="m-3">
+                                <input name="appraisal" id="appraisal-yes" type="radio"
+                                       class="accent-callToAction pr-3"
+                                       value="Yes" checked>
+                                <label for="appraisal-yes text-primary font-medium">Yes</label>
+                            </span>
+                            <span class="m-3">
+                                <input name="appraisal" id="appraisal-no" type="radio"
+                                       class="accent-callToAction"
+                                       value="No">
+                                <label for="appraisal-no text-primary font-medium">No</label>
+                            </span>
+                        </div>
 
-					    <label class="text-left" for="warranty-requested">Home Warranty Requested</label>
-					    <input name="warranty" id="warranty-requested" type="text"
-					           class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-					           value="${props.offer.homeWarranty}">
+                        <input name="closing" id="closing-date" type="date"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="What is your requested closing date?" value="${props.offer.closingDate}">
 
-
-					    <label class="text-left" for="appraisal-waiver">Appraisal Waiver</label>
-					    <input name="appraisal" id="appraisal-waiver" type="text"
-					           class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-					           value="${props.offer.appraisalWaiver}">
-
-
-					    <label class="text-left" for="closing-date">Closing Date</label>
-					    <input name="closing" id="closing-date" type="date"
-					           class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-					           value="${props.offer.closingDate}">
-
-
-					    <label class="text-left" for="closing-costs">Closing Costs</label>
-					    <input name="closing" id="closing-costs" type="text"
-					           class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
-					           value="${props.offer.closingCosts}">
-					    <button id="edit-offer-btn"
-					            class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
-					            data-id="${props.offer.id}" data-listing="${props.offer.listing.id}"
-					            type="button">Edit Offer
-					    </button>
-				    </form>
-			    </div>
-		    </div>
-	    </div>
-	    <div id="confirmation-message" class="text-green-600"></div>
+                        <input name="closing" id="closing-costs" type="text"
+                               class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                               placeholder="How much are you requesting the seller pay in closing costs?" value="${props.offer.closingCosts}">
+                        <button id="edit-offer-btn" type="button"
+                                class="offer-form w-1/2 p-2 m-2 rounded-md shadow-xl bg-callToAction font-medium"
+                                data-id="${props.offer.id}" data-listing="${props.listing.id}">Edit Offer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="confirmation-message" class="text-green-600"></div>
     `;
 }
 
@@ -93,7 +114,7 @@ function editOffer() {
     });
 
     $('#edit-offer-btn').on('click', function (e) {
-
+        const editOfferId = $(this).data('id');
         const listingId = $('#edit-offer-btn').data('listing');
         console.log(listingId);
 
@@ -102,9 +123,9 @@ function editOffer() {
             offerAmount: $('#offer-amount').val(),
             loanType: $('#loan-type').val(),
             optionLength: $('#option-length').val(),
-            survey: $('#survey-requested').val(),
-            homeWarranty: $('#warranty-requested').val(),
-            appraisalWaiver: $('#appraisal-waiver').val(),
+            survey: $(`input[name="survey"]:checked`).val(),
+            homeWarranty: $(`input[name="warranty"]`).val(),
+            appraisalWaiver: $(`input[name="appraisal"]`).val(),
             closingDate: $('#closing-date').val(),
             closingCosts: $('#closing-costs').val(),
             offerorEmail: getLoggedInUser(),

@@ -10,6 +10,7 @@ let offers = [];
 let listing = [];
 let homeOwner;
 
+
 export default function Offers(props) {
     offers = props.offers;
     homeOwner = props.listing.seller.email;
@@ -194,7 +195,7 @@ const retrieveOffersFromDb = (offers) => {
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
         let URI = sessionStorage.getItem("URI").split("/")
-        let listingId = parseInt(URI[URI.length - 1])
+        let listingId = parseInt(URI[URI.length - 1]);
         createView({makeOffer: {listing: `/api/listings/${listingId}`}})
     })
 }
@@ -202,7 +203,9 @@ const createMakeOfferView = () => {
 function renderEditOfferView() {
     $(`.offer-btn`).click(function (e) {
         const editBtnId = $(this).data('id');
-        createView({editOffer: {offer: `/api/offers/${editBtnId}`}})
+        let URI = sessionStorage.getItem("URI").split("/")
+        let listingId = parseInt(URI[URI.length - 1]);
+        createView({editOffer: {offer: `/api/offers/${editBtnId}`, listing: `/api/listings/${listingId}`}})
     })
 }
 
