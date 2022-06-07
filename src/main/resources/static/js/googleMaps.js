@@ -43,7 +43,7 @@ export function addMarkerForListing(address){
            let marker = new google.maps.Marker({
                 position: position,
                 map,
-                title: address
+               title: address
             });
             google.maps.event.addListener(marker, 'hover', function() {
                 infoWindow.open({
