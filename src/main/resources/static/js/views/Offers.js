@@ -186,7 +186,7 @@ const retrieveOffersFromDb = (offers) => {
 						        class="hidden btn-counter p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
 							Counter
 						</button>
-						<button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"
+						<button type="button" data-id="${offer.id}" id="btn-edit-${offer.id}"  data-listing="${listing.id}"
 						        class="offer-btn hidden p-2 mx-1 my-2 rounded-md shadow-xl text-primary bg-callToAction">
 							Edit
 						</button>
@@ -242,9 +242,9 @@ const createMakeOfferView = () => {
 function renderEditOfferView() {
     $(`.offer-btn`).click(function (e) {
         const editBtnId = $(this).data('id');
-        let URI = sessionStorage.getItem("URI").split("/")
-        let listingId = parseInt(URI[URI.length - 1]);
-        createView({editOffer: {offer: `/api/offers/${editBtnId}`, listing: `/api/listings/${listingId}`}})
+      const listingID =  $(this).data('listing');
+
+        createView({editOffer: {offer: `/api/offers/${editBtnId}`, listing: `/api/listings/${listingID}`}})
     })
 }
 
