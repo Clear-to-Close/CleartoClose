@@ -323,7 +323,7 @@ const toggleButtonDisplay = _ => {
         $('#viewOffersBtn').removeClass('hidden');
     }
 
-    if (getUserRole() === "Realtor") {
+    if (getUserRole() === "REALTOR") {
         $("#uploadBtn").removeClass('hidden')
     }
 }
