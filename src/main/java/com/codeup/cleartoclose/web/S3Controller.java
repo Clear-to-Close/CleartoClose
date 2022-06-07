@@ -29,17 +29,22 @@ public class S3Controller {
 
     @PostMapping("/uploadPreApproval/{userId}")
     public ResponseEntity<String> uploadPreApproval(@RequestParam(value = "file") MultipartFile upload, @PathVariable long userId) {
-        String filename = null;
-        try {
-            filename = s3Service.uploadFile(upload);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
+        String filename = s3Service.uploadFile(upload);
         User editUser = usersRepository.findById(userId).get();
         System.out.println(editUser);
         editUser.setPreApprovalFileName(filename);
-        System.out.println(editUser);
         usersRepository.save(editUser);
+
+        return new ResponseEntity<>(filename, HttpStatus.OK);
+    }
+
+    @PostMapping("/uploadProfileImage/{userId}")
+    public ResponseEntity<String> uploadProfileImage(@RequestParam(value = "file") MultipartFile upload, @PathVariable long userId) {
+        String filename = s3Service.uploadFile(upload);
+        User userForImage = usersRepository.findById(userId).get();
+        System.out.println(userForImage);
+        userForImage.setProfileImageName(filename);
+        usersRepository.save(userForImage);
 
         return new ResponseEntity<>(filename, HttpStatus.OK);
     }

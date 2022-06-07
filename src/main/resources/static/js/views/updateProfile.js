@@ -3,15 +3,17 @@ import {getLoggedInUser} from "../utility.js";
 import {getHeaders} from "../auth.js";
 import createView from "../createView.js";
 import {validatePassword} from "./Register.js";
+import {LogoutEvent} from "./Logout.js";
 
 
 export function updateUserProfile() {
-    $("#btnUpdateProfile").click(function (e) {
+    $("#btnUpdateProfile").click(function () {
         //langauge=HTML
         fetchData({
             state: `/api/users/searchByEmail?email=${getLoggedInUser()}`
         }, getHeaders())
             .then(user => {
+                console.log(user)
                 //language=HTML
                 const updateHTML =
                     `
@@ -41,28 +43,43 @@ export function updateUserProfile() {
 								<label for="newStreet"></label>
 								<input type="text"
 								       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
-								       id="newStreet" placeholder="Street" value="${user.state.userAddress?.address ?? ""}">
+								       id="newStreet" placeholder="Enter Street" value="${user.state.userAddress?.address ?? ""}">
 
 								<label for="suite"></label>
 								<input type="text"
 								       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
-								       id="suite" placeholder="Apt" value="${user.state.userAddress?.apartmentNumber ?? ""}">
+								       id="suite" placeholder="Enter Apt" value="${user.state.userAddress?.apartmentNumber ?? ""}">
 
 								<label for="newCity"></label>
 								<input type="text"
 								       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
-								       id="newCity" value="${user.state.userAddress?.city ?? ""}">
+								       id="newCity" placeholder="Enter City" value="${user.state.userAddress?.city ?? ""}">
 
 
 								<label for="newState"></label>
 								<input type="text"
 								       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
-								       id="newState" value="${user.state.userAddress?.state ?? ""}">
+								       id="newState" placeholder="Enter State" value="${user.state.userAddress?.state ?? ""}">
 
 								<label for="newZip"></label>
 								<input type="text"
 								       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
-								       id="newZip" value="${user.state.userAddress?.zipCode ?? ""}">
+								       id="newZip" placeholder="Enter Zipcode" value="${user.state.userAddress?.zipCode ?? ""}">
+
+                                <label for="realtorFirstName"></label>
+                                <input type="text"
+                                       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
+                                       id="realtorFirstName" placeholder="Realtor First Name" value="${user.state.realtor[0]?.firstName ?? ""}">
+
+                                <label for="realtorLastName"></label>
+                                <input type="text"
+                                       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1"
+                                       id="realtorLastName" placeholder="Realtor Last Name" value="${user.state.realtor[0]?.lastName ?? ""}">
+
+                                <label for="realtorEmail"></label>
+                                <input type="email"
+                                       class="bg-slate-200 border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-1/2 mx-auto my-3 p-1 "
+                                       id="realtorEmail" placeholder="Realtor Email" value="${user.state.realtor[0]?.email ?? ""}">
 
 								<label for="current-password" class="hidden"></label>
 								<input id="current-password"
@@ -122,7 +139,6 @@ const passwordInputHandler = _ => { $('#password').keypress(_ => validatePasswor
 
 function saveProfileUpdate() {
     $("#updateProfileForm").click(function (e) {
-        console.log("update clicked");
         if (e.target.getAttribute("id") === "cancel-btn") {
             location.reload()
         } else if (e.target.getAttribute("id") === "save-profile-btn") {
@@ -138,7 +154,15 @@ function saveProfileUpdate() {
                 apartmentNumber: $("#suite").val(),
                 city: $("#newCity").val(),
                 state: $("#newState").val(),
-                zipCode: $("#newZip").val()
+                zipCode: $("#newZip").val(),
+                realtorFirstName: $("#realtorFirstName").val(),
+                realtorLastName: $("#realtorLastName").val(),
+                realtorEmail: $("#realtorEmail").val()
+            }
+            for(let key in updatedUser) {
+                if(updatedUser[key] === "") {
+                    updatedUser[key] = null;
+                }
             }
 
             console.log(updatedUser);
@@ -177,7 +201,7 @@ function updatePassword (){
                 fetchData({server: `/api/users/update_password?currentPassword=${currentPassword}&newPassword=${newPassword}`}, passwordRequest)
                     .then(response => {
                         console.log(response);
-                    createView({logout: {logout: `/api/login`}})
+                        LogoutEvent();
                 });
 
             }else {

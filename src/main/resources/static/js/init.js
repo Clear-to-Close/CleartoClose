@@ -27,7 +27,7 @@ function addListenerToNavLinks() {
         e.preventDefault();
         if (e.target.dataset['link'] !== undefined) {
             clearStoredURI();
-            const URI = e.target.href.substring(location.origin.length);
+            const URI = e.target.closest('a').href.substring(location.origin.length);
             createView(URI);
 
         }
