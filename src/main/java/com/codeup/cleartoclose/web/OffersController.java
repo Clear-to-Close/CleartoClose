@@ -5,6 +5,7 @@ import com.codeup.cleartoclose.dto.MakeOfferDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,6 @@ OffersController {
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO) {
         System.out.println(newOfferDTO.getListingId());
         Offer newOffer = new Offer();
-
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
         newOffer.setLoanType(newOfferDTO.getLoanType());
         newOffer.setOptionLength(newOfferDTO.getOptionLength());
@@ -69,6 +69,7 @@ OffersController {
         newOffer.setListing(currentListing);
 
         offersRepository.save(newOffer);
+        System.out.println(newOffer);
     }
 
     @PutMapping("editOffer/{offerId}")
@@ -89,9 +90,9 @@ OffersController {
     }
 
     // Offer can be accepted upon, submit of a selection form; post updates the historical data of the selected offer
-    @PutMapping("{offerId}")
+    @PutMapping("/accepted/{offerId}")
     public void offerAccepted(@PathVariable Long offerId) {
-        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
+        System.out.println("made it to accepted offer");
         Offer acceptedOffer = offersRepository.findById(offerId).get();
         acceptedOffer.setOfferStatus(OfferStatus.ACCEPTED);
         offersRepository.save(acceptedOffer);
@@ -100,19 +101,20 @@ OffersController {
   
     @PutMapping("/decline/{offerId}")
     public void offerDeclined(@PathVariable Long offerId) {
-        Offer acceptedOffer = offersRepository.findById(offerId).get();
-        acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
-        offersRepository.save(acceptedOffer);
+        System.out.println("made it to decline offer");
+        Offer declinedOffer = offersRepository.findById(offerId).get();
+        declinedOffer.setOfferStatus(OfferStatus.DECLINED);
+        offersRepository.save(declinedOffer);
+        System.out.println(declinedOffer);
     }
 
     @PutMapping("/countered/{offerId}")
-    public void offerCountered(@PathVariable Long offerId, @RequestBody Offer counterOffer) {
+    public void offerCountered(@PathVariable Long offerId, @RequestBody Offer offerUpdate) {
         Offer counteredOffer = offersRepository.findById(offerId).get();
-        counteredOffer.setOfferStatus(counterOffer.getOfferStatus());
-        counteredOffer.setCounterId(counterOffer.getCounterId());
-        System.out.println(counterOffer);
+        counteredOffer.setOfferStatus(offerUpdate.getOfferStatus());
+        counteredOffer.setCounterId(offerUpdate.getCounterId());
+        System.out.println(offerUpdate);
         offersRepository.save(counteredOffer);
-
     }
 
 }
