@@ -141,6 +141,9 @@ OffersController {
         Offer counteredOffer = offersRepository.findById(offerId).get();
         counteredOffer.setOfferStatus(offerUpdate.getOfferStatus());
         counteredOffer.setCounterId(offerUpdate.getCounterId());
+
+        System.out.println(counteredOffer);
+
         System.out.println(offerUpdate);
 
         String listingAddress = counteredOffer.getListing().getListingAddress().getAddress();

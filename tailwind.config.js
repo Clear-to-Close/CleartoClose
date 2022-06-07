@@ -25,6 +25,7 @@ module.exports = {
                 'primary' : '#002254',
                 'callToAction' : '#FFCA36',
                 'navLink' : 'rgba(255,255,255,.55)',
+                'error' : '#B80422'
             },
         },
     },
