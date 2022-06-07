@@ -20,6 +20,8 @@ import ProfilePage, {ProfileEvents} from "./views/Profile.js";
 import {getLoggedInUser} from "./utility.js";
 import EditOffer, {EditEvent} from "./views/EditOffer.js";
 import ResetPassword, {ResetEvent} from "./views/ResetPassword.js";
+import About from "./views/About.js";
+import ContactUs from "./views/ContactUs.js";
 
 
 export default function router(URIObject) {
@@ -124,6 +126,18 @@ export default function router(URIObject) {
             uri: '/reset',
             title: 'Reset Password',
             viewEvent: ResetEvent
+        },
+        '/about': {
+            returnView: About,
+            state: {},
+            uri: '/about',
+            title: 'About'
+        },
+        '/contact': {
+            returnView: ContactUs,
+            state: {},
+            uri: '/contact',
+            title: 'Contact Us'
         }
     };
 

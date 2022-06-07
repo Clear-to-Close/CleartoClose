@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ OffersController {
     public final ListingsRepository listingsRepository;
     private final UsersRepository usersRepository;
     private final MailService mailService;
+
 
     public OffersController(OffersRepository offersRepository, ListingsRepository listingsRepository, UsersRepository usersRepository, MailService mailService) {
         this.offersRepository = offersRepository;
@@ -49,9 +51,9 @@ OffersController {
     }
 
     @PostMapping
+
     public void submitNewOffer(@RequestBody MakeOfferDTO newOfferDTO, OAuth2Authentication authUser) {
         Offer newOffer = new Offer();
-
         newOffer.setOfferAmount(newOfferDTO.getOfferAmount());
         newOffer.setLoanType(newOfferDTO.getLoanType());
         newOffer.setOptionLength(newOfferDTO.getOptionLength());
@@ -77,6 +79,7 @@ OffersController {
         mailService.prepareAndSend(currentListing.getSeller(), subject, body);
         mailService.prepareAndSend(currentListing.getSeller().getRealtor().iterator().next(), subject, body);
         offersRepository.save(newOffer);
+        System.out.println(newOffer);
     }
 
     @PutMapping("editOffer/{offerId}")
@@ -97,9 +100,9 @@ OffersController {
     }
 
     // Offer can be accepted upon, submit of a selection form; post updates the historical data of the selected offer
-    @PutMapping("{offerId}")
+    @PutMapping("/accepted/{offerId}")
     public void offerAccepted(@PathVariable Long offerId) {
-        // update (05/09/22): refactored to accept OffersRepository methods by still need auth to complete the method
+        System.out.println("made it to accepted offer");
         Offer acceptedOffer = offersRepository.findById(offerId).get();
         acceptedOffer.setOfferStatus(OfferStatus.ACCEPTED);
 
@@ -115,6 +118,7 @@ OffersController {
   
     @PutMapping("/decline/{offerId}")
     public void offerDeclined(@PathVariable Long offerId) {
+
         Offer acceptedOffer = offersRepository.findById(offerId).get();
         acceptedOffer.setOfferStatus(OfferStatus.DECLINED);
 
@@ -126,10 +130,17 @@ OffersController {
         mailService.prepareAndSend(acceptedOffer.getOfferor().getRealtor().iterator().next(), subject, realtorBody);
 
         offersRepository.save(acceptedOffer);
+
+        System.out.println("made it to decline offer");
+        Offer declinedOffer = offersRepository.findById(offerId).get();
+        declinedOffer.setOfferStatus(OfferStatus.DECLINED);
+        offersRepository.save(declinedOffer);
+        System.out.println(declinedOffer);
+
     }
 
     @PutMapping("/countered/{offerId}")
-    public void offerCountered(@PathVariable Long offerId, @RequestBody Offer counterOffer) {
+    public void offerCountered(@PathVariable Long offerId, @RequestBody Offer offerUpdate) {
         Offer counteredOffer = offersRepository.findById(offerId).get();
         counteredOffer.setOfferStatus(counterOffer.getOfferStatus());
         counteredOffer.setCounterId(counterOffer.getCounterId());
@@ -149,6 +160,8 @@ OffersController {
 
         mailService.prepareAndSend(counteredOffer.getOfferor(), subject, offerorBody);
         mailService.prepareAndSend(counteredOffer.getOfferor().getRealtor().iterator().next(), subject, realtorBody);
+
+        System.out.println(offerUpdate);
         offersRepository.save(counteredOffer);
     }
 

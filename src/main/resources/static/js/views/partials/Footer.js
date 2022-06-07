@@ -1,20 +1,20 @@
 export default function Footer(props) {
     //language=HTML
     return `
-        <footer class="w-full h-[80px] bottom-0 bg-primary">
+        <footer class="w-full h-[80px] flex justify-center bottom-0 bg-primary">
             <div class="container-fluid flex justify-center">
-                <ul class="flex justify-center items-center text-">
-                    <li>
-                        <a class="nav-link" href="/realtorListing" data-link>About</a>
+                <ul class="flex justify-center items-center">
+                    <li class="flex justify-center items-center px-3">
+                        <a class="text-navLink text-sm" href="/about" data-link>About</a>
                     </li>
-                    <li>
-                        <a class="navbar-brand" href="/" data-link>
-                            <img src="../../../img/logo.png"
+                    <li class="flex justify-center items-center px-3">
+                        <a href="/" data-link>
+                            <img src="../../../img/logoMedium.png"
                                  alt="Clear to Close Logo">
                         </a>
-                    </li>
+                    </li class="flex justify-center items-center px-3">
                     <li>
-                        <a class="nav-link" href="/realtorListing" data-link>Contact Us</a>
+                        <a class="text-navLink text-sm" href="/contact" data-link>Contact Us</a>
                     </li>
                 </ul>
 <!--                <br>-->

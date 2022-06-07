@@ -488,6 +488,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: 1rem !important;
 }
 
+.m-3 {
+  margin: 0.75rem !important;
+}
+
 .my-auto {
   margin-top: auto !important;
   margin-bottom: auto !important;
@@ -869,6 +873,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 0.25rem !important;
 }
 
+.pr-3 {
+  padding-right: 0.75rem !important;
+}
+
 .text-left {
   text-align: left !important;
 }
@@ -946,6 +954,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
+.text-navLink {
+  color: rgba(255,255,255,.55) !important;
+}
+
 .placeholder-primary::-moz-placeholder {
   --tw-placeholder-opacity: 1 !important;
   color: rgb(0 34 84 / var(--tw-placeholder-opacity)) !important;
@@ -959,6 +971,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .placeholder-primary::placeholder {
   --tw-placeholder-opacity: 1 !important;
   color: rgb(0 34 84 / var(--tw-placeholder-opacity)) !important;
+}
+
+.accent-callToAction {
+  accent-color: #FFCA36 !important;
 }
 
 .opacity-95 {

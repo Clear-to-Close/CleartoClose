@@ -176,7 +176,7 @@ public class UsersController {
 
         System.out.println("send email backend reached:" + userEmail);
         String token = UUID.randomUUID().toString();
-        ;
+
         mailService.updateResetPasswordToken(token, userEmail);
         String resetPasswordLink = "http://localhost:8080/api/users/reset-password?token=" + token;
         sendResetLinkToEmail(userEmail, resetPasswordLink);
