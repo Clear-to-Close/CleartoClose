@@ -65,7 +65,7 @@ function renderResetPasswordForm() {
 
 
 function resetPassword(){
-    $("#login-form").click(function (e) {
+    $("#login-form").one("click", function (e) {
         if(e.target.id === 'recovery-email'){
             let userEmail = $("#forgot-my-password-email").val();
             console.log("reset password button")

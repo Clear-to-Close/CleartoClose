@@ -7,7 +7,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,9 +141,9 @@ OffersController {
     @PutMapping("/countered/{offerId}")
     public void offerCountered(@PathVariable Long offerId, @RequestBody Offer offerUpdate) {
         Offer counteredOffer = offersRepository.findById(offerId).get();
-        counteredOffer.setOfferStatus(counterOffer.getOfferStatus());
-        counteredOffer.setCounterId(counterOffer.getCounterId());
-        System.out.println(counterOffer);
+        counteredOffer.setOfferStatus(offerUpdate.getOfferStatus());
+        counteredOffer.setCounterId(offerUpdate.getCounterId());
+        System.out.println(offerUpdate);
 
         String listingAddress = counteredOffer.getListing().getListingAddress().getAddress();
 

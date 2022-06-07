@@ -3,8 +3,6 @@ package com.codeup.cleartoclose.services;
 
 import com.codeup.cleartoclose.data.User;
 import com.codeup.cleartoclose.data.UsersRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -14,11 +12,9 @@ import org.springframework.stereotype.Service;
 
 
 @Service("mailService")
-@AllArgsConstructor
-@NoArgsConstructor
 public class MailService {
 
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     @Autowired
     public JavaMailSender emailSender;
@@ -26,9 +22,18 @@ public class MailService {
     @Value("${spring.mail.from}")
     private String from;
 
+    public MailService(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
+    }
+
     public void updateResetPasswordToken(String token, String email) {
+        System.out.println(email);
+        if (usersRepository == null) {
+            System.out.println("hello");
+        }
         User user = usersRepository.findByEmail(email);
         user.setResetPasswordToken(token);
+        System.out.println(user);
         usersRepository.save(user);
     }
 
