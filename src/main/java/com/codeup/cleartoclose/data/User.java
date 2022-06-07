@@ -52,11 +52,9 @@ public class User {
     private Role role;
 
     @Column(name = "preApproval_filename")
-    @ToString.Exclude
     private String preApprovalFileName;
 
     @Column(name = "profile_img")
-    @ToString.Exclude
     private String profileImageName;
 
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -82,7 +80,7 @@ public class User {
     private Collection<Listing> sellerAgentListings;
 
     @OneToMany(mappedBy = "offeror", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties({"offeror","counterId"})
+    @JsonIgnoreProperties({"offeror","counterId","buyer"})
     @ToString.Exclude
     private Collection<Offer> userOffers;
 
