@@ -1,17 +1,22 @@
 import {updateUserProfile} from "./updateProfile.js";
 import {uploadDocuments, normalizeSentence, formatPhoneNumber, getLoggedInUser} from "../utility.js";
 import createView from "../createView.js";
+import fetchData from "../fetchData.js";
+import {getHeaders} from "../auth.js";
 
 export default function ProfilePage(props) {
-    console.log(props);
     //language=html
     return `
-        <div class="content-height bg-slate-200 opacity-95 flex justify-center">
+        <div class="" id="profile-error">
+            ${checkForRealtor(props.profile.realtor)}
+        </div>
+        <div class="absolute top-[88px] right-0 z-50">
+            <button id="viewPreApproval" class="my-1 p-1 w-full rounded-md shadow-xl bg-callToAction font-medium">View Pre-Approval</button>
+        </div>
+        <div class="content-height bg-slate-200 opacity-95 flex justify-center relative">
+
             <div id="updateProfileForm" class="flex flex-col items-center w-3/4 lg:w-full lg:m-2">
                 <div class="w-full flex flex-col md:flex-row xl:w-3/4">
-                    <div class="hidden" id="profile-error">
-                        ${checkForRealtor(props.profile.realtor)}
-                    </div>
                     <div class="w-full flex flex-col items-center my-2 md:w-1/2">
                         <img class="my-1 rounded-full w-[150px] h-[200px]" src="${props.profile.profileImageName}"
                              alt="Image of ${normalizeSentence(props.profile.firstName)} ${normalizeSentence(props.profile.lastName)}">
@@ -78,7 +83,7 @@ function populateProfileOffers(offers) {
         //language=html
         html += `
             <div id="offer" data-id="${offer.listing.id}"
-                 class="flex flex-col bg-slate-200 justify-evenly m-1 border-2 border-callToAction rounded-md shadow-xl">
+                 class="flex flex-col bg-white justify-evenly m-1 border-2 border-callToAction rounded-md shadow-xl">
                 <div class=" flex flex-col items-center bg-callToAction">
                     <span class="text-center text-xl">
                         ${normalizeSentence(offer.listing.listingAddress.address)}
@@ -163,12 +168,35 @@ function submitDocument() {
 
 const checkForRealtor = realtorArray => {
     if (realtorArray.length === 0) {
-
+        //language=HTML
+        return `
+            <div class="text-center text-3xl text-red-600">Please Update Your Realtor Information</div>
+        `
+    } else {
+        return `
+            <div></div>
+        `
     }
+}
+
+const viewPreApprovalLetter = _ => {
+    $("#viewPreApproval").click(function() {
+
+        const request = {
+            headers: getHeaders()
+        }
+        console.log(request)
+        fetchData({approval: `/api/users/viewPreApproval` }, request)
+            .then(response => {
+                console.log(response)
+                window.open(response.approval.url, "_blank")
+            })
+    })
 }
 
 export function ProfileEvents() {
     updateUserProfile();
     submitDocument();
     showListing();
+    viewPreApprovalLetter();
 }
