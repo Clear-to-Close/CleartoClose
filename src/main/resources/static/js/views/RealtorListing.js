@@ -1,3 +1,5 @@
+import fetchData from "../fetchData.js";
+
 const BASE_URI = `http://${BACKEND_HOST}:${PORT}`;
 let listingId = null;
 export default function RealtorListing(props) {
@@ -153,7 +155,7 @@ const createListing = () => {
         body: JSON.stringify(newListing)
     }
 
-    fetch(`http://${BACKEND_HOST}:${PORT}/api/listings`, createListingRequest)
+    fetchData({listing:`/api/listings`}, createListingRequest)
         .then(response => console.log("Created Listing", response))
 }
 
@@ -169,7 +171,7 @@ const editListing = _ => {
         body: JSON.stringify(editListing)
     }
 
-    fetch(`http://${BACKEND_HOST}:${PORT}/api/listings/${listingId}`, editListingRequest)
+    fetchData({listing:`/api/listings/${listingId}` }, editListingRequest)
         .then(response => console.log("Created Listing", response))
 
 }
