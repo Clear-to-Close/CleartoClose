@@ -7,11 +7,14 @@ import { getLoggedInUser } from "../utility.js";
 
 
 export function initCounterOffer() {
-    const offerID = $(this).data("id");
-    $(`#btn-counter-${offerID}`).on('click', function (e) {
-        e.preventDefault();
+    $(`.btn-counter`).on('click', function (e) {
 
-        $("#btn-confirm-counter").attr("data-id", offerID);
+        e.preventDefault();
+        const offerToBeCounteredId = $(this).data("id");
+        console.log("couner offer button clicked");
+        console.log(offerToBeCounteredId);
+
+        $("#btn-confirm-counter").attr("data-id", offerToBeCounteredId);
 
         let request = {
             method: "GET",
@@ -19,7 +22,7 @@ export function initCounterOffer() {
         }
 
         fetchData({
-            server: `/api/offers/${offerID}`
+            server: `/api/offers/${offerToBeCounteredId}`
         }, request)
         .then(function (res) {
                 console.log(res);
@@ -29,111 +32,112 @@ export function initCounterOffer() {
 }///END OF COUNTER OFFER FUNCTION
 
 let originalOfferId;
+let buyersEmail;
+let currentListingId;
+let buyersAgent;
 
 function populateCounterOfferForm(res) {
     console.log(res);
-    const id = res.id;
-    const offeror = res.offeror.id;
-    const offerAmount = res.offerAmount;
-    const loanType = res.loanType;
-    const appraisalWaiver = res.appraisalWaiver;
-    const survey = res.survey;
-    const closingCosts = res.closingCosts;
-    const closingDate = res.closingDate;
-    const homeWarranty = res.homeWarranty;
-    const offerorEmail = res.offeror.email
-    const buyersAgent = res.offeror.buyerAgentID;
-    const optionLength = res.optionLength;
+
+    const offeror = res.server.offeror.id;
+    const offerAmount = res.server.offerAmount;
+    const loanType = res.server.loanType;
+    const appraisalWaiver = res.server.appraisalWaiver;
+    const survey = res.server.survey;
+    const closingCosts = res.server.closingCosts;
+    const closingDate = res.server.closingDate;
+    const homeWarranty = res.server.homeWarranty;
+    const optionLength = res.server.optionLength;
+    const offerStatus = res.server.offerStatus;
+    console.log(offerAmount);
+    originalOfferId = res.server.id;
+    buyersEmail = res.server.offeror.email;
+    console.log(buyersEmail);
+    currentListingId = res.server.listing.id;
+    // buyersAgent = res.server.offeror.buyerAgentID;
+
 
     //language=html
     const acceptHTML = `
-		<div id="acceptOfferDiv" class="flex flex-wrap justify-evenly border-2 rounded border-black m-1">
-			<div class="text-center mx-1 my-2" id="offerId" data-id="${id}">
-				<label for="offerId">Offer ID</label>
-				<input type="text" readonly class="form-control" id="offerId" value="${id}">
+		<div id="counterOfferDiv" class="flex flex-col border-2 border-callToAction bg-white shadow-xl rounded-md m-1">
+			<div class="offer-header w-full flex justify-center items-center bg-callToAction">
+				<div class="text-primary font-medium text-xl p-3">
+					Offer Status: ${offerStatus}
+				</div>
 			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerLoanType">Loan Type:</label>
-				<input type="text" readonly class="form-control" id="offerLoanType" value="${loanType}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerorId">Loan Type:</label>
-				<input type="text" readonly class="form-control" id="offerorId" value="${offeror}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerAppWaiver">Waive Appraisal</label>
-				<input type="text" class="form-control" id="offerAppWaiver" value="${appraisalWaiver}">
-			</div>
-			<div class="text-center mx-1 my-2" id="offerAmount-${id}">
-				<label for="offerAmount">Offer Amt</label>
-				<input type="text" class="form-control" id="offerAmount" value="${offerAmount}">
-			</div>
-			<div id="closingCosts" class="text-center mx-1 my-2">
-				<label for="offerClosingCosts">Closing Costs</label>
-				<input type="text" class="form-control" id="offerClosingCosts" value="${closingCosts}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerClosingDate">Closing Date</label>
-				<input type="text" class="form-control" id="offerClosingDate" value="${closingDate}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerHomeWarranty">Home Warranty</label>
-				<input type="text" class="form-control" id="offerHomeWarranty" value="${homeWarranty}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerSurvey">Survey</label>
-				<input type="text" class="form-control" id="offerSurvey" value="${survey}">
-			</div>
-			<div class="text-center mx-1 my-2">
-				<label for="offerOption">Option Period</label>
-				<input type="text" class="form-control" id="offerOption" value="${survey}">
-			</div>
+			<div class="offer-body bg-white px-3">
+				<form class="flex flex-col items-center justify-center bg-white shadow-xl rounded-md w-full px-2 py-2 m-1">
+					<label for="counter-amount">Buyers Offer Amount</label>
+					<input name="counter-amount" id="counter-amount" type="text"
+					       class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+					       value="${offerAmount}"
+					<label for="loan-type">Buyers Loan Type: Cannot be countered</label>
+					<input name="loan-type" id="loan-type" type="text"
+					       readonly class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+					       value="${loanType}" 
+					<label for="option-length">Option Period Length</label>
+					<input name="option" id="option-length" type="text"
+					       class="offer-form whitespace-normal border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+					       value="${optionLength}">
+					<label for="survey-requested">Survey:</label>
+					<input name="survey" id="survey-requested" type="text"
+					       class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                           value="${survey}">
+					<label for="warranty-requested">Home Warranty:</label>
+					<input name="warranty" id="warranty-requested" type="text"
+					       class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+					       value="${homeWarranty}">
+					<label for="appraisal-waiver">Appraisal Waiver</label>
+					<input name="appraisal" id="appraisal-waiver" type="text"
+					       class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                           value="${appraisalWaiver}">
+					<label for="closing-date">Do you agree with closing date?</label>
+					<input name="closing" id="closing-date" type="date"
+					       class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+                           value="${closingDate}">
+					<label for="closing-costs">Closing Costs</label>
+					<input name="closing" id="closing-costs" type="text"
+					       class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
+					       value="${closingCosts}">
+				</form>
+            </div>
 		</div>`
 
-    $("#offer").html("").append(`${acceptHTML}`);
+    $("#offer-sub-div").html("").append(`${acceptHTML}`);
     $("#btn-confirm-counter").removeClass('hidden');
-    $('#btn-confirm-counter').attr('data-email', offerorEmail);
+
 
 } /// END OF POPULATE CO FORM
 
 export function submitCounterOffer() {
     $("#btn-confirm-counter").on('click', function (e) {
         e.preventDefault();
-        let URI = sessionStorage.getItem("URI").split("/")
-        const listingId = parseInt(URI[URI.length - 1])
-        originalOfferId = $('#btn-confirm-counter').data("id");
 
-        const offerData = {
-            offerAmount: $('#offerAmount').val(),
-            loanType: $('#offerLoanType').val(),
+        const counterOfferBody = {
+            offerAmount: parseInt($('#counter-amount').val()),
+            loanType: $('#loan-type').val(),
             optionLength: $('#option-length').val(),
-            survey: $('#offerSurvey').val(),
-            homeWarranty: $('#offerHomeWarranty').val(),
-            appraisalWaiver: $('#offerAppWaiver').val(),
-            closingDate: $('#offerClosingDate').val(),
-            closingCosts: $('#offerClosingCosts').val(),
-            offerorEmail: $('#btn-confirm-counter').data('email'),
+            survey: $('#survey-requested').val(),
+            homeWarranty: $('#warranty-requested').val(),
+            appraisalWaiver: $('#appraisal-waiver').val(),
+            closingDate: $('#closing-date').val(),
+            closingCosts: parseInt($('#closing-costs').val()),
+            offerorEmail: `${buyersEmail}`,
             offerStatus: "COUNTER",
-            listingId: listingId,
+            listingId: `${currentListingId}`,
         }
-        console.log(offerData);
+        console.log(counterOfferBody);
 
         let request = {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(offerData)
+            headers: getHeaders(),
+            body: JSON.stringify(counterOfferBody)
         }
 
-        fetchData({
-            server: `api/offers`
-        }, request)
-            .then(response => {
-                console.log(response);
-                createView(`/offers/findOffers/${listingId}`);
-            }).catch(error => {
-            console.log(error.status);
+        fetchData({server: `/api/offers`}, request).then(response => {
+            console.log(response)
+
+            createView({offers: {offers: `/api/offers/findOffers/${currentListingId}`, listing: `/api/listings/${currentListingId}`}});
         });
         updateOfferStatusToCountered();
     });
@@ -142,7 +146,7 @@ export function submitCounterOffer() {
 
 function updateOfferStatusToCountered() {
     const updatedOfferBody = {
-        counterId: '222',
+        counterId: originalOfferId,
         offerStatus: 'CANCELLED'
     }
     const updateRequest = {
@@ -153,7 +157,7 @@ function updateOfferStatusToCountered() {
         body: JSON.stringify(updatedOfferBody)
     }
     fetchData({
-        server: `api/offers/countered/${originalOfferId}`
+        server: `/api/offers/countered/${originalOfferId}`
     }, updateRequest)
         .then(function (res) {
         console.log(res)

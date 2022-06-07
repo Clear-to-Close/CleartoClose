@@ -35,7 +35,7 @@ public class Listing {
     private List<String> house_images;
 
     @ManyToOne
-    @JsonIgnoreProperties({"listings", "password","userOffers", "userAddress", "sellerListings", "sellerId"})
+    @JsonIgnoreProperties({"listings", "password", "userAddress", "sellerListings", "sellerId", "userOffers"})
     private User buyer;
 
     @ManyToOne

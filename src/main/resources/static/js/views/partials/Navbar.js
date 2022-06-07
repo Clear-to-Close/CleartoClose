@@ -8,6 +8,7 @@ export default function Navbar(props) {
         `
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div class="container-fluid">
+
                     <a class="navbar-brand" href="/">
                         <img data-link src="../../../img/logo.png"
                              alt="Clear to Close Logo">
