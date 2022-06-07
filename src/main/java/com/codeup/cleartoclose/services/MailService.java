@@ -22,7 +22,9 @@ public class MailService {
     @Value("${spring.mail.from}")
     private String from;
 
+
     public MailService(UsersRepository usersRepository) {
+
         this.usersRepository = usersRepository;
     }
 

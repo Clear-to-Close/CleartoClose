@@ -166,6 +166,7 @@ public class UsersController {
         String content = "<html><p>Hello,</p><p>Click the link below to change your password:</p><br><a href=\"" + resetLink + "\">Change my password</a></html>";
         helper.setSubject(subject);
         helper.setText(content, true);
+        System.out.println(message);
         mailSender.send(message);
     }
 
