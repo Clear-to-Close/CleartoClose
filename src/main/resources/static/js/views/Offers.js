@@ -10,6 +10,7 @@ let offers = [];
 let listing = [];
 let homeOwner;
 
+
 export default function Offers(props) {
     console.log(props)
     offers = props.offers;
@@ -23,10 +24,8 @@ export default function Offers(props) {
 		<div class="content-height bg-slate-200 opacity-95">
 			<div id="listing-container"
 			     class="h-1/2 grid md:grid-cols-2 m-4 border-callToAction border-2 rounded-md">
-				<div>
-					<img class="w-full h-full mx-auto"
-					     src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-					     alt="main listing photo">
+				<div class="w-full h-full mx-auto">
+					${populateCarousel(props.listing.house_images)}
 				</div>
 				<div class="w-full flex-col p-4 bg-white">
 					<div class="w-full h-4/5 flex flex-col lg:p-8">
@@ -192,10 +191,45 @@ const retrieveOffersFromDb = (offers) => {
     ).join("")
 };
 
+const populateCarousel = images => {
+    //language=HTML
+    let html = `
+        <div id="houseImageCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="false">
+            <div class="carousel-inner">`
+    images.forEach((img, i) => {
+        if (i === 0) {
+            //language=HTML
+            html += `
+                <div class="carousel-item active">
+                    <img src="${img}" class="d-block w-100" alt="Picture of House">
+                </div>`
+        } else {
+            //language=HTML
+            html += `
+                <div class="carousel-item">
+                    <img src="${img}" class="d-block w-100" alt="Picture of House">
+                </div>`
+        }
+    })
+    //language=HTML
+    html += `</div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#houseImageCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next " type="button" data-bs-target="#houseImageCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div>`
+
+    return html;
+}
+
 const createMakeOfferView = () => {
     $('#makeOfferBtn').click(_ => {
         let URI = sessionStorage.getItem("URI").split("/")
-        let listingId = parseInt(URI[URI.length - 1])
+        let listingId = parseInt(URI[URI.length - 1]);
         createView({makeOffer: {listing: `/api/listings/${listingId}`}})
     })
 }
@@ -203,7 +237,9 @@ const createMakeOfferView = () => {
 function renderEditOfferView() {
     $(`.offer-btn`).click(function (e) {
         const editBtnId = $(this).data('id');
-        createView({editOffer: {offer: `/api/offers/${editBtnId}`}})
+        let URI = sessionStorage.getItem("URI").split("/")
+        let listingId = parseInt(URI[URI.length - 1]);
+        createView({editOffer: {offer: `/api/offers/${editBtnId}`, listing: `/api/listings/${listingId}`}})
     })
 }
 
