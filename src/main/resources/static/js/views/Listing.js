@@ -112,7 +112,7 @@ const populateSellerAgentInfo = agentInfo => {
     console.log(agentInfo)
     //language=HTML
     return `
-        <div class="w-[150px] h-[150px] m-1">
+        <div class="w-[150px] h-[150px] m-1 flex justify-center items-center">
             <img class="my-1 rounded-full w-[100px] h-[100]" src="${agentInfo.profileImageName}"
                  alt="Image of ${normalizeSentence(agentInfo.firstName)}">
         </div>

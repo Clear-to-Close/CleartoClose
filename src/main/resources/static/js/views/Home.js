@@ -117,6 +117,7 @@ function submitForm() {
             createView({ allListings: { listings: `/api/listings/search?state=${state}`}
         })
         } else if (zip !== "") {
+            console.log(zip)
             createView({ allListings: { listings: `/api/listings/search?zip=${zip}`}})
         }
     });
