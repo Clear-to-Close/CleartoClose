@@ -116,7 +116,8 @@ function submitForm() {
         } else if (state !== "") {
             createView({ allListings: { listings: `/api/listings/search?state=${state}`}
         })
-        } else if (zip !== "") {
+        } else if (zip !== "" && city === '' && state === '') {
+            console.log(zip)
             createView({ allListings: { listings: `/api/listings/search?zip=${zip}`}})
         }
     });

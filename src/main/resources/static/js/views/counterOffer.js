@@ -137,7 +137,11 @@ export function submitCounterOffer() {
         fetchData({server: `/api/offers`}, request).then(response => {
             console.log(response)
 
-            createView({offers: {offers: `/api/offers/findOffers/${currentListingId}`, listing: `/api/listings/${currentListingId}`}});
+            createView({offers: {
+                offers: `/api/offers/findOffers/${currentListingId}`,
+                    listing: `/api/listings/${currentListingId}`,
+                    user: `/api/users/searchByEmail?email=${getLoggedInUser()}`
+            }});
         });
         updateOfferStatusToCountered();
     });

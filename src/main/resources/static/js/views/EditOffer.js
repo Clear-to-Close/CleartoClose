@@ -183,7 +183,6 @@ function editOffer() {
             body: JSON.stringify(editData)
         }
 
-
         if (Object.keys(editData).every(key => key === '')) {
             alert('Please make sure all fields are filled.')
         } else {
@@ -191,7 +190,8 @@ function editOffer() {
                 createView({
                     offers: {
                         offers: `/api/offers/findOffers/${listingId}`,
-                        listing: `/api/listings/${listingId}`
+                        listing: `/api/listings/${listingId}`,
+                        user: `/api/users/searchByEmail?email=${getLoggedInUser()}`
                     },
                 });
             })
