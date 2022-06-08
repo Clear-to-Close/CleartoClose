@@ -11,7 +11,7 @@ export function initCounterOffer() {
 
         e.preventDefault();
         const offerToBeCounteredId = $(this).data("id");
-        console.log("couner offer button clicked");
+        console.log("counter offer button clicked");
         console.log(offerToBeCounteredId);
 
         $("#btn-confirm-counter").attr("data-id", offerToBeCounteredId);
@@ -58,15 +58,15 @@ function populateCounterOfferForm(res) {
 
 
     //language=html
-    const acceptHTML = `
-		<div id="counterOfferDiv" class="flex flex-col border-2 border-callToAction bg-white shadow-xl rounded-md m-1">
+    const counterHTML = `
+		<div id="counterOfferDiv" class="flex justify-self-auto flex-col border-2 mx-auto border-callToAction bg-white shadow-xl rounded-md items-center md:w-3/4">
 			<div class="offer-header w-full flex justify-center items-center bg-callToAction">
 				<div class="text-primary font-medium text-xl p-3">
 					Offer Status: ${offerStatus}
 				</div>
 			</div>
 			<div class="offer-body bg-white px-3">
-				<form class="flex flex-col items-center justify-center bg-white shadow-xl rounded-md w-full px-2 py-2 m-1">
+				<form class="flex flex-col items-center justify-center bg-whiterounded-md w-full px-2 py-2 m-1">
 					<label for="counter-amount">Buyers Offer Amount</label>
 					<input name="counter-amount" id="counter-amount" type="text"
 					       class="offer-form border-b-2 border-callToAction outline-0 placeholder-primary font-medium w-full md:w-3/4 my-3 p-1"
@@ -103,7 +103,8 @@ function populateCounterOfferForm(res) {
             </div>
 		</div>`
 
-    $("#offer-sub-div").html("").append(`${acceptHTML}`);
+    $("#offer-sub-div").html("").addClass('hidden');
+    $('#counterOfferFormPlacementDiv').append(`${counterHTML}`).removeClass('hidden');
     $("#btn-confirm-counter").removeClass('hidden');
 
 

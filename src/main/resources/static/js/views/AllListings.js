@@ -29,7 +29,7 @@ const populateListings = listings => {
     //language=HTML
     listings.forEach(listing => {
         listingHtml += `
-            <div class="listing bg-white w-full h-[770px] border-2 border-callToAction rounded-md shadow-xl" data-id="${listing.id}">
+            <div class="listing bg-white w-full h-[800px] border-2 border-callToAction rounded-md shadow-xl" data-id="${listing.id}">
                 <div class="h-1/3">
                     <img class="w-full h-full" src="${listing.house_images[0] ?? "Picture Not Available"}"
                          alt="Picture of ${listing.listingAddress.address}">

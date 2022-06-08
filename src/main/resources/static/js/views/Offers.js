@@ -73,6 +73,7 @@ export default function Offers(props) {
 			</div>
 
 			<div id="offer" class="bg-slate-200">
+                <div id="counterOfferFormPlacementDiv" class="hidden grid-cols-1 flex justify-items-center justify-center content-height  w-3/4 bg-slate-200 opacity-95 mx-auto"></div>
 				${props.offers.length === 0 ? `<div class="text-3xl text-center">Currently No Offers Submitted</div>` : `<div id="offer-sub-div" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">${retrieveOffersFromDb(props.offers)}</div>`}
 				<div id="hiddenConfirmation" class="text-center m-1 w-full">
 					<button id="btn-confirm" type="submit" 
